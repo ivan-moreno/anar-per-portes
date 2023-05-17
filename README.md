@@ -7,6 +7,10 @@ A [DOORS](https://www.roblox.com/games/6516141723) Fangame made in Unity. Develo
 ![Lines of code](https://img.shields.io/tokei/lines/github/ivan-moreno/anar-per-portes?style=for-the-badge)
 ![Repository size](https://img.shields.io/github/repo-size/ivan-moreno/anar-per-portes?style=for-the-badge)
 
+## Sites
+- [GameJolt Page](https://gamejolt.com/games/anar-per-portes/808486)
+- [Trello Workspace](https://trello.com/b/hdLkFLRv)
+
 ## Software
 - Unity 2022.2.2f1 ([Official Website](https://unity.com/releases/editor/whats-new/2022.2.1))
 - Blender 3.5.1 ([Official Website](https://www.blender.org/download/releases/3-5) | [Repository](https://github.com/blender/blender/releases/tag/v3.5.1))
