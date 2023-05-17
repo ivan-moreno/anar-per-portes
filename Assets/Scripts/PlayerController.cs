@@ -15,7 +15,6 @@ namespace AnarPerPortes
         private Vector3 motion;
         private float vLook;
         private float walkSpeed = 8f;
-
         private const float vLookMaxAngle = 89.9f;
 
         private void Start()
