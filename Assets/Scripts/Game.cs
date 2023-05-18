@@ -10,10 +10,12 @@ namespace AnarPerPortes
     {
         public static GameSettings Settings { get; private set; } = new();
         public static SubtitleManager Subtitles { get; set; }
+        public static RoomManager Rooms { get; set; }
 
         private void Awake()
         {
             Subtitles = GetComponent<SubtitleManager>();
+            Rooms = GetComponent<RoomManager>();
         }
 
         private void Start()
