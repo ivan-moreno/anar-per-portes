@@ -11,7 +11,9 @@ namespace AnarPerPortes
     public class PlayerController : MonoBehaviour
     {
         private CharacterController characterController;
+        private Animator visionAnimator;
         private new Camera camera;
+        private Vector3 velocity;
         private Vector3 motion;
         private float vLook;
         private float walkSpeed = 8f;
@@ -20,7 +22,11 @@ namespace AnarPerPortes
         private void Start()
         {
             characterController = GetComponent<CharacterController>();
-            camera = GetComponentInChildren<Camera>();
+
+            // WARNING: Watch out when adding an Animator to the First Person model, as
+            // GetComponentFromChildren also checks this transform for an Animator component.
+            visionAnimator = GetComponentInChildren<Animator>();
+            camera = visionAnimator.GetComponentInChildren<Camera>();
             Cursor.lockState = CursorLockMode.Locked;
         }
 
@@ -28,7 +34,10 @@ namespace AnarPerPortes
         {
             UpdateRotation();
             UpdateMotion();
+
+            Vector3 preMovePosition = transform.position;
             characterController.Move(motion);
+            velocity = (transform.position - preMovePosition) / Time.deltaTime;
         }
 
         private void UpdateRotation()
@@ -66,6 +75,26 @@ namespace AnarPerPortes
 
             // Streamlines movement speed to be the same on any framerate.
             motion *= Time.deltaTime;
+        }
+
+        private void LateUpdate()
+        {
+            UpdateVisionAnimator();
+        }
+
+        private void UpdateVisionAnimator()
+        {
+            //TODO: This might provoke unintended offsets when disabling during gameplay.
+            visionAnimator.enabled = Game.Settings.EnableVisionMotion;
+
+            if (!visionAnimator.enabled)
+                return;
+
+            var hVelocity = new Vector3(velocity.x, 0f, velocity.z).sqrMagnitude;
+            hVelocity /= walkSpeed * 8f;
+            var animatorHVelocity = visionAnimator.GetFloat("HVelocity");
+            var smoothHVelocity = Mathf.Lerp(animatorHVelocity, hVelocity, Time.deltaTime * 8f);
+            visionAnimator.SetFloat("HVelocity", smoothHVelocity);
         }
     }
 }

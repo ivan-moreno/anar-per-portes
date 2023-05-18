@@ -10,5 +10,6 @@ namespace AnarPerPortes
         public float Volume { get; set; } = 1f;
         public SubtitlesSetting SubtitlesSetting { get; set; } = SubtitlesSetting.DialogAndSoundEffects;
         public bool LargeSubtitles { get; set; } = false;
+        public bool EnableVisionMotion { get; set; } = true;
     }
 }
