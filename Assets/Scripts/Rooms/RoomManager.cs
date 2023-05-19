@@ -7,16 +7,15 @@ namespace AnarPerPortes
     public class RoomManager : MonoBehaviour
     {
         public Room LastLoadedRoom { get; private set; }
+        [SerializeField] private GameObject startRoomPrefab;
         [SerializeField] private GameObject[] generalRoomPrefabs;
         private readonly List<Room> rooms = new(capacity: maxLoadedRooms);
 
-        private const int maxLoadedRooms = 5;
+        private const int maxLoadedRooms = 6;
 
         private void Start()
         {
-            var rng = Random.Range(0, generalRoomPrefabs.Length);
-            var randomRoom = generalRoomPrefabs[rng];
-            GenerateNextRoom(randomRoom);
+            GenerateNextRoom(startRoomPrefab);
         }
 
         private void GenerateNextRoom(GameObject roomPrefab)
@@ -53,7 +52,7 @@ namespace AnarPerPortes
             rooms[0].DoorOpened -= OnDoorOpened;
             Destroy(rooms[0].gameObject);
             rooms.RemoveAt(0);
-            rooms[0].CloseDoor();
+            rooms[1].CloseDoor();
         }
 
         private void OnDoorOpened()
