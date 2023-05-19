@@ -6,9 +6,9 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Room Manager")]
     public class RoomManager : MonoBehaviour
     {
+        public Room LastLoadedRoom { get; private set; }
         [SerializeField] private GameObject[] generalRoomPrefabs;
         private readonly List<Room> rooms = new(capacity: maxLoadedRooms);
-        private Room lastLoadedRoom;
 
         private const int maxLoadedRooms = 5;
 
@@ -23,13 +23,13 @@ namespace AnarPerPortes
         {
             var instance = Instantiate(roomPrefab);
 
-            if (lastLoadedRoom == null)
+            if (LastLoadedRoom == null)
                 instance.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
             else
             {
                 instance.transform.SetPositionAndRotation(
-                    lastLoadedRoom.NextRoomGenerationPoint.position,
-                    lastLoadedRoom.NextRoomGenerationPoint.rotation);
+                    LastLoadedRoom.NextRoomGenerationPoint.position,
+                    LastLoadedRoom.NextRoomGenerationPoint.rotation);
             }
 
             var hasRoomComponent = instance.TryGetComponent(out Room room);
@@ -40,7 +40,7 @@ namespace AnarPerPortes
                 return;
             }
 
-            lastLoadedRoom = room;
+            LastLoadedRoom = room;
             rooms.Add(room);
             room.DoorOpened += OnDoorOpened;
 

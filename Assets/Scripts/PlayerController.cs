@@ -55,8 +55,11 @@ namespace AnarPerPortes
             UpdateMotion();
 
             var preMovePosition = transform.position;
-            characterController.Move(motion);
+            characterController.Move(motion + (Physics.gravity * 4f * Time.deltaTime));
             velocity = (transform.position - preMovePosition) / Time.deltaTime;
+
+            if (transform.position.y < -32f)
+                Teleport(Game.RoomManager.LastLoadedRoom.transform.position);
         }
 
         private void UpdateInteraction()

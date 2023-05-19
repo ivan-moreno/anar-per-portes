@@ -30,6 +30,12 @@ namespace AnarPerPortes
                 RenderSettings.ambientLight = new(0.5f, 0.5f, 0.5f);
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyUp(KeyCode.Escape))
+                Application.Quit();
+        }
+
         private void Reset()
         {
             CheckForMultipleInstances();
