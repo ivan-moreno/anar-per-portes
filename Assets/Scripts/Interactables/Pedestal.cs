@@ -14,6 +14,9 @@ namespace AnarPerPortes
 
         public void Focus()
         {
+            if (isOccupied)
+                return;
+
             Game.InteractionManager.ShowTooltip(tooltipPosition, Game.Settings.InteractKey.ToString(), "Camuflarse");
         }
 
