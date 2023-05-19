@@ -14,15 +14,17 @@ namespace AnarPerPortes
         public bool CanLook { get; set; } = true;
         public bool IsHidingAsStatue { get; set; } = false;
         public Camera Camera => camera;
+        public Vector3 Velocity => velocity;
         private CharacterController characterController;
-        private Animator visionAnimator;
+        [SerializeField] private Animator visionAnimator;
+        [SerializeField] private Animator modelAnimator;
         private new Camera camera;
         private Vector3 velocity;
         private Vector3 motion;
         private float vLook;
         private float walkSpeed = 8f;
         private IInteractable lastFocusedInteractable;
-        private const float vLookMaxAngle = 89.9f;
+        private const float vLookMaxAngle = 70f;
         private const float interactRange = 2.5f;
 
         public void Teleport(Vector3 position)
@@ -40,10 +42,6 @@ namespace AnarPerPortes
         private void Start()
         {
             characterController = GetComponent<CharacterController>();
-
-            // WARNING: Watch out when adding an Animator to the First Person model, as
-            // GetComponentFromChildren also checks this transform for an Animator component.
-            visionAnimator = GetComponentInChildren<Animator>();
             camera = visionAnimator.GetComponentInChildren<Camera>();
             Cursor.lockState = CursorLockMode.Locked;
         }
@@ -158,9 +156,6 @@ namespace AnarPerPortes
             // TODO: This might provoke unintended offsets when disabling during gameplay.
             visionAnimator.enabled = Game.Settings.EnableVisionMotion;
 
-            if (!visionAnimator.enabled)
-                return;
-
             // Normalize horizontal velocity between values 0 and 1.
             var hVelocity = new Vector3(velocity.x, 0f, velocity.z).sqrMagnitude;
             hVelocity /= walkSpeed * 8f;
@@ -169,7 +164,11 @@ namespace AnarPerPortes
 
             // Smooth out the velocity changes.
             var smoothHVelocity = Mathf.Lerp(animatorHVelocity, hVelocity, Time.deltaTime * 8f);
-            visionAnimator.SetFloat("HVelocity", smoothHVelocity);
+
+            if (visionAnimator.enabled)
+                visionAnimator.SetFloat("HVelocity", smoothHVelocity);
+
+            modelAnimator.SetFloat("HVelocity", smoothHVelocity);
         }
     }
 }
