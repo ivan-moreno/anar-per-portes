@@ -1,0 +1,68 @@
+using UnityEngine;
+
+namespace AnarPerPortes
+{
+    [AddComponentMenu("Anar per Portes/Pedestal")]
+    public class Pedestal : MonoBehaviour, IInteractable
+    {
+        [SerializeField] private Transform occupyPlayerPosition;
+        [SerializeField] private Transform releasePlayerPosition;
+        [SerializeField] private Transform tooltipPosition;
+        private bool isOccupied = false;
+        private float timeOccupied = 0f;
+        private const float minOccupiedDuration = 0.5f;
+
+        public void Focus()
+        {
+            Game.InteractionManager.ShowTooltip(tooltipPosition, Game.Settings.InteractKey.ToString(), "Camuflarse");
+        }
+
+        public void Unfocus()
+        {
+            Game.InteractionManager.HideTooltipIfValidOwner(tooltipPosition);
+        }
+
+        public void Interact()
+        {
+            OccupyPlayer();
+        }
+
+        private void Update()
+        {
+            if (isOccupied)
+                timeOccupied += Time.deltaTime;
+            else
+            {
+                timeOccupied = 0f;
+                return;
+            }
+
+            if (Input.GetKeyUp(Game.Settings.InteractKey) && timeOccupied >= minOccupiedDuration)
+                ReleasePlayer();
+        }
+
+        private void OccupyPlayer()
+        {
+            if (isOccupied)
+                return;
+
+            PlayerController.Instance.Teleport(occupyPlayerPosition.position);
+            PlayerController.Instance.CanMove = false;
+            PlayerController.Instance.IsHidingAsStatue = true;
+            isOccupied = true;
+
+            Game.InteractionManager.HideTooltipIfValidOwner(tooltipPosition);
+        }
+
+        private void ReleasePlayer()
+        {
+            if (!isOccupied)
+                return;
+
+            PlayerController.Instance.Teleport(releasePlayerPosition.position);
+            PlayerController.Instance.CanMove = true;
+            PlayerController.Instance.IsHidingAsStatue = false;
+            isOccupied = false;
+        }
+    }
+}

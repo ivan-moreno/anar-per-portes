@@ -9,13 +9,15 @@ namespace AnarPerPortes
     public class Game : MonoBehaviour
     {
         public static GameSettings Settings { get; private set; } = new();
-        public static SubtitleManager Subtitles { get; set; }
-        public static RoomManager Rooms { get; set; }
+        public static SubtitleManager SubtitleManager { get; private set; }
+        public static RoomManager RoomManager { get; private set; }
+        public static InteractionManager InteractionManager { get; private set; }
 
         private void Awake()
         {
-            Subtitles = GetComponent<SubtitleManager>();
-            Rooms = GetComponent<RoomManager>();
+            SubtitleManager = GetComponent<SubtitleManager>();
+            RoomManager = GetComponent<RoomManager>();
+            InteractionManager = GetComponent<InteractionManager>();
         }
 
         private void Start()

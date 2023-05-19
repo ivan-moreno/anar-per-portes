@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 namespace AnarPerPortes
 {
@@ -10,6 +9,11 @@ namespace AnarPerPortes
     [RequireComponent(typeof(CharacterController))]
     public class PlayerController : MonoBehaviour
     {
+        public static PlayerController Instance { get; private set; }
+        public bool CanMove { get; set; } = true;
+        public bool CanLook { get; set; } = true;
+        public bool IsHidingAsStatue { get; set; } = false;
+        public Camera Camera => camera;
         private CharacterController characterController;
         private Animator visionAnimator;
         private new Camera camera;
@@ -17,7 +21,21 @@ namespace AnarPerPortes
         private Vector3 motion;
         private float vLook;
         private float walkSpeed = 8f;
+        private IInteractable lastFocusedInteractable;
         private const float vLookMaxAngle = 89.9f;
+        private const float interactRange = 2.5f;
+
+        public void Teleport(Vector3 position)
+        {
+            characterController.enabled = false;
+            transform.position = position;
+            characterController.enabled = true;
+        }
+
+        private void Awake()
+        {
+            Instance = this;
+        }
 
         private void Start()
         {
@@ -32,12 +50,56 @@ namespace AnarPerPortes
 
         private void Update()
         {
+            UpdateInteraction();
             UpdateRotation();
             UpdateMotion();
 
-            Vector3 preMovePosition = transform.position;
+            var preMovePosition = transform.position;
             characterController.Move(motion);
             velocity = (transform.position - preMovePosition) / Time.deltaTime;
+        }
+
+        private void UpdateInteraction()
+        {
+            var foundHit = Physics.Raycast(
+                origin: transform.position + camera.transform.localPosition,
+                direction: camera.transform.forward,
+                hitInfo: out var hitInfo,
+                maxDistance: interactRange,
+                layerMask: LayerMask.GetMask("Default"));
+
+            if (!foundHit)
+            {
+                if (lastFocusedInteractable != null)
+                {
+                    lastFocusedInteractable.Unfocus();
+                    lastFocusedInteractable = null;
+                }
+                
+                return;
+            }
+
+            var isInteractable = hitInfo.transform.TryGetComponent(out IInteractable interactable);
+
+            if (!isInteractable)
+            {
+                if (lastFocusedInteractable != null)
+                {
+                    lastFocusedInteractable.Unfocus();
+                    lastFocusedInteractable = null;
+                }
+
+                return;
+            }    
+
+            if (lastFocusedInteractable != interactable)
+            {
+                lastFocusedInteractable = interactable;
+                lastFocusedInteractable.Focus();
+            }
+
+            if (Input.GetKeyUp(Game.Settings.InteractKey))
+                interactable.Interact();
         }
 
         private void UpdateRotation()
@@ -50,6 +112,9 @@ namespace AnarPerPortes
             vLookInput *= Game.Settings.VMouseSensitivity;
             vLookInput *= Time.unscaledDeltaTime;
 
+            if (!CanLook)
+                hLookInput = vLookInput = 0f;
+
             // Limit vertical look angle to avoid flipping the camera.
             vLook = Mathf.Clamp(vLook + vLookInput, -vLookMaxAngle, vLookMaxAngle);
 
@@ -61,6 +126,9 @@ namespace AnarPerPortes
         {
             var moveXInput = Input.GetAxisRaw("Horizontal");
             var moveZInput = Input.GetAxisRaw("Vertical");
+
+            if (!CanMove)
+                moveXInput = moveZInput = 0f;
 
             motion = new(moveXInput, 0f, moveZInput);
 
@@ -84,15 +152,19 @@ namespace AnarPerPortes
 
         private void UpdateVisionAnimator()
         {
-            //TODO: This might provoke unintended offsets when disabling during gameplay.
+            // TODO: This might provoke unintended offsets when disabling during gameplay.
             visionAnimator.enabled = Game.Settings.EnableVisionMotion;
 
             if (!visionAnimator.enabled)
                 return;
 
+            // Normalize horizontal velocity between values 0 and 1.
             var hVelocity = new Vector3(velocity.x, 0f, velocity.z).sqrMagnitude;
             hVelocity /= walkSpeed * 8f;
+
             var animatorHVelocity = visionAnimator.GetFloat("HVelocity");
+
+            // Smooth out the velocity changes.
             var smoothHVelocity = Mathf.Lerp(animatorHVelocity, hVelocity, Time.deltaTime * 8f);
             visionAnimator.SetFloat("HVelocity", smoothHVelocity);
         }
