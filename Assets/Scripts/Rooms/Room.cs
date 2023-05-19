@@ -13,6 +13,11 @@ namespace AnarPerPortes
         [SerializeField] private Transform nextRoomGenerationPoint;
         [SerializeField] private RoomDoor door;
 
+        public void CloseDoor()
+        {
+            door.Close();
+        }
+
         private void Start()
         {
             door.DoorOpened += DoorOpened;

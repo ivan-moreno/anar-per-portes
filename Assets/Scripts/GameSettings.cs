@@ -14,5 +14,7 @@ namespace AnarPerPortes
         public SubtitlesSetting SubtitlesSetting { get; set; } = SubtitlesSetting.DialogAndSoundEffects;
         public bool LargeSubtitles { get; set; } = false;
         public bool EnableVisionMotion { get; set; } = true;
+        public bool EnableFlamboyantSilhouettes { get; set; } = true;
+        public bool EnableLightMode { get; set; } = true;
     }
 }

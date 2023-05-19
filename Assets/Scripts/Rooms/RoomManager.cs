@@ -53,6 +53,7 @@ namespace AnarPerPortes
             rooms[0].DoorOpened -= OnDoorOpened;
             Destroy(rooms[0].gameObject);
             rooms.RemoveAt(0);
+            rooms[0].CloseDoor();
         }
 
         private void OnDoorOpened()

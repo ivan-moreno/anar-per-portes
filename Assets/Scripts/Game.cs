@@ -24,6 +24,10 @@ namespace AnarPerPortes
         {
             DontDestroyOnLoad(gameObject);
             CheckForMultipleInstances();
+
+            // TODO: Transfer responsibility to another class, check for setting changes.
+            if (Settings.EnableLightMode)
+                RenderSettings.ambientLight = new(0.5f, 0.5f, 0.5f);
         }
 
         private void Reset()

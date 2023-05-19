@@ -10,7 +10,14 @@ namespace AnarPerPortes
     public class RoomDoor : MonoBehaviour
     {
         public event Action DoorOpened;
+        [SerializeField] private BoxCollider closedCollider;
         private bool isOpened = false;
+
+        public void Close()
+        {
+            closedCollider.enabled = true;
+            GetComponent<Animator>().Play("Close");
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -22,6 +29,7 @@ namespace AnarPerPortes
 
             isOpened = true;
             DoorOpened?.Invoke();
+            GetComponent<Animator>().Play("Open");
         }
     }
 }
