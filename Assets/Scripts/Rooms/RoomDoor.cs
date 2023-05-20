@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace AnarPerPortes
@@ -12,24 +10,43 @@ namespace AnarPerPortes
         public event Action DoorOpened;
         [SerializeField] private BoxCollider closedCollider;
         private bool isOpened = false;
+        private Animator animator;
+        private AudioSource audioSource;
 
-        public void Close()
-        {
-            closedCollider.enabled = true;
-            GetComponent<Animator>().Play("Close");
-        }
-
-        private void OnTriggerEnter(Collider other)
+        public void Open()
         {
             if (isOpened)
                 return;
 
-            if (!other.CompareTag("Player"))
-                return;
-
             isOpened = true;
             DoorOpened?.Invoke();
-            GetComponent<Animator>().Play("Open");
+            animator.Play("Open");
+            audioSource.Play();
+        }
+
+        public void Close()
+        {
+            if (!isOpened)
+                return;
+
+            isOpened = false;
+            closedCollider.enabled = true;
+            animator.Play("Close");
+            audioSource.Play();
+        }
+
+        private void Start()
+        {
+            audioSource = GetComponent<AudioSource>();
+            animator = GetComponent<Animator>();
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (isOpened || !other.CompareTag("Player"))
+                return;
+
+            Open();
         }
     }
 }
