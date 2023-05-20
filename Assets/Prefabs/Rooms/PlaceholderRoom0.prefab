@@ -81,6 +81,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0d01ed7d3fcfe64aa1ac9948b202f4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnDoorOpened:
+    m_PersistentCalls:
+      m_Calls: []
+  hasHidingSpots: 1
   nextRoomGenerationPoint: {fileID: 1343002099175910068}
   door: {fileID: 1343002099155468836}
 --- !u!1 &1343002099849781392

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace AnarPerPortes
 {
@@ -7,7 +8,7 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Room Door")]
     public class RoomDoor : MonoBehaviour
     {
-        public event Action DoorOpened;
+        [HideInInspector] public UnityEvent OnDoorOpened;
         [SerializeField] private BoxCollider closedCollider;
         private bool isOpened = false;
         private Animator animator;
@@ -19,7 +20,7 @@ namespace AnarPerPortes
                 return;
 
             isOpened = true;
-            DoorOpened?.Invoke();
+            OnDoorOpened?.Invoke();
             animator.Play("Open");
             audioSource.Play();
         }

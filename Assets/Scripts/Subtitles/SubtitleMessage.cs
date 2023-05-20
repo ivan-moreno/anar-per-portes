@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace AnarPerPortes
 {
@@ -11,12 +12,14 @@ namespace AnarPerPortes
         private CanvasGroup canvasGroup;
         private float aliveTime;
         private const float appearanceRate = 6f;
+        private RectTransform rectTransform;
 
         public void Initialize(string message, float duration, Color color)
         {
             messageText.text = message;
             messageText.color = color;
             aliveTime = duration;
+            rectTransform = GetComponent<RectTransform>();
             canvasGroup = GetComponent<CanvasGroup>();
             canvasGroup.alpha = 0f;
 
@@ -36,6 +39,11 @@ namespace AnarPerPortes
             // Remove the subtitle message whenever its duration has transcurred.
             if (aliveTime <= 0f)
                 Destroy(gameObject);
+        }
+
+        private void LateUpdate()
+        {
+            rectTransform.sizeDelta = messageText.rectTransform.sizeDelta + new Vector2(48f, 24f);
         }
     }
 }

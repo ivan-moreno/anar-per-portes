@@ -2,14 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace AnarPerPortes
 {
     [AddComponentMenu("Anar per Portes/Room")]
     public class Room : MonoBehaviour
     {
-        public event Action DoorOpened;
+        [HideInInspector] public UnityEvent OnDoorOpened;
+        public bool HasHidingSpots => hasHidingSpots;
         public Transform NextRoomGenerationPoint => nextRoomGenerationPoint;
+        [SerializeField] private bool hasHidingSpots = false;
         [SerializeField] private Transform nextRoomGenerationPoint;
         [SerializeField] private RoomDoor door;
 
@@ -20,12 +23,7 @@ namespace AnarPerPortes
 
         private void Start()
         {
-            door.DoorOpened += DoorOpened;
-        }
-
-        private void OnDestroy()
-        {
-            door.DoorOpened -= DoorOpened;
+            door.OnDoorOpened.AddListener(() => OnDoorOpened?.Invoke());
         }
     }
 }

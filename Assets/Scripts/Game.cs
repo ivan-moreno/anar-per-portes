@@ -14,6 +14,7 @@ namespace AnarPerPortes
         public static RoomManager RoomManager { get; private set; }
         public static InteractionManager InteractionManager { get; private set; }
         public static ItemManager ItemManager { get; private set; }
+        public static EnemyManager EnemyManager { get; private set; }
         public static Volume GlobalVolume { get; private set; }
 
         private void Awake()
@@ -22,6 +23,7 @@ namespace AnarPerPortes
             RoomManager = GetComponent<RoomManager>();
             InteractionManager = GetComponent<InteractionManager>();
             ItemManager = GetComponent<ItemManager>();
+            EnemyManager = GetComponent<EnemyManager>();
             GlobalVolume = GetComponent<Volume>();
         }
 

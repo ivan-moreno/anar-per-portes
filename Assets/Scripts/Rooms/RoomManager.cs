@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace AnarPerPortes
 {
@@ -7,11 +8,14 @@ namespace AnarPerPortes
     public class RoomManager : MonoBehaviour
     {
         public Room LastLoadedRoom { get; private set; }
+        public List<Room> Rooms { get; } = new(capacity: maxLoadedRooms);
+        public UnityEvent<Room> OnRoomGenerated;
+        public int LastOpenedRoomNumber { get; private set; } = 0;
+        [SerializeField] private Transform roomsGroup;
         [SerializeField] private GameObject startRoomPrefab;
         [SerializeField] private GameObject[] generalRoomPrefabs;
-        private readonly List<Room> rooms = new(capacity: maxLoadedRooms);
 
-        private const int maxLoadedRooms = 6;
+        private const int maxLoadedRooms = 7;
 
         private void Start()
         {
@@ -20,7 +24,7 @@ namespace AnarPerPortes
 
         private void GenerateNextRoom(GameObject roomPrefab)
         {
-            var instance = Instantiate(roomPrefab);
+            var instance = Instantiate(roomPrefab, roomsGroup);
 
             if (LastLoadedRoom == null)
                 instance.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
@@ -40,23 +44,26 @@ namespace AnarPerPortes
             }
 
             LastLoadedRoom = room;
-            rooms.Add(room);
-            room.DoorOpened += OnDoorOpened;
+            Rooms.Add(room);
+            room.OnDoorOpened.AddListener(OnDoorOpened);
 
-            if (rooms.Count >= maxLoadedRooms)
+            if (Rooms.Count >= maxLoadedRooms)
                 UnloadOldestRoom();
+
+            OnRoomGenerated?.Invoke(room);
         }
 
         private void UnloadOldestRoom()
         {
-            rooms[0].DoorOpened -= OnDoorOpened;
-            Destroy(rooms[0].gameObject);
-            rooms.RemoveAt(0);
-            rooms[1].CloseDoor();
+            Destroy(Rooms[0].gameObject);
+            Rooms.RemoveAt(0);
+            Rooms[1].CloseDoor();
         }
 
         private void OnDoorOpened()
         {
+            LastOpenedRoomNumber++;
+            Game.SubtitleManager.PushSubtitle("Puerta nº: " + LastOpenedRoomNumber);
             var rng = Random.Range(0, generalRoomPrefabs.Length);
             var randomRoom = generalRoomPrefabs[rng];
             GenerateNextRoom(randomRoom);

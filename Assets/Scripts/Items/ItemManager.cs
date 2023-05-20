@@ -4,8 +4,8 @@ namespace AnarPerPortes
 {
     public class ItemManager : MonoBehaviour
     {
-        [SerializeField] private GameObject slotPrefab;
         [SerializeField] private Transform slotsGroup;
+        [SerializeField] private GameObject slotPrefab;
 
         public void GenerateSlotFor(InventoryItem item)
         {
