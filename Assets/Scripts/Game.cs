@@ -41,7 +41,6 @@ namespace AnarPerPortes
             CheckForMultipleInstances();
         }
 
-#if UNITY_EDITOR
         private void CheckForMultipleInstances()
         {
             // Check for multiple Game MonoBehaviours.
@@ -50,7 +49,5 @@ namespace AnarPerPortes
             if (gameScriptCount > 1)
                 Debug.LogError($"There can only be one Game MonoBehaviour present on the Scene. There are currently {gameScriptCount}.");
         }
-#endif
-
     }
 }
