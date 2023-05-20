@@ -8,6 +8,9 @@ namespace AnarPerPortes
         [SerializeField] private Transform occupyPlayerPosition;
         [SerializeField] private Transform releasePlayerPosition;
         [SerializeField] private Transform tooltipPosition;
+        [SerializeField] private AudioClip hideSound;
+        [SerializeField] private AudioClip revealSound;
+        private AudioSource audioSource;
         private bool isOccupied = false;
         private float timeOccupied = 0f;
         private const float minOccupiedDuration = 0.5f;
@@ -28,6 +31,11 @@ namespace AnarPerPortes
         public void Interact()
         {
             OccupyPlayer();
+        }
+
+        private void Start()
+        {
+            audioSource = GetComponent<AudioSource>();
         }
 
         private void Update()
@@ -53,6 +61,7 @@ namespace AnarPerPortes
             PlayerController.Instance.CanMove = false;
             PlayerController.Instance.IsHidingAsStatue = true;
             isOccupied = true;
+            audioSource.PlayOneShot(hideSound);
 
             Game.InteractionManager.HideTooltipIfValidOwner(tooltipPosition);
         }
@@ -66,6 +75,7 @@ namespace AnarPerPortes
             PlayerController.Instance.CanMove = true;
             PlayerController.Instance.IsHidingAsStatue = false;
             isOccupied = false;
+            audioSource.PlayOneShot(revealSound);
         }
     }
 }

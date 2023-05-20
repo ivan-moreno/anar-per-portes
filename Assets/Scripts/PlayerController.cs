@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 namespace AnarPerPortes
 {
@@ -13,25 +16,35 @@ namespace AnarPerPortes
         public bool CanMove { get; set; } = true;
         public bool CanLook { get; set; } = true;
         public bool IsHidingAsStatue { get; set; } = false;
-        public Camera Camera => camera;
+        public Camera Camera { get; private set; }
         public Vector3 Velocity => velocity;
         private CharacterController characterController;
         [SerializeField] private Animator visionAnimator;
         [SerializeField] private Animator modelAnimator;
-        private new Camera camera;
         private Vector3 velocity;
         private Vector3 motion;
         private float vLook;
         private float walkSpeed = 8f;
         private IInteractable lastFocusedInteractable;
+        private List<InventoryItem> items = new();
+        private bool hasItemEquipped = false;
+        private Vignette vignette;
         private const float vLookMaxAngle = 70f;
         private const float interactRange = 2.5f;
+        private const float regularVignetteIntensity = 0.25f;
+        private const float hidingVignetteIntensity = 0.5f;
 
         public void Teleport(Vector3 position)
         {
             characterController.enabled = false;
             transform.position = position;
             characterController.enabled = true;
+        }
+
+        public void PackItem(InventoryItem item)
+        {
+            items.Add(item);
+            Game.ItemManager.GenerateSlotFor(item);
         }
 
         private void Awake()
@@ -42,7 +55,8 @@ namespace AnarPerPortes
         private void Start()
         {
             characterController = GetComponent<CharacterController>();
-            camera = visionAnimator.GetComponentInChildren<Camera>();
+            Camera = visionAnimator.GetComponentInChildren<Camera>();
+            Game.GlobalVolume.profile.TryGet(out vignette);
             Cursor.lockState = CursorLockMode.Locked;
         }
 
@@ -51,6 +65,7 @@ namespace AnarPerPortes
             UpdateInteraction();
             UpdateRotation();
             UpdateMotion();
+            UpdateItems();
 
             var preMovePosition = transform.position;
             characterController.Move(motion + (Physics.gravity * 4f * Time.deltaTime));
@@ -63,8 +78,8 @@ namespace AnarPerPortes
         private void UpdateInteraction()
         {
             var foundHit = Physics.Raycast(
-                origin: transform.position + camera.transform.localPosition,
-                direction: camera.transform.forward,
+                origin: transform.position + Camera.transform.localPosition,
+                direction: Camera.transform.forward,
                 hitInfo: out var hitInfo,
                 maxDistance: interactRange,
                 layerMask: LayerMask.GetMask("Default"));
@@ -76,7 +91,7 @@ namespace AnarPerPortes
                     lastFocusedInteractable.Unfocus();
                     lastFocusedInteractable = null;
                 }
-                
+
                 return;
             }
 
@@ -91,7 +106,7 @@ namespace AnarPerPortes
                 }
 
                 return;
-            }    
+            }
 
             if (lastFocusedInteractable != interactable)
             {
@@ -120,7 +135,7 @@ namespace AnarPerPortes
             vLook = Mathf.Clamp(vLook + vLookInput, -vLookMaxAngle, vLookMaxAngle);
 
             transform.Rotate(0f, hLookInput, 0f);
-            camera.transform.localEulerAngles = new(vLook, 0f, 0f);
+            Camera.transform.localEulerAngles = new(vLook, 0f, 0f);
         }
 
         private void UpdateMotion()
@@ -146,9 +161,26 @@ namespace AnarPerPortes
             motion *= Time.deltaTime;
         }
 
+        private void UpdateItems()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1) && items.Count > 0)
+            {
+                items.FindAll(x => x != items[0]).ForEach(x => x.Unequip());
+                items[0].ToggleEquipped();
+
+                hasItemEquipped = items.Any(x => x.IsEquipped);
+            }
+
+            var itemLayerWeight = modelAnimator.GetLayerWeight(1);
+            var targetItemLayerWeight = hasItemEquipped ? 1f : 0f;
+            var smoothItemLayerWeight = Mathf.Lerp(itemLayerWeight, targetItemLayerWeight, Time.deltaTime * 8f);
+            modelAnimator.SetLayerWeight(1, smoothItemLayerWeight);
+        }
+
         private void LateUpdate()
         {
             UpdateVisionAnimator();
+            UpdateVolume();
         }
 
         private void UpdateVisionAnimator()
@@ -169,6 +201,11 @@ namespace AnarPerPortes
                 visionAnimator.SetFloat("HVelocity", smoothHVelocity);
 
             modelAnimator.SetFloat("HVelocity", smoothHVelocity);
+        }
+
+        private void UpdateVolume()
+        {
+            vignette.intensity.value = Mathf.Lerp(vignette.intensity.value, IsHidingAsStatue ? hidingVignetteIntensity : regularVignetteIntensity, Time.deltaTime * 4f);
         }
     }
 }

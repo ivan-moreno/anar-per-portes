@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BroskyItemAvatarMask
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Armature
+    m_Weight: 0
+  - m_Path: Armature/b_Root
+    m_Weight: 0
+  - m_Path: Armature/b_Root/b_Pelvis
+    m_Weight: 0
+  - m_Path: Armature/b_Root/b_Pelvis/b_Leg_L
+    m_Weight: 0
+  - m_Path: Armature/b_Root/b_Pelvis/b_Leg_R
+    m_Weight: 0
+  - m_Path: Armature/b_Root/b_Torso
+    m_Weight: 0
+  - m_Path: Armature/b_Root/b_Torso/b_Arm_L
+    m_Weight: 0
+  - m_Path: Armature/b_Root/b_Torso/b_Arm_R
+    m_Weight: 1
+  - m_Path: Armature/b_Root/b_Torso/b_Head
+    m_Weight: 0
+  - m_Path: Armature/b_Root/b_Torso/b_Head/b_Goggles
+    m_Weight: 0
+  - m_Path: BroskyObject0
+    m_Weight: 0
+  - m_Path: BroskyObject1
+    m_Weight: 0

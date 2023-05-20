@@ -12,7 +12,6 @@ namespace AnarPerPortes
             interactionTooltip.Show(target, key, message);
         }
 
-
         public void HideTooltip()
         {
             interactionTooltip.Hide();

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace AnarPerPortes
 {
@@ -12,12 +13,16 @@ namespace AnarPerPortes
         public static SubtitleManager SubtitleManager { get; private set; }
         public static RoomManager RoomManager { get; private set; }
         public static InteractionManager InteractionManager { get; private set; }
+        public static ItemManager ItemManager { get; private set; }
+        public static Volume GlobalVolume { get; private set; }
 
         private void Awake()
         {
             SubtitleManager = GetComponent<SubtitleManager>();
             RoomManager = GetComponent<RoomManager>();
             InteractionManager = GetComponent<InteractionManager>();
+            ItemManager = GetComponent<ItemManager>();
+            GlobalVolume = GetComponent<Volume>();
         }
 
         private void Start()
