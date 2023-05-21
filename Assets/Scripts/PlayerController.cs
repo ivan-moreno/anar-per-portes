@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -16,6 +17,7 @@ namespace AnarPerPortes
         public bool CanMove { get; set; } = true;
         public bool CanLook { get; set; } = true;
         public bool IsHidingAsStatue { get; set; } = false;
+        public bool IsCaught { get; set; } = false;
         public Camera Camera { get; private set; }
         public Vector3 Velocity => velocity;
         private CharacterController characterController;
@@ -47,6 +49,14 @@ namespace AnarPerPortes
             Game.ItemManager.GenerateSlotFor(item);
         }
 
+        public void GetCaught(string title, string message)
+        {
+            IsCaught = true;
+            CanMove = false;
+            CanLook = false;
+            Game.CaughtManager.PlayerCaught(title, message);
+        }
+
         private void Awake()
         {
             Instance = this;
@@ -67,6 +77,9 @@ namespace AnarPerPortes
             UpdateMotion();
             UpdateItems();
 
+            if (IsCaught)
+                return;
+
             var preMovePosition = transform.position;
             characterController.Move(motion + (Physics.gravity * 4f * Time.deltaTime));
             velocity = (transform.position - preMovePosition) / Time.deltaTime;
@@ -77,6 +90,9 @@ namespace AnarPerPortes
 
         private void UpdateInteraction()
         {
+            if (IsCaught)
+                return;
+
             var foundHit = Physics.Raycast(
                 origin: transform.position + Camera.transform.localPosition,
                 direction: Camera.transform.forward,
@@ -163,6 +179,9 @@ namespace AnarPerPortes
 
         private void UpdateItems()
         {
+            if (IsCaught)
+                return;
+
             if (Input.GetKeyDown(KeyCode.Alpha1) && items.Count > 0)
             {
                 items.FindAll(x => x != items[0]).ForEach(x => x.Unequip());

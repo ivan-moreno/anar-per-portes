@@ -6,6 +6,13 @@ namespace AnarPerPortes
     /// <summary>
     /// A Singleton class that represents the game's state.
     /// </summary>
+    [RequireComponent(typeof(SubtitleManager))]
+    [RequireComponent(typeof(RoomManager))]
+    [RequireComponent(typeof(InteractionManager))]
+    [RequireComponent(typeof(ItemManager))]
+    [RequireComponent(typeof(EnemyManager))]
+    [RequireComponent(typeof(CaughtManager))]
+    [RequireComponent(typeof(Volume))]
     [AddComponentMenu("Anar per Portes/Game")]
     public class Game : MonoBehaviour
     {
@@ -15,22 +22,26 @@ namespace AnarPerPortes
         public static InteractionManager InteractionManager { get; private set; }
         public static ItemManager ItemManager { get; private set; }
         public static EnemyManager EnemyManager { get; private set; }
+        public static CaughtManager CaughtManager { get; private set; }
         public static Volume GlobalVolume { get; private set; }
 
         private void Awake()
         {
+            CheckForMultipleInstances();
+
             SubtitleManager = GetComponent<SubtitleManager>();
             RoomManager = GetComponent<RoomManager>();
             InteractionManager = GetComponent<InteractionManager>();
             ItemManager = GetComponent<ItemManager>();
             EnemyManager = GetComponent<EnemyManager>();
+            CaughtManager = GetComponent<CaughtManager>();
             GlobalVolume = GetComponent<Volume>();
         }
 
         private void Start()
         {
-            DontDestroyOnLoad(gameObject);
-            CheckForMultipleInstances();
+            // TODO: Consider this
+            //DontDestroyOnLoad(gameObject);
 
             // TODO: Transfer responsibility to another class, check for setting changes.
             if (Settings.EnableLightMode)
@@ -51,10 +62,19 @@ namespace AnarPerPortes
         private void CheckForMultipleInstances()
         {
             // Check for multiple Game MonoBehaviours.
-            var gameScriptCount = FindObjectsOfType<Game>(true).Length;
+            var gameScripts = FindObjectsOfType<Game>(true);
 
-            if (gameScriptCount > 1)
-                Debug.LogError($"There can only be one Game MonoBehaviour present on the Scene. There are currently {gameScriptCount}.");
+            if (gameScripts.Length > 1)
+            {
+                foreach (var script in gameScripts)
+                {
+                    if (script == this)
+                        continue;
+
+                    script.enabled = false;
+                    Destroy(script.gameObject);
+                }
+            }    
         }
     }
 }

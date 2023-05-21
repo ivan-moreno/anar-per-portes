@@ -9,17 +9,28 @@ namespace AnarPerPortes
     {
         public Room LastLoadedRoom { get; private set; }
         public List<Room> Rooms { get; } = new(capacity: maxLoadedRooms);
-        public UnityEvent<Room> OnRoomGenerated;
         public int LastOpenedRoomNumber { get; private set; } = 0;
+        [HideInInspector] public UnityEvent<Room> OnRoomGenerated;
         [SerializeField] private Transform roomsGroup;
         [SerializeField] private GameObject startRoomPrefab;
         [SerializeField] private GameObject[] generalRoomPrefabs;
-
         private const int maxLoadedRooms = 7;
 
         private void Start()
         {
             GenerateNextRoom(startRoomPrefab);
+        }
+
+        public void OpenDoorAndGenerateNextRoomRandom()
+        {
+            LastLoadedRoom.OpenDoor();
+        }
+
+        private void GenerateNextRoomRandom()
+        {
+            var rng = Random.Range(0, generalRoomPrefabs.Length);
+            var randomRoom = generalRoomPrefabs[rng];
+            GenerateNextRoom(randomRoom);
         }
 
         private void GenerateNextRoom(GameObject roomPrefab)
@@ -64,9 +75,7 @@ namespace AnarPerPortes
         {
             LastOpenedRoomNumber++;
             Game.SubtitleManager.PushSubtitle("Puerta nº: " + LastOpenedRoomNumber);
-            var rng = Random.Range(0, generalRoomPrefabs.Length);
-            var randomRoom = generalRoomPrefabs[rng];
-            GenerateNextRoom(randomRoom);
+            GenerateNextRoomRandom();
         }
     }
 }

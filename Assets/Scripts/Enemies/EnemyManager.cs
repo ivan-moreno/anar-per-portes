@@ -14,6 +14,14 @@ namespace AnarPerPortes
             Game.RoomManager.OnRoomGenerated.AddListener(ProcessEnemyPossibilities);
         }
 
+        private void Update()
+        {
+#if UNITY_EDITOR
+            if (Input.GetKeyUp(KeyCode.F1))
+                GenerateEnemy(pedroEnemyPrefab);
+#endif
+        }
+
         private void GenerateEnemy(GameObject enemyPrefab)
         {
             Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity, enemiesGroup);

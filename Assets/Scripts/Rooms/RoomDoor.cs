@@ -39,6 +39,8 @@ namespace AnarPerPortes
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
+            var rngPitch = UnityEngine.Random.Range(-0.05f, 0.05f);
+            audioSource.pitch += rngPitch;
             animator = GetComponent<Animator>();
         }
 

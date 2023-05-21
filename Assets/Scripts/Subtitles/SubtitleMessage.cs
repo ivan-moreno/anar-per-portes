@@ -29,7 +29,7 @@ namespace AnarPerPortes
 
         private void Update()
         {
-            aliveTime -= Time.deltaTime;
+            aliveTime -= Time.unscaledDeltaTime;
 
             // Apply a appear/disappear effect.
             canvasGroup.alpha = aliveTime > 0.5f
