@@ -2,13 +2,32 @@ using UnityEngine;
 
 namespace AnarPerPortes
 {
-    public class PedroEnemy : MonoBehaviour
+    public class PedroEnemy : MonoBehaviour, IEnemy
     {
         public static bool EnemyIsActive { get; private set; } = false;
+
+        public string TipTitle => tipTitle;
+        public string TipMessage => tipMessage;
+        public Sprite TipRender => tipRender;
+
+        public bool EnemyTipWasDisplayed
+        {
+            get => enemyTipWasDisplayed;
+            set => enemyTipWasDisplayed = value;
+        }
+
+        private static bool enemyTipWasDisplayed = false;
         [SerializeField] private float runSpeed = 16f;
         [SerializeField] private float chaseRange = 8f;
         [SerializeField] private float catchRange = 2f;
-        [SerializeField] AudioClip jumpscareSound;
+        [SerializeField] private string tipTitle;
+
+        [SerializeField]
+        [TextArea]
+        private string tipMessage;
+
+        [SerializeField] private Sprite tipRender;
+        [SerializeField] private AudioClip jumpscareSound;
         private AudioSource audioSource;
         private Transform model;
         private Vector3 targetLocation;
@@ -73,15 +92,14 @@ namespace AnarPerPortes
 
         private void FixedUpdate()
         {
-            if (Physics.Linecast(
-                start: transform.position + Vector3.up,
-                end: PlayerController.Instance.transform.position + Vector3.up,
-                hitInfo: out var hit,
-                layerMask: LayerMask.GetMask("Default", "Player"),
-                queryTriggerInteraction: QueryTriggerInteraction.Ignore))
-                lineOfSightCheck = hit.transform.gameObject.layer == LayerMask.NameToLayer("Player");
-            else
-                lineOfSightCheck = false;
+            lineOfSightCheck =
+                Physics.Linecast(
+                    start: transform.position + Vector3.up,
+                    end: PlayerController.Instance.transform.position + Vector3.up,
+                    hitInfo: out var hit,
+                    layerMask: LayerMask.GetMask("Default", "Player"),
+                    queryTriggerInteraction: QueryTriggerInteraction.Ignore)
+                && hit.transform.gameObject.layer == LayerMask.NameToLayer("Player");
         }
     }
 }

@@ -28,7 +28,7 @@ namespace AnarPerPortes
         private float vLook;
         private float walkSpeed = 8f;
         private IInteractable lastFocusedInteractable;
-        private List<InventoryItem> items = new();
+        private readonly List<InventoryItem> items = new();
         private bool hasItemEquipped = false;
         private Vignette vignette;
         private const float vLookMaxAngle = 70f;
@@ -81,7 +81,7 @@ namespace AnarPerPortes
                 return;
 
             var preMovePosition = transform.position;
-            characterController.Move(motion + (Physics.gravity * 4f * Time.deltaTime));
+            characterController.Move(motion + (4f * Time.deltaTime * Physics.gravity));
             velocity = (transform.position - preMovePosition) / Time.deltaTime;
 
             if (transform.position.y < -32f)

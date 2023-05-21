@@ -11,6 +11,7 @@ namespace AnarPerPortes
     [RequireComponent(typeof(InteractionManager))]
     [RequireComponent(typeof(ItemManager))]
     [RequireComponent(typeof(EnemyManager))]
+    [RequireComponent(typeof(EnemyTipManager))]
     [RequireComponent(typeof(CaughtManager))]
     [RequireComponent(typeof(Volume))]
     [AddComponentMenu("Anar per Portes/Game")]
@@ -22,6 +23,7 @@ namespace AnarPerPortes
         public static InteractionManager InteractionManager { get; private set; }
         public static ItemManager ItemManager { get; private set; }
         public static EnemyManager EnemyManager { get; private set; }
+        public static EnemyTipManager EnemyTipManager { get; private set; }
         public static CaughtManager CaughtManager { get; private set; }
         public static Volume GlobalVolume { get; private set; }
 
@@ -34,6 +36,7 @@ namespace AnarPerPortes
             InteractionManager = GetComponent<InteractionManager>();
             ItemManager = GetComponent<ItemManager>();
             EnemyManager = GetComponent<EnemyManager>();
+            EnemyTipManager = GetComponent<EnemyTipManager>();
             CaughtManager = GetComponent<CaughtManager>();
             GlobalVolume = GetComponent<Volume>();
         }

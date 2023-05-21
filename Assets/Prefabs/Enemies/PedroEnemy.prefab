@@ -145,6 +145,10 @@ MonoBehaviour:
   runSpeed: 20
   chaseRange: 16
   catchRange: 2
+  tipTitle: Pedro
+  tipMessage: "Pedro ha entrado en el edificio.\n\nEn breves instantes llegar\xE1
+    a esta sala. \xA1Cam\xFAflate!"
+  tipRender: {fileID: 21300000, guid: 8856f4b6598ce3e489c8e5c9e233600b, type: 3}
   jumpscareSound: {fileID: 8300000, guid: 6240ddb6999e2db409aa6b2ebb8055d2, type: 3}
 --- !u!1001 &6310198024124025993
 PrefabInstance:

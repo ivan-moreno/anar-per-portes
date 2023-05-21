@@ -24,6 +24,22 @@ namespace AnarPerPortes
 
         private void GenerateEnemy(GameObject enemyPrefab)
         {
+            var hasEnemyScript = enemyPrefab.TryGetComponent(out IEnemy enemy);
+
+            if (hasEnemyScript)
+            {
+                if (!enemy.EnemyTipWasDisplayed && Game.Settings.EnemyTipSetting is EnemyTipSetting.ShowOnFirstEncounterAndWhenCaught)
+                {
+                    Game.EnemyTipManager.DisplayTip(enemy.TipTitle, enemy.TipMessage, enemy.TipRender, () => JustInstantiateEnemy(enemyPrefab));
+                    enemy.EnemyTipWasDisplayed = true;
+                }
+                else
+                    JustInstantiateEnemy(enemyPrefab);
+            }
+        }
+
+        private void JustInstantiateEnemy(GameObject enemyPrefab)
+        {
             Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity, enemiesGroup);
         }
 
