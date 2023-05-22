@@ -14,7 +14,7 @@ namespace AnarPerPortes
         public SubtitlesSetting SubtitlesSetting { get; set; } = SubtitlesSetting.DialogAndSoundEffects;
         public bool LargeSubtitles { get; set; } = false;
         public bool EnableVisionMotion { get; set; } = true;
-        public bool EnableFlamboyantSilhouettes { get; set; } = true;
+        public bool EnableFlamboyantSilhouettes { get; set; } = false;
         public bool EnableLightMode { get; set; } = false;
         public EnemyTipSetting EnemyTipSetting { get; set; } = EnemyTipSetting.ShowOnFirstEncounterAndWhenCaught;
     }
