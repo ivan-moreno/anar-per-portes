@@ -205,7 +205,7 @@ namespace AnarPerPortes
         private void UpdateVisionAnimator()
         {
             // TODO: This might provoke unintended offsets when disabling during gameplay.
-            visionAnimator.enabled = Game.Settings.EnableVisionMotion;
+            visionAnimator.speed = Game.Settings.EnableVisionMotion ? 1f : 0f;
 
             // Normalize horizontal velocity between values 0 and 1.
             var hVelocity = new Vector3(velocity.x, 0f, velocity.z).sqrMagnitude;

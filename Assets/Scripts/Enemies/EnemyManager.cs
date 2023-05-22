@@ -7,6 +7,7 @@ namespace AnarPerPortes
     {
         [SerializeField] private Transform enemiesGroup;
         [SerializeField] private GameObject pedroEnemyPrefab;
+        [SerializeField] private GameObject yusufEnemyPrefab;
         private int roomsWithoutEnemySpawn = 0;
 
         private void Start()
@@ -46,6 +47,13 @@ namespace AnarPerPortes
         private void ProcessEnemyPossibilities(Room generatedRoom)
         {
             roomsWithoutEnemySpawn++;
+
+            if (generatedRoom is IsleRoom)
+            {
+                GenerateEnemy(yusufEnemyPrefab);
+                roomsWithoutEnemySpawn = 0;
+                return;
+            }
 
             if (generatedRoom.HasHidingSpots && Game.RoomManager.Rooms.Count >= 5)
             {

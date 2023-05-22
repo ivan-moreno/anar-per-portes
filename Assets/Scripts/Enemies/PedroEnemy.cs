@@ -2,15 +2,11 @@ using UnityEngine;
 
 namespace AnarPerPortes
 {
-    public class PedroEnemy : MonoBehaviour, IEnemy
+    public class PedroEnemy : Enemy
     {
         public static bool EnemyIsActive { get; private set; } = false;
 
-        public string TipTitle => tipTitle;
-        public string TipMessage => tipMessage;
-        public Sprite TipRender => tipRender;
-
-        public bool EnemyTipWasDisplayed
+        public override bool EnemyTipWasDisplayed
         {
             get => enemyTipWasDisplayed;
             set => enemyTipWasDisplayed = value;
@@ -20,13 +16,6 @@ namespace AnarPerPortes
         [SerializeField] private float runSpeed = 16f;
         [SerializeField] private float chaseRange = 8f;
         [SerializeField] private float catchRange = 2f;
-        [SerializeField] private string tipTitle;
-
-        [SerializeField]
-        [TextArea]
-        private string tipMessage;
-
-        [SerializeField] private Sprite tipRender;
         [SerializeField] private AudioClip jumpscareSound;
         private AudioSource audioSource;
         private Transform model;

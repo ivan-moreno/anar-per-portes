@@ -12,9 +12,9 @@ namespace AnarPerPortes
         [HideInInspector] public UnityEvent OnDoorOpened;
         public bool HasHidingSpots => hasHidingSpots;
         public Transform NextRoomGenerationPoint => nextRoomGenerationPoint;
-        [SerializeField] private bool hasHidingSpots = false;
-        [SerializeField] private Transform nextRoomGenerationPoint;
-        [SerializeField] private RoomDoor door;
+        [SerializeField] protected bool hasHidingSpots = false;
+        [SerializeField] protected Transform nextRoomGenerationPoint;
+        [SerializeField] protected RoomDoor door;
 
         public void OpenDoor()
         {
@@ -26,7 +26,7 @@ namespace AnarPerPortes
             door.Close();
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             door.OnDoorOpened.AddListener(() => OnDoorOpened?.Invoke());
         }

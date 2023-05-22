@@ -615,8 +615,8 @@ Camera:
   m_GameObject: {fileID: 330585543}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -664,7 +664,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2055,6 +2055,7 @@ MonoBehaviour:
   - {fileID: 5143834753881884642, guid: 02ed441f7d49db5438cdaf4b97da0f56, type: 3}
   - {fileID: 6953637539482096968, guid: 89e609251225a5a4f9869a1211c8087c, type: 3}
   - {fileID: 1343002099365941501, guid: c34d06f3642bc624c8c71e2f40c1fa77, type: 3}
+  - {fileID: 3165058160828679327, guid: b49800e6916c8594ab585b03a286e149, type: 3}
 --- !u!114 &979680508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2114,6 +2115,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemiesGroup: {fileID: 2034099627}
   pedroEnemyPrefab: {fileID: 6310198025595531095, guid: 352f03fcbc0c70f42a63a76022d7243c,
+    type: 3}
+  yusufEnemyPrefab: {fileID: 8356602005302806919, guid: f5fdc44c86fdcb64fb4f58eb4a52af40,
     type: 3}
 --- !u!114 &979680512
 MonoBehaviour:
