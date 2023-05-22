@@ -15,6 +15,7 @@ namespace AnarPerPortes
 
         private static bool enemyTipWasDisplayed = false;
 
+        [SerializeField] private AudioClip walkieTalkieAlertSound;
         [SerializeField] private AudioClip jumpscareSound;
         private AudioSource audioSource;
         private Transform model;
@@ -26,6 +27,7 @@ namespace AnarPerPortes
             audioSource = GetComponent<AudioSource>();
             model = transform.GetChild(0);
             EnemyIsActive = true;
+            audioSource.PlayOneShot(walkieTalkieAlertSound);
             Game.SubtitleManager.PushSubtitle("[YUSUF] Mi dirección es el Observatorio. Corto.", SubtitleCategory.Dialog, SubtitleSource.Hostile);
 
             isleRoom.OnIncorrectDoorOpened.AddListener(CatchPlayer);

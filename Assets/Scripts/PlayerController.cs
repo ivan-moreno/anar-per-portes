@@ -204,6 +204,9 @@ namespace AnarPerPortes
 
         private void UpdateVisionAnimator()
         {
+            if (Time.timeScale <= 0f)
+                return;
+
             // TODO: This might provoke unintended offsets when disabling during gameplay.
             visionAnimator.speed = Game.Settings.EnableVisionMotion ? 1f : 0f;
 

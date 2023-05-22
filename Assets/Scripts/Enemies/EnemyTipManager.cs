@@ -26,9 +26,10 @@ namespace AnarPerPortes
             messageText.text = message;
             renderImage.sprite = render;
             renderImage.transform.GetChild(0).GetComponent<Image>().sprite = render;
+            PlayerController.Instance.CanMove = false;
             PlayerController.Instance.CanLook = false;
             this.onHideTipCallback = onHideTipCallback;
-            Time.timeScale = 0f;
+            Time.timeScale = 0.001f;
         }
 
         private void HideTip()
@@ -38,6 +39,7 @@ namespace AnarPerPortes
 
             isDisplaying = false;
             canvasGroup.blocksRaycasts = false;
+            PlayerController.Instance.CanMove = true;
             PlayerController.Instance.CanLook = true;
             Time.timeScale = 1f;
             onHideTipCallback?.Invoke();
