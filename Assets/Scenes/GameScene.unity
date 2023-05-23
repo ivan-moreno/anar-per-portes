@@ -2051,13 +2051,16 @@ MonoBehaviour:
   startRoomPrefab: {fileID: 2680760812835006686, guid: cb88ba8b4da09114f9ddb8da42621c0f,
     type: 3}
   generalRoomPrefabs:
-  - {fileID: 1343002099365941501, guid: d4257d6b84f65c341a6d6ae90cdfbf8d, type: 3}
   - {fileID: 7540366009192657219, guid: ea838761dff6c324285585583376e7f4, type: 3}
   - {fileID: 5143834753881884642, guid: 02ed441f7d49db5438cdaf4b97da0f56, type: 3}
   - {fileID: 6953637539482096968, guid: 89e609251225a5a4f9869a1211c8087c, type: 3}
   - {fileID: 1343002099365941501, guid: c34d06f3642bc624c8c71e2f40c1fa77, type: 3}
   - {fileID: 3165058160828679327, guid: b49800e6916c8594ab585b03a286e149, type: 3}
   - {fileID: 449040676408261766, guid: f304dc99c4be86d44a3c746e0f57cf2c, type: 3}
+  - {fileID: 1343002099365941501, guid: d4257d6b84f65c341a6d6ae90cdfbf8d, type: 3}
+  - {fileID: 1343002099365941501, guid: e62a2ca32a5707346abbd0ca63eecff9, type: 3}
+  - {fileID: 1343002099365941501, guid: 6534666fcb701494f8ac3e6376f07ae7, type: 3}
+  - {fileID: 1343002099365941501, guid: 6913ac6a93c18474b9fade3c8dece56e, type: 3}
 --- !u!114 &979680508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3272,7 +3275,7 @@ CharacterController:
   m_Height: 1.8
   m_Radius: 0.32
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.5
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.97, z: 0}
