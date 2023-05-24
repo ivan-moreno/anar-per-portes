@@ -33,7 +33,7 @@ namespace AnarPerPortes
                 var rngAudio = sounds[rngAudioIndex];
                 audioSource.PlayOneShot(rngAudio);
 
-                timeUntilNextSound = Random.Range(5f, 15f);
+                timeUntilNextSound = Random.Range(20f, 90f);
             }
         }
     }
