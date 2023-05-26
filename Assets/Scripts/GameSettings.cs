@@ -16,6 +16,7 @@ namespace AnarPerPortes
         public bool EnableVisionMotion { get; set; } = true;
         public bool EnableFlamboyantSilhouettes { get; set; } = false;
         public bool EnableLightMode { get; set; } = false;
+        public bool EnableDyslexicFriendlyFont { get; set; } = false;
         public EnemyTipSetting EnemyTipSetting { get; set; } = EnemyTipSetting.ShowOnFirstEncounterAndWhenCaught;
     }
 }

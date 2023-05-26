@@ -324,6 +324,7 @@ GameObject:
   - component: {fileID: 8146060618278810419}
   - component: {fileID: 8146060618278810417}
   - component: {fileID: 8146060618278810416}
+  - component: {fileID: 6623145837339288614}
   m_Layer: 5
   m_Name: Slot Number
   m_TagString: Untagged
@@ -349,7 +350,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: -4, y: 24}
-  m_SizeDelta: {x: 28.6, y: 48}
+  m_SizeDelta: {x: 40, y: 64}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &8146060618278810417
 CanvasRenderer:
@@ -381,8 +382,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: bec9dc8b6c076d648b1cd0a4830bbd13, type: 2}
-  m_sharedMaterial: {fileID: -8443254792150692338, guid: bec9dc8b6c076d648b1cd0a4830bbd13,
+  m_fontAsset: {fileID: 11400000, guid: 6ab21aafd38d1684e98a5a41c9868bd9, type: 2}
+  m_sharedMaterial: {fileID: 136429845072814102, guid: 6ab21aafd38d1684e98a5a41c9868bd9,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -449,3 +450,16 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6623145837339288614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8146060618278810418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55aaf685be41ba74fadb0c51180f8b84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dyslexicFontSize: 0

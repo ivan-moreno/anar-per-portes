@@ -13,6 +13,7 @@ namespace AnarPerPortes
     [RequireComponent(typeof(EnemyManager))]
     [RequireComponent(typeof(EnemyTipManager))]
     [RequireComponent(typeof(CaughtManager))]
+    [RequireComponent(typeof(AccessibilityFontManager))]
     [RequireComponent(typeof(Volume))]
     [AddComponentMenu("Anar per Portes/Game")]
     public class Game : MonoBehaviour
@@ -25,6 +26,7 @@ namespace AnarPerPortes
         public static EnemyManager EnemyManager { get; private set; }
         public static EnemyTipManager EnemyTipManager { get; private set; }
         public static CaughtManager CaughtManager { get; private set; }
+        public static AccessibilityFontManager AccessibilityFontManager { get; private set; }
         public static Volume GlobalVolume { get; private set; }
 
         private void Awake()
@@ -38,6 +40,7 @@ namespace AnarPerPortes
             EnemyManager = GetComponent<EnemyManager>();
             EnemyTipManager = GetComponent<EnemyTipManager>();
             CaughtManager = GetComponent<CaughtManager>();
+            AccessibilityFontManager = GetComponent<AccessibilityFontManager>();
             GlobalVolume = GetComponent<Volume>();
         }
 
