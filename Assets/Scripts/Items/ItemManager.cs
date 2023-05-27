@@ -2,8 +2,10 @@ using UnityEngine;
 
 namespace AnarPerPortes
 {
+    [AddComponentMenu("Anar per Portes/Managers/ItemManager")]
     public class ItemManager : MonoBehaviour
     {
+        public static ItemManager Singleton { get; private set; }
         [SerializeField] private Transform slotsGroup;
         [SerializeField] private GameObject slotPrefab;
         private CanvasGroup slotsCanvasGroup;
@@ -28,12 +30,17 @@ namespace AnarPerPortes
             slot.Initialize(item);
         }
 
+        private void Awake()
+        {
+            Singleton = this;
+        }
+
         private void Start()
         {
             slotsCanvasGroup = slotsGroup.GetComponent<CanvasGroup>();
         }
 
-        void ResetTimeSinceItemChange()
+        private void ResetTimeSinceItemChange()
         {
             timeSinceItemChange = 0f;
         }

@@ -20,12 +20,12 @@ namespace AnarPerPortes
             if (isOccupied)
                 return;
 
-            Game.InteractionManager.ShowTooltip(tooltipPosition, Game.Settings.InteractKey.ToString(), "Camuflarse");
+            InteractionManager.Singleton.ShowTooltip(tooltipPosition, KeybindManager.Singleton.CurrentKeybinds.Interact.ToString(), "Camuflarse");
         }
 
         public void Unfocus()
         {
-            Game.InteractionManager.HideTooltipIfValidOwner(tooltipPosition);
+            InteractionManager.Singleton.HideTooltipIfValidOwner(tooltipPosition);
         }
 
         public void Interact()
@@ -48,7 +48,7 @@ namespace AnarPerPortes
                 return;
             }
 
-            if (Input.GetKeyUp(Game.Settings.InteractKey) && timeOccupied >= minOccupiedDuration)
+            if (Input.GetKeyUp(KeybindManager.Singleton.CurrentKeybinds.Interact) && timeOccupied >= minOccupiedDuration)
                 ReleasePlayer();
         }
 
@@ -57,13 +57,13 @@ namespace AnarPerPortes
             if (isOccupied)
                 return;
 
-            PlayerController.Instance.Teleport(occupyPlayerPosition.position);
-            PlayerController.Instance.CanMove = false;
-            PlayerController.Instance.IsHidingAsStatue = true;
+            PlayerController.Singleton.Teleport(occupyPlayerPosition.position);
+            PlayerController.Singleton.CanMove = false;
+            PlayerController.Singleton.IsHidingAsStatue = true;
             isOccupied = true;
             audioSource.PlayOneShot(hideSound);
 
-            Game.InteractionManager.HideTooltipIfValidOwner(tooltipPosition);
+            InteractionManager.Singleton.HideTooltipIfValidOwner(tooltipPosition);
         }
 
         private void ReleasePlayer()
@@ -71,9 +71,9 @@ namespace AnarPerPortes
             if (!isOccupied)
                 return;
 
-            PlayerController.Instance.Teleport(releasePlayerPosition.position);
-            PlayerController.Instance.CanMove = true;
-            PlayerController.Instance.IsHidingAsStatue = false;
+            PlayerController.Singleton.Teleport(releasePlayerPosition.position);
+            PlayerController.Singleton.CanMove = true;
+            PlayerController.Singleton.IsHidingAsStatue = false;
             isOccupied = false;
             audioSource.PlayOneShot(revealSound);
         }

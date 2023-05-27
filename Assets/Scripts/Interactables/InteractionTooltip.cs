@@ -54,7 +54,7 @@ namespace AnarPerPortes
                 return;
             }
 
-            var screenPosition = PlayerController.Instance.Camera.WorldToScreenPoint(followTarget.position);
+            var screenPosition = PlayerController.Singleton.Camera.WorldToScreenPoint(followTarget.position);
             screenPosition -= new Vector3(rectTransform.sizeDelta.x / 2f, rectTransform.sizeDelta.y / 2f, 0f);
             screenPosition /= canvas.scaleFactor;
             rectTransform.anchoredPosition = screenPosition;

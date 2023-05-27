@@ -7,11 +7,21 @@ namespace AnarPerPortes
     {
         [SerializeField] private Material flamboyantMaterial;
         private Material defaultMaterial;
+        private new Renderer renderer;
 
         private void Start()
         {
-            if (Game.Settings.EnableFlamboyantSilhouettes)
-                GetComponent<Renderer>().material = flamboyantMaterial;
+            renderer = GetComponent<Renderer>();
+            defaultMaterial = renderer.material;
+            OnSettingsChanged();
+            GameSettingsManager.Singleton.OnCurrentSettingsChanged.AddListener(OnSettingsChanged);
+        }
+
+        private void OnSettingsChanged()
+        {
+            renderer.material = GameSettingsManager.Singleton.CurrentSettings.EnableFlamboyantGraphics
+                ? flamboyantMaterial
+                : defaultMaterial;
         }
     }
 }

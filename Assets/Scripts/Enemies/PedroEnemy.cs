@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace AnarPerPortes
 {
+    [AddComponentMenu("Anar per Portes/Enemies/Pedro Enemy")]
     public class PedroEnemy : Enemy
     {
         public static bool EnemyIsActive { get; private set; } = false;
@@ -27,33 +28,33 @@ namespace AnarPerPortes
 
         private void Start()
         {
-            transform.position = Game.RoomManager.Rooms[0].transform.position;
-            targetLocation = Game.RoomManager.Rooms[0].NextRoomGenerationPoint.position;
+            transform.position = RoomManager.Singleton.Rooms[0].transform.position;
+            targetLocation = RoomManager.Singleton.Rooms[0].NextRoomGenerationPoint.position;
             audioSource = GetComponent<AudioSource>();
             model = transform.GetChild(0);
             EnemyIsActive = true;
-            Game.SubtitleManager.PushSubtitle("(pasos rápidos a la lejanía)", SubtitleCategory.SoundEffect, SubtitleSource.Hostile);
+            SubtitleManager.Singleton.PushSubtitle("(pasos rápidos a la lejanía)", SubtitleCategory.SoundEffect, SubtitleSource.Hostile);
         }
 
         private void Update()
         {
-            var distanceToPlayer = Vector3.Distance(transform.position, PlayerController.Instance.transform.position);
+            var distanceToPlayer = Vector3.Distance(transform.position, PlayerController.Singleton.transform.position);
 
             isChasing = distanceToPlayer <= chaseRange
                 && lineOfSightCheck
-                && !PlayerController.Instance.IsHidingAsStatue
-                && !PlayerController.Instance.IsCaught;
+                && !PlayerController.Singleton.IsHidingAsStatue
+                && !PlayerController.Singleton.IsCaught;
 
             if (isChasing && distanceToPlayer <= catchRange)
             {
                 audioSource.Stop();
                 audioSource.PlayOneShot(jumpscareSound);
-                Game.SubtitleManager.PushSubtitle("(Pedro grita)", SubtitleCategory.Dialog, SubtitleSource.Hostile);
-                PlayerController.Instance.GetCaught("PEDRO ENDING", "Parece que quiso pasar un mal rato, chico. Hehehehehe.");
+                SubtitleManager.Singleton.PushSubtitle("(Pedro grita)", SubtitleCategory.Dialog, SubtitleSource.Hostile);
+                CatchManager.Singleton.CatchPlayer("PEDRO ENDING", "Parece que quiso pasar un mal rato, chico. Hehehehehe.");
             }
 
             // Choose whether to go to the next map point or towards the Player.
-            var determinedTargetLocation = isChasing ? PlayerController.Instance.transform.position : targetLocation;
+            var determinedTargetLocation = isChasing ? PlayerController.Singleton.transform.position : targetLocation;
 
             var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, runSpeed * Time.deltaTime);
             transform.position = nextPosition;
@@ -64,15 +65,15 @@ namespace AnarPerPortes
             {
                 roomsTraversed++;
 
-                if (roomsTraversed >= Game.RoomManager.Rooms.Count)
+                if (roomsTraversed >= RoomManager.Singleton.Rooms.Count)
                 {
-                    Game.RoomManager.OpenDoorAndGenerateNextRoomRandom();
+                    RoomManager.Singleton.OpenDoorAndGenerateNextRoomRandom();
                     EnemyIsActive = false;
                     Destroy(gameObject);
                     return;
                 }
 
-                targetLocation = Game.RoomManager.Rooms[roomsTraversed].NextRoomGenerationPoint.position;
+                targetLocation = RoomManager.Singleton.Rooms[roomsTraversed].NextRoomGenerationPoint.position;
             }
 
             var direction = Vector3.Normalize(determinedTargetLocation - transform.position);
@@ -84,7 +85,7 @@ namespace AnarPerPortes
             lineOfSightCheck =
                 Physics.Linecast(
                     start: transform.position + Vector3.up,
-                    end: PlayerController.Instance.transform.position + Vector3.up,
+                    end: PlayerController.Singleton.transform.position + Vector3.up,
                     hitInfo: out var hit,
                     layerMask: LayerMask.GetMask("Default", "Player"),
                     queryTriggerInteraction: QueryTriggerInteraction.Ignore)

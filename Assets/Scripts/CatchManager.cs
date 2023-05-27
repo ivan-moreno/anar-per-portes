@@ -6,21 +6,30 @@ using UnityEngine.UI;
 
 namespace AnarPerPortes
 {
-    [AddComponentMenu("Anar per Portes/Caught Manager")]
-    public class CaughtManager : MonoBehaviour
+    [AddComponentMenu("Anar per Portes/Managers/Catch Manager")]
+    public sealed class CatchManager : MonoBehaviour
     {
+        public static CatchManager Singleton { get; private set; }
         [SerializeField] private GameObject caughtScreen;
         [SerializeField] private Image screenshot;
         [SerializeField] private TMP_Text titleText;
         [SerializeField] private TMP_Text messageText;
         private bool canClickToRetry = false;
 
-        public void PlayerCaught(string title, string message)
+        public void CatchPlayer(string title, string message)
         {
+            PlayerController.Singleton.IsCaught = true;
+            PlayerController.Singleton.CanMove = false;
+            PlayerController.Singleton.CanLook = false;
             titleText.text = title;
             messageText.text = message;
             Time.timeScale = 0f;
             StartCoroutine(nameof(TakeSnapshot));
+        }
+
+        private void Awake()
+        {
+            Singleton = this;
         }
 
         private Sprite GetScreenshot()

@@ -2,9 +2,10 @@ using UnityEngine;
 
 namespace AnarPerPortes
 {
-    [AddComponentMenu("Anar per Portes/Interaction Manager")]
-    public class InteractionManager : MonoBehaviour
+    [AddComponentMenu("Anar per Portes/Managers/Interaction Manager")]
+    public sealed class InteractionManager : MonoBehaviour
     {
+        public static InteractionManager Singleton { get; private set; }
         [SerializeField] private InteractionTooltip interactionTooltip;
 
         public void ShowTooltip(Transform target, string key, string message)
@@ -20,6 +21,11 @@ namespace AnarPerPortes
         public void HideTooltipIfValidOwner(Transform targetOwner)
         {
             interactionTooltip.HideIfValidOwner(targetOwner);
+        }
+
+        private void Awake()
+        {
+            Singleton = this;
         }
     }
 }

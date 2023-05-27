@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace AnarPerPortes
 {
@@ -23,7 +22,7 @@ namespace AnarPerPortes
             canvasGroup = GetComponent<CanvasGroup>();
             canvasGroup.alpha = 0f;
 
-            if (Game.Settings.LargeSubtitles)
+            if (GameSettingsManager.Singleton.CurrentSettings.EnableLargeSubtitles)
                 messageText.fontSize *= 1.5f;
         }
 
@@ -31,7 +30,7 @@ namespace AnarPerPortes
         {
             aliveTime -= Time.unscaledDeltaTime;
 
-            // Apply a appear/disappear effect.
+            // Smoothly display or hide text.
             canvasGroup.alpha = aliveTime > 0.5f
                 ? Mathf.Clamp01(canvasGroup.alpha + (Time.unscaledDeltaTime * appearanceRate))
                 : Mathf.Clamp01(canvasGroup.alpha - (Time.unscaledDeltaTime * appearanceRate));

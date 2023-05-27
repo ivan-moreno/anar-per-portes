@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 namespace AnarPerPortes
 {
-    [AddComponentMenu("Anar per Portes/Enemy Tip Manager")]
-    public class EnemyTipManager : MonoBehaviour
+    [AddComponentMenu("Anar per Portes/Managers/Enemy Tip Manager")]
+    public sealed class EnemyTipManager : MonoBehaviour
     {
+        public static EnemyTipManager Singleton { get; private set; }
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private TMP_Text titleText;
         [SerializeField] private TMP_Text messageText;
@@ -26,10 +27,15 @@ namespace AnarPerPortes
             messageText.text = message;
             renderImage.sprite = render;
             renderImage.transform.GetChild(0).GetComponent<Image>().sprite = render;
-            PlayerController.Instance.CanMove = false;
-            PlayerController.Instance.CanLook = false;
+            PlayerController.Singleton.CanMove = false;
+            PlayerController.Singleton.CanLook = false;
             this.onHideTipCallback = onHideTipCallback;
             Time.timeScale = 0.001f;
+        }
+
+        private void Awake()
+        {
+            Singleton = this;
         }
 
         private void HideTip()
@@ -39,8 +45,8 @@ namespace AnarPerPortes
 
             isDisplaying = false;
             canvasGroup.blocksRaycasts = false;
-            PlayerController.Instance.CanMove = true;
-            PlayerController.Instance.CanLook = true;
+            PlayerController.Singleton.CanMove = true;
+            PlayerController.Singleton.CanLook = true;
             Time.timeScale = 1f;
             onHideTipCallback?.Invoke();
         }

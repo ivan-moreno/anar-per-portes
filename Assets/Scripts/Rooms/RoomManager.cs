@@ -7,6 +7,7 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Room Manager")]
     public class RoomManager : MonoBehaviour
     {
+        public static RoomManager Singleton { get; private set; }
         public Room LastLoadedRoom { get; private set; }
         public List<Room> Rooms { get; } = new(capacity: maxLoadedRooms);
         public int LastOpenedRoomNumber { get; private set; } = 0;
@@ -16,14 +17,19 @@ namespace AnarPerPortes
         [SerializeField] private GameObject[] generalRoomPrefabs;
         private const int maxLoadedRooms = 7;
 
-        private void Start()
-        {
-            GenerateNextRoom(startRoomPrefab);
-        }
-
         public void OpenDoorAndGenerateNextRoomRandom()
         {
             LastLoadedRoom.OpenDoor();
+        }
+
+        private void Awake()
+        {
+            Singleton = this;
+        }
+
+        private void Start()
+        {
+            GenerateNextRoom(startRoomPrefab);
         }
 
         private void GenerateNextRoomRandom()
@@ -74,7 +80,7 @@ namespace AnarPerPortes
         private void OnDoorOpened()
         {
             LastOpenedRoomNumber++;
-            Game.SubtitleManager.PushSubtitle("Puerta nº: " + LastOpenedRoomNumber);
+            SubtitleManager.Singleton.PushSubtitle("Puerta nº: " + LastOpenedRoomNumber);
             GenerateNextRoomRandom();
         }
     }

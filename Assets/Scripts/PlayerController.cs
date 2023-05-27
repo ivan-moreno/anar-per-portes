@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 namespace AnarPerPortes
 {
@@ -13,7 +11,7 @@ namespace AnarPerPortes
     [RequireComponent(typeof(CharacterController))]
     public class PlayerController : MonoBehaviour
     {
-        public static PlayerController Instance { get; private set; }
+        public static PlayerController Singleton { get; private set; }
         public bool CanMove { get; set; } = true;
         public bool CanLook { get; set; } = true;
         public bool IsHidingAsStatue { get; set; } = false;
@@ -30,11 +28,8 @@ namespace AnarPerPortes
         private IInteractable lastFocusedInteractable;
         private readonly List<InventoryItem> items = new();
         private bool hasItemEquipped = false;
-        private Vignette vignette;
         private const float vLookMaxAngle = 70f;
         private const float interactRange = 2.5f;
-        private const float regularVignetteIntensity = 0.25f;
-        private const float hidingVignetteIntensity = 0.5f;
 
         public void Teleport(Vector3 position)
         {
@@ -46,28 +41,27 @@ namespace AnarPerPortes
         public void PackItem(InventoryItem item)
         {
             items.Add(item);
-            Game.ItemManager.GenerateSlotFor(item);
-        }
-
-        public void GetCaught(string title, string message)
-        {
-            IsCaught = true;
-            CanMove = false;
-            CanLook = false;
-            Game.CaughtManager.PlayerCaught(title, message);
+            ItemManager.Singleton.GenerateSlotFor(item);
         }
 
         private void Awake()
         {
-            Instance = this;
+            Singleton = this;
         }
 
         private void Start()
         {
             characterController = GetComponent<CharacterController>();
             Camera = visionAnimator.GetComponentInChildren<Camera>();
-            Game.GlobalVolume.profile.TryGet(out vignette);
             Cursor.lockState = CursorLockMode.Locked;
+
+            OnSettingsChanged();
+            GameSettingsManager.Singleton.OnCurrentSettingsChanged.AddListener(OnSettingsChanged);
+        }
+
+        private void OnSettingsChanged()
+        {
+            Camera.fieldOfView = GameSettingsManager.Singleton.CurrentSettings.FieldOfView;
         }
 
         private void Update()
@@ -85,7 +79,7 @@ namespace AnarPerPortes
             velocity = (transform.position - preMovePosition) / Time.deltaTime;
 
             if (transform.position.y < -32f)
-                Teleport(Game.RoomManager.LastLoadedRoom.transform.position);
+                Teleport(RoomManager.Singleton.LastLoadedRoom.transform.position);
         }
 
         private void UpdateInteraction()
@@ -130,18 +124,18 @@ namespace AnarPerPortes
                 lastFocusedInteractable.Focus();
             }
 
-            if (Input.GetKeyUp(Game.Settings.InteractKey))
+            if (Input.GetKeyUp(KeybindManager.Singleton.CurrentKeybinds.Interact))
                 interactable.Interact();
         }
 
         private void UpdateRotation()
         {
             var hLookInput = Input.GetAxisRaw("Mouse X");
-            hLookInput *= Game.Settings.HMouseSensitivity;
+            hLookInput *= GameSettingsManager.Singleton.CurrentSettings.HMouseSensitivity;
             hLookInput *= Time.unscaledDeltaTime;
 
             var vLookInput = -Input.GetAxisRaw("Mouse Y");
-            vLookInput *= Game.Settings.VMouseSensitivity;
+            vLookInput *= GameSettingsManager.Singleton.CurrentSettings.VMouseSensitivity;
             vLookInput *= Time.unscaledDeltaTime;
 
             if (!CanLook)
@@ -199,7 +193,6 @@ namespace AnarPerPortes
         private void LateUpdate()
         {
             UpdateVisionAnimator();
-            UpdateVolume();
         }
 
         private void UpdateVisionAnimator()
@@ -208,7 +201,7 @@ namespace AnarPerPortes
                 return;
 
             // TODO: This might provoke unintended offsets when disabling during gameplay.
-            visionAnimator.speed = Game.Settings.EnableVisionMotion ? 1f : 0f;
+            visionAnimator.speed = GameSettingsManager.Singleton.CurrentSettings.EnableVisionMotion ? 1f : 0f;
 
             // Normalize horizontal velocity between values 0 and 1.
             var hVelocity = new Vector3(velocity.x, 0f, velocity.z).sqrMagnitude;
@@ -223,11 +216,6 @@ namespace AnarPerPortes
                 visionAnimator.SetFloat("HVelocity", smoothHVelocity);
 
             modelAnimator.SetFloat("HVelocity", smoothHVelocity);
-        }
-
-        private void UpdateVolume()
-        {
-            vignette.intensity.value = Mathf.Lerp(vignette.intensity.value, IsHidingAsStatue ? hidingVignetteIntensity : regularVignetteIntensity, Time.deltaTime * 4f);
         }
     }
 }

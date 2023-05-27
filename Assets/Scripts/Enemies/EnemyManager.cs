@@ -2,17 +2,23 @@ using UnityEngine;
 
 namespace AnarPerPortes
 {
-    [AddComponentMenu("Anar per Portes/Enemy Manager")]
-    public class EnemyManager : MonoBehaviour
+    [AddComponentMenu("Anar per Portes/Managers/Enemy Manager")]
+    public sealed class EnemyManager : MonoBehaviour
     {
+        public static EnemyManager Singleton { get; private set; }
         [SerializeField] private Transform enemiesGroup;
         [SerializeField] private GameObject pedroEnemyPrefab;
         [SerializeField] private GameObject yusufEnemyPrefab;
         private int roomsWithoutEnemySpawn = 0;
 
+        private void Awake()
+        {
+            Singleton = this;
+        }
+
         private void Start()
         {
-            Game.RoomManager.OnRoomGenerated.AddListener(ProcessEnemyPossibilities);
+            RoomManager.Singleton.OnRoomGenerated.AddListener(ProcessEnemyPossibilities);
         }
 
         private void Update()
@@ -29,9 +35,9 @@ namespace AnarPerPortes
 
             if (hasEnemyScript)
             {
-                if (!enemy.EnemyTipWasDisplayed && Game.Settings.EnemyTipSetting is EnemyTipSetting.ShowOnFirstEncounterAndWhenCaught)
+                if (!enemy.EnemyTipWasDisplayed && GameSettingsManager.Singleton.CurrentSettings.EnemyTipSetting is EnemyTipSetting.ShowOnFirstEncounterAndWhenCaught)
                 {
-                    Game.EnemyTipManager.DisplayTip(enemy.TipTitle, enemy.TipMessage, enemy.TipRender, () => JustInstantiateEnemy(enemyPrefab));
+                    EnemyTipManager.Singleton.DisplayTip(enemy.TipTitle, enemy.TipMessage, enemy.TipRender, () => JustInstantiateEnemy(enemyPrefab));
                     enemy.EnemyTipWasDisplayed = true;
                 }
                 else
@@ -55,7 +61,7 @@ namespace AnarPerPortes
                 return;
             }
 
-            if (generatedRoom.HasHidingSpots && Game.RoomManager.Rooms.Count >= 5)
+            if (generatedRoom.HasHidingSpots && RoomManager.Singleton.Rooms.Count >= 5)
             {
                 var rng = Random.Range(0, 100) - roomsWithoutEnemySpawn;
 

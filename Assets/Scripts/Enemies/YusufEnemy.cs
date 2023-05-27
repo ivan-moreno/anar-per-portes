@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace AnarPerPortes
 {
+    [AddComponentMenu("Anar per Portes/Enemies/Yusuf Enemy")]
     public class YusufEnemy : Enemy
     {
         public static bool EnemyIsActive { get; private set; } = false;
@@ -22,13 +23,13 @@ namespace AnarPerPortes
 
         private void Start()
         {
-            var isleRoom = Game.RoomManager.LastLoadedRoom as IsleRoom;
+            var isleRoom = RoomManager.Singleton.LastLoadedRoom as IsleRoom;
             transform.SetPositionAndRotation(isleRoom.YusufSpawnPoint.position, isleRoom.YusufSpawnPoint.rotation);
             audioSource = GetComponent<AudioSource>();
             model = transform.GetChild(0);
             EnemyIsActive = true;
             audioSource.PlayOneShot(walkieTalkieAlertSound);
-            Game.SubtitleManager.PushSubtitle("[YUSUF] Mi dirección es el Observatorio. Corto.", SubtitleCategory.Dialog, SubtitleSource.Hostile);
+            SubtitleManager.Singleton.PushSubtitle("[YUSUF] Mi dirección es el Observatorio. Corto.", SubtitleCategory.Dialog, SubtitleSource.Hostile);
 
             isleRoom.OnIncorrectDoorOpened.AddListener(CatchPlayer);
             isleRoom.OnDoorOpened.AddListener(Despawn);
@@ -37,16 +38,16 @@ namespace AnarPerPortes
         private void CatchPlayer()
         {
             audioSource.PlayOneShot(jumpscareSound);
-            Game.SubtitleManager.PushSubtitle("(Yusuf grita)", SubtitleCategory.SoundEffect, SubtitleSource.Hostile);
-            PlayerController.Instance.CanMove = false;
-            PlayerController.Instance.CanLook = false;
+            SubtitleManager.Singleton.PushSubtitle("(Yusuf grita)", SubtitleCategory.SoundEffect, SubtitleSource.Hostile);
+            PlayerController.Singleton.CanMove = false;
+            PlayerController.Singleton.CanLook = false;
             StartCoroutine(nameof(CatchPlayerEnumerator));
         }
 
         private IEnumerator CatchPlayerEnumerator()
         {
             yield return new WaitForSeconds(1f);
-            PlayerController.Instance.GetCaught("YUSUF ENDING", "Fuerzas Yusuf, Fuerzas Yusuf");
+            CatchManager.Singleton.CatchPlayer("YUSUF ENDING", "Fuerzas Yusuf, Fuerzas Yusuf");
             audioSource.Play();
         }
 

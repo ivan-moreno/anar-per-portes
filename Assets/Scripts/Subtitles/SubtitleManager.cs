@@ -6,9 +6,10 @@ namespace AnarPerPortes
     /// <summary>
     /// Handles instantiation and initialization of subtitles.
     /// </summary>
-    [AddComponentMenu("Anar per Portes/Subtitle Manager")]
-    public class SubtitleManager : MonoBehaviour
+    [AddComponentMenu("Anar per Portes/Managers/Subtitle Manager")]
+    public sealed class SubtitleManager : MonoBehaviour
     {
+        public static SubtitleManager Singleton { get; private set; }
         [SerializeField] private Transform subtitleMessagesGroup;
         [SerializeField] private GameObject subtitleMessagePrefab;
 
@@ -29,11 +30,11 @@ namespace AnarPerPortes
             SubtitleSource source = SubtitleSource.Common)
         {
             // Do not generate subtitles if the setting is Disabled.
-            if (Game.Settings.SubtitlesSetting is SubtitlesSetting.Disabled)
+            if (GameSettingsManager.Singleton.CurrentSettings.SubtitlesSetting is SubtitlesSetting.Disabled)
                 return;
 
             // Do not generate non-dialog subtitles if the setting is Dialog Only.
-            if (Game.Settings.SubtitlesSetting is SubtitlesSetting.DialogOnly && category != SubtitleCategory.Dialog)
+            if (GameSettingsManager.Singleton.CurrentSettings.SubtitlesSetting is SubtitlesSetting.DialogOnly && category != SubtitleCategory.Dialog)
                 return;
 
             var instance = Instantiate(subtitleMessagePrefab, subtitleMessagesGroup);
@@ -51,6 +52,11 @@ namespace AnarPerPortes
         private static Color GetSourceColor(SubtitleSource source)
         {
             return sourceColors.TryGetValue(source, out var color) ? color : Color.white;
+        }
+
+        private void Awake()
+        {
+            Singleton = this;
         }
     }
 }

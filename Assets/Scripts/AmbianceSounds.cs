@@ -27,7 +27,7 @@ namespace AnarPerPortes
                 var rngXPos = Random.Range(-1f, 1f);
                 var rngZPos = Random.Range(-1f, 1f);
                 var rngPosOffset = new Vector3(rngXPos, 0f, rngZPos).normalized * 16f;
-                transform.position = PlayerController.Instance.transform.position + new Vector3(rngPosOffset.x, 0f, rngPosOffset.z);
+                transform.position = PlayerController.Singleton.transform.position + new Vector3(rngPosOffset.x, 0f, rngPosOffset.z);
 
                 var rngAudioIndex = Random.Range(0, sounds.Length);
                 var rngAudio = sounds[rngAudioIndex];

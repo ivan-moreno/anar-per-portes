@@ -10,7 +10,7 @@ namespace AnarPerPortes
 
         public void Step()
         {
-            var hVelocityMagnitude = new Vector3(PlayerController.Instance.Velocity.x, 0f, PlayerController.Instance.Velocity.z).sqrMagnitude;
+            var hVelocityMagnitude = new Vector3(PlayerController.Singleton.Velocity.x, 0f, PlayerController.Singleton.Velocity.z).sqrMagnitude;
 
             if (hVelocityMagnitude <= 0.1f)
                 return;
