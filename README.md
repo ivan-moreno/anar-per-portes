@@ -1,10 +1,13 @@
-# Anar per Portes
-A [DOORS](https://www.roblox.com/games/6516141723) Fangame made in Unity. Developed by [Iván Moreno](https://github.com/ivan-moreno).
-
-![Repository license](https://img.shields.io/github/license/ivan-moreno/anar-per-portes?style=for-the-badge)
-![Last release](https://img.shields.io/github/v/release/ivan-moreno/anar-per-portes?style=for-the-badge)
-![Last commit](https://img.shields.io/github/last-commit/ivan-moreno/anar-per-portes?style=for-the-badge)
-![Repository size](https://img.shields.io/github/repo-size/ivan-moreno/anar-per-portes?style=for-the-badge)
+<div align="center">
+  <img src="https://i.imgur.com/HY1WewV.png" height="200">
+  <h1>Anar per Portes</h1>
+  <p><b>A <a href="https://www.roblox.com/games/6516141723">DOORS</a> Fangame made in Unity.</b></p>
+  <p>Developed by <a href="https://github.com/ivan-moreno">Iván Moreno</a>.</p>
+  <img src="https://img.shields.io/github/license/ivan-moreno/anar-per-portes?style=for-the-badge">
+  <img src="https://img.shields.io/github/v/release/ivan-moreno/anar-per-portes?style=for-the-badge">
+  <img src="https://img.shields.io/github/last-commit/ivan-moreno/anar-per-portes?style=for-the-badge">
+  <img src="https://img.shields.io/github/repo-size/ivan-moreno/anar-per-portes?style=for-the-badge">
+</div>
 
 ## Sites
 - [GameJolt Page](https://gamejolt.com/games/anar-per-portes/808486)
