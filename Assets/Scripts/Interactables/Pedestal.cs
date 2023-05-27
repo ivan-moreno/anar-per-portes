@@ -58,7 +58,7 @@ namespace AnarPerPortes
                 return;
 
             PlayerController.Singleton.Teleport(occupyPlayerPosition.position);
-            PlayerController.Singleton.CanMove = false;
+            PlayerController.Singleton.BlockMove();
             PlayerController.Singleton.IsHidingAsStatue = true;
             isOccupied = true;
             audioSource.PlayOneShot(hideSound);
@@ -72,7 +72,7 @@ namespace AnarPerPortes
                 return;
 
             PlayerController.Singleton.Teleport(releasePlayerPosition.position);
-            PlayerController.Singleton.CanMove = true;
+            PlayerController.Singleton.UnblockMove();
             PlayerController.Singleton.IsHidingAsStatue = false;
             isOccupied = false;
             audioSource.PlayOneShot(revealSound);

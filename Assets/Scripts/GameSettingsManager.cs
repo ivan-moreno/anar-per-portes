@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,7 +12,10 @@ namespace AnarPerPortes
         public GameSettings CurrentSettings { get; private set; }
         public UnityEvent OnCurrentSettingsChanged { get; private set; } = new();
         [SerializeField] private Button saveSettingsButton;
+        [SerializeField] private Slider mouseSensitivitySlider;
         [SerializeField] private Slider fieldOfViewSlider;
+        [SerializeField] private Button smaaButton;
+        [SerializeField] private Button postProcessingButton;
         [SerializeField] private Button subtitlesButton;
         [SerializeField] private Button largeSubtitlesButton;
         [SerializeField] private Button lightModeButton;
@@ -30,7 +32,10 @@ namespace AnarPerPortes
         {
             LoadSerializedSettings();
             saveSettingsButton.onClick.AddListener(() => OnCurrentSettingsChanged?.Invoke());
+            mouseSensitivitySlider.onValueChanged.AddListener(ChangeMouseSensitivitySetting);
             fieldOfViewSlider.onValueChanged.AddListener(ChangeFieldOfViewSetting);
+            smaaButton.onClick.AddListener(ToggleSmaaSetting);
+            postProcessingButton.onClick.AddListener(TogglePostProcessingSetting);
             subtitlesButton.onClick.AddListener(ToggleSubtitlesSetting);
             largeSubtitlesButton.onClick.AddListener(ToggleLargeSubtitlesSetting);
             lightModeButton.onClick.AddListener(ToggleLightModeSetting);
@@ -39,10 +44,28 @@ namespace AnarPerPortes
             flamboyantGraphicsButton.onClick.AddListener(ToggleFlamboyantGraphicsSetting);
         }
 
+        private void ChangeMouseSensitivitySetting(float value)
+        {
+            CurrentSettings.HMouseSensitivity = CurrentSettings.VMouseSensitivity = value;
+            mouseSensitivitySlider.transform.parent.GetComponentInChildren<TMP_Text>().text = $"Sensibilidad del ratón <color=#88EEEE>({CurrentSettings.HMouseSensitivity / 100f:0.0})</color>";
+        }
+
         private void ChangeFieldOfViewSetting(float value)
         {
             CurrentSettings.FieldOfView = value;
             fieldOfViewSlider.transform.parent.GetComponentInChildren<TMP_Text>().text = $"Campo de visión <color=#88EEEE>({CurrentSettings.FieldOfView:0})</color>";
+        }
+
+        private void ToggleSmaaSetting()
+        {
+            CurrentSettings.EnableSmaa = !CurrentSettings.EnableSmaa;
+            smaaButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Antialias (SMAA)", CurrentSettings.EnableSmaa);
+        }
+
+        private void TogglePostProcessingSetting()
+        {
+            CurrentSettings.EnablePostProcessing = !CurrentSettings.EnablePostProcessing;
+            postProcessingButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Efectos de postprocesado", CurrentSettings.EnablePostProcessing);
         }
 
         //TODO: Convert into a dropdown

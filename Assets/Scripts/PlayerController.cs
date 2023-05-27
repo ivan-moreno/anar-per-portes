@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 namespace AnarPerPortes
 {
@@ -12,24 +13,52 @@ namespace AnarPerPortes
     public class PlayerController : MonoBehaviour
     {
         public static PlayerController Singleton { get; private set; }
-        public bool CanMove { get; set; } = true;
-        public bool CanLook { get; set; } = true;
         public bool IsHidingAsStatue { get; set; } = false;
         public bool IsCaught { get; set; } = false;
         public Camera Camera { get; private set; }
         public Vector3 Velocity => velocity;
-        private CharacterController characterController;
+        private bool CanMove => blockMoveCharges <= 0;
+        private bool CanLook => blockLookCharges <= 0f;
         [SerializeField] private Animator visionAnimator;
         [SerializeField] private Animator modelAnimator;
+        private CharacterController characterController;
         private Vector3 velocity;
         private Vector3 motion;
         private float vLook;
         private float walkSpeed = 8f;
+        private int blockMoveCharges = 0;
+        private int blockLookCharges = 0;
         private IInteractable lastFocusedInteractable;
         private readonly List<InventoryItem> items = new();
         private bool hasItemEquipped = false;
         private const float vLookMaxAngle = 70f;
         private const float interactRange = 2.5f;
+
+        public void BlockMove()
+        {
+            blockMoveCharges++;
+        }
+
+        public void BlockLook()
+        {
+            blockLookCharges++;
+        }
+
+        public void UnblockMove()
+        {
+            blockMoveCharges--;
+
+            if (blockMoveCharges < 0)
+                blockMoveCharges = 0;
+        }
+
+        public void UnblockLook()
+        {
+            blockLookCharges--;
+
+            if (blockLookCharges < 0)
+                blockLookCharges = 0;
+        }
 
         public void Teleport(Vector3 position)
         {
@@ -62,6 +91,11 @@ namespace AnarPerPortes
         private void OnSettingsChanged()
         {
             Camera.fieldOfView = GameSettingsManager.Singleton.CurrentSettings.FieldOfView;
+            var cameraData = Camera.GetComponent<UniversalAdditionalCameraData>();
+            cameraData.renderPostProcessing = GameSettingsManager.Singleton.CurrentSettings.EnablePostProcessing;
+            cameraData.antialiasing = GameSettingsManager.Singleton.CurrentSettings.EnableSmaa
+                ? AntialiasingMode.SubpixelMorphologicalAntiAliasing
+                : AntialiasingMode.None;
         }
 
         private void Update()

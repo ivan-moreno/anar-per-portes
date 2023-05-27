@@ -51,8 +51,8 @@ namespace AnarPerPortes
 
             IsPaused = true;
             pauseMenu.SetActive(true);
-            PlayerController.Singleton.CanMove = false;
-            PlayerController.Singleton.CanLook = false;
+            PlayerController.Singleton.BlockMove();
+            PlayerController.Singleton.BlockLook();
             Time.timeScale = 0.01f;
             Cursor.lockState = CursorLockMode.None;
         }
@@ -65,8 +65,8 @@ namespace AnarPerPortes
             IsPaused = false;
             pauseMenuCanvasGroup.alpha = 0f;
             pauseMenu.SetActive(false);
-            PlayerController.Singleton.CanMove = true;
-            PlayerController.Singleton.CanLook = true;
+            PlayerController.Singleton.UnblockMove();
+            PlayerController.Singleton.UnblockLook();
             Time.timeScale = 1f;
             Cursor.lockState = CursorLockMode.Locked;
         }

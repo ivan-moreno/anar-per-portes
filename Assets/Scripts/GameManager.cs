@@ -48,10 +48,5 @@ namespace AnarPerPortes
         }
 #endif
 
-        private void Update()
-        {
-            if (Input.GetKeyUp(KeyCode.Escape))
-                Application.Quit();
-        }
     }
 }

@@ -27,8 +27,8 @@ namespace AnarPerPortes
             messageText.text = message;
             renderImage.sprite = render;
             renderImage.transform.GetChild(0).GetComponent<Image>().sprite = render;
-            PlayerController.Singleton.CanMove = false;
-            PlayerController.Singleton.CanLook = false;
+            PlayerController.Singleton.BlockMove();
+            PlayerController.Singleton.BlockLook();
             this.onHideTipCallback = onHideTipCallback;
             Time.timeScale = 0.001f;
         }
@@ -45,8 +45,8 @@ namespace AnarPerPortes
 
             isDisplaying = false;
             canvasGroup.blocksRaycasts = false;
-            PlayerController.Singleton.CanMove = true;
-            PlayerController.Singleton.CanLook = true;
+            PlayerController.Singleton.UnblockMove();
+            PlayerController.Singleton.UnblockLook();
             Time.timeScale = 1f;
             onHideTipCallback?.Invoke();
         }

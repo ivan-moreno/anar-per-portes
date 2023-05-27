@@ -19,8 +19,8 @@ namespace AnarPerPortes
         public void CatchPlayer(string title, string message)
         {
             PlayerController.Singleton.IsCaught = true;
-            PlayerController.Singleton.CanMove = false;
-            PlayerController.Singleton.CanLook = false;
+            PlayerController.Singleton.BlockMove();
+            PlayerController.Singleton.BlockLook();
             titleText.text = title;
             messageText.text = message;
             Time.timeScale = 0f;
