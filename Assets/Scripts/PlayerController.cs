@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using static UnityEngine.GraphicsBuffer;
 
 namespace AnarPerPortes
 {
@@ -31,6 +32,8 @@ namespace AnarPerPortes
         private IInteractable lastFocusedInteractable;
         private readonly List<InventoryItem> items = new();
         private bool hasItemEquipped = false;
+        private Transform visionTarget;
+        private Vector3 visionTargetOffset;
         private const float vLookMaxAngle = 70f;
         private const float interactRange = 2.5f;
 
@@ -71,6 +74,18 @@ namespace AnarPerPortes
         {
             items.Add(item);
             ItemManager.Singleton.GenerateSlotFor(item);
+        }
+
+        public void SetVisionTarget(Transform target, Vector3 offset)
+        {
+            visionTarget = target;
+            visionTargetOffset = offset;
+        }
+
+        public void ClearVisionTarget()
+        {
+            visionTarget = null;
+            visionTargetOffset = Vector3.zero;
         }
 
         private void Awake()
@@ -174,6 +189,15 @@ namespace AnarPerPortes
 
             if (!CanLook)
                 hLookInput = vLookInput = 0f;
+            
+            if (visionTarget != null)
+            {
+                var dir = -Vector3.Normalize(transform.position  -(visionTarget.position + visionTargetOffset));
+                var lookAt = Quaternion.LookRotation(dir);
+                Camera.transform.rotation = Quaternion.Slerp(Camera.transform.rotation, lookAt, Time.deltaTime * 4f);
+                Camera.transform.localEulerAngles = new Vector3(Camera.transform.localEulerAngles.x, Camera.transform.localEulerAngles.y, 0f);
+                return;
+            }
 
             // Limit vertical look angle to avoid flipping the camera.
             vLook = Mathf.Clamp(vLook + vLookInput, -vLookMaxAngle, vLookMaxAngle);

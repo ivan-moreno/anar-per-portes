@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace AnarPerPortes
@@ -24,6 +25,7 @@ namespace AnarPerPortes
         private bool reachedTarget = false;
         private bool isChasing = false;
         private bool lineOfSightCheck = false;
+        private bool isCatching = false;
         private int roomsTraversed = 0;
 
         private void Start()
@@ -47,11 +49,11 @@ namespace AnarPerPortes
 
             if (isChasing && distanceToPlayer <= catchRange)
             {
-                audioSource.Stop();
-                audioSource.PlayOneShot(jumpscareSound);
-                SubtitleManager.Singleton.PushSubtitle("(Pedro grita)", SubtitleCategory.Dialog, SubtitleSource.Hostile);
-                CatchManager.Singleton.CatchPlayer("PEDRO ENDING", "Parece que quiso pasar un mal rato, chico. Hehehehehe.");
+                CatchPlayer();
             }
+
+            if (isCatching)
+                return;
 
             // Choose whether to go to the next map point or towards the Player.
             var determinedTargetLocation = isChasing ? PlayerController.Singleton.transform.position : targetLocation;
@@ -90,6 +92,27 @@ namespace AnarPerPortes
                     layerMask: LayerMask.GetMask("Default", "Player"),
                     queryTriggerInteraction: QueryTriggerInteraction.Ignore)
                 && hit.transform.gameObject.layer == LayerMask.NameToLayer("Player");
+        }
+
+        private void CatchPlayer()
+        {
+            if (isCatching)
+                return;
+
+            isCatching = true;
+            audioSource.Stop();
+            audioSource.PlayOneShot(jumpscareSound);
+            SubtitleManager.Singleton.PushSubtitle("(Pedro grita)", SubtitleCategory.Dialog, SubtitleSource.Hostile);
+            PlayerController.Singleton.BlockMove();
+            PlayerController.Singleton.BlockLook();
+            PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));
+            StartCoroutine(nameof(CatchPlayerEnumerator));
+        }
+
+        IEnumerator CatchPlayerEnumerator()
+        {
+            yield return new WaitForSeconds(0.7f);
+            CatchManager.Singleton.CatchPlayer("PEDRO ENDING", "Parece que quiso pasar un mal rato, chico. Hehehehehe.");
         }
     }
 }

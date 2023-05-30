@@ -41,6 +41,7 @@ namespace AnarPerPortes
             SubtitleManager.Singleton.PushSubtitle("(Yusuf grita)", SubtitleCategory.SoundEffect, SubtitleSource.Hostile);
             PlayerController.Singleton.BlockMove();
             PlayerController.Singleton.BlockLook();
+            PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));
             StartCoroutine(nameof(CatchPlayerEnumerator));
         }
 
