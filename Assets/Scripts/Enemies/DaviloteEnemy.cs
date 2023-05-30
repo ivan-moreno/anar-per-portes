@@ -86,6 +86,7 @@ namespace AnarPerPortes
             PlayerController.Singleton.BlockMove();
             PlayerController.Singleton.BlockLook();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));
+            EnemyIsActive = false;
             StartCoroutine(nameof(CatchPlayerEnumerator));
         }
 
