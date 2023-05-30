@@ -55,9 +55,6 @@ namespace AnarPerPortes
 
         private void ProcessEnemyPossibilities(Room generatedRoom)
         {
-            if (RoomManager.Singleton.LastOpenedRoomNumber <= 1)
-                return;
-
             roomsWithoutEnemySpawn++;
 
             if (generatedRoom is IsleRoom)
@@ -79,7 +76,7 @@ namespace AnarPerPortes
                 }
             }
 
-            if (generatedRoom is not IsleRoom)
+            if (generatedRoom is not IsleRoom && RoomManager.Singleton.LastOpenedRoomNumber >= 5)
             {
                 var rng = Random.Range(0, 100) + roomsWithoutEnemySpawn * 3;
 
