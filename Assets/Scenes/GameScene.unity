@@ -11229,13 +11229,24 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9dc3a65c77dd12940817f88c1133f4c7, type: 3}
   - {fileID: 8300000, guid: 5a91f1633a1d0e34bb6fdc052ca159c4, type: 3}
   - {fileID: 8300000, guid: e8ba3e60be8a5aa4993eacfd6a7419f9, type: 3}
+  - {fileID: 8300000, guid: d821065f384491341a06142ccaedbecf, type: 3}
+  - {fileID: 8300000, guid: eddc648236aa38745afb731a3ade675e, type: 3}
+  - {fileID: 8300000, guid: 7e6c7cbca6192cc4ba7c3a3ee1dc1fc0, type: 3}
   - {fileID: 8300000, guid: bcec870e3a5dd2e49afa871fdc786eb0, type: 3}
   - {fileID: 8300000, guid: 838d36b4d101f2f4e94014e3124530ba, type: 3}
   - {fileID: 8300000, guid: 759299f70d3ea424c912efaa0fe09e6b, type: 3}
   - {fileID: 8300000, guid: 09902049bccb3514498c59162d3613ca, type: 3}
-  - {fileID: 8300000, guid: d821065f384491341a06142ccaedbecf, type: 3}
-  - {fileID: 8300000, guid: eddc648236aa38745afb731a3ade675e, type: 3}
-  - {fileID: 8300000, guid: 7e6c7cbca6192cc4ba7c3a3ee1dc1fc0, type: 3}
+  soundSubtitles:
+  - "[BOUSER] Eh, t\xFA."
+  - (Sonido perturbador)
+  - (Sonido perturbador)
+  - (Sonido perturbador)
+  - (Sonido perturbador)
+  - (Sonido perturbador)
+  - "(Puerta abri\xE9ndose)"
+  - "(Alguien grita \"\xA1Obama!\")"
+  - (...)
+  - '[ROBLOMAN] Huevos de SONIC-'
 --- !u!82 &1818711196
 AudioSource:
   m_ObjectHideFlags: 0

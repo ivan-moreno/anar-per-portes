@@ -93,7 +93,7 @@ namespace AnarPerPortes
         private IEnumerator CatchPlayerEnumerator()
         {
             yield return new WaitForSeconds(1f);
-            CatchManager.Singleton.CatchPlayer("DAVILOTE ENDING", "¡¡No está permitido darse la vuelta!!");
+            CatchManager.Singleton.CatchPlayer("DAVILOTE ENDING", "No eres un payaso, eres el circo entero.");
             audioSource.Play();
         }
 

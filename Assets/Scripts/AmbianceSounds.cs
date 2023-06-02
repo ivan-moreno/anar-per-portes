@@ -9,6 +9,7 @@ namespace AnarPerPortes
     public class AmbianceSounds : MonoBehaviour
     {
         [SerializeField] private AudioClip[] sounds;
+        [SerializeField] private string[] soundSubtitles;
         private AudioSource audioSource;
         private float timeUntilNextSound;
 
@@ -32,6 +33,11 @@ namespace AnarPerPortes
                 var rngAudioIndex = Random.Range(0, sounds.Length);
                 var rngAudio = sounds[rngAudioIndex];
                 audioSource.PlayOneShot(rngAudio);
+
+                if (soundSubtitles.Length > rngAudioIndex && !string.IsNullOrWhiteSpace(soundSubtitles[rngAudioIndex]))
+                {
+                    SubtitleManager.Singleton.PushSubtitle(soundSubtitles[rngAudioIndex], SubtitleCategory.SoundEffect, SubtitleSource.Common);
+                }
 
                 timeUntilNextSound = Random.Range(20f, 90f);
             }
