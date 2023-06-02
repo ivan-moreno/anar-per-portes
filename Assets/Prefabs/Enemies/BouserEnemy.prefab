@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 81038424985809430}
   - component: {fileID: 81038424985809429}
-  - component: {fileID: 81038424985809426}
+  - component: {fileID: 7360200917861140041}
   m_Layer: 0
   m_Name: BouserEnemy
   m_TagString: Untagged
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 81038424985809431}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7298996348044017294}
@@ -130,7 +130,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &81038424985809426
+--- !u!114 &7360200917861140041
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,15 +139,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 81038424985809431}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 069ec59058811224f96600a270fe53d7, type: 3}
+  m_Script: {fileID: 11500000, guid: bdef3852541aa4d42b60ddcdc3f3d1b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tipTitle: Bouser
-  tipMessage: "Bouser te va a encerrar en esta sala.\n\xA1Cam\xFAflate y ag\xE1rrale
+  tipMessage: "Bouser te va a encerrar en esta sala.\n\n\xA1Cam\xFAflate y ag\xE1rrale
     de la cola cuando menos se lo espere!"
   tipRender: {fileID: 21300000, guid: 445558a917c93fd44be3467c8b971392, type: 3}
-  warningSound: {fileID: 8300000, guid: 9dc3a65c77dd12940817f88c1133f4c7, type: 3}
-  jumpscareSound: {fileID: 8300000, guid: 4b0c2d2eb442f734da90a234c209eedf, type: 3}
 --- !u!1001 &7116118405856631141
 PrefabInstance:
   m_ObjectHideFlags: 0

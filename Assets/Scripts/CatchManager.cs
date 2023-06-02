@@ -54,8 +54,7 @@ namespace AnarPerPortes
         {
             if (Input.GetMouseButtonDown(0) && canClickToRetry)
             {
-                Time.timeScale = 1f;
-                SceneManager.LoadScene(0);
+                GameManager.Singleton.RestartLevel();
             }
         }
     }

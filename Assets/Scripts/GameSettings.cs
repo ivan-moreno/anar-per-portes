@@ -7,7 +7,7 @@ namespace AnarPerPortes
     /// </summary>
     public sealed class GameSettings
     {
-        public EnemyTipSetting EnemyTipSetting { get; set; } = EnemyTipSetting.ShowWhenCaught;
+        public EnemyTipSetting EnemyTipSetting { get; set; } = EnemyTipSetting.ShowOnFirstEncounterAndWhenCaught;
         public SubtitlesSetting SubtitlesSetting { get; set; } = SubtitlesSetting.DialogAndSoundEffects;
         public float Volume { get; set; } = 1f;
         public float FieldOfView { get; set; } = 70f;

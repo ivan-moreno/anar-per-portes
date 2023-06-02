@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 namespace AnarPerPortes
 {
+    [AddComponentMenu("Anar per Portes/Rooms/Isle Room")]
     public class IsleRoom : Room
     {
         [HideInInspector] public UnityEvent OnIncorrectDoorOpened;

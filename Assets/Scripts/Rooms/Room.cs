@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 namespace AnarPerPortes
 {
-    [AddComponentMenu("Anar per Portes/Room")]
+    [AddComponentMenu("Anar per Portes/Rooms/Room")]
     public class Room : MonoBehaviour
     {
         [HideInInspector] public UnityEvent OnDoorOpened;

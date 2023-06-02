@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tipTitle: Davilote
-  tipMessage: "Davilote va a aparecer detr\xE1s tuyo.\n\xA1No te des la vuelta!"
+  tipMessage: "Davilote va a aparecer detr\xE1s tuyo.\n\n\xA1No te des la vuelta!"
   tipRender: {fileID: 21300000, guid: b0a6ce884167d1d449e2a88d4c00b789, type: 3}
   warningSound: {fileID: 8300000, guid: 5e9d0c05c0b4dd048b4b9fa9fa23741e, type: 3}
   jumpscareSound: {fileID: 8300000, guid: ebc39744eea659e4db11b331222cfbb2, type: 3}

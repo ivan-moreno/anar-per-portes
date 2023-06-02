@@ -4,8 +4,8 @@ using UnityEngine.Events;
 
 namespace AnarPerPortes
 {
-    [AddComponentMenu("Anar per Portes/Room Manager")]
-    public class RoomManager : MonoBehaviour
+    [AddComponentMenu("Anar per Portes/Managers/Room Manager")]
+    public sealed class RoomManager : MonoBehaviour
     {
         public static RoomManager Singleton { get; private set; }
         public Room LastLoadedRoom { get; private set; }
