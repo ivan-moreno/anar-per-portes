@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7298996348044017294}
+  - {fileID: 1475921749727407826}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -45,7 +46,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 23573a9a1130af84185b289979c5fa95, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -146,6 +147,102 @@ MonoBehaviour:
   tipMessage: "Bouser te va a encerrar en esta sala.\n\n\xA1Cam\xFAflate y ag\xE1rrale
     de la cola cuando menos se lo espere!"
   tipRender: {fileID: 21300000, guid: 445558a917c93fd44be3467c8b971392, type: 3}
+  runSpeed: 6
+  catchRange: 2
+  sightAngle: 45
+  warningSounds:
+  - {fileID: 8300000, guid: 6078a9ac12896f544a53ab19bdab306d, type: 3}
+  - {fileID: 8300000, guid: 50d39fa52e255344cb1d8987149116cb, type: 3}
+  - {fileID: 8300000, guid: 389964275b4eec54e8b78d50b5969f4b, type: 3}
+  warningSoundSubtitles:
+  - '[BOUSER] Ya me enfadaste.'
+  - "[BOUSER] Ven aqu\xED, chiquituso."
+  - "[BOUSER] Cago en dios cabr\xF3n ipsilon la virgen puta."
+  loseSounds:
+  - {fileID: 8300000, guid: e4b0f59890b239a478ecd30e406d83fd, type: 3}
+  - {fileID: 8300000, guid: c87453e1858c34d4ca43374f13198c63, type: 3}
+  loseSoundSubtitles:
+  - "[BOUSER] \xBFPero qu\xE9?"
+  - "[BOUSER] \xBFD\xF3nde se meti\xF3 ese chiquituso?"
+  tailSounds:
+  - {fileID: 8300000, guid: 8c4860a619f14744b8c27ef644749eb7, type: 3}
+  - {fileID: 8300000, guid: f017535e417b2ee4c8d4b38ad6d43e32, type: 3}
+  tailSoundSubtitles:
+  - "[BOUSER] \xA1No, mi cola no!"
+  - "[BOUSER] \xA1Todo menos la colaaa!"
+  meetPedroSounds:
+  - {fileID: 8300000, guid: fb3967e2837661044910b6be298bac77, type: 3}
+  - {fileID: 8300000, guid: e58094417e338124eab5406e519bccca, type: 3}
+  - {fileID: 8300000, guid: e054e3586c5a93e41a7df4e2f3030226, type: 3}
+  meetPedroSoundSubtitles: []
+  jumpscareSound: {fileID: 8300000, guid: 4b0c2d2eb442f734da90a234c209eedf, type: 3}
+--- !u!1 &7445021135071740010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1475921749727407826}
+  - component: {fileID: 9209606958447421246}
+  - component: {fileID: 5592833134698100829}
+  m_Layer: 0
+  m_Name: Tail
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1475921749727407826
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7445021135071740010}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: -0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 81038424985809430}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &9209606958447421246
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7445021135071740010}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.5, y: 2, z: 1}
+  m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &5592833134698100829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7445021135071740010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 395a006f31848884dbdd1fa767b74c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltipPosition: {fileID: 1475921749727407826}
 --- !u!1001 &7116118405856631141
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -69,7 +69,11 @@ namespace AnarPerPortes
 
                 if (roomsTraversed >= RoomManager.Singleton.Rooms.Count)
                 {
-                    RoomManager.Singleton.OpenDoorAndGenerateNextRoomRandom();
+                    if (RoomManager.Singleton.LastLoadedRoom is not BouserRoom)
+                    {
+                        RoomManager.Singleton.OpenDoorAndGenerateNextRoomRandom();
+                    }
+
                     EnemyIsActive = false;
                     Destroy(gameObject);
                     return;

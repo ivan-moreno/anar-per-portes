@@ -8,6 +8,7 @@ namespace AnarPerPortes
         public static EnemyManager Singleton { get; private set; }
         [SerializeField] private Transform enemiesGroup;
         [SerializeField] private GameObject daviloteEnemyPrefab;
+        [SerializeField] private GameObject bouserEnemyPrefab;
         [SerializeField] private GameObject pedroEnemyPrefab;
         [SerializeField] private GameObject yusufEnemyPrefab;
         private int roomsWithoutEnemySpawn = 0;
@@ -25,9 +26,9 @@ namespace AnarPerPortes
         private void Update()
         {
 #if UNITY_EDITOR
-            if (Input.GetKeyUp(KeyCode.F1))
+            if (Input.GetKeyUp(KeyCode.F2))
                 GenerateEnemy(pedroEnemyPrefab);
-            else if (Input.GetKeyUp(KeyCode.F2))
+            else if (Input.GetKeyUp(KeyCode.F3))
                 GenerateEnemy(daviloteEnemyPrefab);
 #endif
         }
@@ -57,14 +58,22 @@ namespace AnarPerPortes
         {
             roomsWithoutEnemySpawn++;
 
+            if (generatedRoom is BouserRoom)
+            {
+                GenerateEnemy(bouserEnemyPrefab);
+                roomsWithoutEnemySpawn = 0;
+            }
+
             if (generatedRoom is IsleRoom)
             {
                 GenerateEnemy(yusufEnemyPrefab);
                 roomsWithoutEnemySpawn = 0;
-                return;
             }
 
-            if (generatedRoom.HasHidingSpots && RoomManager.Singleton.LastOpenedRoomNumber >= 5)
+            if (generatedRoom is not BouserRoom
+                && generatedRoom is not IsleRoom
+                && generatedRoom.HasHidingSpots
+                && RoomManager.Singleton.LastOpenedRoomNumber >= 5)
             {
                 //TODO: Redesign this method of RNG
                 var rng = Random.Range(0, 100) - roomsWithoutEnemySpawn;
@@ -76,7 +85,9 @@ namespace AnarPerPortes
                 }
             }
 
-            if (generatedRoom is not IsleRoom && RoomManager.Singleton.LastOpenedRoomNumber >= 5)
+            if (generatedRoom is not BouserRoom
+                && generatedRoom is not IsleRoom
+                && RoomManager.Singleton.LastOpenedRoomNumber >= 5)
             {
                 var rng = Random.Range(0, 100) + roomsWithoutEnemySpawn * 3;
 

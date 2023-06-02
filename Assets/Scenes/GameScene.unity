@@ -2911,6 +2911,8 @@ MonoBehaviour:
   enemiesGroup: {fileID: 2034099627}
   daviloteEnemyPrefab: {fileID: 81038424985809431, guid: 57bac9367fe373144b690b668438b275,
     type: 3}
+  bouserEnemyPrefab: {fileID: 81038424985809431, guid: d3f98aab40d823844b6857fcd4c4b2d5,
+    type: 3}
   pedroEnemyPrefab: {fileID: 6310198025595531095, guid: 352f03fcbc0c70f42a63a76022d7243c,
     type: 3}
   yusufEnemyPrefab: {fileID: 8356602005302806919, guid: f5fdc44c86fdcb64fb4f58eb4a52af40,
