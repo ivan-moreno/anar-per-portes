@@ -178,7 +178,7 @@ GameObject:
   - component: {fileID: 6847545724563025417}
   - component: {fileID: 6847545724563025418}
   m_Layer: 5
-  m_Name: Subtitle Message
+  m_Name: SubtitleMessage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
