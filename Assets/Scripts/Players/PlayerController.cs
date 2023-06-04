@@ -16,6 +16,7 @@ namespace AnarPerPortes
         public bool IsHidingAsStatue { get; set; } = false;
         public bool IsCaught { get; set; } = false;
         public Camera Camera { get; private set; }
+        public Camera UiCamera { get; private set; }
         public Vector3 Velocity => velocity;
         private bool CanMove => blockMoveCharges <= 0;
         private bool CanLook => blockLookCharges <= 0f;
@@ -96,6 +97,7 @@ namespace AnarPerPortes
         {
             characterController = GetComponent<CharacterController>();
             Camera = visionAnimator.GetComponentInChildren<Camera>();
+            UiCamera = Camera.transform.GetChild(0).GetComponent<Camera>();
             Cursor.lockState = CursorLockMode.Locked;
 
             OnSettingsChanged();

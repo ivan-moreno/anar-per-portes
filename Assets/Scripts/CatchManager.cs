@@ -43,9 +43,11 @@ namespace AnarPerPortes
 
         private IEnumerator TakeSnapshot()
         {
+            PlayerController.Singleton.UiCamera.enabled = false;
             yield return new WaitForEndOfFrame();
             screenshot.sprite = GetScreenshot();
             caughtScreen.SetActive(true);
+            PlayerController.Singleton.UiCamera.enabled = true;
             yield return new WaitForSecondsRealtime(2f);
             canClickToRetry = true;
         }

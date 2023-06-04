@@ -27,6 +27,7 @@ namespace AnarPerPortes
         [SerializeField] private AudioClip[] meetPedroSounds;
         [SerializeField] private string[] meetPedroSoundSubtitles;
         [SerializeField] private AudioClip jumpscareSound;
+        private Animator animator;
         private Transform model;
         private AudioSource audioSource;
         private BouserRoom room;
@@ -52,7 +53,8 @@ namespace AnarPerPortes
             room = RoomManager.Singleton.LastLoadedRoom as BouserRoom;
             transform.SetPositionAndRotation(room.BouserSpawnPoint.position, room.BouserSpawnPoint.rotation);
             audioSource = GetComponent<AudioSource>();
-            model = transform.GetChild(0);
+            animator = GetComponentInChildren<Animator>();
+            model = animator.transform;
             EnemyIsActive = true;
             PlayRandomAudio(warningSounds, warningSoundSubtitles);
             ChangeTargetLocationRandom();
@@ -97,6 +99,7 @@ namespace AnarPerPortes
             transform.position = nextPosition;
 
             reachedTarget = !isChasing && Vector3.Distance(transform.position, targetLocation) <= runSpeed * Time.deltaTime;
+            animator.SetBool("IsWalking", !reachedTarget);
 
             if (reachedTarget)
             {
@@ -110,7 +113,6 @@ namespace AnarPerPortes
 
                 return;
             }
-
 
             var direction = Vector3.Normalize(determinedTargetLocation - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 16f);
@@ -129,6 +131,7 @@ namespace AnarPerPortes
                 return;
 
             isCatching = true;
+            animator.Play("Jumpscare");
             audioSource.PlayOneShot(jumpscareSound);
             SubtitleManager.Singleton.PushSubtitle("(Bouser grita)", SubtitleCategory.Dialog, SubtitleSource.Hostile);
             PlayerController.Singleton.BlockMove();
