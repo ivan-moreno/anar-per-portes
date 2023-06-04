@@ -13,6 +13,7 @@ namespace AnarPerPortes
         [SerializeField] private GameObject pedroEnemyPrefab;
         [SerializeField] private GameObject sheepyEnemyPrefab;
         [SerializeField] private GameObject yusufEnemyPrefab;
+        [SerializeField] private A90Enemy a90Enemy;
         private int roomsWithoutEnemySpawn = 0;
 
         private void Awake()
@@ -61,6 +62,24 @@ namespace AnarPerPortes
         private void ProcessEnemyPossibilities(Room generatedRoom)
         {
             roomsWithoutEnemySpawn++;
+
+            if (!A90Enemy.EnemyIsActive
+                && generatedRoom is not BouserRoom
+                && generatedRoom is not IsleRoom
+                && RoomManager.Singleton.LastOpenedRoomNumber >= 5
+                && !PedroEnemy.EnemyIsActive
+                && !SheepyEnemy.EnemyIsActive)
+            {
+                var rng = Random.Range(0, 100) + roomsWithoutEnemySpawn * 3;
+                
+                if (rng > 70)
+                {
+                    a90Enemy.Spawn();
+                    roomsWithoutEnemySpawn = 0;
+                }
+
+                return;
+            }
 
             if (generatedRoom is BouserRoom)
             {
