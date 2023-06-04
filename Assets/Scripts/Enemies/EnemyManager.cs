@@ -35,6 +35,8 @@ namespace AnarPerPortes
                 GenerateEnemy(daviloteEnemyPrefab);
             else if (Input.GetKeyUp(KeyCode.F4))
                 GenerateEnemy(sheepyEnemyPrefab);
+            else if (Input.GetKeyUp(KeyCode.F5))
+                a90Enemy.Spawn();
 #endif
         }
 
@@ -66,19 +68,17 @@ namespace AnarPerPortes
             if (!A90Enemy.EnemyIsActive
                 && generatedRoom is not BouserRoom
                 && generatedRoom is not IsleRoom
-                && RoomManager.Singleton.LastOpenedRoomNumber >= 5
+                && RoomManager.Singleton.LastOpenedRoomNumber >= 90
                 && !PedroEnemy.EnemyIsActive
                 && !SheepyEnemy.EnemyIsActive)
             {
-                var rng = Random.Range(0, 100) + roomsWithoutEnemySpawn * 3;
+                var rng = Random.Range(0, 100) + roomsWithoutEnemySpawn;
                 
-                if (rng > 70)
+                if (rng > 90)
                 {
                     a90Enemy.Spawn();
                     roomsWithoutEnemySpawn = 0;
                 }
-
-                return;
             }
 
             if (generatedRoom is BouserRoom)
@@ -97,10 +97,9 @@ namespace AnarPerPortes
                 && generatedRoom.HasHidingSpots
                 && RoomManager.Singleton.LastOpenedRoomNumber >= 5)
             {
-                //TODO: Redesign this method of RNG
-                var rng = Random.Range(0, 100) - roomsWithoutEnemySpawn;
+                var rng = Random.Range(0, 100) + roomsWithoutEnemySpawn;
 
-                if (!PedroEnemy.EnemyIsActive && rng < 10)
+                if (!PedroEnemy.EnemyIsActive && rng >= 80)
                 {
                     GenerateEnemy(pedroEnemyPrefab);
                     roomsWithoutEnemySpawn = 0;

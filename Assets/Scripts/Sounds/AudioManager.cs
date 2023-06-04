@@ -11,12 +11,12 @@ namespace AnarPerPortes
 
         public void MuteDefaultAudioMixer()
         {
-            defaultAudioMixer.SetFloat("MasterVolume", 0f);
+            defaultAudioMixer.SetFloat("MasterVolume", -80f);
         }
 
         public void UnmuteDefaultAudioMixer()
         {
-            defaultAudioMixer.SetFloat("Volume", 1f);
+            defaultAudioMixer.SetFloat("MasterVolume", 0f);
         }
 
         private void Awake()

@@ -15,14 +15,16 @@ namespace AnarPerPortes
         [SerializeField] private TMP_Text titleText;
         [SerializeField] private TMP_Text messageText;
         private bool canClickToRetry = false;
+        private bool showUiOnScreenshot = false;
 
-        public void CatchPlayer(string title, string message)
+        public void CatchPlayer(string title, string message, bool showUiOnScreenshot = false)
         {
             PlayerController.Singleton.IsCaught = true;
             PlayerController.Singleton.BlockMove();
             PlayerController.Singleton.BlockLook();
             titleText.text = title;
             messageText.text = message;
+            this.showUiOnScreenshot = showUiOnScreenshot;
             Time.timeScale = 0f;
             StartCoroutine(nameof(TakeSnapshot));
         }
@@ -43,7 +45,7 @@ namespace AnarPerPortes
 
         private IEnumerator TakeSnapshot()
         {
-            PlayerController.Singleton.UiCamera.enabled = false;
+            PlayerController.Singleton.UiCamera.enabled = showUiOnScreenshot;
             yield return new WaitForEndOfFrame();
             screenshot.sprite = GetScreenshot();
             caughtScreen.SetActive(true);
