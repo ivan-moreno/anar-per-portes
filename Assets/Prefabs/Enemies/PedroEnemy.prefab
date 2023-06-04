@@ -150,6 +150,8 @@ MonoBehaviour:
   chaseRange: 16
   catchRange: 2
   jumpscareSound: {fileID: 8300000, guid: 6240ddb6999e2db409aa6b2ebb8055d2, type: 3}
+  meetBouserSound: {fileID: 8300000, guid: 775a27b8b09df724884c450526a1b0d3, type: 3}
+  meetBouserSubtitles: "[PEDRO] \xC1brete s\xE9samo."
 --- !u!1001 &6310198024124025993
 PrefabInstance:
   m_ObjectHideFlags: 0

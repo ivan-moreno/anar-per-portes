@@ -45,8 +45,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 23573a9a1130af84185b289979c5fa95, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: 3a0f6623ac7a2914a9a06b9a1aa9376e, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -174,7 +174,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: fb3967e2837661044910b6be298bac77, type: 3}
   - {fileID: 8300000, guid: e58094417e338124eab5406e519bccca, type: 3}
   - {fileID: 8300000, guid: e054e3586c5a93e41a7df4e2f3030226, type: 3}
-  meetPedroSoundSubtitles: []
+  meetPedroSoundSubtitles:
+  - "[BOUSER] Golemio \xBFqu\xE9 haces en mi habitaci\xF3n? \xA1Fuera de aqu\xED!"
+  - "[BOUSER] Golemio, \xA1l\xE1rgate de mi habitaci\xF3n o sufrir\xE1s mi ira!"
+  - "[BOUSER] Golemio, c\xF3mo te vuelva a ver por aqu\xED, \xA1me pondr\xE9 modo
+    serio!"
   jumpscareSound: {fileID: 8300000, guid: 4b0c2d2eb442f734da90a234c209eedf, type: 3}
 --- !u!1 &7445021135071740010
 GameObject:

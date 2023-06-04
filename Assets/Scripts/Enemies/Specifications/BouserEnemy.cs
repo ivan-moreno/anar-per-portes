@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace AnarPerPortes
@@ -44,8 +43,10 @@ namespace AnarPerPortes
                 return;
 
             isGrabbingTail = true;
+            animator.SetBool("IsWalking", false);
             PlayRandomAudio(tailSounds, tailSoundSubtitles);
-            RoomManager.Singleton.OpenDoorAndGenerateNextRoomRandom();
+            transform.Rotate(-90f, 0f, 0f);
+            room.OpenBouserDoor();
         }
 
         private void Start()
@@ -56,7 +57,20 @@ namespace AnarPerPortes
             animator = GetComponentInChildren<Animator>();
             model = animator.transform;
             EnemyIsActive = true;
-            PlayRandomAudio(warningSounds, warningSoundSubtitles);
+
+            if (PedroEnemy.EnemyIsActive)
+            {
+                var pedroPos = FindObjectOfType<PedroEnemy>().transform.position;
+                var dist = Vector3.Distance(transform.position, pedroPos);
+
+                if (dist <= 32f)
+                    PlayRandomAudio(meetPedroSounds, meetPedroSoundSubtitles);
+                else
+                    PlayRandomAudio(warningSounds, warningSoundSubtitles);
+            }
+            else
+                PlayRandomAudio(warningSounds, warningSoundSubtitles);
+
             ChangeTargetLocationRandom();
         }
 
@@ -145,6 +159,7 @@ namespace AnarPerPortes
         {
             yield return new WaitForSeconds(0.7f);
             CatchManager.Singleton.CatchPlayer("BOUSER ENDING", "a veces el amor te hace salir del caparazon jeje");
+            audioSource.Play();
         }
 
         private void PlayRandomAudio(AudioClip[] audios, string[] subtitles)

@@ -6,6 +6,7 @@ namespace AnarPerPortes
     public sealed class EnemyManager : MonoBehaviour
     {
         public static EnemyManager Singleton { get; private set; }
+        public GameObject BouserEnemyPrefab => bouserEnemyPrefab;
         [SerializeField] private Transform enemiesGroup;
         [SerializeField] private GameObject daviloteEnemyPrefab;
         [SerializeField] private GameObject bouserEnemyPrefab;
@@ -33,7 +34,7 @@ namespace AnarPerPortes
 #endif
         }
 
-        private void GenerateEnemy(GameObject enemyPrefab)
+        public void GenerateEnemy(GameObject enemyPrefab)
         {
             var hasEnemyScript = enemyPrefab.TryGetComponent(out IEnemy enemy);
 
@@ -60,7 +61,6 @@ namespace AnarPerPortes
 
             if (generatedRoom is BouserRoom)
             {
-                GenerateEnemy(bouserEnemyPrefab);
                 roomsWithoutEnemySpawn = 0;
             }
 

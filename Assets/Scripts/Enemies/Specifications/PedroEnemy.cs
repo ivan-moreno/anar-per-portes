@@ -19,13 +19,17 @@ namespace AnarPerPortes
         [SerializeField] private float chaseRange = 8f;
         [SerializeField] private float catchRange = 2f;
         [SerializeField] private AudioClip jumpscareSound;
+        [SerializeField] private AudioClip meetBouserSound;
+        [SerializeField] private string meetBouserSubtitles;
         private AudioSource audioSource;
+        private Animator animator;
         private Transform model;
         private Vector3 targetLocation;
         private bool reachedTarget = false;
         private bool isChasing = false;
         private bool lineOfSightCheck = false;
         private bool isCatching = false;
+        private bool metBouser = false;
         private int roomsTraversed = 0;
 
         private void Start()
@@ -33,7 +37,8 @@ namespace AnarPerPortes
             transform.position = RoomManager.Singleton.Rooms[0].transform.position;
             targetLocation = RoomManager.Singleton.Rooms[0].NextRoomGenerationPoint.position;
             audioSource = GetComponent<AudioSource>();
-            model = transform.GetChild(0);
+            animator = GetComponentInChildren<Animator>();
+            model = animator.transform;
             EnemyIsActive = true;
             SubtitleManager.Singleton.PushSubtitle("(pasos rápidos a la lejanía)", SubtitleCategory.SoundEffect, SubtitleSource.Hostile);
         }
@@ -96,6 +101,17 @@ namespace AnarPerPortes
                     layerMask: LayerMask.GetMask("Default", "Player"),
                     queryTriggerInteraction: QueryTriggerInteraction.Ignore)
                 && hit.transform.gameObject.layer == LayerMask.NameToLayer("Player");
+
+            if (!metBouser && RoomManager.Singleton.LastLoadedRoom is BouserRoom bouserRoom)
+            {
+                var dist = Vector3.Distance(transform.position, bouserRoom.BouserSpawnPoint.position);
+
+                if (dist <= 18f)
+                {
+                    metBouser = true;
+                    StartCoroutine(nameof(MeetBouserEnumerator));
+                }
+            }
         }
 
         private void CatchPlayer()
@@ -118,6 +134,24 @@ namespace AnarPerPortes
         {
             yield return new WaitForSeconds(0.7f);
             CatchManager.Singleton.CatchPlayer("PEDRO ENDING", "Parece que quiso pasar un mal rato, chico. Hehehehehe.");
+        }
+
+        IEnumerator MeetBouserEnumerator()
+        {
+            var originalRunSpeed = runSpeed;
+            runSpeed = 0f;
+            animator.Play("Idle");
+            audioSource.Stop();
+            audioSource.PlayOneShot(meetBouserSound);
+            SubtitleManager.Singleton.PushSubtitle(meetBouserSubtitles, SubtitleCategory.Dialog, SubtitleSource.Common);
+            yield return new WaitForSeconds(3f);
+            var bouserRoom = RoomManager.Singleton.LastLoadedRoom as BouserRoom;
+            bouserRoom.SpawnBouser();
+            yield return new WaitForSeconds(1f);
+            runSpeed = originalRunSpeed;
+            animator.Play("Run");
+            audioSource.Play();
+            
         }
     }
 }
