@@ -11,6 +11,7 @@ namespace AnarPerPortes
         [SerializeField] private GameObject daviloteEnemyPrefab;
         [SerializeField] private GameObject bouserEnemyPrefab;
         [SerializeField] private GameObject pedroEnemyPrefab;
+        [SerializeField] private GameObject sheepyEnemyPrefab;
         [SerializeField] private GameObject yusufEnemyPrefab;
         private int roomsWithoutEnemySpawn = 0;
 
@@ -31,6 +32,8 @@ namespace AnarPerPortes
                 GenerateEnemy(pedroEnemyPrefab);
             else if (Input.GetKeyUp(KeyCode.F3))
                 GenerateEnemy(daviloteEnemyPrefab);
+            else if (Input.GetKeyUp(KeyCode.F4))
+                GenerateEnemy(sheepyEnemyPrefab);
 #endif
         }
 
@@ -94,6 +97,19 @@ namespace AnarPerPortes
                 if (!DaviloteEnemy.EnemyIsActive && rng >= 70)
                 {
                     GenerateEnemy(daviloteEnemyPrefab);
+                    roomsWithoutEnemySpawn = 0;
+                }
+            }
+
+            if (generatedRoom is not BouserRoom
+                && generatedRoom is not IsleRoom
+                && RoomManager.Singleton.LastOpenedRoomNumber >= 5)
+            {
+                var rng = Random.Range(0, 100) + roomsWithoutEnemySpawn * 3;
+
+                if (!SheepyEnemy.EnemyIsActive && !DaviloteEnemy.EnemyIsActive && rng >= 70)
+                {
+                    GenerateEnemy(sheepyEnemyPrefab);
                     roomsWithoutEnemySpawn = 0;
                 }
             }

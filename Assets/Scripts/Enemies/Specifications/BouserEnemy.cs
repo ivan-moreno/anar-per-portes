@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace AnarPerPortes
 {
+    [AddComponentMenu("Anar per Portes/Enemies/Bouser Enemy")]
     public class BouserEnemy : Enemy
     {
         public static bool EnemyIsActive { get; private set; } = false;
