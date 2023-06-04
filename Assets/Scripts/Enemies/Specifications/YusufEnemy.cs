@@ -18,6 +18,14 @@ namespace AnarPerPortes
 
         [SerializeField] private AudioClip walkieTalkieAlertSound;
         [SerializeField] private AudioClip jumpscareSound;
+        [SerializeField] private AudioClip[] bunkerTargetSounds;
+        [SerializeField] private string[] bunkerTargetSoundSubtitles;
+        [SerializeField] private AudioClip[] lighthouseTargetSounds;
+        [SerializeField] private string[] lighthouseTargetSoundSubtitles;
+        [SerializeField] private AudioClip[] observatoryTargetSounds;
+        [SerializeField] private string[] observatoryTargetSoundSubtitles;
+        [SerializeField] private AudioClip[] warehouseTargetSounds;
+        [SerializeField] private string[] warehouseTargetSoundSubtitles;
         private AudioSource audioSource;
         private Transform model;
 
@@ -29,7 +37,17 @@ namespace AnarPerPortes
             model = transform.GetChild(0);
             EnemyIsActive = true;
             audioSource.PlayOneShot(walkieTalkieAlertSound);
-            SubtitleManager.Singleton.PushSubtitle("[YUSUF] Mi dirección es el Observatorio. Corto.", SubtitleCategory.Dialog, SubtitleSource.Hostile);
+
+            var rng = Random.Range(0, 4);
+
+            if (rng == 0)
+                PlayRandomAudio(bunkerTargetSounds, bunkerTargetSoundSubtitles);
+            else if (rng == 1)
+                PlayRandomAudio(lighthouseTargetSounds, lighthouseTargetSoundSubtitles);
+            else if (rng == 2)
+                PlayRandomAudio(observatoryTargetSounds, observatoryTargetSoundSubtitles);
+            else
+                PlayRandomAudio(warehouseTargetSounds, warehouseTargetSoundSubtitles);
 
             isleRoom.OnIncorrectDoorOpened.AddListener(CatchPlayer);
             isleRoom.OnDoorOpened.AddListener(Despawn);
@@ -57,6 +75,15 @@ namespace AnarPerPortes
         {
             EnemyIsActive = false;
             Destroy(gameObject);
+        }
+
+        //TODO: Static method
+        private void PlayRandomAudio(AudioClip[] audios, string[] subtitles)
+        {
+            var rngAudioIndex = Random.Range(0, audios.Length);
+            var rngAudio = audios[rngAudioIndex];
+            audioSource.PlayOneShot(rngAudio);
+            SubtitleManager.Singleton.PushSubtitle(subtitles[rngAudioIndex], SubtitleCategory.Dialog, SubtitleSource.Hostile);
         }
     }
 }

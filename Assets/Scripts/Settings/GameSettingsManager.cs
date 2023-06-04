@@ -1,3 +1,6 @@
+using Newtonsoft.Json;
+using System.Collections;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -22,6 +25,7 @@ namespace AnarPerPortes
         [SerializeField] private Button visionMotionButton;
         [SerializeField] private Button dyslexicFriendlyFontButton;
         [SerializeField] private Button flamboyantGraphicsButton;
+        [SerializeField] private Button enemyTipsButton;
 
         private void Awake()
         {
@@ -31,7 +35,7 @@ namespace AnarPerPortes
         private void Start()
         {
             LoadSerializedSettings();
-            saveSettingsButton.onClick.AddListener(() => OnCurrentSettingsChanged?.Invoke());
+            saveSettingsButton.onClick.AddListener(SaveSettingsButtonClicked);
             mouseSensitivitySlider.onValueChanged.AddListener(ChangeMouseSensitivitySetting);
             fieldOfViewSlider.onValueChanged.AddListener(ChangeFieldOfViewSetting);
             smaaButton.onClick.AddListener(ToggleSmaaSetting);
@@ -42,6 +46,13 @@ namespace AnarPerPortes
             visionMotionButton.onClick.AddListener(ToggleVisionMotionSetting);
             dyslexicFriendlyFontButton.onClick.AddListener(ToggleDyslexicFriendlyFontSetting);
             flamboyantGraphicsButton.onClick.AddListener(ToggleFlamboyantGraphicsSetting);
+            enemyTipsButton.onClick.AddListener(ToggleEnemyTipsSetting);
+        }
+
+        private void SaveSettingsButtonClicked()
+        {
+            OnCurrentSettingsChanged?.Invoke();
+            SerializeSettings();
         }
 
         private void ChangeMouseSensitivitySetting(float value)
@@ -110,6 +121,18 @@ namespace AnarPerPortes
             flamboyantGraphicsButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Gráficos importantes llamativos", CurrentSettings.EnableFlamboyantGraphics);
         }
 
+        //TODO: Convert into a dropdown
+        private void ToggleEnemyTipsSetting()
+        {
+            var areEnemyTipsEnabled = CurrentSettings.EnemyTipSetting is EnemyTipSetting.ShowOnFirstEncounterAndWhenCaught;
+
+            CurrentSettings.EnemyTipSetting = areEnemyTipsEnabled
+                ? EnemyTipSetting.Disabled
+                : EnemyTipSetting.ShowOnFirstEncounterAndWhenCaught;
+
+            enemyTipsButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Mostrar ayuda sobre nuevos enemigos", !areEnemyTipsEnabled);
+        }
+
         private string GetSettingText(string text, bool isOn)
         {
             return text + (isOn ? " <color=#88CCFF>(SÍ)</color>" : " <color=#FF4444>(NO)</color>");
@@ -118,7 +141,52 @@ namespace AnarPerPortes
         //TODO: Save and load settings on disk file.
         private void LoadSerializedSettings()
         {
-            CurrentSettings = new();
+            var path = Application.persistentDataPath + Path.DirectorySeparatorChar + "settings.json";
+
+            if (File.Exists(path))
+            {
+                var settings = File.ReadAllText(path);
+                
+                CurrentSettings = JsonConvert.DeserializeObject<GameSettings>(settings);
+            }
+            else
+            {
+                CurrentSettings = new();
+            }
+
+            StartCoroutine(nameof(ApplyLoadedSettings));
+            RefreshSettingLabels();
+        }
+
+        private IEnumerator ApplyLoadedSettings()
+        {
+            yield return new WaitForEndOfFrame();
+            OnCurrentSettingsChanged?.Invoke();
+        }
+
+        private void SerializeSettings()
+        {
+            var json = JsonConvert.SerializeObject(CurrentSettings);
+            var path = Application.persistentDataPath + Path.DirectorySeparatorChar + "settings.json";
+            File.WriteAllText(path, json);
+        }
+
+        private void RefreshSettingLabels()
+        {
+            mouseSensitivitySlider.transform.parent.GetComponentInChildren<TMP_Text>().text = $"Sensibilidad del ratón <color=#88EEEE>({CurrentSettings.HMouseSensitivity / 100f:0.0})</color>";
+            fieldOfViewSlider.transform.parent.GetComponentInChildren<TMP_Text>().text = $"Campo de visión <color=#88EEEE>({CurrentSettings.FieldOfView:0})</color>";
+            flamboyantGraphicsButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Gráficos importantes llamativos", CurrentSettings.EnableFlamboyantGraphics);
+            smaaButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Antialias (SMAA)", CurrentSettings.EnableSmaa);
+            postProcessingButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Efectos de postprocesado", CurrentSettings.EnablePostProcessing);
+            var areSubtitlesEnabled = CurrentSettings.SubtitlesSetting is SubtitlesSetting.DialogAndSoundEffects;
+            subtitlesButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Subtítulos", areSubtitlesEnabled);
+            largeSubtitlesButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Subtítulos grandes", CurrentSettings.EnableLargeSubtitles);
+            lightModeButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Iluminar salas", CurrentSettings.EnableLightMode);
+            visionMotionButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Meneo de la cámara", CurrentSettings.EnableVisionMotion);
+            dyslexicFriendlyFontButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Fuente apta para disléxicos", CurrentSettings.EnableDyslexicFriendlyFont);
+            flamboyantGraphicsButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Gráficos importantes llamativos", CurrentSettings.EnableFlamboyantGraphics);
+            var areEnemyTipsEnabled = CurrentSettings.EnemyTipSetting is EnemyTipSetting.ShowOnFirstEncounterAndWhenCaught;
+            enemyTipsButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Mostrar ayuda sobre nuevos enemigos", areEnemyTipsEnabled);
         }
     }
 }

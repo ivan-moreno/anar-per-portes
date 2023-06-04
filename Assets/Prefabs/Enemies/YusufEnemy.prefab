@@ -150,6 +150,26 @@ MonoBehaviour:
   walkieTalkieAlertSound: {fileID: 8300000, guid: 8d32efb1b88e9ae4d93e9de09c6522df,
     type: 3}
   jumpscareSound: {fileID: 8300000, guid: 6546456801189ca4cb69b244bffb8978, type: 3}
+  bunkerTargetSounds:
+  - {fileID: 8300000, guid: ae6bcce0310b764468e580475e36f0f5, type: 3}
+  bunkerTargetSoundSubtitles:
+  - "[YUSUF] Marchando hacia el B\xFAnker. Corto."
+  - "[YUSUF] Voy hacia el B\xFAnker. Corto."
+  lighthouseTargetSounds:
+  - {fileID: 8300000, guid: ae6bcce0310b764468e580475e36f0f5, type: 3}
+  lighthouseTargetSoundSubtitles:
+  - '[YUSUF] Aviso, me estoy desplazando hacia el Faro. Corto.'
+  - '[YUSUF] Equipo, estoy en marcha hacia el Faro. Corto.'
+  observatoryTargetSounds:
+  - {fileID: 8300000, guid: ae6bcce0310b764468e580475e36f0f5, type: 3}
+  observatoryTargetSoundSubtitles:
+  - "[YUSUF] Mi direcci\xF3n es el Observatorio. Corto."
+  - "[YUSUF] Pr\xF3ximo objetivo, Observatorio. Corto."
+  warehouseTargetSounds:
+  - {fileID: 8300000, guid: ae6bcce0310b764468e580475e36f0f5, type: 3}
+  warehouseTargetSoundSubtitles:
+  - "[YUSUF] Me dirijo al H\xE1ngar. Corto."
+  - "[YUSUF] Estoy de camino al H\xE1ngar. Corto."
 --- !u!1001 &8356602006168009511
 PrefabInstance:
   m_ObjectHideFlags: 0

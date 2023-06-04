@@ -163,6 +163,7 @@ namespace AnarPerPortes
             audioSource.Play();
         }
 
+        //TODO: Static method
         private void PlayRandomAudio(AudioClip[] audios, string[] subtitles)
         {
             var rngAudioIndex = Random.Range(0, audios.Length);

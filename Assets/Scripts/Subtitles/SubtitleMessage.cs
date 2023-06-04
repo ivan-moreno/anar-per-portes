@@ -42,7 +42,7 @@ namespace AnarPerPortes
 
         private void LateUpdate()
         {
-            rectTransform.sizeDelta = messageText.rectTransform.sizeDelta + new Vector2(48f, 24f);
+            rectTransform.sizeDelta = messageText.rectTransform.sizeDelta + new Vector2(32f, 16f);
         }
     }
 }
