@@ -8680,7 +8680,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1198020652}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -12220,10 +12220,10 @@ MonoBehaviour:
   - {fileID: 1343002099365941501, guid: 6534666fcb701494f8ac3e6376f07ae7, type: 3}
   - {fileID: 1343002099365941501, guid: 6913ac6a93c18474b9fade3c8dece56e, type: 3}
   - {fileID: 1343002099365941501, guid: 5415b3829e381f94595cc81eefb9d115, type: 3}
+  - {fileID: 1343002099365941501, guid: 3f68c082b3590c44ea99b617628f9081, type: 3}
+  - {fileID: 1343002099365941501, guid: 74be0658e24ed1d45a1960b03f05e40b, type: 3}
   - {fileID: 1343002099365941501, guid: cef435b3203895c42a271a0e48296abe, type: 3}
   - {fileID: 449040676408261766, guid: f304dc99c4be86d44a3c746e0f57cf2c, type: 3}
-  - {fileID: 3165058160828679327, guid: b49800e6916c8594ab585b03a286e149, type: 3}
-  - {fileID: 1343002099365941501, guid: 74be0658e24ed1d45a1960b03f05e40b, type: 3}
 --- !u!1 &1640634310
 GameObject:
   m_ObjectHideFlags: 0
@@ -14130,7 +14130,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdecb0af73d0d9f4ea1051421889499a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visionAnimator: {fileID: 1556619421}
   modelAnimator: {fileID: 370437322}
 --- !u!143 &1932167407
 CharacterController:

@@ -8,20 +8,13 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Rooms/Isle Room")]
     public class IsleRoom : Room
     {
+        public RoomDoor IncorrectDoor => incorrectDoor;
         [HideInInspector] public UnityEvent OnIncorrectDoorOpened;
-        public Transform YusufSpawnPoint => yusufSpawnPoint;
-        [SerializeField] private Transform yusufSpawnPoint;
-        [SerializeField] private Transform correctDoorPoint;
-        [SerializeField] private Transform incorrectDoorPoint;
-        [SerializeField] private GameObject doorPrefab;
+        [SerializeField] protected RoomDoor incorrectDoor;
 
         protected override void Start()
         {
-            var correctDoor = Instantiate(doorPrefab, correctDoorPoint.position, correctDoorPoint.rotation);
-            door = correctDoor.GetComponent<RoomDoor>();
-
-            var incorrectDoor = Instantiate(doorPrefab, incorrectDoorPoint.position, incorrectDoorPoint.rotation);
-            incorrectDoor.GetComponent<RoomDoor>().OnDoorOpened.AddListener(() => OnIncorrectDoorOpened?.Invoke());
+            incorrectDoor.OnDoorOpened.AddListener(() => OnIncorrectDoorOpened?.Invoke());
 
             base.Start();
         }

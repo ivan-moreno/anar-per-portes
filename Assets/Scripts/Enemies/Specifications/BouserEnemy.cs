@@ -15,6 +15,7 @@ namespace AnarPerPortes
         }
 
         private static bool enemyTipWasDisplayed = false;
+        public bool IsDefeated { get; private set; } = false;
         [SerializeField] private float runSpeed = 8f;
         [SerializeField] private float catchRange = 2f;
         [SerializeField] private float sightAngle = 45f;
@@ -56,9 +57,12 @@ namespace AnarPerPortes
 
             isGrabbingTail = true;
             animator.SetBool("IsWalking", false);
+            animator.Play("TailGrab");
             PlayRandomAudio(tailSounds, tailSoundSubtitles);
-            transform.Rotate(-90f, 0f, 0f);
             room.OpenBouserDoor();
+
+            //TODO: Launch animation
+            IsDefeated = true;
         }
 
         private void Start()
@@ -84,6 +88,7 @@ namespace AnarPerPortes
                 PlayRandomAudio(warningSounds, warningSoundSubtitles);
 
             ChangeTargetLocationRandom();
+            room.OnDoorOpened.AddListener(Despawn);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
 
@@ -224,6 +229,15 @@ namespace AnarPerPortes
             audioSource.PlayOneShot(rngAudio);
             SubtitleManager.Singleton.PushSubtitle(subtitles[rngAudioIndex], SubtitleCategory.Dialog, SubtitleSource.Hostile);
             audioCooldown = rngAudio.length;
+        }
+
+        private void Despawn()
+        {
+            if (isCatching)
+                return;
+
+            EnemyIsActive = false;
+            Destroy(gameObject);
         }
     }
 }

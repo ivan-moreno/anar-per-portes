@@ -20,8 +20,8 @@ namespace AnarPerPortes
         public Vector3 Velocity => velocity;
         private bool CanMove => blockMoveCharges <= 0;
         private bool CanLook => blockLookCharges <= 0f;
-        [SerializeField] private Animator visionAnimator;
         [SerializeField] private Animator modelAnimator;
+        private Animator visionAnimator;
         private CharacterController characterController;
         private Vector3 velocity;
         private Vector3 motion;
@@ -70,8 +70,25 @@ namespace AnarPerPortes
             characterController.enabled = true;
         }
 
+        public void PackItem(string itemId)
+        {
+            var itemTransform = transform.Find("Items").Find(itemId);
+
+            if (itemTransform == null)
+                return;
+
+            if (itemTransform.TryGetComponent(out InventoryItem item))
+                PackItem(item);
+        }
+
         public void PackItem(InventoryItem item)
         {
+            if (items.Count >= 9)
+                return;
+
+            if (items.Contains(item))
+                return;
+
             items.Add(item);
             ItemManager.Singleton.GenerateSlotFor(item);
         }
@@ -96,6 +113,7 @@ namespace AnarPerPortes
         private void Start()
         {
             characterController = GetComponent<CharacterController>();
+            visionAnimator = transform.Find("Vision").GetComponent<Animator>();
             Camera = visionAnimator.GetComponentInChildren<Camera>();
             UiCamera = Camera.transform.GetChild(0).GetComponent<Camera>();
             Cursor.lockState = CursorLockMode.Locked;
@@ -127,10 +145,7 @@ namespace AnarPerPortes
             var preMovePosition = transform.position;
             characterController.Move(motion + (4f * Time.deltaTime * Physics.gravity));
 
-            if (Time.timeScale <= 0f)
-                velocity = Vector3.zero;
-            else
-                velocity = (transform.position - preMovePosition) / Time.deltaTime;
+            velocity = Time.timeScale <= 0f ? Vector3.zero : (transform.position - preMovePosition) / Time.deltaTime;
 
             if (transform.position.y < -32f)
                 Teleport(RoomManager.Singleton.LastLoadedRoom.transform.position);

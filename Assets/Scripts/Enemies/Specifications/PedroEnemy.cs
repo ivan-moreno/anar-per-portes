@@ -21,6 +21,7 @@ namespace AnarPerPortes
         [SerializeField] private AudioClip jumpscareSound;
         [SerializeField] private AudioClip meetBouserSound;
         [SerializeField] private string meetBouserSubtitles;
+        [SerializeField] private AudioClip laughAtBouserSound;
         private AudioSource audioSource;
         private Animator animator;
         private Transform model;
@@ -31,6 +32,7 @@ namespace AnarPerPortes
         private bool isCatching = false;
         private bool metBouser = false;
         private int roomsTraversed = 0;
+        private BouserEnemy bouserEnemy;
 
         private void Start()
         {
@@ -41,6 +43,7 @@ namespace AnarPerPortes
             model = animator.transform;
             EnemyIsActive = true;
             SubtitleManager.Singleton.PushSubtitle("(pasos rápidos a la lejanía)", SubtitleCategory.SoundEffect, SubtitleSource.Hostile);
+            bouserEnemy = FindObjectOfType<BouserEnemy>();
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
 
@@ -98,6 +101,9 @@ namespace AnarPerPortes
                 targetLocation = RoomManager.Singleton.Rooms[roomsTraversed].NextRoomGenerationPoint.position;
             }
 
+            if (runSpeed <= 0f)
+                return;
+
             var direction = Vector3.Normalize(determinedTargetLocation - transform.position);
             model.rotation = Quaternion.Slerp(model.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 16f);
         }
@@ -115,12 +121,23 @@ namespace AnarPerPortes
 
             if (!metBouser && RoomManager.Singleton.LastLoadedRoom is BouserRoom bouserRoom)
             {
-                var dist = Vector3.Distance(transform.position, bouserRoom.BouserSpawnPoint.position);
-
-                if (dist <= 18f)
+                if (bouserEnemy != null && bouserEnemy.IsDefeated)
                 {
-                    metBouser = true;
-                    StartCoroutine(nameof(MeetBouserEnumerator));
+                    var dist = Vector3.Distance(transform.position, bouserEnemy.transform.position);
+
+                    if (dist <= 8f)
+                    {
+                        StartCoroutine(nameof(LaughAtBouserEnumerator));
+                    }
+                }
+                else
+                {
+                    var dist = Vector3.Distance(transform.position, bouserRoom.BouserSpawnPoint.position);
+
+                    if (dist <= 18f)
+                    {
+                        StartCoroutine(nameof(MeetBouserEnumerator));
+                    }
                 }
             }
         }
@@ -149,6 +166,7 @@ namespace AnarPerPortes
 
         IEnumerator MeetBouserEnumerator()
         {
+            metBouser = true;
             var originalRunSpeed = runSpeed;
             runSpeed = 0f;
             animator.Play("Idle");
@@ -162,7 +180,22 @@ namespace AnarPerPortes
             runSpeed = originalRunSpeed;
             animator.Play("Run");
             audioSource.Play();
-            
+        }
+
+        IEnumerator LaughAtBouserEnumerator()
+        {
+            metBouser = true;
+            var originalRunSpeed = runSpeed;
+            runSpeed = 0f;
+            animator.Play("Idle");
+            audioSource.Stop();
+            audioSource.PlayOneShot(laughAtBouserSound);
+            model.LookAt(bouserEnemy.transform.position);
+            SubtitleManager.Singleton.PushSubtitle("(Pedro se ríe)", SubtitleCategory.SoundEffect, SubtitleSource.Common);
+            yield return new WaitForSeconds(2f);
+            runSpeed = originalRunSpeed;
+            animator.Play("Run");
+            audioSource.Play();
         }
     }
 }

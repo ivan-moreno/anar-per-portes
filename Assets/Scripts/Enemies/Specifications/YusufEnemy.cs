@@ -32,7 +32,8 @@ namespace AnarPerPortes
         private void Start()
         {
             var isleRoom = RoomManager.Singleton.LastLoadedRoom as IsleRoom;
-            transform.SetPositionAndRotation(isleRoom.YusufSpawnPoint.position, isleRoom.YusufSpawnPoint.rotation);
+            var targetPos = isleRoom.IncorrectDoor.transform.position + isleRoom.IncorrectDoor.transform.forward * 4f;
+            transform.position = targetPos;
             audioSource = GetComponent<AudioSource>();
             model = transform.GetChild(0);
             EnemyIsActive = true;
@@ -64,6 +65,7 @@ namespace AnarPerPortes
 
         private void CatchPlayer()
         {
+            transform.LookAt(PlayerController.Singleton.transform.position);
             audioSource.PlayOneShot(jumpscareSound);
             SubtitleManager.Singleton.PushSubtitle("(Yusuf grita)", SubtitleCategory.SoundEffect, SubtitleSource.Hostile);
             PlayerController.Singleton.BlockMove();

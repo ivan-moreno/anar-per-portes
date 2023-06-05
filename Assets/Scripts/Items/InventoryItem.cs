@@ -53,7 +53,6 @@ namespace AnarPerPortes
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
-            transform.root.GetComponent<PlayerController>().PackItem(this);
         }
     }
 }
