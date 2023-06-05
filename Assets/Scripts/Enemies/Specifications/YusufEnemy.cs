@@ -51,6 +51,15 @@ namespace AnarPerPortes
 
             isleRoom.OnIncorrectDoorOpened.AddListener(CatchPlayer);
             isleRoom.OnDoorOpened.AddListener(Despawn);
+            PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
+        }
+
+        private void PauseChanged(bool isPaused)
+        {
+            if (isPaused)
+                audioSource.Pause();
+            else
+                audioSource.UnPause();
         }
 
         private void CatchPlayer()

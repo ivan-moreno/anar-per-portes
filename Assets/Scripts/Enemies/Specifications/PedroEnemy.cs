@@ -41,6 +41,15 @@ namespace AnarPerPortes
             model = animator.transform;
             EnemyIsActive = true;
             SubtitleManager.Singleton.PushSubtitle("(pasos rápidos a la lejanía)", SubtitleCategory.SoundEffect, SubtitleSource.Hostile);
+            PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
+        }
+
+        private void PauseChanged(bool isPaused)
+        {
+            if (isPaused)
+                audioSource.Pause();
+            else
+                audioSource.UnPause();
         }
 
         private void Update()

@@ -40,21 +40,20 @@ namespace AnarPerPortes
                 Pause();
             else
                 Resume();
-
-            OnPauseChanged?.Invoke(IsPaused);
         }
 
         private void Pause()
         {
-            if (IsPaused)
+            if (IsPaused || PlayerController.Singleton.IsCaught)
                 return;
 
             IsPaused = true;
             pauseMenu.SetActive(true);
             PlayerController.Singleton.BlockMove();
             PlayerController.Singleton.BlockLook();
-            Time.timeScale = 0.01f;
+            Time.timeScale = 0f;
             Cursor.lockState = CursorLockMode.None;
+            OnPauseChanged?.Invoke(true);
         }
 
         private void Resume()
@@ -69,6 +68,7 @@ namespace AnarPerPortes
             PlayerController.Singleton.UnblockLook();
             Time.timeScale = 1f;
             Cursor.lockState = CursorLockMode.Locked;
+            OnPauseChanged?.Invoke(false);
         }
     }
 }

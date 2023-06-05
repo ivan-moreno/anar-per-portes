@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -56,6 +55,15 @@ namespace AnarPerPortes
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
+            PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
+        }
+
+        private void PauseChanged(bool isPaused)
+        {
+            if (isPaused)
+                audioSource.Pause();
+            else
+                audioSource.UnPause();
         }
 
         private void Update()
@@ -96,6 +104,7 @@ namespace AnarPerPortes
                 return;
 
             isCatching = true;
+            PlayerController.Singleton.IsCaught = true;
             AudioManager.Singleton.UnmuteAllAudioMixers();
             audioSource.Stop();
             audioSource.PlayOneShot(jumpscareSound);
@@ -109,16 +118,8 @@ namespace AnarPerPortes
 
         private IEnumerator CatchPlayerEnumerator()
         {
-            yield return new WaitForSeconds(1f);
-            StringBuilder stringBuilder = new();
-
-            for (var i = 0; i < 24; i++)
-                stringBuilder.Append("TE HAS MOVIDO ");
-
-            CatchManager.Singleton.CatchPlayer(
-                title: "<color=#222>A-90</color>",
-                message: "<color=#222>" + stringBuilder.ToString() + "</color>",
-                showUiOnScreenshot: true);
+            yield return new WaitForSeconds(5f);
+            GameManager.Singleton.RestartLevel();
         }
     }
 }

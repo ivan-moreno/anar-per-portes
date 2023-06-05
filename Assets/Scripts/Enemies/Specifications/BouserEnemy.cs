@@ -84,6 +84,15 @@ namespace AnarPerPortes
                 PlayRandomAudio(warningSounds, warningSoundSubtitles);
 
             ChangeTargetLocationRandom();
+            PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
+        }
+
+        private void PauseChanged(bool isPaused)
+        {
+            if (isPaused)
+                audioSource.Pause();
+            else
+                audioSource.UnPause();
         }
 
         //TODO: Try to not choose the same location twice in a row.

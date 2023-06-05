@@ -13,8 +13,11 @@ namespace AnarPerPortes
         [SerializeField] private TMP_Text titleText;
         [SerializeField] private TMP_Text messageText;
         [SerializeField] private Image renderImage;
+        private Animator screenAnimator;
         private bool isDisplaying = false;
         private Action onHideTipCallback;
+        private float timeSinceDisplay = 0f;
+        private const float minDisplayTime = 4f;
 
         public void DisplayTip(string title, string message, Sprite render, Action onHideTipCallback)
         {
@@ -22,20 +25,27 @@ namespace AnarPerPortes
                 return;
 
             isDisplaying = true;
+            timeSinceDisplay = 0f;
+            canvasGroup.alpha = 1f;
             canvasGroup.blocksRaycasts = true;
             titleText.text = title;
             messageText.text = message;
             renderImage.sprite = render;
-            renderImage.transform.GetChild(0).GetComponent<Image>().sprite = render;
             PlayerController.Singleton.BlockMove();
             PlayerController.Singleton.BlockLook();
             this.onHideTipCallback = onHideTipCallback;
-            Time.timeScale = 0.001f;
+            screenAnimator.Play("Draw", 0, 0f);
+            Time.timeScale = 0f;
         }
 
         private void Awake()
         {
             Singleton = this;
+        }
+
+        private void Start()
+        {
+            screenAnimator = canvasGroup.GetComponent<Animator>();
         }
 
         private void HideTip()
@@ -55,7 +65,13 @@ namespace AnarPerPortes
         {
             canvasGroup.alpha = Mathf.MoveTowards(canvasGroup.alpha, isDisplaying ? 1f : 0f, 4f * Time.unscaledDeltaTime);
 
-            if (Input.GetMouseButtonUp(0) && isDisplaying)
+            if (isDisplaying)
+                timeSinceDisplay += Time.unscaledDeltaTime;
+
+            if (!PauseManager.Singleton.IsPaused
+                && Input.GetMouseButtonUp(0)
+                && isDisplaying
+                && timeSinceDisplay >= minDisplayTime)
                 HideTip();
         }
     }

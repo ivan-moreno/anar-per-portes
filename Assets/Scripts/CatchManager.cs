@@ -56,7 +56,7 @@ namespace AnarPerPortes
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0) && canClickToRetry)
+            if (!PauseManager.Singleton.IsPaused && Input.GetMouseButtonDown(0) && canClickToRetry)
             {
                 GameManager.Singleton.RestartLevel();
             }

@@ -126,7 +126,11 @@ namespace AnarPerPortes
 
             var preMovePosition = transform.position;
             characterController.Move(motion + (4f * Time.deltaTime * Physics.gravity));
-            velocity = (transform.position - preMovePosition) / Time.deltaTime;
+
+            if (Time.timeScale <= 0f)
+                velocity = Vector3.zero;
+            else
+                velocity = (transform.position - preMovePosition) / Time.deltaTime;
 
             if (transform.position.y < -32f)
                 Teleport(RoomManager.Singleton.LastLoadedRoom.transform.position);
@@ -139,7 +143,7 @@ namespace AnarPerPortes
 
         private void UpdateInteraction()
         {
-            if (IsCaught)
+            if (IsCaught || IsHidingAsStatue)
                 return;
 
             var foundHit = Physics.Raycast(
@@ -261,7 +265,7 @@ namespace AnarPerPortes
 
         private void UpdateVisionAnimator()
         {
-            if (Time.timeScale <= 0f)
+            if (Time.timeScale <= 0.01f)
                 return;
 
             // TODO: This might provoke unintended offsets when disabling during gameplay.
@@ -269,12 +273,19 @@ namespace AnarPerPortes
 
             // Normalize horizontal velocity between values 0 and 1.
             var hVelocity = new Vector3(velocity.x, 0f, velocity.z).sqrMagnitude;
-            hVelocity /= walkSpeed * 8f;
+
+            if (walkSpeed <= 0f)
+                hVelocity = 0f;
+            else
+                hVelocity /= walkSpeed * 8f;
 
             var animatorHVelocity = visionAnimator.GetFloat("HVelocity");
 
             // Smooth out the velocity changes.
             var smoothHVelocity = Mathf.Lerp(animatorHVelocity, hVelocity, Time.deltaTime * 8f);
+
+            if (float.IsNaN(smoothHVelocity))
+                smoothHVelocity = 0f;
 
             if (visionAnimator.enabled)
                 visionAnimator.SetFloat("HVelocity", smoothHVelocity);

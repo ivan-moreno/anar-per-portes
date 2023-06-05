@@ -28,6 +28,9 @@ namespace AnarPerPortes
 
         private void Update()
         {
+            if (PauseManager.Singleton.IsPaused)
+                return;
+
             aliveTime -= Time.unscaledDeltaTime;
 
             // Smoothly display or hide text.

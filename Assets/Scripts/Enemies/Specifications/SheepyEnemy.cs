@@ -37,6 +37,15 @@ namespace AnarPerPortes
             EnemyIsActive = true;
             audioSource.Play();
             SubtitleManager.Singleton.PushSubtitle("(STOP!)", SubtitleCategory.SoundEffect, SubtitleSource.Hostile);
+            PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
+        }
+
+        private void PauseChanged(bool isPaused)
+        {
+            if (isPaused)
+                audioSource.Pause();
+            else
+                audioSource.UnPause();
         }
 
         private void Update()

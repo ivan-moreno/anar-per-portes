@@ -36,6 +36,15 @@ namespace AnarPerPortes
             transform.SetPositionAndRotation(targetPos, targetRot);
             audioSource.PlayOneShot(warningSound);
             SubtitleManager.Singleton.PushSubtitle("[DAVILOTE] Mira detrás de tí.", SubtitleCategory.Dialog, SubtitleSource.Hostile);
+            PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
+        }
+
+        private void PauseChanged(bool isPaused)
+        {
+            if (isPaused)
+                audioSource.Pause();
+            else
+                audioSource.UnPause();
         }
 
         private void Update()
