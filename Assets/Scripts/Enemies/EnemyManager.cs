@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 namespace AnarPerPortes
@@ -14,6 +15,7 @@ namespace AnarPerPortes
         [SerializeField] private GameObject sheepyEnemyPrefab;
         [SerializeField] private GameObject yusufEnemyPrefab;
         [SerializeField] private A90Enemy a90Enemy;
+        [SerializeField] private TMP_Text _debugEnemyLabel;
         private int roomsWithoutEnemySpawn = 0;
 
         private void Awake()
@@ -63,6 +65,8 @@ namespace AnarPerPortes
 
         private void ProcessEnemyPossibilities(Room generatedRoom)
         {
+            _debugEnemyLabel.text = string.Empty;
+
             roomsWithoutEnemySpawn++;
 
             if (!A90Enemy.EnemyIsActive
@@ -73,7 +77,7 @@ namespace AnarPerPortes
                 && !SheepyEnemy.EnemyIsActive)
             {
                 var rng = Random.Range(0, 100) + roomsWithoutEnemySpawn;
-                
+
                 if (rng > 90)
                 {
                     a90Enemy.Spawn();
@@ -83,14 +87,20 @@ namespace AnarPerPortes
 
             if (generatedRoom is BouserRoom)
             {
+                _debugEnemyLabel.text += "\n100%\tBouser";
                 roomsWithoutEnemySpawn = 0;
             }
+            else
+                _debugEnemyLabel.text += "\n0%\t\tBouser";
 
             if (generatedRoom is IsleRoom)
             {
+                _debugEnemyLabel.text += "\n100%\tYusuf";
                 GenerateEnemy(yusufEnemyPrefab);
                 roomsWithoutEnemySpawn = 0;
             }
+            else
+                _debugEnemyLabel.text += "\n0%\t\tYusuf";
 
             if (generatedRoom is not BouserRoom
                 && generatedRoom is not IsleRoom
@@ -99,12 +109,17 @@ namespace AnarPerPortes
             {
                 var rng = Random.Range(0, 100) + roomsWithoutEnemySpawn;
 
+                _debugEnemyLabel.text += "\n" + (100 - 80 + roomsWithoutEnemySpawn) + "%\t\tPedro";
+
                 if (!PedroEnemy.EnemyIsActive && rng >= 80)
                 {
+                    _debugEnemyLabel.text += "\t<color=#0f0>[IN]</color>";
                     GenerateEnemy(pedroEnemyPrefab);
                     roomsWithoutEnemySpawn = 0;
                 }
             }
+            else
+                _debugEnemyLabel.text += "\n0%\t\tPedro";
 
             if (generatedRoom is not BouserRoom
                 && generatedRoom is not IsleRoom
@@ -112,12 +127,17 @@ namespace AnarPerPortes
             {
                 var rng = Random.Range(0, 100) + roomsWithoutEnemySpawn * 3;
 
+                _debugEnemyLabel.text += "\n" + (100 - 70 + roomsWithoutEnemySpawn * 3) + "%\t\tDavilote";
+
                 if (!DaviloteEnemy.EnemyIsActive && rng >= 70)
                 {
+                    _debugEnemyLabel.text += "\t<color=#0f0>[IN]</color>";
                     GenerateEnemy(daviloteEnemyPrefab);
                     roomsWithoutEnemySpawn = 0;
                 }
             }
+            else
+                _debugEnemyLabel.text += "\n0%\t\tDavilote";
 
             if (generatedRoom is not BouserRoom
                 && generatedRoom is not IsleRoom
@@ -125,12 +145,17 @@ namespace AnarPerPortes
             {
                 var rng = Random.Range(0, 100) + roomsWithoutEnemySpawn * 3;
 
+                _debugEnemyLabel.text += "\n" + (100 - 70 + roomsWithoutEnemySpawn * 3) + "%\t\tSheepy";
+
                 if (!SheepyEnemy.EnemyIsActive && !DaviloteEnemy.EnemyIsActive && rng >= 70)
                 {
+                    _debugEnemyLabel.text += "\t<color=#0f0>[IN]</color>";
                     GenerateEnemy(sheepyEnemyPrefab);
                     roomsWithoutEnemySpawn = 0;
                 }
             }
+            else
+                _debugEnemyLabel.text += "\n0%\t\tSheepy";
         }
     }
 }
