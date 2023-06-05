@@ -9126,6 +9126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultAudioMixer: {fileID: 24100000, guid: 4e4aff11f3d110a4e8b5e38105932283, type: 2}
+  reverbAudioMixer: {fileID: 24100000, guid: 013b56132246b2341b2a8d5a7777ae23, type: 2}
 --- !u!1 &1365483334
 GameObject:
   m_ObjectHideFlags: 0

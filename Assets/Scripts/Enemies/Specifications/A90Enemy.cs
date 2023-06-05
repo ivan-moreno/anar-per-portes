@@ -35,7 +35,7 @@ namespace AnarPerPortes
             var rngY = Random.Range(-350f, 350f);
             image.rectTransform.anchoredPosition = new(rngX, rngY);
             image.enabled = true;
-            AudioManager.Singleton.MuteDefaultAudioMixer();
+            AudioManager.Singleton.MuteAllAudioMixers();
             audioSource.Play();
             SubtitleManager.Singleton.PushSubtitle("(distorsiones)", SubtitleCategory.SoundEffect, SubtitleSource.Hostile);
         }
@@ -50,7 +50,7 @@ namespace AnarPerPortes
             checkedMotion = false;
             timeSinceSpawn = 0f;
             jumpscareAnimator.gameObject.SetActive(false);
-            AudioManager.Singleton.UnmuteDefaultAudioMixer();
+            AudioManager.Singleton.UnmuteAllAudioMixers();
         }
 
         private void Start()
@@ -96,7 +96,7 @@ namespace AnarPerPortes
                 return;
 
             isCatching = true;
-            AudioManager.Singleton.UnmuteDefaultAudioMixer();
+            AudioManager.Singleton.UnmuteAllAudioMixers();
             audioSource.Stop();
             audioSource.PlayOneShot(jumpscareSound);
             SubtitleManager.Singleton.PushSubtitle("(grito distorsionado)", SubtitleCategory.SoundEffect, SubtitleSource.Hostile);

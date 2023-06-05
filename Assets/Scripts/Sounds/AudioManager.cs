@@ -8,15 +8,18 @@ namespace AnarPerPortes
     {
         public static AudioManager Singleton { get; private set; }
         [SerializeField] private AudioMixer defaultAudioMixer;
+        [SerializeField] private AudioMixer reverbAudioMixer;
 
-        public void MuteDefaultAudioMixer()
+        public void MuteAllAudioMixers()
         {
             defaultAudioMixer.SetFloat("MasterVolume", -80f);
+            reverbAudioMixer.SetFloat("MasterVolume", -80f);
         }
 
-        public void UnmuteDefaultAudioMixer()
+        public void UnmuteAllAudioMixers()
         {
             defaultAudioMixer.SetFloat("MasterVolume", 0f);
+            reverbAudioMixer.SetFloat("MasterVolume", 0f);
         }
 
         private void Awake()

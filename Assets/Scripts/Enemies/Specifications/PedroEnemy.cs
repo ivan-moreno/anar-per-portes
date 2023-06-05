@@ -64,7 +64,9 @@ namespace AnarPerPortes
             var determinedTargetLocation = isChasing ? PlayerController.Singleton.transform.position : targetLocation;
 
             var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, runSpeed * Time.deltaTime);
-            transform.position = nextPosition;
+            
+            if (!A90Enemy.EnemyIsActive)
+                transform.position = nextPosition;
 
             reachedTarget = !isChasing && Vector3.Distance(transform.position, targetLocation) <= runSpeed * Time.deltaTime;
 
