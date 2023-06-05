@@ -30,7 +30,7 @@ namespace AnarPerPortes
         {
             if (PauseManager.Singleton.IsPaused)
                 return;
-
+            
             aliveTime -= Time.unscaledDeltaTime;
 
             // Smoothly display or hide text.

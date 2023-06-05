@@ -5239,6 +5239,7 @@ GameObject:
   - component: {fileID: 590490211}
   - component: {fileID: 590490213}
   - component: {fileID: 590490212}
+  - component: {fileID: 590490215}
   - component: {fileID: 590490214}
   m_Layer: 5
   m_Name: GameVersion
@@ -5287,7 +5288,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: v0.1.5
+  m_text: v0.0.0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6ab21aafd38d1684e98a5a41c9868bd9, type: 2}
   m_sharedMaterial: {fileID: 136429845072814102, guid: 6ab21aafd38d1684e98a5a41c9868bd9,
@@ -5378,6 +5379,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dyslexicFontSize: 0
+--- !u!114 &590490215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590490210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a58699d1c208e334686e3d809d6ea2c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &616324445
 GameObject:
   m_ObjectHideFlags: 0
