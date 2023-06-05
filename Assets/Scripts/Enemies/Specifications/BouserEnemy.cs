@@ -22,6 +22,10 @@ namespace AnarPerPortes
         [SerializeField] private string[] warningSoundSubtitles;
         [SerializeField] private AudioClip[] loseSounds;
         [SerializeField] private string[] loseSoundSubtitles;
+        [SerializeField] private AudioClip[] findSounds;
+        [SerializeField] private string[] findSoundSubtitles;
+        [SerializeField] private AudioClip[] searchSounds;
+        [SerializeField] private string[] searchSoundSubtitles;
         [SerializeField] private AudioClip[] tailSounds;
         [SerializeField] private string[] tailSoundSubtitles;
         [SerializeField] private AudioClip[] meetPedroSounds;
@@ -36,7 +40,14 @@ namespace AnarPerPortes
         private bool isChasing = false;
         private bool isCatching = false;
         private bool isGrabbingTail = false;
+        private float audioCooldown = 0f;
         private float timeSinceReachedTarget = 0f;
+        private float timeSinceLastFindAudio = 0f;
+        private float timeSinceLastLoseAudio = 0f;
+        private float timeSinceLastSearchAudio = 0f;
+        private const float minTimeBetweenFindAudios = 3f;
+        private const float minTimeBetweenLoseAudios = 3f;
+        private const float minTimeBetweenSearchAudios = 7f;
 
         public void GrabTail()
         {
@@ -80,20 +91,36 @@ namespace AnarPerPortes
         {
             var rng = Random.Range(0, room.BouserWaypointGroup.childCount);
             targetLocation = room.BouserWaypointGroup.GetChild(rng).position;
+
+            if (timeSinceLastSearchAudio >= minTimeBetweenSearchAudios)
+            {
+                PlayRandomAudio(searchSounds, searchSoundSubtitles);
+                timeSinceLastSearchAudio = 0f;
+            }
         }
 
         private void Update()
         {
+            if (audioCooldown > 0f)
+                audioCooldown -= Time.deltaTime;
+
             if (isGrabbingTail)
                 return;
 
             var distanceToPlayer = Vector3.Distance(transform.position, PlayerController.Singleton.transform.position);
             var playerIsInSight = IsWithinAngle(transform, PlayerController.Singleton.transform);
 
+            // Player camouflaged while chasing
             if (isChasing && PlayerController.Singleton.IsHidingAsStatue)
             {
-                PlayRandomAudio(loseSounds, loseSoundSubtitles);
+                if (timeSinceLastLoseAudio >= minTimeBetweenLoseAudios)
+                {
+                    PlayRandomAudio(loseSounds, loseSoundSubtitles);
+                    timeSinceLastLoseAudio = 0f;
+                }
             }
+
+            var wasChasing = isChasing;
 
             isChasing = playerIsInSight
                 && !PlayerController.Singleton.IsHidingAsStatue
@@ -106,6 +133,20 @@ namespace AnarPerPortes
 
             if (isCatching)
                 return;
+
+            // Found Player, started chasing
+            if (!wasChasing && isChasing)
+            {
+                if (timeSinceLastFindAudio >= minTimeBetweenFindAudios)
+                {
+                    PlayRandomAudio(findSounds, findSoundSubtitles);
+                    timeSinceLastFindAudio = 0f;
+                }
+            }
+
+            timeSinceLastFindAudio += Time.deltaTime;
+            timeSinceLastLoseAudio += Time.deltaTime;
+            timeSinceLastSearchAudio += Time.deltaTime;
 
             // Choose whether to go to the next map point or towards the Player.
             var determinedTargetLocation = isChasing ? PlayerController.Singleton.transform.position : targetLocation;
@@ -166,10 +207,14 @@ namespace AnarPerPortes
         //TODO: Static method
         private void PlayRandomAudio(AudioClip[] audios, string[] subtitles)
         {
+            if (audioCooldown > 0f)
+                return;
+
             var rngAudioIndex = Random.Range(0, audios.Length);
             var rngAudio = audios[rngAudioIndex];
             audioSource.PlayOneShot(rngAudio);
             SubtitleManager.Singleton.PushSubtitle(subtitles[rngAudioIndex], SubtitleCategory.Dialog, SubtitleSource.Hostile);
+            audioCooldown = rngAudio.length;
         }
     }
 }

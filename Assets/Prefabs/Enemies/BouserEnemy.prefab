@@ -162,9 +162,41 @@ MonoBehaviour:
   loseSounds:
   - {fileID: 8300000, guid: e4b0f59890b239a478ecd30e406d83fd, type: 3}
   - {fileID: 8300000, guid: c87453e1858c34d4ca43374f13198c63, type: 3}
+  - {fileID: 8300000, guid: e0ce26ef7c20451429eda3c24c61f819, type: 3}
+  - {fileID: 8300000, guid: 5f153811508129048a64fc8e2d0480f3, type: 3}
+  - {fileID: 8300000, guid: 8111145c0c2b09241a1e3fd120f1e835, type: 3}
   loseSoundSubtitles:
   - "[BOUSER] \xBFPero qu\xE9?"
   - "[BOUSER] \xBFD\xF3nde se meti\xF3 ese chiquituso?"
+  - "[BOUSER] \xBFSe puede saber d\xF3nde te fuiste?"
+  - "[BOUSER] \xBFQu\xE9 demonios?"
+  - "[BOUSER] \xBFHa desaparecido?"
+  findSounds:
+  - {fileID: 8300000, guid: 395131b394dbcb14abf1a9172e3ad0a0, type: 3}
+  - {fileID: 8300000, guid: ce41dbad8018eeb40aa68f35ed08eab6, type: 3}
+  findSoundSubtitles:
+  - "[BOUSER] \xA1Ah\xED est\xE1s!"
+  - "[BOUSER] \xA1Te vas a enterar!"
+  searchSounds:
+  - {fileID: 8300000, guid: 19a65d54da2d7f14d91b5e477757011c, type: 3}
+  - {fileID: 8300000, guid: ce55a9f87e1d7f84aac88523552e8405, type: 3}
+  - {fileID: 8300000, guid: bff5453cc65821d4ea0d8a06850be014, type: 3}
+  - {fileID: 8300000, guid: 2e5fc20c5e3681e4ca230f3d992b6370, type: 3}
+  - {fileID: 8300000, guid: 384878d2be715114da67b602b265bc14, type: 3}
+  - {fileID: 8300000, guid: 8824741205fc1ab419d79c1f7321edf0, type: 3}
+  - {fileID: 8300000, guid: e47193bbd87a4244ab85448b1a5e3c58, type: 3}
+  - {fileID: 8300000, guid: db83a76a074ee8841b57aa82ff9860fb, type: 3}
+  searchSoundSubtitles:
+  - '[BOUSER] No me obligues a ponerme el modo serio.'
+  - "[BOUSER] J*der, es m\xE1s f\xE1cil capturar a una princesa que encontrarte."
+  - "[BOUSER] \xBFSabes, chiquituso? Al final pasar\xE1. M\xEDo ser\xE1s, uoooh~"
+  - "[BOUSER] Maldita sea, \xBFd\xF3nde est\xE1 mi ej\xE9rcito de Koopas cuando lo
+    necesitas?"
+  - '[BOUSER] Si sales de tu escondite te doy un caramelo marca Bouser, lo juro,
+    jiji-'
+  - "[BOUSER] \xBFChiiquiituso?"
+  - '[BOUSER] Date prisa, que tengo Isle a las 5:00.'
+  - '[BOUSER] Acabemos con esto, que tengo que entrenar.'
   tailSounds:
   - {fileID: 8300000, guid: 8c4860a619f14744b8c27ef644749eb7, type: 3}
   - {fileID: 8300000, guid: f017535e417b2ee4c8d4b38ad6d43e32, type: 3}
