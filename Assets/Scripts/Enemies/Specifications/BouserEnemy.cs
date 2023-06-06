@@ -210,6 +210,7 @@ namespace AnarPerPortes
 
             isCatching = true;
             animator.Play("Jumpscare");
+            audioSource.Stop();
             audioSource.PlayOneShot(jumpscareSound);
             SubtitleManager.Singleton.PushSubtitle("(Bouser grita)", SubtitleCategory.Dialog, SubtitleSource.Hostile);
             PlayerController.Singleton.BlockMove();

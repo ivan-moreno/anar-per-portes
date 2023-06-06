@@ -2740,6 +2740,7 @@ GameObject:
   - component: {fileID: 330585547}
   - component: {fileID: 330585549}
   - component: {fileID: 330585548}
+  - component: {fileID: 330585550}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2951,6 +2952,15 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1542919678 &330585550
+StreamingController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_StreamingMipmapBias: 0
 --- !u!1 &333878370
 GameObject:
   m_ObjectHideFlags: 0
@@ -12214,7 +12224,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   roomsGroup: {fileID: 1045465326}
-  startRoomPrefab: {fileID: 2680760812835006686, guid: cb88ba8b4da09114f9ddb8da42621c0f,
+  startRoomPrefab: {fileID: 1343002099365941501, guid: 5cc099752353fce4b81fa271b424285e,
     type: 3}
   generalRoomPrefabs:
   - {fileID: 1343002099365941501, guid: d4257d6b84f65c341a6d6ae90cdfbf8d, type: 3}
