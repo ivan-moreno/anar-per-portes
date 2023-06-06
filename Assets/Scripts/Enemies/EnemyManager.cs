@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -6,6 +8,32 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Managers/Enemy Manager")]
     public sealed class EnemyManager : MonoBehaviour
     {
+        private sealed class EnemyPossibility
+        {
+            public GameObject EnemyPrefab { get; set; }
+            public Func<Room, bool> SpawnRequirements { get; set; }
+            public Func<EnemyPossibility, bool> RngRequirement { get; set; }
+            public int RoomsWithoutSpawn { get; set; } = 0;
+            public bool WillSpawn { get; set; } = false;
+
+            public bool HasSpawnRequirements(Room generatedRoom)
+            {
+                return SpawnRequirements is not null && SpawnRequirements.Invoke(generatedRoom);
+            }
+
+            public bool HasRngRequirement()
+            {
+                return RngRequirement is not null && RngRequirement.Invoke(this);
+            }
+
+            public void DoSpawn()
+            {
+                EnemyManager.Singleton.GenerateEnemy(EnemyPrefab);
+                RoomsWithoutSpawn = 0;
+                WillSpawn = false;
+            }
+        }
+
         public static EnemyManager Singleton { get; private set; }
         public GameObject BouserEnemyPrefab => bouserEnemyPrefab;
         [SerializeField] private Transform enemiesGroup;
@@ -16,7 +44,13 @@ namespace AnarPerPortes
         [SerializeField] private GameObject yusufEnemyPrefab;
         [SerializeField] private A90Enemy a90Enemy;
         [SerializeField] private TMP_Text _debugEnemyLabel;
-        private int roomsWithoutEnemySpawn = 0;
+        private int roomsWithoutAnyEnemySpawn = 0;
+
+        private EnemyPossibility davilotePossibility;
+        private EnemyPossibility pedroPossibility;
+        private EnemyPossibility sheepyPossibility;
+        private EnemyPossibility a90Possibility;
+        private readonly List<EnemyPossibility> allEnemyPossibilities = new();
 
         private void Awake()
         {
@@ -26,6 +60,96 @@ namespace AnarPerPortes
         private void Start()
         {
             RoomManager.Singleton.OnRoomGenerated.AddListener(ProcessEnemyPossibilities);
+
+            pedroPossibility = new()
+            {
+                EnemyPrefab = pedroEnemyPrefab,
+                SpawnRequirements =
+                    (room) => !PedroEnemy.EnemyIsActive
+                    && room is not IsleRoom
+                    && room.HasHidingSpots
+                    && RoomManager.Singleton.LastOpenedRoomNumber >= 10,
+                RngRequirement = (possibility) =>
+                {
+                    var rng = UnityEngine.Random.Range(0, 100);
+                    rng += possibility.RoomsWithoutSpawn;
+                    rng += roomsWithoutAnyEnemySpawn;
+
+                    if (possibility.RoomsWithoutSpawn <= 4)
+                        rng = 0;
+
+                    return rng >= 70;
+                }
+            };
+
+            allEnemyPossibilities.Add(pedroPossibility);
+
+            davilotePossibility = new()
+            {
+                EnemyPrefab = daviloteEnemyPrefab,
+                SpawnRequirements =
+                    (room) => !DaviloteEnemy.EnemyIsActive
+                    && room is not BouserRoom
+                    && room is not IsleRoom
+                    && RoomManager.Singleton.LastOpenedRoomNumber >= 15,
+                RngRequirement = (possibility) =>
+                {
+                    var rng = UnityEngine.Random.Range(0, 100);
+                    rng += possibility.RoomsWithoutSpawn * 2;
+                    rng += roomsWithoutAnyEnemySpawn;
+
+                    if (possibility.RoomsWithoutSpawn <= 5)
+                        rng = 0;
+
+                    return rng >= 80;
+                }
+            };
+
+            allEnemyPossibilities.Add(davilotePossibility);
+
+            sheepyPossibility = new()
+            {
+                EnemyPrefab = sheepyEnemyPrefab,
+                SpawnRequirements =
+                    (room) => !SheepyEnemy.EnemyIsActive
+                    && room is not IsleRoom
+                    && RoomManager.Singleton.LastOpenedRoomNumber >= 5,
+                RngRequirement = (possibility) =>
+                {
+                    var rng = UnityEngine.Random.Range(0, 100);
+                    rng += possibility.RoomsWithoutSpawn * 2;
+                    rng += roomsWithoutAnyEnemySpawn;
+
+                    if (possibility.RoomsWithoutSpawn <= 5)
+                        rng = 0;
+
+                    return rng >= 80;
+                }
+            };
+
+            allEnemyPossibilities.Add(sheepyPossibility);
+
+            a90Possibility = new()
+            {
+                EnemyPrefab = null,
+                SpawnRequirements =
+                    (room) => !A90Enemy.EnemyIsActive
+                    && room is not IsleRoom
+                    && RoomManager.Singleton.LastOpenedRoomNumber >= 90,
+                RngRequirement = (possibility) =>
+                {
+                    var rng = UnityEngine.Random.Range(0, 100);
+                    rng += possibility.RoomsWithoutSpawn;
+                    rng += roomsWithoutAnyEnemySpawn;
+
+                    if (possibility.RoomsWithoutSpawn <= 3)
+                        rng = 0;
+
+                    return rng >= 90;
+                }
+            };
+
+            allEnemyPossibilities.Add(a90Possibility);
         }
 
         private void Update()
@@ -65,97 +189,47 @@ namespace AnarPerPortes
 
         private void ProcessEnemyPossibilities(Room generatedRoom)
         {
-            _debugEnemyLabel.text = string.Empty;
-
-            roomsWithoutEnemySpawn++;
-
-            if (!A90Enemy.EnemyIsActive
-                && generatedRoom is not BouserRoom
-                && generatedRoom is not IsleRoom
-                && RoomManager.Singleton.LastOpenedRoomNumber >= 90
-                && !PedroEnemy.EnemyIsActive
-                && !SheepyEnemy.EnemyIsActive)
-            {
-                var rng = Random.Range(0, 100) + roomsWithoutEnemySpawn;
-
-                if (rng > 90)
-                {
-                    a90Enemy.Spawn();
-                    roomsWithoutEnemySpawn = 0;
-                }
-            }
-
             if (generatedRoom is BouserRoom)
-            {
-                _debugEnemyLabel.text += "\n100%\tBouser";
-                roomsWithoutEnemySpawn = 0;
-            }
-            else
-                _debugEnemyLabel.text += "\n0%\t\tBouser";
+                roomsWithoutAnyEnemySpawn = 0;
 
             if (generatedRoom is IsleRoom)
             {
-                _debugEnemyLabel.text += "\n100%\tYusuf";
                 GenerateEnemy(yusufEnemyPrefab);
-                roomsWithoutEnemySpawn = 0;
+                roomsWithoutAnyEnemySpawn = 0;
             }
-            else
-                _debugEnemyLabel.text += "\n0%\t\tYusuf";
 
-            if (generatedRoom is not BouserRoom
-                && generatedRoom is not IsleRoom
-                && generatedRoom.HasHidingSpots
-                && RoomManager.Singleton.LastOpenedRoomNumber >= 5)
+            pedroPossibility.WillSpawn = pedroPossibility.HasSpawnRequirements(generatedRoom) && pedroPossibility.HasRngRequirement();
+
+            davilotePossibility.WillSpawn = davilotePossibility.HasSpawnRequirements(generatedRoom) && davilotePossibility.HasRngRequirement();
+
+            sheepyPossibility.WillSpawn = sheepyPossibility.HasSpawnRequirements(generatedRoom) && sheepyPossibility.HasRngRequirement();
+
+            a90Possibility.WillSpawn =
+                !sheepyPossibility.WillSpawn
+                && a90Possibility.HasSpawnRequirements(generatedRoom)
+                && a90Possibility.HasRngRequirement();
+
+            roomsWithoutAnyEnemySpawn++;
+
+            foreach (var possibility in allEnemyPossibilities)
             {
-                var rng = Random.Range(0, 100) + roomsWithoutEnemySpawn;
-
-                _debugEnemyLabel.text += "\n" + (100 - 80 + roomsWithoutEnemySpawn) + "%\t\tPedro";
-
-                if (!PedroEnemy.EnemyIsActive && rng >= 80)
+                if (possibility.WillSpawn)
                 {
-                    _debugEnemyLabel.text += "\t<color=#0f0>[IN]</color>";
-                    GenerateEnemy(pedroEnemyPrefab);
-                    roomsWithoutEnemySpawn = 0;
+                    if (possibility == a90Possibility)
+                    {
+                        a90Enemy.Spawn();
+                        roomsWithoutAnyEnemySpawn = 0;
+                        continue;
+                    }
+
+                    possibility.DoSpawn();
+                    roomsWithoutAnyEnemySpawn = 0;
+                }
+                else
+                {
+                    possibility.RoomsWithoutSpawn++;
                 }
             }
-            else
-                _debugEnemyLabel.text += "\n0%\t\tPedro";
-
-            if (generatedRoom is not BouserRoom
-                && generatedRoom is not IsleRoom
-                && RoomManager.Singleton.LastOpenedRoomNumber >= 5)
-            {
-                var rng = Random.Range(0, 100) + roomsWithoutEnemySpawn * 3;
-
-                _debugEnemyLabel.text += "\n" + (100 - 70 + roomsWithoutEnemySpawn * 3) + "%\t\tDavilote";
-
-                if (!DaviloteEnemy.EnemyIsActive && rng >= 70)
-                {
-                    _debugEnemyLabel.text += "\t<color=#0f0>[IN]</color>";
-                    GenerateEnemy(daviloteEnemyPrefab);
-                    roomsWithoutEnemySpawn = 0;
-                }
-            }
-            else
-                _debugEnemyLabel.text += "\n0%\t\tDavilote";
-
-            if (generatedRoom is not BouserRoom
-                && generatedRoom is not IsleRoom
-                && RoomManager.Singleton.LastOpenedRoomNumber >= 5)
-            {
-                var rng = Random.Range(0, 100) + roomsWithoutEnemySpawn * 3;
-
-                _debugEnemyLabel.text += "\n" + (100 - 70 + roomsWithoutEnemySpawn * 3) + "%\t\tSheepy";
-
-                if (!SheepyEnemy.EnemyIsActive && !DaviloteEnemy.EnemyIsActive && rng >= 70)
-                {
-                    _debugEnemyLabel.text += "\t<color=#0f0>[IN]</color>";
-                    GenerateEnemy(sheepyEnemyPrefab);
-                    roomsWithoutEnemySpawn = 0;
-                }
-            }
-            else
-                _debugEnemyLabel.text += "\n0%\t\tSheepy";
         }
     }
 }

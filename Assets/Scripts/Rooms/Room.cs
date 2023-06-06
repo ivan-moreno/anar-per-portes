@@ -6,13 +6,13 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Rooms/Room")]
     public class Room : MonoBehaviour
     {
-        public bool HasHidingSpots => hasHidingSpots;
-        public Transform NextRoomGenerationPoint => nextRoomGenerationPoint;
         public Transform WaypointGroup { get; private set; }
+        public Transform NextRoomGenerationPoint { get; private set; }
+        public Transform PedroBreakPoint { get; private set; }
+        public bool HasHidingSpots => hasHidingSpots;
         [HideInInspector] public UnityEvent OnDoorOpened;
         [HideInInspector] public UnityEvent OnUnloading;
         [SerializeField] protected bool hasHidingSpots = false;
-        [SerializeField] protected Transform nextRoomGenerationPoint;
         [SerializeField] protected RoomDoor door;
 
         public void OpenDoor()
@@ -33,7 +33,9 @@ namespace AnarPerPortes
 
         protected virtual void Start()
         {
+            NextRoomGenerationPoint = transform.Find("Logic").Find("NextRoomPoint");
             WaypointGroup = transform.Find("Logic").Find("Waypoints");
+            PedroBreakPoint = transform.Find("Logic").Find("PedroBreakPoint");
             door.OnDoorOpened.AddListener(() => OnDoorOpened?.Invoke());
         }
     }

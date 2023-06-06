@@ -87,7 +87,7 @@ namespace AnarPerPortes
                 var dist = Vector3.Distance(transform.position, pedroPos);
 
                 if (dist <= 32f)
-                    PlayRandomAudio(meetPedroSounds, meetPedroSoundSubtitles, SubtitleSource.Common);
+                    PlayRandomAudio(meetPedroSounds, meetPedroSoundSubtitles);
                 else
                     PlayRandomAudio(warningSounds, warningSoundSubtitles);
             }

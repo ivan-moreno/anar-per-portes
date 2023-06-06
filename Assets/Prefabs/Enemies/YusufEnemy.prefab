@@ -149,7 +149,7 @@ MonoBehaviour:
   tipRender: {fileID: 21300000, guid: 0e13a643bf0a34948b6117d1f3f5545b, type: 3}
   walkieTalkieAlertSound: {fileID: 8300000, guid: 8d32efb1b88e9ae4d93e9de09c6522df,
     type: 3}
-  jumpscareSound: {fileID: 8300000, guid: 6546456801189ca4cb69b244bffb8978, type: 3}
+  jumpscareSound: {fileID: 8300000, guid: 10425d7bc8c82e24289db0c9747569b0, type: 3}
   bunkerTargetSounds:
   - {fileID: 8300000, guid: ae6bcce0310b764468e580475e36f0f5, type: 3}
   bunkerTargetSoundSubtitles:

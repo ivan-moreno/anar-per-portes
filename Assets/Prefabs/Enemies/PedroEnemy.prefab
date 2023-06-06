@@ -147,13 +147,15 @@ MonoBehaviour:
   tipMessage: "Pedro ha entrado en el edificio.\n\nEn breves instantes llegar\xE1
     a esta sala. \xA1Cam\xFAflate!"
   tipRender: {fileID: 21300000, guid: 8856f4b6598ce3e489c8e5c9e233600b, type: 3}
-  runSpeed: 20
+  runSpeed: 22
   chaseRange: 16
   catchRange: 2
   jumpscareSound: {fileID: 8300000, guid: 6240ddb6999e2db409aa6b2ebb8055d2, type: 3}
   meetBouserSound: {fileID: 8300000, guid: 775a27b8b09df724884c450526a1b0d3, type: 3}
-  laughAtBouserSound: {fileID: 8300000, guid: bdf332cfd36c6de4badee4ff9db87466, type: 3}
   meetBouserSubtitles: "[PEDRO] \xC1brete s\xE9samo."
+  laughAtBouserSound: {fileID: 8300000, guid: bdf332cfd36c6de4badee4ff9db87466, type: 3}
+  finishRunSound: {fileID: 8300000, guid: 4f3701c14c188294da84094794d1a435, type: 3}
+  finishRunSubtitles: '[PEDRO] Bueno, hice todo lo que pude.'
 --- !u!1001 &6310198024124025993
 PrefabInstance:
   m_ObjectHideFlags: 0

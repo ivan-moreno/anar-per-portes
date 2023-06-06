@@ -22,12 +22,15 @@ namespace AnarPerPortes
         [SerializeField] private AudioClip meetBouserSound;
         [SerializeField] private string meetBouserSubtitles;
         [SerializeField] private AudioClip laughAtBouserSound;
+        [SerializeField] private AudioClip finishRunSound;
+        [SerializeField] private string finishRunSubtitles;
         private AudioSource audioSource;
         private Animator animator;
         private Transform model;
         private Vector3 targetLocation;
         private bool reachedTarget = false;
         private bool isChasing = false;
+        private bool isOnBreak = false;
         private bool lineOfSightCheck = false;
         private bool isCatching = false;
         private bool metBouser = false;
@@ -60,15 +63,14 @@ namespace AnarPerPortes
         {
             var distanceToPlayer = Vector3.Distance(transform.position, PlayerController.Singleton.transform.position);
 
-            isChasing = distanceToPlayer <= chaseRange
+            isChasing = !isOnBreak
+                && distanceToPlayer <= chaseRange
                 && lineOfSightCheck
                 && !PlayerController.Singleton.IsHidingAsStatue
                 && !PlayerController.Singleton.IsCaught;
 
-            if (isChasing && distanceToPlayer <= catchRange)
-            {
+            if (!isOnBreak && isChasing && distanceToPlayer <= catchRange)
                 CatchPlayer();
-            }
 
             if (isCatching)
                 return;
@@ -77,7 +79,7 @@ namespace AnarPerPortes
             var determinedTargetLocation = isChasing ? PlayerController.Singleton.transform.position : targetLocation;
 
             var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, runSpeed * Time.deltaTime);
-            
+
             if (!A90Enemy.EnemyIsActive)
                 transform.position = nextPosition;
 
@@ -85,6 +87,18 @@ namespace AnarPerPortes
 
             if (reachedTarget)
             {
+                if (isOnBreak)
+                {
+                    runSpeed = 0f;
+                    animator.Play("Idle");
+                    model.rotation = RoomManager.Singleton.LastLoadedRoom.PedroBreakPoint.rotation;
+                    audioSource.Stop();
+                    audioSource.PlayOneShot(finishRunSound);
+                    SubtitleManager.Singleton.PushSubtitle(finishRunSubtitles, SubtitleCategory.Dialog, SubtitleSource.Common);
+                    enabled = false;
+                    return;
+                }
+
                 if (waypointsTraversed >= RoomManager.Singleton.Rooms[roomsTraversed].WaypointGroup.childCount - 1)
                 {
                     roomsTraversed++;
@@ -95,8 +109,15 @@ namespace AnarPerPortes
 
                 if (roomsTraversed >= RoomManager.Singleton.Rooms.Count)
                 {
-                    EnemyIsActive = false;
-                    Destroy(gameObject);
+                    if (RoomManager.Singleton.LastLoadedRoom is BouserRoom)
+                    {
+                        Despawn();
+                        return;
+                    }
+
+                    isOnBreak = true;
+                    targetLocation = RoomManager.Singleton.LastLoadedRoom.PedroBreakPoint.position;
+                    RoomManager.Singleton.LastLoadedRoom.OnUnloading.AddListener(Despawn);
                     return;
                 }
 
@@ -116,14 +137,7 @@ namespace AnarPerPortes
 
         private void FixedUpdate()
         {
-            lineOfSightCheck =
-                Physics.Linecast(
-                    start: transform.position + Vector3.up,
-                    end: PlayerController.Singleton.transform.position + Vector3.up,
-                    hitInfo: out var hit,
-                    layerMask: LayerMask.GetMask("Default", "Player"),
-                    queryTriggerInteraction: QueryTriggerInteraction.Ignore)
-                && hit.transform.gameObject.layer == LayerMask.NameToLayer("Player");
+            lineOfSightCheck = PlayerIsInLineOfSight();
 
             if (!metBouser && RoomManager.Singleton.LastLoadedRoom is BouserRoom bouserRoom)
             {
@@ -132,25 +146,32 @@ namespace AnarPerPortes
                     var dist = Vector3.Distance(transform.position, bouserEnemy.transform.position);
 
                     if (dist <= 8f)
-                    {
                         StartCoroutine(nameof(LaughAtBouserEnumerator));
-                    }
                 }
                 else
                 {
                     var dist = Vector3.Distance(transform.position, bouserRoom.BouserSpawnPoint.position);
 
                     if (dist <= 18f)
-                    {
                         StartCoroutine(nameof(MeetBouserEnumerator));
-                    }
                 }
             }
         }
 
+        private bool PlayerIsInLineOfSight()
+        {
+            return Physics.Linecast(
+                    start: transform.position + Vector3.up,
+                    end: PlayerController.Singleton.transform.position + Vector3.up,
+                    hitInfo: out var hit,
+                    layerMask: LayerMask.GetMask("Default", "Player"),
+                    queryTriggerInteraction: QueryTriggerInteraction.Ignore)
+                && hit.transform.gameObject.layer == LayerMask.NameToLayer("Player");
+        }
+
         private void CatchPlayer()
         {
-            if (isCatching)
+            if (isCatching || isOnBreak)
                 return;
 
             isCatching = true;
@@ -164,13 +185,13 @@ namespace AnarPerPortes
             StartCoroutine(nameof(CatchPlayerEnumerator));
         }
 
-        IEnumerator CatchPlayerEnumerator()
+        private IEnumerator CatchPlayerEnumerator()
         {
             yield return new WaitForSeconds(0.7f);
             CatchManager.Singleton.CatchPlayer("PEDRO ENDING", "Parece que quiso pasar un mal rato, chico. Hehehehehe.");
         }
 
-        IEnumerator MeetBouserEnumerator()
+        private IEnumerator MeetBouserEnumerator()
         {
             metBouser = true;
             var originalRunSpeed = runSpeed;
@@ -188,7 +209,7 @@ namespace AnarPerPortes
             audioSource.Play();
         }
 
-        IEnumerator LaughAtBouserEnumerator()
+        private IEnumerator LaughAtBouserEnumerator()
         {
             metBouser = true;
             var originalRunSpeed = runSpeed;
@@ -202,6 +223,12 @@ namespace AnarPerPortes
             runSpeed = originalRunSpeed;
             animator.Play("Run");
             audioSource.Play();
+        }
+
+        private void Despawn()
+        {
+            EnemyIsActive = false;
+            Destroy(gameObject);
         }
     }
 }

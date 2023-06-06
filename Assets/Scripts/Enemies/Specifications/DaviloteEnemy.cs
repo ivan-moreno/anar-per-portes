@@ -20,22 +20,17 @@ namespace AnarPerPortes
         [SerializeField] private AudioClip jumpscareSound;
         private AudioSource audioSource;
         private Transform model;
-        private float timeSinceSpawn = 0f;
         private bool isCatching = false;
-        private const float timeToDespawn = 3f;
 
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
             model = transform.GetChild(0);
             EnemyIsActive = true;
-            var lastLoadedRoomTransform = RoomManager.Singleton.LastLoadedRoom.transform;
-            var targetPos = lastLoadedRoomTransform.position;
-            targetPos -= lastLoadedRoomTransform.forward * 8f;
-            var targetRot = lastLoadedRoomTransform.rotation;
-            transform.SetPositionAndRotation(targetPos, targetRot);
+            transform.rotation = PlayerController.Singleton.transform.rotation;
             audioSource.PlayOneShot(warningSound);
             SubtitleManager.Singleton.PushSubtitle("[DAVILOTE] Mira detrás de tí.", SubtitleCategory.Dialog, SubtitleSource.Hostile);
+            RoomManager.Singleton.OnRoomGenerated.AddListener((_) => Despawn());
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
 
@@ -55,11 +50,11 @@ namespace AnarPerPortes
                 transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 4f);
                 return;
             }
+        }
 
-            timeSinceSpawn += Time.deltaTime;
-
-            if (timeSinceSpawn >= timeToDespawn)
-                Despawn();
+        private void LateUpdate()
+        {
+            transform.position = PlayerController.Singleton.transform.position - (transform.forward * 2f);
         }
 
         private void FixedUpdate()
@@ -68,19 +63,12 @@ namespace AnarPerPortes
             var enemyAngle = transform.eulerAngles.y;
             var angleDiff = Mathf.DeltaAngle(playerAngle, enemyAngle);
 
-            if (Mathf.Abs(angleDiff) < 140f)
+            var vCameraAngle = PlayerController.Singleton.Camera.transform.eulerAngles.x;
+
+            if (vCameraAngle is > 60f and < 80f or > 280f and < 300f)
                 return;
 
-            var lineOfSightCheck =
-                Physics.Linecast(
-                    start: transform.position + Vector3.up,
-                    end: PlayerController.Singleton.transform.position + Vector3.up,
-                    hitInfo: out var hit,
-                    layerMask: LayerMask.GetMask("Default", "Player"),
-                    queryTriggerInteraction: QueryTriggerInteraction.Ignore)
-                && hit.transform.gameObject.layer == LayerMask.NameToLayer("Player");
-
-            if (lineOfSightCheck)
+            if (Mathf.Abs(angleDiff) > 120f)
                 CatchPlayer();
         }
 

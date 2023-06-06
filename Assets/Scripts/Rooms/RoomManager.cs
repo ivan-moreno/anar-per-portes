@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,7 +16,7 @@ namespace AnarPerPortes
         [SerializeField] private Transform roomsGroup;
         [SerializeField] private GameObject startRoomPrefab;
         [SerializeField] private GameObject[] generalRoomPrefabs;
-        private const int maxLoadedRooms = 5;
+        private const int maxLoadedRooms = 4;
 
         public void OpenDoorAndGenerateNextRoomRandom()
         {
@@ -72,9 +73,15 @@ namespace AnarPerPortes
 
         private void UnloadOldestRoom()
         {
+            StartCoroutine(nameof(UnloadOldestRoomEnumerator));
+        }
+
+        private IEnumerator UnloadOldestRoomEnumerator()
+        {
+            Rooms[1].CloseDoor();
+            yield return new WaitForSeconds(1f);
             Rooms[0].Unload();
             Rooms.RemoveAt(0);
-            Rooms[1].CloseDoor();
         }
 
         private void OnDoorOpened()
