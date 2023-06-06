@@ -148,9 +148,9 @@ MonoBehaviour:
   tipMessage: "Bouser te va a encerrar en esta sala.\n\n\xA1Cam\xFAflate y ag\xE1rrale
     de la cola cuando menos se lo espere!"
   tipRender: {fileID: 21300000, guid: 445558a917c93fd44be3467c8b971392, type: 3}
-  runSpeed: 5
+  runSpeed: 6
   catchRange: 3
-  sightAngle: 45
+  sightAngle: 60
   warningSounds:
   - {fileID: 8300000, guid: 6078a9ac12896f544a53ab19bdab306d, type: 3}
   - {fileID: 8300000, guid: 50d39fa52e255344cb1d8987149116cb, type: 3}

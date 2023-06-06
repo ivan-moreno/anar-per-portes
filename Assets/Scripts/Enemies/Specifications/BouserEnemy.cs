@@ -42,10 +42,13 @@ namespace AnarPerPortes
         private bool isCatching = false;
         private bool isGrabbingTail = false;
         private float audioCooldown = 0f;
+        private float nextMoveTime;
         private float timeSinceReachedTarget = 0f;
         private float timeSinceLastFindAudio = 0f;
         private float timeSinceLastLoseAudio = 0f;
         private float timeSinceLastSearchAudio = 0f;
+        private const float nextMoveMinTime = 1.5f;
+        private const float nextMoveMaxTime = 3f;
         private const float minTimeBetweenFindAudios = 3f;
         private const float minTimeBetweenLoseAudios = 3f;
         private const float minTimeBetweenSearchAudios = 7f;
@@ -60,7 +63,7 @@ namespace AnarPerPortes
             animator.Play("TailGrab");
             audioSource.Stop();
             audioCooldown = 0f;
-            PlayRandomAudio(tailSounds, tailSoundSubtitles);
+            PlayRandomAudio(tailSounds, tailSoundSubtitles, SubtitleSource.Common);
             room.OpenBouserDoor();
 
             //TODO: Launch animation
@@ -70,6 +73,8 @@ namespace AnarPerPortes
         private void Start()
         {
             room = RoomManager.Singleton.LastLoadedRoom as BouserRoom;
+            room.OnUnloading.AddListener(Despawn);
+
             transform.SetPositionAndRotation(room.BouserSpawnPoint.position, room.BouserSpawnPoint.rotation);
             audioSource = GetComponent<AudioSource>();
             animator = GetComponentInChildren<Animator>();
@@ -82,15 +87,15 @@ namespace AnarPerPortes
                 var dist = Vector3.Distance(transform.position, pedroPos);
 
                 if (dist <= 32f)
-                    PlayRandomAudio(meetPedroSounds, meetPedroSoundSubtitles);
+                    PlayRandomAudio(meetPedroSounds, meetPedroSoundSubtitles, SubtitleSource.Common);
                 else
                     PlayRandomAudio(warningSounds, warningSoundSubtitles);
             }
             else
                 PlayRandomAudio(warningSounds, warningSoundSubtitles);
 
+            nextMoveTime = Random.Range(nextMoveMinTime, nextMoveMaxTime);
             ChangeTargetLocationRandom();
-            room.OnDoorOpened.AddListener(Despawn);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
 
@@ -110,7 +115,7 @@ namespace AnarPerPortes
 
             if (timeSinceLastSearchAudio >= minTimeBetweenSearchAudios)
             {
-                PlayRandomAudio(searchSounds, searchSoundSubtitles);
+                PlayRandomAudio(searchSounds, searchSoundSubtitles, SubtitleSource.Common);
                 timeSinceLastSearchAudio = 0f;
             }
         }
@@ -131,7 +136,7 @@ namespace AnarPerPortes
             {
                 if (timeSinceLastLoseAudio >= minTimeBetweenLoseAudios)
                 {
-                    PlayRandomAudio(loseSounds, loseSoundSubtitles);
+                    PlayRandomAudio(loseSounds, loseSoundSubtitles, SubtitleSource.Common);
                     timeSinceLastLoseAudio = 0f;
                 }
             }
@@ -177,9 +182,10 @@ namespace AnarPerPortes
             {
                 timeSinceReachedTarget += Time.deltaTime;
 
-                if (timeSinceReachedTarget >= 3f)
+                if (timeSinceReachedTarget >= nextMoveTime)
                 {
                     timeSinceReachedTarget = 0f;
+                    nextMoveTime = Random.Range(nextMoveMinTime, nextMoveMaxTime);
                     ChangeTargetLocationRandom();
                 }
 
@@ -221,7 +227,7 @@ namespace AnarPerPortes
         }
 
         //TODO: Static method
-        private void PlayRandomAudio(AudioClip[] audios, string[] subtitles)
+        private void PlayRandomAudio(AudioClip[] audios, string[] subtitles, SubtitleSource source = SubtitleSource.Hostile)
         {
             if (audioCooldown > 0f)
                 return;
@@ -229,7 +235,7 @@ namespace AnarPerPortes
             var rngAudioIndex = Random.Range(0, audios.Length);
             var rngAudio = audios[rngAudioIndex];
             audioSource.PlayOneShot(rngAudio);
-            SubtitleManager.Singleton.PushSubtitle(subtitles[rngAudioIndex], SubtitleCategory.Dialog, SubtitleSource.Hostile);
+            SubtitleManager.Singleton.PushSubtitle(subtitles[rngAudioIndex], SubtitleCategory.Dialog, source);
             audioCooldown = rngAudio.length;
         }
 

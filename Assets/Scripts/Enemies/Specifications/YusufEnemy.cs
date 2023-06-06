@@ -32,7 +32,7 @@ namespace AnarPerPortes
         private void Start()
         {
             var isleRoom = RoomManager.Singleton.LastLoadedRoom as IsleRoom;
-            var targetPos = isleRoom.IncorrectDoor.transform.position + isleRoom.IncorrectDoor.transform.forward * 4f;
+            var targetPos = isleRoom.IncorrectDoor.transform.position + (isleRoom.IncorrectDoor.transform.forward * 4f);
             transform.position = targetPos;
             audioSource = GetComponent<AudioSource>();
             model = transform.GetChild(0);

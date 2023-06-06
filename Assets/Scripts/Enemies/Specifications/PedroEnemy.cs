@@ -31,13 +31,14 @@ namespace AnarPerPortes
         private bool lineOfSightCheck = false;
         private bool isCatching = false;
         private bool metBouser = false;
+        private int waypointsTraversed = 0;
         private int roomsTraversed = 0;
         private BouserEnemy bouserEnemy;
 
         private void Start()
         {
             transform.position = RoomManager.Singleton.Rooms[0].transform.position;
-            targetLocation = RoomManager.Singleton.Rooms[0].NextRoomGenerationPoint.position;
+            targetLocation = RoomManager.Singleton.Rooms[0].WaypointGroup.GetChild(0).position;
             audioSource = GetComponent<AudioSource>();
             animator = GetComponentInChildren<Animator>();
             model = animator.transform;
@@ -84,27 +85,35 @@ namespace AnarPerPortes
 
             if (reachedTarget)
             {
-                roomsTraversed++;
+                if (waypointsTraversed >= RoomManager.Singleton.Rooms[roomsTraversed].WaypointGroup.childCount - 1)
+                {
+                    roomsTraversed++;
+                    waypointsTraversed = 0;
+                }
+                else
+                    waypointsTraversed++;
 
                 if (roomsTraversed >= RoomManager.Singleton.Rooms.Count)
                 {
                     if (RoomManager.Singleton.LastLoadedRoom is not BouserRoom)
-                    {
                         RoomManager.Singleton.OpenDoorAndGenerateNextRoomRandom();
-                    }
 
                     EnemyIsActive = false;
                     Destroy(gameObject);
                     return;
                 }
 
-                targetLocation = RoomManager.Singleton.Rooms[roomsTraversed].NextRoomGenerationPoint.position;
+                targetLocation = RoomManager.Singleton.Rooms[roomsTraversed].WaypointGroup.GetChild(waypointsTraversed).position;
             }
 
             if (runSpeed <= 0f)
                 return;
 
             var direction = Vector3.Normalize(determinedTargetLocation - transform.position);
+
+            if (direction.magnitude < Mathf.Epsilon)
+                return;
+
             model.rotation = Quaternion.Slerp(model.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 16f);
         }
 

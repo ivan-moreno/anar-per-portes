@@ -9,8 +9,8 @@ namespace AnarPerPortes
     {
         public static RoomManager Singleton { get; private set; }
         public Room LastLoadedRoom { get; private set; }
-        public List<Room> Rooms { get; } = new(capacity: maxLoadedRooms);
         public int LastOpenedRoomNumber { get; private set; } = 0;
+        public List<Room> Rooms { get; } = new(capacity: maxLoadedRooms);
         [HideInInspector] public UnityEvent<Room> OnRoomGenerated;
         [SerializeField] private Transform roomsGroup;
         [SerializeField] private GameObject startRoomPrefab;
@@ -72,7 +72,7 @@ namespace AnarPerPortes
 
         private void UnloadOldestRoom()
         {
-            Destroy(Rooms[0].gameObject);
+            Rooms[0].Unload();
             Rooms.RemoveAt(0);
             Rooms[1].CloseDoor();
         }
