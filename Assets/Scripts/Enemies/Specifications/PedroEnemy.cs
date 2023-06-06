@@ -6,24 +6,17 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/Pedro Enemy")]
     public class PedroEnemy : Enemy
     {
-        public static bool EnemyIsActive { get; private set; } = false;
+        public static bool EnemyIsActive { get; set; } = false;
 
-        public override bool EnemyTipWasDisplayed
-        {
-            get => enemyTipWasDisplayed;
-            set => enemyTipWasDisplayed = value;
-        }
-
-        private static bool enemyTipWasDisplayed = false;
         [SerializeField] private float runSpeed = 16f;
         [SerializeField] private float chaseRange = 8f;
         [SerializeField] private float catchRange = 2f;
-        [SerializeField] private AudioClip jumpscareSound;
-        [SerializeField] private AudioClip meetBouserSound;
-        [SerializeField] private string meetBouserSubtitles;
-        [SerializeField] private AudioClip laughAtBouserSound;
-        [SerializeField] private AudioClip finishRunSound;
-        [SerializeField] private string finishRunSubtitles;
+        [SerializeField] private SoundResource spawnSound;
+        [SerializeField] private SoundResource finishRunSound;
+        [SerializeField] private SoundResource meetBouserSound;
+        [SerializeField] private SoundResource laughAtBouserSound;
+        [SerializeField] private SoundResource jumpscareSound;
+
         private AudioSource audioSource;
         private Animator animator;
         private Transform model;
@@ -40,14 +33,14 @@ namespace AnarPerPortes
 
         private void Start()
         {
+            EnemyIsActive = true;
             transform.position = RoomManager.Singleton.Rooms[0].transform.position;
             targetLocation = RoomManager.Singleton.Rooms[0].WaypointGroup.GetChild(0).position;
             audioSource = GetComponent<AudioSource>();
             animator = GetComponentInChildren<Animator>();
             model = animator.transform;
-            EnemyIsActive = true;
-            SubtitleManager.Singleton.PushSubtitle("(pasos rápidos a la lejanía)", SubtitleCategory.SoundEffect, SubtitleSource.Hostile);
             bouserEnemy = FindObjectOfType<BouserEnemy>();
+            SubtitleManager.Singleton.PushSubtitle(spawnSound.SubtitleText, Team.Hostile);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
 
@@ -94,7 +87,6 @@ namespace AnarPerPortes
                     model.rotation = RoomManager.Singleton.LastLoadedRoom.PedroBreakPoint.rotation;
                     audioSource.Stop();
                     audioSource.PlayOneShot(finishRunSound);
-                    SubtitleManager.Singleton.PushSubtitle(finishRunSubtitles, SubtitleCategory.Dialog, SubtitleSource.Common);
                     enabled = false;
                     return;
                 }
@@ -177,7 +169,6 @@ namespace AnarPerPortes
             isCatching = true;
             audioSource.Stop();
             audioSource.PlayOneShot(jumpscareSound);
-            SubtitleManager.Singleton.PushSubtitle("(Pedro grita)", SubtitleCategory.Dialog, SubtitleSource.Hostile);
             PlayerController.Singleton.BlockMove();
             PlayerController.Singleton.BlockLook();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));
@@ -199,7 +190,6 @@ namespace AnarPerPortes
             animator.Play("Idle");
             audioSource.Stop();
             audioSource.PlayOneShot(meetBouserSound);
-            SubtitleManager.Singleton.PushSubtitle(meetBouserSubtitles, SubtitleCategory.Dialog, SubtitleSource.Common);
             yield return new WaitForSeconds(3f);
             var bouserRoom = RoomManager.Singleton.LastLoadedRoom as BouserRoom;
             bouserRoom.SpawnBouser();
@@ -218,7 +208,6 @@ namespace AnarPerPortes
             audioSource.Stop();
             audioSource.PlayOneShot(laughAtBouserSound);
             model.LookAt(bouserEnemy.transform.position);
-            SubtitleManager.Singleton.PushSubtitle("(Pedro se ríe)", SubtitleCategory.SoundEffect, SubtitleSource.Common);
             yield return new WaitForSeconds(2f);
             runSpeed = originalRunSpeed;
             animator.Play("Run");

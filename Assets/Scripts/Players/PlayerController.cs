@@ -150,10 +150,8 @@ namespace AnarPerPortes
             if (transform.position.y < -32f)
                 Teleport(RoomManager.Singleton.LastLoadedRoom.transform.position);
 
-#if UNITY_EDITOR
             if (Input.GetKeyUp(KeyCode.F1))
                 Teleport(RoomManager.Singleton.LastLoadedRoom.NextRoomGenerationPoint.position);
-#endif
         }
 
         private void UpdateInteraction()

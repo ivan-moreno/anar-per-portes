@@ -143,19 +143,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 891e3b46cf4acb04ca1625993446cb13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tipTitle: Pedro
-  tipMessage: "Pedro ha entrado en el edificio.\n\nEn breves instantes llegar\xE1
-    a esta sala. \xA1Cam\xFAflate!"
-  tipRender: {fileID: 21300000, guid: 8856f4b6598ce3e489c8e5c9e233600b, type: 3}
+  tip: {fileID: 0}
   runSpeed: 22
   chaseRange: 16
   catchRange: 2
-  jumpscareSound: {fileID: 8300000, guid: 6240ddb6999e2db409aa6b2ebb8055d2, type: 3}
-  meetBouserSound: {fileID: 8300000, guid: 775a27b8b09df724884c450526a1b0d3, type: 3}
-  meetBouserSubtitles: "[PEDRO] \xC1brete s\xE9samo."
-  laughAtBouserSound: {fileID: 8300000, guid: bdf332cfd36c6de4badee4ff9db87466, type: 3}
-  finishRunSound: {fileID: 8300000, guid: 4f3701c14c188294da84094794d1a435, type: 3}
-  finishRunSubtitles: '[PEDRO] Bueno, hice todo lo que pude.'
+  spawnSound: {fileID: 11400000, guid: 4119a90a75eda78478ae48ed5ad0227d, type: 2}
+  finishRunSound: {fileID: 11400000, guid: f4d00efa34eb0b84587f442491384674, type: 2}
+  meetBouserSound: {fileID: 11400000, guid: b95f0705e9188a246ba679ecdcf62bc5, type: 2}
+  laughAtBouserSound: {fileID: 11400000, guid: 61b0b33e2915e584ea9f95f8b4c2df7d, type: 2}
+  jumpscareSound: {fileID: 11400000, guid: 36ffbf5c25e2e314b9fc7232bb7b9e24, type: 2}
 --- !u!1001 &6310198024124025993
 PrefabInstance:
   m_ObjectHideFlags: 0

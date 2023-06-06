@@ -14,27 +14,20 @@ namespace AnarPerPortes
         [SerializeField] private GameObject subtitleMessagePrefab;
 
         // TODO: Upgrade to readonly classes
-        private static readonly Dictionary<SubtitleSource, Color> sourceColors = new()
+        private static readonly Dictionary<Team, Color> sourceColors = new()
         {
-            { SubtitleSource.Common, new Color(0.94f, 0.94f, 1f) },
-            { SubtitleSource.Friendly, new Color(0.3f, 0.8f, 0.8f) },
-            { SubtitleSource.Hostile, new Color(0.9f, 0.3f, 0.2f) }
+            { Team.Common, new Color(0.94f, 0.94f, 1f) },
+            { Team.Friendly, new Color(0.3f, 0.8f, 0.8f) },
+            { Team.Hostile, new Color(0.9f, 0.3f, 0.2f) }
         };
 
         /// <summary>
-        /// Generates a <see cref="SubtitleMessage"/> instance and sets its message and color depending on the <paramref name="source"/>.
+        /// Generates a <see cref="SubtitleMessage"/> instance and sets its message and color depending on the <paramref name="team"/>.
         /// </summary>
-        public void PushSubtitle(
-            string message,
-            SubtitleCategory category = SubtitleCategory.Dialog,
-            SubtitleSource source = SubtitleSource.Common)
+        public void PushSubtitle(string message, Team team = Team.Common)
         {
-            // Do not generate subtitles if the setting is Disabled.
-            if (GameSettingsManager.Singleton.CurrentSettings.SubtitlesSetting is SubtitlesSetting.Disabled)
-                return;
-
-            // Do not generate non-dialog subtitles if the setting is Dialog Only.
-            if (GameSettingsManager.Singleton.CurrentSettings.SubtitlesSetting is SubtitlesSetting.DialogOnly && category != SubtitleCategory.Dialog)
+            // Do not generate subtitles if the setting is disabled.
+            if (!GameSettingsManager.Singleton.CurrentSettings.EnableSubtitles)
                 return;
 
             var instance = Instantiate(subtitleMessagePrefab, subtitleMessagesGroup);
@@ -46,10 +39,10 @@ namespace AnarPerPortes
                 return;
             }
 
-            subtitleMessage.Initialize(message, 4f, GetSourceColor(source));
+            subtitleMessage.Initialize(message, 4f, GetSourceColor(team));
         }
 
-        private static Color GetSourceColor(SubtitleSource source)
+        private static Color GetSourceColor(Team source)
         {
             return sourceColors.TryGetValue(source, out var color) ? color : Color.white;
         }

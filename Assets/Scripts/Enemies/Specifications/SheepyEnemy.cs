@@ -6,15 +6,7 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/Sheepy Enemy")]
     public class SheepyEnemy : Enemy
     {
-        public static bool EnemyIsActive { get; private set; } = false;
-
-        public override bool EnemyTipWasDisplayed
-        {
-            get => enemyTipWasDisplayed;
-            set => enemyTipWasDisplayed = value;
-        }
-
-        private static bool enemyTipWasDisplayed = false;
+        public static bool EnemyIsActive { get; set; } = false;
         [SerializeField] private AudioClip warningSound;
         [SerializeField] private AudioClip jumpscareSound;
         private AudioSource audioSource;
@@ -36,7 +28,7 @@ namespace AnarPerPortes
             model = animator.transform;
             EnemyIsActive = true;
             audioSource.Play();
-            SubtitleManager.Singleton.PushSubtitle("(STOP!)", SubtitleCategory.SoundEffect, SubtitleSource.Hostile);
+            SubtitleManager.Singleton.PushSubtitle("(STOP!)", Team.Hostile);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
 
@@ -79,7 +71,7 @@ namespace AnarPerPortes
             else
             {
                 animator.Play("Retreat");
-                SubtitleManager.Singleton.PushSubtitle("(Wait a minute!)", SubtitleCategory.SoundEffect, SubtitleSource.Common);
+                SubtitleManager.Singleton.PushSubtitle("(Wait a minute!)", Team.Common);
             }
         }
 
@@ -91,7 +83,7 @@ namespace AnarPerPortes
             isCatching = true;
             animator.Play("Jumpscare");
             audioSource.PlayOneShot(jumpscareSound);
-            SubtitleManager.Singleton.PushSubtitle("(Sheepy grita)", SubtitleCategory.SoundEffect, SubtitleSource.Hostile);
+            SubtitleManager.Singleton.PushSubtitle("(Sheepy grita)", Team.Hostile);
             PlayerController.Singleton.BlockMove();
             PlayerController.Singleton.BlockLook();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));

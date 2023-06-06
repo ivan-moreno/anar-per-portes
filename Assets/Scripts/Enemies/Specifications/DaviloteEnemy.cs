@@ -6,18 +6,9 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/Davilote Enemy")]
     public class DaviloteEnemy : Enemy
     {
-        public static bool EnemyIsActive { get; private set; } = false;
-
-        public override bool EnemyTipWasDisplayed
-        {
-            get => enemyTipWasDisplayed;
-            set => enemyTipWasDisplayed = value;
-        }
-
-        private static bool enemyTipWasDisplayed = false;
-
-        [SerializeField] private AudioClip warningSound;
-        [SerializeField] private AudioClip jumpscareSound;
+        public static bool EnemyIsActive { get; set; } = false;
+        [SerializeField] private SoundResource warningSound;
+        [SerializeField] private SoundResource jumpscareSound;
         private AudioSource audioSource;
         private Transform model;
         private bool isCatching = false;
@@ -28,8 +19,8 @@ namespace AnarPerPortes
             model = transform.GetChild(0);
             EnemyIsActive = true;
             transform.rotation = PlayerController.Singleton.transform.rotation;
-            audioSource.PlayOneShot(warningSound);
-            SubtitleManager.Singleton.PushSubtitle("[DAVILOTE] Mira detrás de tí.", SubtitleCategory.Dialog, SubtitleSource.Hostile);
+            audioSource.PlayOneShot(warningSound.AudioClip);
+            SubtitleManager.Singleton.PushSubtitle(warningSound.SubtitleText, Team.Hostile);
             RoomManager.Singleton.OnRoomGenerated.AddListener((_) => Despawn());
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
@@ -78,8 +69,8 @@ namespace AnarPerPortes
                 return;
 
             isCatching = true;
-            audioSource.PlayOneShot(jumpscareSound);
-            SubtitleManager.Singleton.PushSubtitle("(Davilote grita)", SubtitleCategory.SoundEffect, SubtitleSource.Hostile);
+            audioSource.PlayOneShot(jumpscareSound.AudioClip);
+            SubtitleManager.Singleton.PushSubtitle(jumpscareSound.SubtitleText, Team.Hostile);
             PlayerController.Singleton.BlockMove();
             PlayerController.Singleton.BlockLook();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));

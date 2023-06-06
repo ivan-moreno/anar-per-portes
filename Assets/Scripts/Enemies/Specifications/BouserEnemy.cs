@@ -6,15 +6,7 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/Bouser Enemy")]
     public class BouserEnemy : Enemy
     {
-        public static bool EnemyIsActive { get; private set; } = false;
-
-        public override bool EnemyTipWasDisplayed
-        {
-            get => enemyTipWasDisplayed;
-            set => enemyTipWasDisplayed = value;
-        }
-
-        private static bool enemyTipWasDisplayed = false;
+        public static bool EnemyIsActive { get; set; } = false;
         public bool IsDefeated { get; private set; } = false;
         [SerializeField] private float runSpeed = 8f;
         [SerializeField] private float catchRange = 2f;
@@ -63,7 +55,7 @@ namespace AnarPerPortes
             animator.Play("TailGrab");
             audioSource.Stop();
             audioCooldown = 0f;
-            PlayRandomAudio(tailSounds, tailSoundSubtitles, SubtitleSource.Common);
+            PlayRandomAudio(tailSounds, tailSoundSubtitles, Team.Common);
             room.OpenBouserDoor();
 
             //TODO: Launch animation
@@ -115,7 +107,7 @@ namespace AnarPerPortes
 
             if (timeSinceLastSearchAudio >= minTimeBetweenSearchAudios)
             {
-                PlayRandomAudio(searchSounds, searchSoundSubtitles, SubtitleSource.Common);
+                PlayRandomAudio(searchSounds, searchSoundSubtitles, Team.Common);
                 timeSinceLastSearchAudio = 0f;
             }
         }
@@ -136,7 +128,7 @@ namespace AnarPerPortes
             {
                 if (timeSinceLastLoseAudio >= minTimeBetweenLoseAudios)
                 {
-                    PlayRandomAudio(loseSounds, loseSoundSubtitles, SubtitleSource.Common);
+                    PlayRandomAudio(loseSounds, loseSoundSubtitles, Team.Common);
                     timeSinceLastLoseAudio = 0f;
                 }
             }
@@ -212,7 +204,7 @@ namespace AnarPerPortes
             animator.Play("Jumpscare");
             audioSource.Stop();
             audioSource.PlayOneShot(jumpscareSound);
-            SubtitleManager.Singleton.PushSubtitle("(Bouser grita)", SubtitleCategory.Dialog, SubtitleSource.Hostile);
+            SubtitleManager.Singleton.PushSubtitle("(Bouser grita)", Team.Hostile);
             PlayerController.Singleton.BlockMove();
             PlayerController.Singleton.BlockLook();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0.5f, 0f));
@@ -228,7 +220,7 @@ namespace AnarPerPortes
         }
 
         //TODO: Static method
-        private void PlayRandomAudio(AudioClip[] audios, string[] subtitles, SubtitleSource source = SubtitleSource.Hostile)
+        private void PlayRandomAudio(AudioClip[] audios, string[] subtitles, Team source = Team.Hostile)
         {
             if (audioCooldown > 0f)
                 return;
@@ -236,7 +228,7 @@ namespace AnarPerPortes
             var rngAudioIndex = Random.Range(0, audios.Length);
             var rngAudio = audios[rngAudioIndex];
             audioSource.PlayOneShot(rngAudio);
-            SubtitleManager.Singleton.PushSubtitle(subtitles[rngAudioIndex], SubtitleCategory.Dialog, source);
+            SubtitleManager.Singleton.PushSubtitle(subtitles[rngAudioIndex], source);
             audioCooldown = rngAudio.length;
         }
 

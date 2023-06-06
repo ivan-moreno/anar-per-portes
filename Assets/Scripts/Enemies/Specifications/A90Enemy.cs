@@ -8,15 +8,7 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/A90 Enemy")]
     public sealed class A90Enemy : Enemy
     {
-        public static bool EnemyIsActive { get; private set; } = false;
-
-        public override bool EnemyTipWasDisplayed
-        {
-            get => enemyTipWasDisplayed;
-            set => enemyTipWasDisplayed = value;
-        }
-
-        private static bool enemyTipWasDisplayed = false;
+        public static bool EnemyIsActive { get; set; } = false;
         [SerializeField] private Image image;
         [SerializeField] private Animator jumpscareAnimator;
         [SerializeField] private AudioClip jumpscareSound;
@@ -36,7 +28,7 @@ namespace AnarPerPortes
             image.enabled = true;
             AudioManager.Singleton.MuteAllAudioMixers();
             audioSource.Play();
-            SubtitleManager.Singleton.PushSubtitle("(distorsiones)", SubtitleCategory.SoundEffect, SubtitleSource.Hostile);
+            SubtitleManager.Singleton.PushSubtitle("(distorsiones)", Team.Hostile);
         }
 
         private void Despawn()
@@ -108,7 +100,7 @@ namespace AnarPerPortes
             AudioManager.Singleton.UnmuteAllAudioMixers();
             audioSource.Stop();
             audioSource.PlayOneShot(jumpscareSound);
-            SubtitleManager.Singleton.PushSubtitle("(grito distorsionado)", SubtitleCategory.SoundEffect, SubtitleSource.Hostile);
+            SubtitleManager.Singleton.PushSubtitle("(grito distorsionado)", Team.Hostile);
             PlayerController.Singleton.BlockMove();
             PlayerController.Singleton.BlockLook();
             EnemyIsActive = false;

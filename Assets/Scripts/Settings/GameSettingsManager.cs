@@ -82,13 +82,8 @@ namespace AnarPerPortes
         //TODO: Convert into a dropdown
         private void ToggleSubtitlesSetting()
         {
-            var areSubtitlesEnabled = CurrentSettings.SubtitlesSetting is SubtitlesSetting.DialogAndSoundEffects;
-
-            CurrentSettings.SubtitlesSetting = areSubtitlesEnabled
-                ? SubtitlesSetting.Disabled
-                : SubtitlesSetting.DialogAndSoundEffects;
-
-            subtitlesButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Subtítulos", !areSubtitlesEnabled);
+            CurrentSettings.EnableSubtitles = !CurrentSettings.EnableSubtitles;
+            subtitlesButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Subtítulos", CurrentSettings.EnableSubtitles);
         }
 
         private void ToggleLargeSubtitlesSetting()
@@ -178,8 +173,7 @@ namespace AnarPerPortes
             flamboyantGraphicsButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Gráficos importantes llamativos", CurrentSettings.EnableFlamboyantGraphics);
             smaaButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Antialias (SMAA)", CurrentSettings.EnableSmaa);
             postProcessingButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Efectos de postprocesado", CurrentSettings.EnablePostProcessing);
-            var areSubtitlesEnabled = CurrentSettings.SubtitlesSetting is SubtitlesSetting.DialogAndSoundEffects;
-            subtitlesButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Subtítulos", areSubtitlesEnabled);
+            subtitlesButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Subtítulos", CurrentSettings.EnableSubtitles);
             largeSubtitlesButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Subtítulos grandes", CurrentSettings.EnableLargeSubtitles);
             lightModeButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Iluminar salas", CurrentSettings.EnableLightMode);
             visionMotionButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Meneo de la cámara", CurrentSettings.EnableVisionMotion);

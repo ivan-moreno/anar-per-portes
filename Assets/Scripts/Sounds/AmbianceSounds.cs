@@ -36,7 +36,7 @@ namespace AnarPerPortes
 
                 if (soundSubtitles.Length > rngAudioIndex && !string.IsNullOrWhiteSpace(soundSubtitles[rngAudioIndex]))
                 {
-                    SubtitleManager.Singleton.PushSubtitle(soundSubtitles[rngAudioIndex], SubtitleCategory.SoundEffect, SubtitleSource.Common);
+                    SubtitleManager.Singleton.PushSubtitle(soundSubtitles[rngAudioIndex], Team.Common);
                 }
 
                 timeUntilNextSound = Random.Range(20f, 90f);

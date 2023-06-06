@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 namespace AnarPerPortes
@@ -41,14 +40,16 @@ namespace AnarPerPortes
         [SerializeField] private GameObject bouserEnemyPrefab;
         [SerializeField] private GameObject pedroEnemyPrefab;
         [SerializeField] private GameObject sheepyEnemyPrefab;
+        [SerializeField] private GameObject skellEnemyPrefab;
         [SerializeField] private GameObject yusufEnemyPrefab;
         [SerializeField] private A90Enemy a90Enemy;
-        [SerializeField] private TMP_Text _debugEnemyLabel;
         private int roomsWithoutAnyEnemySpawn = 0;
+        private static readonly HashSet<string> displayedEnemyTipNames = new();
 
         private EnemyPossibility davilotePossibility;
         private EnemyPossibility pedroPossibility;
         private EnemyPossibility sheepyPossibility;
+        private EnemyPossibility skellPossibility;
         private EnemyPossibility a90Possibility;
         private readonly List<EnemyPossibility> allEnemyPossibilities = new();
 
@@ -59,6 +60,13 @@ namespace AnarPerPortes
 
         private void Start()
         {
+            DaviloteEnemy.EnemyIsActive = false;
+            BouserEnemy.EnemyIsActive = false;
+            PedroEnemy.EnemyIsActive = false;
+            SheepyEnemy.EnemyIsActive = false;
+            SkellEnemy.EnemyIsActive = false;
+            YusufEnemy.EnemyIsActive = false;
+            A90Enemy.EnemyIsActive = false;
             RoomManager.Singleton.OnRoomGenerated.AddListener(ProcessEnemyPossibilities);
 
             pedroPossibility = new()
@@ -66,6 +74,7 @@ namespace AnarPerPortes
                 EnemyPrefab = pedroEnemyPrefab,
                 SpawnRequirements =
                     (room) => !PedroEnemy.EnemyIsActive
+                    && !SkellEnemy.EnemyIsActive
                     && room is not IsleRoom
                     && room.HasHidingSpots
                     && RoomManager.Singleton.LastOpenedRoomNumber >= 10,
@@ -129,6 +138,30 @@ namespace AnarPerPortes
 
             allEnemyPossibilities.Add(sheepyPossibility);
 
+            skellPossibility = new()
+            {
+                EnemyPrefab = skellEnemyPrefab,
+                SpawnRequirements =
+                    (room) => !SkellEnemy.EnemyIsActive
+                    && !PedroEnemy.EnemyIsActive
+                    && room is not IsleRoom
+                    && room is not BouserRoom
+                    && RoomManager.Singleton.LastOpenedRoomNumber >= 1, //CHANGE ME
+                RngRequirement = (possibility) =>
+                {
+                    var rng = UnityEngine.Random.Range(0, 100);
+                    rng += possibility.RoomsWithoutSpawn;
+                    rng += roomsWithoutAnyEnemySpawn;
+
+                    if (possibility.RoomsWithoutSpawn <= 1) // CHANGE ME
+                        rng = 0;
+
+                    return rng >= 99; // CHANGE ME
+                }
+            };
+
+            allEnemyPossibilities.Add(skellPossibility);
+
             a90Possibility = new()
             {
                 EnemyPrefab = null,
@@ -168,23 +201,25 @@ namespace AnarPerPortes
 
         public void GenerateEnemy(GameObject enemyPrefab)
         {
-            var hasEnemyScript = enemyPrefab.TryGetComponent(out IEnemy enemy);
+            var hasEnemyScript = enemyPrefab.TryGetComponent(out Enemy enemy);
 
-            if (hasEnemyScript)
+            if (!hasEnemyScript)
+                return;
+
+            var shouldDisplayTip = GameSettingsManager.Singleton.CurrentSettings.EnemyTipSetting is EnemyTipSetting.ShowOnFirstEncounterAndWhenCaught;
+
+            if (shouldDisplayTip && !displayedEnemyTipNames.Contains(enemyPrefab.name))
             {
-                if (!enemy.EnemyTipWasDisplayed && GameSettingsManager.Singleton.CurrentSettings.EnemyTipSetting is EnemyTipSetting.ShowOnFirstEncounterAndWhenCaught)
-                {
-                    EnemyTipManager.Singleton.DisplayTip(enemy.TipTitle, enemy.TipMessage, enemy.TipRender, () => JustInstantiateEnemy(enemyPrefab));
-                    enemy.EnemyTipWasDisplayed = true;
-                }
-                else
-                    JustInstantiateEnemy(enemyPrefab);
-            }
-        }
+                displayedEnemyTipNames.Add(enemyPrefab.name);
 
-        private void JustInstantiateEnemy(GameObject enemyPrefab)
-        {
-            Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity, enemiesGroup);
+                EnemyTipManager.Singleton.DisplayTip(
+                    enemy.Tip.Title,
+                    enemy.Tip.Message,
+                    enemy.Tip.Render,
+                    () => Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity, enemiesGroup));
+            }
+            else
+                Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity, enemiesGroup);
         }
 
         private void ProcessEnemyPossibilities(Room generatedRoom)
@@ -203,6 +238,11 @@ namespace AnarPerPortes
             davilotePossibility.WillSpawn = davilotePossibility.HasSpawnRequirements(generatedRoom) && davilotePossibility.HasRngRequirement();
 
             sheepyPossibility.WillSpawn = sheepyPossibility.HasSpawnRequirements(generatedRoom) && sheepyPossibility.HasRngRequirement();
+
+            skellPossibility.WillSpawn =
+                !pedroPossibility.WillSpawn
+                && skellPossibility.HasSpawnRequirements(generatedRoom)
+                && skellPossibility.HasRngRequirement();
 
             a90Possibility.WillSpawn =
                 !sheepyPossibility.WillSpawn

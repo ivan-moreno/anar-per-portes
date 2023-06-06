@@ -6,16 +6,7 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/Yusuf Enemy")]
     public class YusufEnemy : Enemy
     {
-        public static bool EnemyIsActive { get; private set; } = false;
-
-        public override bool EnemyTipWasDisplayed
-        {
-            get => enemyTipWasDisplayed;
-            set => enemyTipWasDisplayed = value;
-        }
-
-        private static bool enemyTipWasDisplayed = false;
-
+        public static bool EnemyIsActive { get; set; } = false;
         [SerializeField] private AudioClip walkieTalkieAlertSound;
         [SerializeField] private AudioClip jumpscareSound;
         [SerializeField] private AudioClip[] bunkerTargetSounds;
@@ -67,7 +58,7 @@ namespace AnarPerPortes
         {
             transform.LookAt(PlayerController.Singleton.transform.position);
             audioSource.PlayOneShot(jumpscareSound);
-            SubtitleManager.Singleton.PushSubtitle("(Yusuf grita)", SubtitleCategory.SoundEffect, SubtitleSource.Hostile);
+            SubtitleManager.Singleton.PushSubtitle("(Yusuf grita)", Team.Hostile);
             PlayerController.Singleton.BlockMove();
             PlayerController.Singleton.BlockLook();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));
@@ -94,7 +85,7 @@ namespace AnarPerPortes
             var rngAudioIndex = Random.Range(0, audios.Length);
             var rngAudio = audios[rngAudioIndex];
             audioSource.PlayOneShot(rngAudio);
-            SubtitleManager.Singleton.PushSubtitle(subtitles[rngAudioIndex], SubtitleCategory.Dialog, SubtitleSource.Hostile);
+            SubtitleManager.Singleton.PushSubtitle(subtitles[rngAudioIndex], Team.Hostile);
         }
     }
 }
