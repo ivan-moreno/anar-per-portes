@@ -58,6 +58,8 @@ namespace AnarPerPortes
             isGrabbingTail = true;
             animator.SetBool("IsWalking", false);
             animator.Play("TailGrab");
+            audioSource.Stop();
+            audioCooldown = 0f;
             PlayRandomAudio(tailSounds, tailSoundSubtitles);
             room.OpenBouserDoor();
 

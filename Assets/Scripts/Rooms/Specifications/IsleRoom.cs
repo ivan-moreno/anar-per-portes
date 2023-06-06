@@ -14,6 +14,7 @@ namespace AnarPerPortes
 
         protected override void Start()
         {
+            door.OnDoorOpened.AddListener(() => incorrectDoor.Deactivate());
             incorrectDoor.OnDoorOpened.AddListener(() => OnIncorrectDoorOpened?.Invoke());
 
             base.Start();

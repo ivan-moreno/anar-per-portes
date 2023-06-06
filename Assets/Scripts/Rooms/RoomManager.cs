@@ -15,7 +15,7 @@ namespace AnarPerPortes
         [SerializeField] private Transform roomsGroup;
         [SerializeField] private GameObject startRoomPrefab;
         [SerializeField] private GameObject[] generalRoomPrefabs;
-        private const int maxLoadedRooms = 7;
+        private const int maxLoadedRooms = 5;
 
         public void OpenDoorAndGenerateNextRoomRandom()
         {

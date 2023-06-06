@@ -8682,7 +8682,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1198020652}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -12222,6 +12222,10 @@ MonoBehaviour:
   - {fileID: 1343002099365941501, guid: 6534666fcb701494f8ac3e6376f07ae7, type: 3}
   - {fileID: 1343002099365941501, guid: 6913ac6a93c18474b9fade3c8dece56e, type: 3}
   - {fileID: 1343002099365941501, guid: 5415b3829e381f94595cc81eefb9d115, type: 3}
+  - {fileID: 1343002099365941501, guid: 89f3f3b9ad2c8294ebee90f3af6fb38a, type: 3}
+  - {fileID: 1343002099365941501, guid: c908b4e63c64be54eb7c9473745cbce4, type: 3}
+  - {fileID: 1343002099365941501, guid: e5ac37522a5a18743af015760161c568, type: 3}
+  - {fileID: 1343002099365941501, guid: 8758e0c421684464480b2a957647e354, type: 3}
   - {fileID: 1343002099365941501, guid: 3f68c082b3590c44ea99b617628f9081, type: 3}
   - {fileID: 1343002099365941501, guid: 74be0658e24ed1d45a1960b03f05e40b, type: 3}
   - {fileID: 1343002099365941501, guid: cef435b3203895c42a271a0e48296abe, type: 3}

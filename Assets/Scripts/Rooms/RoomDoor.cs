@@ -36,6 +36,12 @@ namespace AnarPerPortes
             audioSource.Play();
         }
 
+        public void Deactivate()
+        {
+            isOpened = true;
+            closedCollider.enabled = true;
+        }
+
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
