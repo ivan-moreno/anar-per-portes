@@ -143,9 +143,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60570fa3f46c72459aef543cf9d41db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tipTitle: Skell
-  tipMessage: "Skell te ha escuchado.\n\n\xA1Corre!"
-  tipRender: {fileID: 21300000, guid: fe222423aa0dfea49b11fb377aaa2996, type: 3}
+  tip: {fileID: 11400000, guid: 82dad1ed1659637449b6912c40f822cf, type: 2}
+  runSpeed: 16
+  chaseRange: 8
+  catchRange: 2
   jumpscareSound: {fileID: 11400000, guid: d5354e20cc69c73438ac43c13ecb871a, type: 2}
   warningSound: {fileID: 11400000, guid: 780ff201ce8480042a0cbcd585707498, type: 2}
 --- !u!1001 &2654223997599509106

@@ -143,9 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069ec59058811224f96600a270fe53d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tipTitle: Davilote
-  tipMessage: "Davilote va a aparecer detr\xE1s tuyo.\n\n\xA1No te des la vuelta!"
-  tipRender: {fileID: 21300000, guid: b0a6ce884167d1d449e2a88d4c00b789, type: 3}
+  tip: {fileID: 11400000, guid: b82728e7d3f3c33409737ba4906edcef, type: 2}
   warningSound: {fileID: 11400000, guid: 926753d070a505e47a52f3c891fee747, type: 2}
   jumpscareSound: {fileID: 11400000, guid: c266ae1dd9f08fc42a0566530294a90b, type: 2}
 --- !u!1001 &7581871667035627441

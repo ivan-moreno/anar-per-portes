@@ -144,10 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdef3852541aa4d42b60ddcdc3f3d1b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tipTitle: Bouser
-  tipMessage: "Bouser te va a encerrar en esta sala.\n\n\xA1Cam\xFAflate y ag\xE1rrale
-    de la cola cuando menos se lo espere!"
-  tipRender: {fileID: 21300000, guid: 445558a917c93fd44be3467c8b971392, type: 3}
+  tip: {fileID: 11400000, guid: f423e36fb58b6a54fa3a58e7c2c0b9d6, type: 2}
   runSpeed: 6
   catchRange: 3
   sightAngle: 60

@@ -143,8 +143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 891e3b46cf4acb04ca1625993446cb13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tip: {fileID: 0}
-  runSpeed: 22
+  tip: {fileID: 11400000, guid: 606729c1551efbe40becf50dac4a9530, type: 2}
+  runSpeed: 18
   chaseRange: 16
   catchRange: 2
   spawnSound: {fileID: 11400000, guid: 4119a90a75eda78478ae48ed5ad0227d, type: 2}

@@ -27,7 +27,9 @@ namespace AnarPerPortes
 
             public void DoSpawn()
             {
-                EnemyManager.Singleton.GenerateEnemy(EnemyPrefab);
+                if (EnemyPrefab != null)
+                    EnemyManager.Singleton.GenerateEnemy(EnemyPrefab);
+
                 RoomsWithoutSpawn = 0;
                 WillSpawn = false;
             }
@@ -146,17 +148,17 @@ namespace AnarPerPortes
                     && !PedroEnemy.EnemyIsActive
                     && room is not IsleRoom
                     && room is not BouserRoom
-                    && RoomManager.Singleton.LastOpenedRoomNumber >= 1, //CHANGE ME
+                    && RoomManager.Singleton.LastOpenedRoomNumber >= 30, //CHANGE ME
                 RngRequirement = (possibility) =>
                 {
                     var rng = UnityEngine.Random.Range(0, 100);
                     rng += possibility.RoomsWithoutSpawn;
                     rng += roomsWithoutAnyEnemySpawn;
 
-                    if (possibility.RoomsWithoutSpawn <= 1) // CHANGE ME
+                    if (possibility.RoomsWithoutSpawn <= 5) // CHANGE ME
                         rng = 0;
 
-                    return rng >= 99; // CHANGE ME
+                    return rng >= 90; // CHANGE ME
                 }
             };
 
@@ -256,19 +258,13 @@ namespace AnarPerPortes
                 if (possibility.WillSpawn)
                 {
                     if (possibility == a90Possibility)
-                    {
                         a90Enemy.Spawn();
-                        roomsWithoutAnyEnemySpawn = 0;
-                        continue;
-                    }
 
                     possibility.DoSpawn();
                     roomsWithoutAnyEnemySpawn = 0;
                 }
                 else
-                {
                     possibility.RoomsWithoutSpawn++;
-                }
             }
         }
     }
