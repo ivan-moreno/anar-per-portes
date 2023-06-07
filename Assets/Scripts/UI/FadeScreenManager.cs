@@ -24,8 +24,7 @@ namespace AnarPerPortes
             timeSinceDisplay = 0f;
             messageText.text = message;
             this.onClickCallback = onClickCallback;
-            PlayerController.Singleton.BlockMove();
-            PlayerController.Singleton.BlockLook();
+            PlayerController.Singleton.BlockAll();
         }
 
         public void Hide()
@@ -35,8 +34,7 @@ namespace AnarPerPortes
 
             isDisplaying = false;
             timeSinceDisplay = 0f;
-            PlayerController.Singleton.UnblockMove();
-            PlayerController.Singleton.UnblockLook();
+            PlayerController.Singleton.UnblockAll();
         }
 
         private void Awake()

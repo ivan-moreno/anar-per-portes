@@ -20,6 +20,7 @@ namespace AnarPerPortes
         public Vector3 Velocity => velocity;
         private bool CanMove => blockMoveCharges <= 0;
         private bool CanLook => blockLookCharges <= 0f;
+        private bool CanInteract => blockInteractCharges <= 0f;
         [SerializeField] private Animator modelAnimator;
         private Animator visionAnimator;
         private CharacterController characterController;
@@ -29,6 +30,7 @@ namespace AnarPerPortes
         private float walkSpeed = 8f;
         private int blockMoveCharges = 0;
         private int blockLookCharges = 0;
+        private int blockInteractCharges = 0;
         private IInteractable lastFocusedInteractable;
         private readonly List<InventoryItem> items = new();
         private bool hasItemEquipped = false;
@@ -36,6 +38,13 @@ namespace AnarPerPortes
         private Vector3 visionTargetOffset;
         private const float vLookMaxAngle = 70f;
         private const float interactRange = 2.5f;
+
+        public void BlockAll()
+        {
+            BlockMove();
+            BlockLook();
+            BlockInteract();
+        }
 
         public void BlockMove()
         {
@@ -45,6 +54,18 @@ namespace AnarPerPortes
         public void BlockLook()
         {
             blockLookCharges++;
+        }
+
+        public void BlockInteract()
+        {
+            blockInteractCharges++;
+        }
+
+        public void UnblockAll()
+        {
+            UnblockMove();
+            UnblockLook();
+            UnblockInteract();
         }
 
         public void UnblockMove()
@@ -61,6 +82,14 @@ namespace AnarPerPortes
 
             if (blockLookCharges < 0)
                 blockLookCharges = 0;
+        }
+
+        public void UnblockInteract()
+        {
+            blockInteractCharges--;
+
+            if (blockInteractCharges < 0)
+                blockInteractCharges = 0;
         }
 
         public void Teleport(Vector3 position)

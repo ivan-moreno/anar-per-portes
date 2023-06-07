@@ -137,14 +137,14 @@ namespace AnarPerPortes
                     var dist = Vector3.Distance(transform.position, bouserEnemy.transform.position);
 
                     if (dist <= 8f)
-                        StartCoroutine(nameof(LaughAtBouserEnumerator));
+                        StartCoroutine(nameof(LaughAtBouserCoroutine));
                 }
                 else
                 {
                     var dist = Vector3.Distance(transform.position, bouserRoom.BouserSpawnPoint.position);
 
                     if (dist <= 18f)
-                        StartCoroutine(nameof(MeetBouserEnumerator));
+                        StartCoroutine(nameof(MeetBouserCoroutine));
                 }
             }
         }
@@ -162,14 +162,13 @@ namespace AnarPerPortes
 
         private void CatchPlayer()
         {
-            if (isCatching || isOnBreak)
+            if (isCatching || isOnBreak || runSpeed <= 0f)
                 return;
 
             isCatching = true;
             audioSource.Stop();
             audioSource.PlayOneShot(jumpscareSound);
-            PlayerController.Singleton.BlockMove();
-            PlayerController.Singleton.BlockLook();
+            PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));
             StartCoroutine(nameof(CatchPlayerEnumerator));
         }
@@ -180,7 +179,7 @@ namespace AnarPerPortes
             CatchManager.Singleton.CatchPlayer("PEDRO ENDING", "Parece que quiso pasar un mal rato, chico. Hehehehehe.");
         }
 
-        private IEnumerator MeetBouserEnumerator()
+        private IEnumerator MeetBouserCoroutine()
         {
             metBouser = true;
             var originalRunSpeed = runSpeed;
@@ -197,7 +196,7 @@ namespace AnarPerPortes
             audioSource.Play();
         }
 
-        private IEnumerator LaughAtBouserEnumerator()
+        private IEnumerator LaughAtBouserCoroutine()
         {
             metBouser = true;
             var originalRunSpeed = runSpeed;

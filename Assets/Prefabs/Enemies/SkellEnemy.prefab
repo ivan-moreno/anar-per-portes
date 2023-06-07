@@ -32,7 +32,7 @@ Transform:
   m_Children:
   - {fileID: 2548768922455313817}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &5385844077808519162
 AudioSource:
@@ -145,10 +145,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tip: {fileID: 11400000, guid: 82dad1ed1659637449b6912c40f822cf, type: 2}
   runSpeed: 16
-  chaseRange: 8
-  catchRange: 2
+  chaseRange: 16
+  catchRange: 3
+  spawnSound: {fileID: 11400000, guid: 08772e6e89a14e54aa9d314214d5bad9, type: 2}
   warningSound: {fileID: 11400000, guid: 780ff201ce8480042a0cbcd585707498, type: 2}
   jumpscareSound: {fileID: 11400000, guid: d5354e20cc69c73438ac43c13ecb871a, type: 2}
+  meetBouserMusic: {fileID: 11400000, guid: cf0b6207ccfecd947a54f24067d68dfe, type: 2}
 --- !u!1001 &2654223997599509106
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -242,6 +244,11 @@ PrefabInstance:
       propertyPath: m_AABB.m_Extent.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 8376773f4e289b24993166a19d5bfabc,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: ba28f236133986a4d9ec99fdc2a468a3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

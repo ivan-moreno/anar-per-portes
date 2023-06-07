@@ -54,8 +54,7 @@ namespace AnarPerPortes
         {
             transform.LookAt(PlayerController.Singleton.transform.position);
             audioSource.PlayOneShot(jumpscareSound);
-            PlayerController.Singleton.BlockMove();
-            PlayerController.Singleton.BlockLook();
+            PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));
             EnemyIsActive = false;
             StartCoroutine(nameof(CatchPlayerEnumerator));

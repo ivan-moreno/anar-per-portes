@@ -107,8 +107,7 @@ namespace AnarPerPortes
             AudioManager.Singleton.UnmuteAllAudioMixers();
             audioSource.Stop();
             audioSource.PlayOneShot(jumpscareSound);
-            PlayerController.Singleton.BlockMove();
-            PlayerController.Singleton.BlockLook();
+            PlayerController.Singleton.BlockAll();
             jumpscareAnimator.Play("Jumpscare", 0, 0f);
             StartCoroutine(nameof(CatchPlayerEnumerator));
         }

@@ -11,11 +11,15 @@ namespace AnarPerPortes
 
         [Header("Stats")]
         [SerializeField] private float runSpeed = 8f;
+        [SerializeField] private float sprintSpeed = 14f;
+        [SerializeField] private float sprintAtDistance = 15f;
         [SerializeField] private float catchRange = 2f;
         [SerializeField] private float sightAngle = 45f;
 
         [Header("Audio")]
         [SerializeField] private SoundResource jumpscareSound;
+        [SerializeField] private SoundResource meetSkellSound;
+        [SerializeField] private SoundResource[] meetSkellDialogs;
         [SerializeField] private SoundResource[] warningSounds;
         [SerializeField] private SoundResource[] loseSounds;
         [SerializeField] private SoundResource[] searchSounds;
@@ -28,10 +32,13 @@ namespace AnarPerPortes
         private bool reachedTarget = false;
         private bool isChasing = false;
         private bool isCatching = false;
+        private bool isMeetSkell = false;
         private bool isGrabbingTail = false;
         private float nextMoveTime;
         private float audioCooldown = 0f;
+        private int targetReachesToTalk = 1;
         private float timeSinceReachedTarget = 0f;
+        private SkellEnemy skellEnemy;
 
         private const float nextMoveMinTime = 1f;
         private const float nextMoveMaxTime = 3f;
@@ -51,6 +58,35 @@ namespace AnarPerPortes
 
             //TODO: Launch animation
             IsDefeated = true;
+        }
+
+        public void MeetSkell(SkellEnemy skellEnemy)
+        {
+            this.skellEnemy = skellEnemy;
+            StartCoroutine(nameof(MeetSkellCoroutine));
+        }
+
+        //TODO: Rename all XEnumerator to XCoroutine
+        IEnumerator MeetSkellCoroutine()
+        {
+            room.OpenBouserDoor();
+            isMeetSkell = true;
+            transform.LookAt(skellEnemy.transform);
+            animator.SetBool("IsWalking", false);
+            animator.Play("Idle");
+            audioSource.PlayOneShot(meetSkellSound);
+            yield return new WaitForSeconds(1f);
+
+            SubtitleManager.Singleton.PushSubtitle(meetSkellDialogs[0].SubtitleText, meetSkellDialogs[0].SubtitleTeam);
+            yield return new WaitForSeconds(1.3f);
+
+            SubtitleManager.Singleton.PushSubtitle(meetSkellDialogs[1].SubtitleText, meetSkellDialogs[1].SubtitleTeam);
+            yield return new WaitForSeconds(3.6f);
+
+            SubtitleManager.Singleton.PushSubtitle(meetSkellDialogs[2].SubtitleText, meetSkellDialogs[2].SubtitleTeam);
+            yield return new WaitForSeconds(2.9f);
+
+            SubtitleManager.Singleton.PushSubtitle(meetSkellDialogs[3].SubtitleText, meetSkellDialogs[3].SubtitleTeam);
         }
 
         private void Start()
@@ -95,7 +131,13 @@ namespace AnarPerPortes
         {
             var rng = Random.Range(0, room.BouserWaypointGroup.childCount);
             targetLocation = room.BouserWaypointGroup.GetChild(rng).position;
-            Talk(searchSounds.RandomItem());
+            targetReachesToTalk--;
+
+            if (targetReachesToTalk <= 0)
+            {
+                Talk(searchSounds.RandomItem());
+                targetReachesToTalk = Random.Range(2, 4);
+            }
         }
 
         private void Update()
@@ -103,7 +145,7 @@ namespace AnarPerPortes
             if (audioCooldown > 0f)
                 audioCooldown -= Time.deltaTime;
 
-            if (isGrabbingTail)
+            if (isGrabbingTail || isMeetSkell)
                 return;
 
             var distanceToPlayer = Vector3.Distance(transform.position, PlayerController.Singleton.transform.position);
@@ -134,7 +176,19 @@ namespace AnarPerPortes
             // Choose whether to go to the next map point or towards the Player.
             var determinedTargetLocation = isChasing ? PlayerController.Singleton.transform.position : targetLocation;
 
-            var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, runSpeed * Time.deltaTime);
+            var targetRunSpeed = runSpeed;
+
+            if (isChasing && distanceToPlayer > sprintAtDistance)
+            {
+                targetRunSpeed = sprintSpeed;
+                animator.speed = sprintSpeed / runSpeed;
+            }
+            else
+            {
+                animator.speed = 1f;
+            }
+
+            var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, targetRunSpeed * Time.deltaTime);
             transform.position = nextPosition;
 
             reachedTarget = !isChasing && Vector3.Distance(transform.position, targetLocation) <= runSpeed * Time.deltaTime;
@@ -167,15 +221,14 @@ namespace AnarPerPortes
 
         private void CatchPlayer()
         {
-            if (isCatching || isGrabbingTail)
+            if (isCatching || isGrabbingTail || isMeetSkell)
                 return;
 
             isCatching = true;
             animator.Play("Jumpscare");
             audioSource.Stop();
             audioSource.PlayOneShot(jumpscareSound);
-            PlayerController.Singleton.BlockMove();
-            PlayerController.Singleton.BlockLook();
+            PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0.5f, 0f));
             StartCoroutine(nameof(CatchPlayerEnumerator));
         }
@@ -189,7 +242,7 @@ namespace AnarPerPortes
 
         private void Talk(SoundResource soundResource)
         {
-            if (audioCooldown > 0f)
+            if (audioCooldown > 0f || isMeetSkell)
                 return;
 
             audioSource.PlayOneShot(soundResource);

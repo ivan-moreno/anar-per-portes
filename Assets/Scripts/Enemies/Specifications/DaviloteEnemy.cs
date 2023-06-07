@@ -73,8 +73,7 @@ namespace AnarPerPortes
 
             isCatching = true;
             audioSource.PlayOneShot(jumpscareSound);
-            PlayerController.Singleton.BlockMove();
-            PlayerController.Singleton.BlockLook();
+            PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform);
             StartCoroutine(nameof(CatchPlayerEnumerator));
         }

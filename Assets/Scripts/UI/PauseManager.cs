@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -12,7 +13,7 @@ namespace AnarPerPortes
         public bool IsPaused { get; private set; } = false;
         [SerializeField] private GameObject pauseMenu;
         [SerializeField] private Button resumeButton;
-        private CanvasGroup pauseMenuCanvasGroup;
+        private Animator pauseAnimator;
 
         private void Awake()
         {
@@ -21,17 +22,15 @@ namespace AnarPerPortes
 
         private void Start()
         {
-            pauseMenuCanvasGroup = pauseMenu.GetComponent<CanvasGroup>();
+            pauseAnimator = pauseMenu.GetComponent<Animator>();
             resumeButton.onClick.AddListener(Resume);
+            pauseMenu.SetActive(false);
         }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeybindManager.Singleton.CurrentKeybinds.Pause))
                 TogglePause();
-
-            if (IsPaused)
-                pauseMenuCanvasGroup.alpha = Mathf.MoveTowards(pauseMenuCanvasGroup.alpha, 1f, Time.unscaledDeltaTime * 3f);
         }
 
         private void TogglePause()
@@ -49,8 +48,9 @@ namespace AnarPerPortes
 
             IsPaused = true;
             pauseMenu.SetActive(true);
-            PlayerController.Singleton.BlockMove();
-            PlayerController.Singleton.BlockLook();
+            pauseAnimator.Play("Draw", 0, 0f);
+            StopCoroutine(nameof(ResumeEnumerator));
+            PlayerController.Singleton.BlockAll();
             Time.timeScale = 0f;
             Cursor.lockState = CursorLockMode.None;
             OnPauseChanged?.Invoke(true);
@@ -62,13 +62,18 @@ namespace AnarPerPortes
                 return;
 
             IsPaused = false;
-            pauseMenuCanvasGroup.alpha = 0f;
-            pauseMenu.SetActive(false);
-            PlayerController.Singleton.UnblockMove();
-            PlayerController.Singleton.UnblockLook();
+            pauseAnimator.Play("Undraw", 0, 0f);
+            StartCoroutine(nameof(ResumeEnumerator));
+            PlayerController.Singleton.UnblockAll();
             Time.timeScale = 1f;
             Cursor.lockState = CursorLockMode.Locked;
             OnPauseChanged?.Invoke(false);
+        }
+
+        private IEnumerator ResumeEnumerator()
+        {
+            yield return new WaitForSeconds(0.2f);
+            pauseMenu.SetActive(false);
         }
     }
 }

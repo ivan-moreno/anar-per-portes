@@ -31,8 +31,7 @@ namespace AnarPerPortes
             titleText.text = title;
             messageText.text = message;
             renderImage.sprite = render;
-            PlayerController.Singleton.BlockMove();
-            PlayerController.Singleton.BlockLook();
+            PlayerController.Singleton.BlockAll();
             this.onHideTipCallback = onHideTipCallback;
             screenAnimator.Play("Draw", 0, 0f);
             Time.timeScale = 0f;
@@ -55,8 +54,7 @@ namespace AnarPerPortes
 
             isDisplaying = false;
             canvasGroup.blocksRaycasts = false;
-            PlayerController.Singleton.UnblockMove();
-            PlayerController.Singleton.UnblockLook();
+            PlayerController.Singleton.UnblockAll();
             Time.timeScale = 1f;
             onHideTipCallback?.Invoke();
         }

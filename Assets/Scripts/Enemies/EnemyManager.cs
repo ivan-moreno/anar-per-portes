@@ -203,6 +203,8 @@ namespace AnarPerPortes
             else if (Input.GetKeyUp(KeyCode.F4))
                 GenerateEnemy(sheepyEnemyPrefab);
             else if (Input.GetKeyUp(KeyCode.F5))
+                GenerateEnemy(skellEnemyPrefab);
+            else if (Input.GetKeyUp(KeyCode.F6))
                 a90Enemy.Spawn();
 #endif
         }

@@ -7,11 +7,19 @@ namespace AnarPerPortes
     {
         public Transform BouserWaypointGroup => bouserWaypointGroup;
         public Transform BouserSpawnPoint => bouserSpawnPoint;
+
+        private static int spawnedBouserAmount = 0;
+
+        [Header("Components")]
         [SerializeField] private Transform bouserWaypointGroup;
         [SerializeField] private Transform bouserSpawnPoint;
         [SerializeField] private Animator bouserRoomDoorsAnimator;
+
+        [Header("Stats")]
+        [SerializeField] private float spawnBouserDistance = 9f;
+        [SerializeField] private float spawnBouserHardDistance = 25f;
+
         private bool spawnedBouser = false;
-        private const float spawnBouserDistance = 9f;
 
         public void SpawnBouser()
         {
@@ -19,6 +27,7 @@ namespace AnarPerPortes
                 return;
 
             spawnedBouser = true;
+            spawnedBouserAmount++;
             PlayBouserDoorAnimation();
             EnemyManager.Singleton.GenerateEnemy(EnemyManager.Singleton.BouserEnemyPrefab);
         }
@@ -40,11 +49,10 @@ namespace AnarPerPortes
                 return;
 
             var distance = Vector3.Distance(bouserRoomDoorsAnimator.transform.position, PlayerController.Singleton.transform.position);
-            
-            if (distance <= spawnBouserDistance)
-            {
+            var targetDistance = spawnedBouserAmount >= 1 ? spawnBouserHardDistance : spawnBouserDistance;
+
+            if (distance <= targetDistance)
                 SpawnBouser();
-            }
         }
     }
 }
