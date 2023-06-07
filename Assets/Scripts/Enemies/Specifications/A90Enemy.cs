@@ -9,15 +9,22 @@ namespace AnarPerPortes
     public sealed class A90Enemy : Enemy
     {
         public static bool EnemyIsActive { get; set; } = false;
+
+        [Header("Components")]
         [SerializeField] private Image image;
         [SerializeField] private Animator jumpscareAnimator;
-        [SerializeField] private AudioClip jumpscareSound;
-        private AudioSource audioSource;
+
+        [Header("Stats")]
+        [SerializeField] private float checkMotionTime = 1.2f;
+        [SerializeField] private float despawnTime = 1.5f;
+
+        [Header("Audio")]
+        [SerializeField] private SoundResource warningSound;
+        [SerializeField] private SoundResource jumpscareSound;
+
         private float timeSinceSpawn = 0f;
         private bool checkedMotion = false;
         private bool isCatching = false;
-        private const float checkMotionTime = 1.2f;
-        private const float despawnTime = 1.5f;
 
         public void Spawn()
         {
@@ -27,7 +34,7 @@ namespace AnarPerPortes
             image.rectTransform.anchoredPosition = new(rngX, rngY);
             image.enabled = true;
             AudioManager.Singleton.MuteAllAudioMixers();
-            audioSource.Play();
+            audioSource.Play(warningSound);
             SubtitleManager.Singleton.PushSubtitle("(distorsiones)", Team.Hostile);
         }
 
@@ -100,10 +107,8 @@ namespace AnarPerPortes
             AudioManager.Singleton.UnmuteAllAudioMixers();
             audioSource.Stop();
             audioSource.PlayOneShot(jumpscareSound);
-            SubtitleManager.Singleton.PushSubtitle("(grito distorsionado)", Team.Hostile);
             PlayerController.Singleton.BlockMove();
             PlayerController.Singleton.BlockLook();
-            EnemyIsActive = false;
             jumpscareAnimator.Play("Jumpscare", 0, 0f);
             StartCoroutine(nameof(CatchPlayerEnumerator));
         }

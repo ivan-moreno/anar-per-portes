@@ -145,8 +145,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tip: {fileID: 11400000, guid: 41355d12b98e36247ad0a245fbd11df6, type: 2}
-  warningSound: {fileID: 8300000, guid: aa6cd994b62548349a8c0704ed17d4c1, type: 3}
-  jumpscareSound: {fileID: 8300000, guid: 05bb089138c0f80449038be4b15a0957, type: 3}
+  checkMotionTime: 1.2
+  despawnTime: 2.2
+  warningSound: {fileID: 11400000, guid: 9f32496526778bb489501e41825c0f2a, type: 2}
+  safeSound: {fileID: 11400000, guid: 4be8db89e03c95048bd65344ac5fd63b, type: 2}
+  jumpscareSound: {fileID: 11400000, guid: 8cd338970ea37c14294992f701dbe571, type: 2}
 --- !u!1001 &382119309250529110
 PrefabInstance:
   m_ObjectHideFlags: 0

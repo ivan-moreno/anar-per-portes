@@ -93,7 +93,7 @@ namespace AnarPerPortes
             ItemManager.Singleton.GenerateSlotFor(item);
         }
 
-        public void SetVisionTarget(Transform target, Vector3 offset)
+        public void SetVisionTarget(Transform target, Vector3 offset = default)
         {
             visionTarget = target;
             visionTargetOffset = offset;

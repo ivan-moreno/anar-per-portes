@@ -1,7 +1,6 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace AnarPerPortes
@@ -15,16 +14,14 @@ namespace AnarPerPortes
         [SerializeField] private TMP_Text titleText;
         [SerializeField] private TMP_Text messageText;
         private bool canClickToRetry = false;
-        private bool showUiOnScreenshot = false;
 
-        public void CatchPlayer(string title, string message, bool showUiOnScreenshot = false)
+        public void CatchPlayer(string title, string message)
         {
             PlayerController.Singleton.IsCaught = true;
             PlayerController.Singleton.BlockMove();
             PlayerController.Singleton.BlockLook();
             titleText.text = title;
             messageText.text = message;
-            this.showUiOnScreenshot = showUiOnScreenshot;
             Time.timeScale = 0f;
             StartCoroutine(nameof(TakeSnapshot));
         }
@@ -45,7 +42,7 @@ namespace AnarPerPortes
 
         private IEnumerator TakeSnapshot()
         {
-            PlayerController.Singleton.UiCamera.enabled = showUiOnScreenshot;
+            PlayerController.Singleton.UiCamera.enabled = false;
             yield return new WaitForEndOfFrame();
             screenshot.sprite = GetScreenshot();
             caughtScreen.SetActive(true);
@@ -57,9 +54,7 @@ namespace AnarPerPortes
         private void Update()
         {
             if (!PauseManager.Singleton.IsPaused && Input.GetMouseButtonDown(0) && canClickToRetry)
-            {
                 GameManager.Singleton.RestartLevel();
-            }
         }
     }
 }

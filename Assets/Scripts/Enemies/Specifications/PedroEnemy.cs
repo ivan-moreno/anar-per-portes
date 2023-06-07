@@ -8,18 +8,18 @@ namespace AnarPerPortes
     {
         public static bool EnemyIsActive { get; set; } = false;
 
+        [Header("Stats")]
         [SerializeField] private float runSpeed = 16f;
         [SerializeField] private float chaseRange = 8f;
         [SerializeField] private float catchRange = 2f;
+
+        [Header("Audio")]
         [SerializeField] private SoundResource spawnSound;
         [SerializeField] private SoundResource finishRunSound;
         [SerializeField] private SoundResource meetBouserSound;
         [SerializeField] private SoundResource laughAtBouserSound;
         [SerializeField] private SoundResource jumpscareSound;
 
-        private AudioSource audioSource;
-        private Animator animator;
-        private Transform model;
         private Vector3 targetLocation;
         private bool reachedTarget = false;
         private bool isChasing = false;
@@ -34,13 +34,12 @@ namespace AnarPerPortes
         private void Start()
         {
             EnemyIsActive = true;
+            CacheComponents();
+
             transform.position = RoomManager.Singleton.Rooms[0].transform.position;
             targetLocation = RoomManager.Singleton.Rooms[0].WaypointGroup.GetChild(0).position;
-            audioSource = GetComponent<AudioSource>();
-            animator = GetComponentInChildren<Animator>();
-            model = animator.transform;
             bouserEnemy = FindObjectOfType<BouserEnemy>();
-            SubtitleManager.Singleton.PushSubtitle(spawnSound.SubtitleText, Team.Hostile);
+            audioSource.Play(spawnSound);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
 
@@ -172,7 +171,6 @@ namespace AnarPerPortes
             PlayerController.Singleton.BlockMove();
             PlayerController.Singleton.BlockLook();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));
-            EnemyIsActive = false;
             StartCoroutine(nameof(CatchPlayerEnumerator));
         }
 

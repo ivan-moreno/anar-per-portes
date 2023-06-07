@@ -7,17 +7,20 @@ namespace AnarPerPortes
     public class DaviloteEnemy : Enemy
     {
         public static bool EnemyIsActive { get; set; } = false;
+
+        [Header("Stats")]
+        [SerializeField] private float catchAngle = 120f;
+
+        [Header("Audio")]
         [SerializeField] private SoundResource warningSound;
         [SerializeField] private SoundResource jumpscareSound;
-        private AudioSource audioSource;
-        private Transform model;
+
         private bool isCatching = false;
 
         private void Start()
         {
-            audioSource = GetComponent<AudioSource>();
-            model = transform.GetChild(0);
             EnemyIsActive = true;
+            CacheComponents();
             transform.rotation = PlayerController.Singleton.transform.rotation;
             audioSource.PlayOneShot(warningSound.AudioClip);
             SubtitleManager.Singleton.PushSubtitle(warningSound.SubtitleText, Team.Hostile);
@@ -59,7 +62,7 @@ namespace AnarPerPortes
             if (vCameraAngle is > 60f and < 80f or > 280f and < 300f)
                 return;
 
-            if (Mathf.Abs(angleDiff) > 120f)
+            if (Mathf.Abs(angleDiff) > catchAngle)
                 CatchPlayer();
         }
 
@@ -69,12 +72,10 @@ namespace AnarPerPortes
                 return;
 
             isCatching = true;
-            audioSource.PlayOneShot(jumpscareSound.AudioClip);
-            SubtitleManager.Singleton.PushSubtitle(jumpscareSound.SubtitleText, Team.Hostile);
+            audioSource.PlayOneShot(jumpscareSound);
             PlayerController.Singleton.BlockMove();
             PlayerController.Singleton.BlockLook();
-            PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));
-            EnemyIsActive = false;
+            PlayerController.Singleton.SetVisionTarget(transform);
             StartCoroutine(nameof(CatchPlayerEnumerator));
         }
 

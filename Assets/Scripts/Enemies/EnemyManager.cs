@@ -36,7 +36,10 @@ namespace AnarPerPortes
         }
 
         public static EnemyManager Singleton { get; private set; }
+
+        //FIXME: Spawn Bouser and make him wait (inactive) instead of instantiating when his big door is opened.
         public GameObject BouserEnemyPrefab => bouserEnemyPrefab;
+
         [SerializeField] private Transform enemiesGroup;
         [SerializeField] private GameObject daviloteEnemyPrefab;
         [SerializeField] private GameObject bouserEnemyPrefab;
@@ -45,6 +48,7 @@ namespace AnarPerPortes
         [SerializeField] private GameObject skellEnemyPrefab;
         [SerializeField] private GameObject yusufEnemyPrefab;
         [SerializeField] private A90Enemy a90Enemy;
+
         private int roomsWithoutAnyEnemySpawn = 0;
         private static readonly HashSet<string> displayedEnemyTipNames = new();
 
@@ -62,6 +66,7 @@ namespace AnarPerPortes
 
         private void Start()
         {
+            // TODO: Find a more automatic way of solving this?
             DaviloteEnemy.EnemyIsActive = false;
             BouserEnemy.EnemyIsActive = false;
             PedroEnemy.EnemyIsActive = false;
@@ -69,6 +74,7 @@ namespace AnarPerPortes
             SkellEnemy.EnemyIsActive = false;
             YusufEnemy.EnemyIsActive = false;
             A90Enemy.EnemyIsActive = false;
+
             RoomManager.Singleton.OnRoomGenerated.AddListener(ProcessEnemyPossibilities);
 
             pedroPossibility = new()
@@ -236,9 +242,7 @@ namespace AnarPerPortes
             }
 
             pedroPossibility.WillSpawn = pedroPossibility.HasSpawnRequirements(generatedRoom) && pedroPossibility.HasRngRequirement();
-
             davilotePossibility.WillSpawn = davilotePossibility.HasSpawnRequirements(generatedRoom) && davilotePossibility.HasRngRequirement();
-
             sheepyPossibility.WillSpawn = sheepyPossibility.HasSpawnRequirements(generatedRoom) && sheepyPossibility.HasRngRequirement();
 
             skellPossibility.WillSpawn =

@@ -148,68 +148,38 @@ MonoBehaviour:
   runSpeed: 6
   catchRange: 3
   sightAngle: 60
+  jumpscareSound: {fileID: 11400000, guid: 9f8e6dc3dc8f3cf4a9d5246ed0d41652, type: 2}
   warningSounds:
-  - {fileID: 8300000, guid: 6078a9ac12896f544a53ab19bdab306d, type: 3}
-  - {fileID: 8300000, guid: 50d39fa52e255344cb1d8987149116cb, type: 3}
-  - {fileID: 8300000, guid: 389964275b4eec54e8b78d50b5969f4b, type: 3}
-  warningSoundSubtitles:
-  - '[BOUSER] Ya me enfadaste.'
-  - "[BOUSER] Ven aqu\xED, chiquituso."
-  - "[BOUSER] Cago en dios cabr\xF3n ipsilon la virgen puta."
+  - {fileID: 11400000, guid: 0c2c5d04b13c12f4eb2e4a5e9bf260be, type: 2}
+  - {fileID: 11400000, guid: a6bded504e58c264e8c683d30d04bff2, type: 2}
+  - {fileID: 11400000, guid: 10a664513192eb049852501aeb86b57c, type: 2}
+  - {fileID: 11400000, guid: 344335975eec0be47b3eeddea9580144, type: 2}
   loseSounds:
-  - {fileID: 8300000, guid: e4b0f59890b239a478ecd30e406d83fd, type: 3}
-  - {fileID: 8300000, guid: c87453e1858c34d4ca43374f13198c63, type: 3}
-  - {fileID: 8300000, guid: e0ce26ef7c20451429eda3c24c61f819, type: 3}
-  - {fileID: 8300000, guid: 5f153811508129048a64fc8e2d0480f3, type: 3}
-  - {fileID: 8300000, guid: 8111145c0c2b09241a1e3fd120f1e835, type: 3}
-  loseSoundSubtitles:
-  - "[BOUSER] \xBFPero qu\xE9?"
-  - "[BOUSER] \xBFD\xF3nde se meti\xF3 ese chiquituso?"
-  - "[BOUSER] \xBFSe puede saber d\xF3nde te fuiste?"
-  - "[BOUSER] \xBFQu\xE9 demonios?"
-  - "[BOUSER] \xBFHa desaparecido?"
-  findSounds:
-  - {fileID: 8300000, guid: 395131b394dbcb14abf1a9172e3ad0a0, type: 3}
-  - {fileID: 8300000, guid: ce41dbad8018eeb40aa68f35ed08eab6, type: 3}
-  findSoundSubtitles:
-  - "[BOUSER] \xA1Ah\xED est\xE1s!"
-  - "[BOUSER] \xA1Te vas a enterar!"
+  - {fileID: 11400000, guid: ce1aca4b1192ff949bea562658438aa9, type: 2}
+  - {fileID: 11400000, guid: cf1ce00a63030c644abd669cbaada9e6, type: 2}
+  - {fileID: 11400000, guid: 23d5ef0073d1d3d4dabb565e53aba1fe, type: 2}
+  - {fileID: 11400000, guid: 4c1e51ef0c1a92345978cd91ddf6dba6, type: 2}
+  - {fileID: 11400000, guid: 7b5ba76f9bbe399468b88cb6ec15c297, type: 2}
   searchSounds:
-  - {fileID: 8300000, guid: 19a65d54da2d7f14d91b5e477757011c, type: 3}
-  - {fileID: 8300000, guid: ce55a9f87e1d7f84aac88523552e8405, type: 3}
-  - {fileID: 8300000, guid: bff5453cc65821d4ea0d8a06850be014, type: 3}
-  - {fileID: 8300000, guid: 2e5fc20c5e3681e4ca230f3d992b6370, type: 3}
-  - {fileID: 8300000, guid: 384878d2be715114da67b602b265bc14, type: 3}
-  - {fileID: 8300000, guid: 8824741205fc1ab419d79c1f7321edf0, type: 3}
-  - {fileID: 8300000, guid: e47193bbd87a4244ab85448b1a5e3c58, type: 3}
-  - {fileID: 8300000, guid: db83a76a074ee8841b57aa82ff9860fb, type: 3}
-  searchSoundSubtitles:
-  - '[BOUSER] No me obligues a ponerme el modo serio.'
-  - "[BOUSER] J*der, es m\xE1s f\xE1cil capturar a una princesa que encontrarte."
-  - "[BOUSER] \xBFSabes, chiquituso? Al final pasar\xE1. M\xEDo ser\xE1s, uoooh~"
-  - "[BOUSER] Maldita sea, \xBFd\xF3nde est\xE1 mi ej\xE9rcito de Koopas cuando lo
-    necesitas?"
-  - '[BOUSER] Si sales de tu escondite te doy un caramelo marca Bouser, lo juro,
-    jiji-'
-  - "[BOUSER] \xBFChiiquiituso?"
-  - '[BOUSER] Date prisa, que tengo Isle a las 5:00.'
-  - '[BOUSER] Acabemos con esto, que tengo que entrenar.'
+  - {fileID: 11400000, guid: 261f56cb2f4933a4f99b8671e23b8932, type: 2}
+  - {fileID: 11400000, guid: 856566ff07d83214780213bf3d2cfc0d, type: 2}
+  - {fileID: 11400000, guid: fe2f085c826c4ec4d914a23a2fde7ad1, type: 2}
+  - {fileID: 11400000, guid: c5edfef9020e4d0429ccea2254e11d86, type: 2}
+  - {fileID: 11400000, guid: 77f18b93b154d8c49abf69093a62292b, type: 2}
+  - {fileID: 11400000, guid: 51eaa978f12ab8f41bf7162649403105, type: 2}
+  - {fileID: 11400000, guid: 84057ce60336f1440b2767dbbf53ca75, type: 2}
+  - {fileID: 11400000, guid: 614ac5ebbab38d5469bea33e093ed8ed, type: 2}
+  - {fileID: 11400000, guid: 374ee1cbd643dc34a89c2ccb494d63e8, type: 2}
+  findSounds:
+  - {fileID: 11400000, guid: 61f785618467abd4db4ea869df28c3fd, type: 2}
+  - {fileID: 11400000, guid: e8f942036e4ec1d49a212c70bf2d19c3, type: 2}
   tailSounds:
-  - {fileID: 8300000, guid: 8c4860a619f14744b8c27ef644749eb7, type: 3}
-  - {fileID: 8300000, guid: f017535e417b2ee4c8d4b38ad6d43e32, type: 3}
-  tailSoundSubtitles:
-  - "[BOUSER] \xA1No, mi cola no!"
-  - "[BOUSER] \xA1Todo menos la colaaa!"
+  - {fileID: 11400000, guid: a056421f2045bef45a30123e54a0a6a1, type: 2}
+  - {fileID: 11400000, guid: 169a7dab850a6b44a8597f1ef49c745c, type: 2}
   meetPedroSounds:
-  - {fileID: 8300000, guid: fb3967e2837661044910b6be298bac77, type: 3}
-  - {fileID: 8300000, guid: e58094417e338124eab5406e519bccca, type: 3}
-  - {fileID: 8300000, guid: e054e3586c5a93e41a7df4e2f3030226, type: 3}
-  meetPedroSoundSubtitles:
-  - "[BOUSER] Golemio \xBFqu\xE9 haces en mi habitaci\xF3n? \xA1Fuera de aqu\xED!"
-  - "[BOUSER] Golemio, \xA1l\xE1rgate de mi habitaci\xF3n o sufrir\xE1s mi ira!"
-  - "[BOUSER] Golemio, c\xF3mo te vuelva a ver por aqu\xED, \xA1me pondr\xE9 modo
-    serio!"
-  jumpscareSound: {fileID: 8300000, guid: 4b0c2d2eb442f734da90a234c209eedf, type: 3}
+  - {fileID: 11400000, guid: 89fe920f28cfc2442b918a0a1d7f3e74, type: 2}
+  - {fileID: 11400000, guid: 9e97cbe7ce2273741a71c8be04f36836, type: 2}
+  - {fileID: 11400000, guid: 10a8f482e0ffe5b4ca72d89165a84013, type: 2}
 --- !u!1 &7445021135071740010
 GameObject:
   m_ObjectHideFlags: 0

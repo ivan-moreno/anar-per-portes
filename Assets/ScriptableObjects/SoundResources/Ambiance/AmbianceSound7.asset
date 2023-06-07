@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 697d33dca1980aa44a3b852d2e215b8d, type: 3}
-  m_Name: SkellWarning
+  m_Name: AmbianceSound7
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: 18c801d6670116d4d9f364d2b06aa07c, type: 3}
-  subtitleText: (sonido del cazador)
-  subtitleTeam: 2
+  audioClip: {fileID: 8300000, guid: bcec870e3a5dd2e49afa871fdc786eb0, type: 3}
+  subtitleText: "(puerta se abre a la lejan\xEDa)"
+  subtitleTeam: 0

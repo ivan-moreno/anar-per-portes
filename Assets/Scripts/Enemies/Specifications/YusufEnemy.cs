@@ -7,42 +7,38 @@ namespace AnarPerPortes
     public class YusufEnemy : Enemy
     {
         public static bool EnemyIsActive { get; set; } = false;
-        [SerializeField] private AudioClip walkieTalkieAlertSound;
-        [SerializeField] private AudioClip jumpscareSound;
-        [SerializeField] private AudioClip[] bunkerTargetSounds;
-        [SerializeField] private string[] bunkerTargetSoundSubtitles;
-        [SerializeField] private AudioClip[] lighthouseTargetSounds;
-        [SerializeField] private string[] lighthouseTargetSoundSubtitles;
-        [SerializeField] private AudioClip[] observatoryTargetSounds;
-        [SerializeField] private string[] observatoryTargetSoundSubtitles;
-        [SerializeField] private AudioClip[] warehouseTargetSounds;
-        [SerializeField] private string[] warehouseTargetSoundSubtitles;
-        private AudioSource audioSource;
-        private Transform model;
+
+        [Header("Sound")]
+        [SerializeField] private SoundResource walkieTalkieAlertSound;
+        [SerializeField] private SoundResource jumpscareSound;
+        [SerializeField] private SoundResource[] bunkerTargetSounds;
+        [SerializeField] private SoundResource[] lighthouseTargetSounds;
+        [SerializeField] private SoundResource[] observatoryTargetSounds;
+        [SerializeField] private SoundResource[] warehouseTargetSounds;
 
         private void Start()
         {
+            EnemyIsActive = true;
+            CacheComponents();
+
             var isleRoom = RoomManager.Singleton.LastLoadedRoom as IsleRoom;
             var targetPos = isleRoom.IncorrectDoor.transform.position + (isleRoom.IncorrectDoor.transform.forward * 4f);
             transform.position = targetPos;
-            audioSource = GetComponent<AudioSource>();
-            model = transform.GetChild(0);
-            EnemyIsActive = true;
             audioSource.PlayOneShot(walkieTalkieAlertSound);
 
             var rng = Random.Range(0, 4);
 
             if (rng == 0)
-                PlayRandomAudio(bunkerTargetSounds, bunkerTargetSoundSubtitles);
+                audioSource.PlayOneShot(bunkerTargetSounds.RandomItem());
             else if (rng == 1)
-                PlayRandomAudio(lighthouseTargetSounds, lighthouseTargetSoundSubtitles);
+                audioSource.PlayOneShot(lighthouseTargetSounds.RandomItem());
             else if (rng == 2)
-                PlayRandomAudio(observatoryTargetSounds, observatoryTargetSoundSubtitles);
+                audioSource.PlayOneShot(observatoryTargetSounds.RandomItem());
             else
-                PlayRandomAudio(warehouseTargetSounds, warehouseTargetSoundSubtitles);
+                audioSource.PlayOneShot(warehouseTargetSounds.RandomItem());
 
-            isleRoom.OnIncorrectDoorOpened.AddListener(CatchPlayer);
             isleRoom.OnDoorOpened.AddListener(Despawn);
+            isleRoom.OnIncorrectDoorOpened.AddListener(CatchPlayer);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
 
@@ -58,7 +54,6 @@ namespace AnarPerPortes
         {
             transform.LookAt(PlayerController.Singleton.transform.position);
             audioSource.PlayOneShot(jumpscareSound);
-            SubtitleManager.Singleton.PushSubtitle("(Yusuf grita)", Team.Hostile);
             PlayerController.Singleton.BlockMove();
             PlayerController.Singleton.BlockLook();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));
@@ -77,15 +72,6 @@ namespace AnarPerPortes
         {
             EnemyIsActive = false;
             Destroy(gameObject);
-        }
-
-        //TODO: Static method
-        private void PlayRandomAudio(AudioClip[] audios, string[] subtitles)
-        {
-            var rngAudioIndex = Random.Range(0, audios.Length);
-            var rngAudio = audios[rngAudioIndex];
-            audioSource.PlayOneShot(rngAudio);
-            SubtitleManager.Singleton.PushSubtitle(subtitles[rngAudioIndex], Team.Hostile);
         }
     }
 }

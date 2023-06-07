@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace AnarPerPortes
@@ -8,8 +6,7 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Ambiance Sounds")]
     public class AmbianceSounds : MonoBehaviour
     {
-        [SerializeField] private AudioClip[] sounds;
-        [SerializeField] private string[] soundSubtitles;
+        [SerializeField] private SoundResource[] sounds;
         private AudioSource audioSource;
         private float timeUntilNextSound;
 
@@ -23,24 +20,15 @@ namespace AnarPerPortes
         {
             timeUntilNextSound -= Time.deltaTime;
 
-            if (timeUntilNextSound <= 0f)
-            {
-                var rngXPos = Random.Range(-1f, 1f);
-                var rngZPos = Random.Range(-1f, 1f);
-                var rngPosOffset = new Vector3(rngXPos, 0f, rngZPos).normalized * 16f;
-                transform.position = PlayerController.Singleton.transform.position + new Vector3(rngPosOffset.x, 0f, rngPosOffset.z);
+            if (timeUntilNextSound > 0f)
+                return;
 
-                var rngAudioIndex = Random.Range(0, sounds.Length);
-                var rngAudio = sounds[rngAudioIndex];
-                audioSource.PlayOneShot(rngAudio);
-
-                if (soundSubtitles.Length > rngAudioIndex && !string.IsNullOrWhiteSpace(soundSubtitles[rngAudioIndex]))
-                {
-                    SubtitleManager.Singleton.PushSubtitle(soundSubtitles[rngAudioIndex], Team.Common);
-                }
-
-                timeUntilNextSound = Random.Range(20f, 90f);
-            }
+            var rngXPos = Random.Range(-1f, 1f);
+            var rngZPos = Random.Range(-1f, 1f);
+            var rngPosOffset = new Vector3(rngXPos, 0f, rngZPos).normalized * 16f;
+            transform.position = PlayerController.Singleton.transform.position + new Vector3(rngPosOffset.x, 0f, rngPosOffset.z);
+            audioSource.PlayOneShot(sounds.RandomItem());
+            timeUntilNextSound = Random.Range(20f, 90f);
         }
     }
 }

@@ -6,11 +6,20 @@ namespace AnarPerPortes
     public class SkellEnemy : Enemy
     {
         public static bool EnemyIsActive { get; set; } = false;
+
+        [Header("Stats")]
         [SerializeField] private float runSpeed = 16f;
         [SerializeField] private float chaseRange = 8f;
         [SerializeField] private float catchRange = 2f;
-        [SerializeField] private SoundResource jumpscareSound;
-        [SerializeField] private SoundResource warningSound;
 
+        [Header("Sound")]
+        [SerializeField] private SoundResource warningSound;
+        [SerializeField] private SoundResource jumpscareSound;
+
+        private void Start()
+        {
+            EnemyIsActive = true;
+            CacheComponents();
+        }
     }
 }

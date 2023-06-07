@@ -3,9 +3,6 @@ using UnityEngine;
 
 namespace AnarPerPortes
 {
-    /// <summary>
-    /// Handles instantiation and initialization of subtitles.
-    /// </summary>
     [AddComponentMenu("Anar per Portes/Managers/Subtitle Manager")]
     public sealed class SubtitleManager : MonoBehaviour
     {
@@ -21,13 +18,17 @@ namespace AnarPerPortes
             { Team.Hostile, new Color(0.9f, 0.3f, 0.2f) }
         };
 
-        /// <summary>
-        /// Generates a <see cref="SubtitleMessage"/> instance and sets its message and color depending on the <paramref name="team"/>.
-        /// </summary>
+        private static Color GetSourceColor(Team source)
+        {
+            return sourceColors.TryGetValue(source, out var color) ? color : Color.white;
+        }
+
         public void PushSubtitle(string message, Team team = Team.Common)
         {
-            // Do not generate subtitles if the setting is disabled.
             if (!GameSettingsManager.Singleton.CurrentSettings.EnableSubtitles)
+                return;
+
+            if (string.IsNullOrEmpty(message))
                 return;
 
             var instance = Instantiate(subtitleMessagePrefab, subtitleMessagesGroup);
@@ -40,11 +41,6 @@ namespace AnarPerPortes
             }
 
             subtitleMessage.Initialize(message, 4f, GetSourceColor(team));
-        }
-
-        private static Color GetSourceColor(Team source)
-        {
-            return sourceColors.TryGetValue(source, out var color) ? color : Color.white;
         }
 
         private void Awake()

@@ -4761,7 +4761,10 @@ MonoBehaviour:
   tip: {fileID: 0}
   image: {fileID: 230485493}
   jumpscareAnimator: {fileID: 394747126}
-  jumpscareSound: {fileID: 8300000, guid: 8434f083ad608274081c0ee972acd7b3, type: 3}
+  checkMotionTime: 1.2
+  despawnTime: 1.5
+  warningSound: {fileID: 11400000, guid: 788925cac6eafcf49915e10968204ccf, type: 2}
+  jumpscareSound: {fileID: 11400000, guid: 627817902a3822a4b89f8a4705178c0b, type: 2}
 --- !u!82 &543234777
 AudioSource:
   m_ObjectHideFlags: 0
@@ -13293,27 +13296,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - {fileID: 8300000, guid: 9dc3a65c77dd12940817f88c1133f4c7, type: 3}
-  - {fileID: 8300000, guid: 5a91f1633a1d0e34bb6fdc052ca159c4, type: 3}
-  - {fileID: 8300000, guid: e8ba3e60be8a5aa4993eacfd6a7419f9, type: 3}
-  - {fileID: 8300000, guid: d821065f384491341a06142ccaedbecf, type: 3}
-  - {fileID: 8300000, guid: eddc648236aa38745afb731a3ade675e, type: 3}
-  - {fileID: 8300000, guid: 7e6c7cbca6192cc4ba7c3a3ee1dc1fc0, type: 3}
-  - {fileID: 8300000, guid: bcec870e3a5dd2e49afa871fdc786eb0, type: 3}
-  - {fileID: 8300000, guid: 838d36b4d101f2f4e94014e3124530ba, type: 3}
-  - {fileID: 8300000, guid: 759299f70d3ea424c912efaa0fe09e6b, type: 3}
-  - {fileID: 8300000, guid: 09902049bccb3514498c59162d3613ca, type: 3}
-  soundSubtitles:
-  - "[BOUSER] Eh, t\xFA."
-  - (Sonido perturbador)
-  - (Sonido perturbador)
-  - (Sonido perturbador)
-  - (Sonido perturbador)
-  - (Sonido perturbador)
-  - "(Puerta abri\xE9ndose)"
-  - "(Alguien grita \"\xA1Obama!\")"
-  - (...)
-  - '[ROBLOMAN] Huevos de SONIC-'
+  - {fileID: 11400000, guid: 27d80055b52ffb34b9baa97e89501fde, type: 2}
+  - {fileID: 11400000, guid: 9622cb356b1a9d246bd55d673c4e8d85, type: 2}
+  - {fileID: 11400000, guid: 2fad275560f32e2449eecc25d3fbeb80, type: 2}
+  - {fileID: 11400000, guid: 2ef97d2a483c7d84aa3b5603cbdd7f3b, type: 2}
+  - {fileID: 11400000, guid: d21f0813ddbfd494aaa668efbae2300b, type: 2}
+  - {fileID: 11400000, guid: bf4f46c54a3dc474aab185b270e44364, type: 2}
+  - {fileID: 11400000, guid: e2c0286f17dda2d4ebd33bd0f72ec9e7, type: 2}
+  - {fileID: 11400000, guid: cae131a32a2fa1d44ab62396540ecb40, type: 2}
+  - {fileID: 11400000, guid: a070b6c149e9eed41a5eeb27c3033086, type: 2}
 --- !u!82 &1818711196
 AudioSource:
   m_ObjectHideFlags: 0
@@ -15205,6 +15196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 467f42a5300acea46b5da4e5bc8186fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settingsScreen: {fileID: 887182139}
   saveSettingsButton: {fileID: 223437462}
   mouseSensitivitySlider: {fileID: 1198237958}
   fieldOfViewSlider: {fileID: 1640634312}

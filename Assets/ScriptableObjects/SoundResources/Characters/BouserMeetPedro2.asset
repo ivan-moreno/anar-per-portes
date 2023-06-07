@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 697d33dca1980aa44a3b852d2e215b8d, type: 3}
+  m_Name: BouserMeetPedro2
+  m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: e054e3586c5a93e41a7df4e2f3030226, type: 3}
+  subtitleText: "[BOUSER] Golemio, c\xF3mo te vuelva a ver por aqu\xED, \xA1me pondr\xE9
+    modo serio!"
+  subtitleTeam: 2

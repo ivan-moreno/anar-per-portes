@@ -7,28 +7,29 @@ namespace AnarPerPortes
     public class SheepyEnemy : Enemy
     {
         public static bool EnemyIsActive { get; set; } = false;
-        [SerializeField] private AudioClip warningSound;
-        [SerializeField] private AudioClip jumpscareSound;
-        private AudioSource audioSource;
-        private Animator animator;
-        private Transform model;
+
+        [Header("Stats")]
+        [SerializeField] private float checkMotionTime = 1.2f;
+        [SerializeField] private float despawnTime = 2.2f;
+
+        [Header("Audio")]
+        [SerializeField] private SoundResource warningSound;
+        [SerializeField] private SoundResource safeSound;
+        [SerializeField] private SoundResource jumpscareSound;
+
         private float timeSinceSpawn = 0f;
         private bool checkedMotion = false;
         private bool isCatching = false;
-        private const float checkMotionTime = 1.2f;
-        private const float despawnTime = 2.2f;
 
         private void Start()
         {
+            EnemyIsActive = true;
+            CacheComponents();
+
             var lastRoom = RoomManager.Singleton.LastLoadedRoom.transform;
             var targetPos = lastRoom.position + (lastRoom.forward * 4f);
             transform.position = targetPos;
-            audioSource = GetComponent<AudioSource>();
-            animator = GetComponentInChildren<Animator>();
-            model = animator.transform;
-            EnemyIsActive = true;
-            audioSource.Play();
-            SubtitleManager.Singleton.PushSubtitle("(STOP!)", Team.Hostile);
+            audioSource.Play(warningSound);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
 
@@ -71,7 +72,7 @@ namespace AnarPerPortes
             else
             {
                 animator.Play("Retreat");
-                SubtitleManager.Singleton.PushSubtitle("(Wait a minute!)", Team.Common);
+                SubtitleManager.Singleton.PushSubtitle(safeSound.SubtitleText, safeSound.SubtitleTeam);
             }
         }
 
@@ -83,11 +84,9 @@ namespace AnarPerPortes
             isCatching = true;
             animator.Play("Jumpscare");
             audioSource.PlayOneShot(jumpscareSound);
-            SubtitleManager.Singleton.PushSubtitle("(Sheepy grita)", Team.Hostile);
             PlayerController.Singleton.BlockMove();
             PlayerController.Singleton.BlockLook();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));
-            EnemyIsActive = false;
             StartCoroutine(nameof(CatchPlayerEnumerator));
         }
 

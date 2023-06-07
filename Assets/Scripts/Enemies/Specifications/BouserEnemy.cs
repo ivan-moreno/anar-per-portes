@@ -8,42 +8,33 @@ namespace AnarPerPortes
     {
         public static bool EnemyIsActive { get; set; } = false;
         public bool IsDefeated { get; private set; } = false;
+
+        [Header("Stats")]
         [SerializeField] private float runSpeed = 8f;
         [SerializeField] private float catchRange = 2f;
         [SerializeField] private float sightAngle = 45f;
-        [SerializeField] private AudioClip[] warningSounds;
-        [SerializeField] private string[] warningSoundSubtitles;
-        [SerializeField] private AudioClip[] loseSounds;
-        [SerializeField] private string[] loseSoundSubtitles;
-        [SerializeField] private AudioClip[] findSounds;
-        [SerializeField] private string[] findSoundSubtitles;
-        [SerializeField] private AudioClip[] searchSounds;
-        [SerializeField] private string[] searchSoundSubtitles;
-        [SerializeField] private AudioClip[] tailSounds;
-        [SerializeField] private string[] tailSoundSubtitles;
-        [SerializeField] private AudioClip[] meetPedroSounds;
-        [SerializeField] private string[] meetPedroSoundSubtitles;
-        [SerializeField] private AudioClip jumpscareSound;
-        private Animator animator;
-        private Transform model;
-        private AudioSource audioSource;
+
+        [Header("Audio")]
+        [SerializeField] private SoundResource jumpscareSound;
+        [SerializeField] private SoundResource[] warningSounds;
+        [SerializeField] private SoundResource[] loseSounds;
+        [SerializeField] private SoundResource[] searchSounds;
+        [SerializeField] private SoundResource[] findSounds;
+        [SerializeField] private SoundResource[] tailSounds;
+        [SerializeField] private SoundResource[] meetPedroSounds;
+
         private BouserRoom room;
         private Vector3 targetLocation;
         private bool reachedTarget = false;
         private bool isChasing = false;
         private bool isCatching = false;
         private bool isGrabbingTail = false;
-        private float audioCooldown = 0f;
         private float nextMoveTime;
+        private float audioCooldown = 0f;
         private float timeSinceReachedTarget = 0f;
-        private float timeSinceLastFindAudio = 0f;
-        private float timeSinceLastLoseAudio = 0f;
-        private float timeSinceLastSearchAudio = 0f;
-        private const float nextMoveMinTime = 1.5f;
+
+        private const float nextMoveMinTime = 1f;
         private const float nextMoveMaxTime = 3f;
-        private const float minTimeBetweenFindAudios = 3f;
-        private const float minTimeBetweenLoseAudios = 3f;
-        private const float minTimeBetweenSearchAudios = 7f;
 
         public void GrabTail()
         {
@@ -55,7 +46,7 @@ namespace AnarPerPortes
             animator.Play("TailGrab");
             audioSource.Stop();
             audioCooldown = 0f;
-            PlayRandomAudio(tailSounds, tailSoundSubtitles, Team.Common);
+            Talk(tailSounds.RandomItem());
             room.OpenBouserDoor();
 
             //TODO: Launch animation
@@ -64,14 +55,13 @@ namespace AnarPerPortes
 
         private void Start()
         {
+            EnemyIsActive = true;
+            CacheComponents();
+
             room = RoomManager.Singleton.LastLoadedRoom as BouserRoom;
             room.OnUnloading.AddListener(Despawn);
 
             transform.SetPositionAndRotation(room.BouserSpawnPoint.position, room.BouserSpawnPoint.rotation);
-            audioSource = GetComponent<AudioSource>();
-            animator = GetComponentInChildren<Animator>();
-            model = animator.transform;
-            EnemyIsActive = true;
 
             if (PedroEnemy.EnemyIsActive)
             {
@@ -79,12 +69,13 @@ namespace AnarPerPortes
                 var dist = Vector3.Distance(transform.position, pedroPos);
 
                 if (dist <= 32f)
-                    PlayRandomAudio(meetPedroSounds, meetPedroSoundSubtitles);
+                    Talk(meetPedroSounds.RandomItem());
+
                 else
-                    PlayRandomAudio(warningSounds, warningSoundSubtitles);
+                    Talk(warningSounds.RandomItem());
             }
             else
-                PlayRandomAudio(warningSounds, warningSoundSubtitles);
+                Talk(warningSounds.RandomItem());
 
             nextMoveTime = Random.Range(nextMoveMinTime, nextMoveMaxTime);
             ChangeTargetLocationRandom();
@@ -104,12 +95,7 @@ namespace AnarPerPortes
         {
             var rng = Random.Range(0, room.BouserWaypointGroup.childCount);
             targetLocation = room.BouserWaypointGroup.GetChild(rng).position;
-
-            if (timeSinceLastSearchAudio >= minTimeBetweenSearchAudios)
-            {
-                PlayRandomAudio(searchSounds, searchSoundSubtitles, Team.Common);
-                timeSinceLastSearchAudio = 0f;
-            }
+            Talk(searchSounds.RandomItem());
         }
 
         private void Update()
@@ -126,11 +112,7 @@ namespace AnarPerPortes
             // Player camouflaged while chasing
             if (isChasing && PlayerController.Singleton.IsHidingAsStatue)
             {
-                if (timeSinceLastLoseAudio >= minTimeBetweenLoseAudios)
-                {
-                    PlayRandomAudio(loseSounds, loseSoundSubtitles, Team.Common);
-                    timeSinceLastLoseAudio = 0f;
-                }
+                Talk(loseSounds.RandomItem());
             }
 
             var wasChasing = isChasing;
@@ -140,26 +122,14 @@ namespace AnarPerPortes
                 && !PlayerController.Singleton.IsCaught;
 
             if (isChasing && distanceToPlayer <= catchRange)
-            {
                 CatchPlayer();
-            }
 
             if (isCatching)
                 return;
 
             // Found Player, started chasing
             if (!wasChasing && isChasing)
-            {
-                if (timeSinceLastFindAudio >= minTimeBetweenFindAudios)
-                {
-                    PlayRandomAudio(findSounds, findSoundSubtitles);
-                    timeSinceLastFindAudio = 0f;
-                }
-            }
-
-            timeSinceLastFindAudio += Time.deltaTime;
-            timeSinceLastLoseAudio += Time.deltaTime;
-            timeSinceLastSearchAudio += Time.deltaTime;
+                Talk(findSounds.RandomItem());
 
             // Choose whether to go to the next map point or towards the Player.
             var determinedTargetLocation = isChasing ? PlayerController.Singleton.transform.position : targetLocation;
@@ -204,11 +174,9 @@ namespace AnarPerPortes
             animator.Play("Jumpscare");
             audioSource.Stop();
             audioSource.PlayOneShot(jumpscareSound);
-            SubtitleManager.Singleton.PushSubtitle("(Bouser grita)", Team.Hostile);
             PlayerController.Singleton.BlockMove();
             PlayerController.Singleton.BlockLook();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0.5f, 0f));
-            EnemyIsActive = false;
             StartCoroutine(nameof(CatchPlayerEnumerator));
         }
 
@@ -219,17 +187,13 @@ namespace AnarPerPortes
             audioSource.Play();
         }
 
-        //TODO: Static method
-        private void PlayRandomAudio(AudioClip[] audios, string[] subtitles, Team source = Team.Hostile)
+        private void Talk(SoundResource soundResource)
         {
             if (audioCooldown > 0f)
                 return;
 
-            var rngAudioIndex = Random.Range(0, audios.Length);
-            var rngAudio = audios[rngAudioIndex];
-            audioSource.PlayOneShot(rngAudio);
-            SubtitleManager.Singleton.PushSubtitle(subtitles[rngAudioIndex], source);
-            audioCooldown = rngAudio.length;
+            audioSource.PlayOneShot(soundResource);
+            audioCooldown = soundResource.AudioClip.length;
         }
 
         private void Despawn()

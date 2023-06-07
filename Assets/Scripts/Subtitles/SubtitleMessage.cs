@@ -15,6 +15,16 @@ namespace AnarPerPortes
 
         public void Initialize(string message, float duration, Color color)
         {
+            if (message.StartsWith('['))
+            {
+                var formattedMessage = "<color=#ff9b28>";
+                var closingNameIndex = message.IndexOf(']') + 1;
+                formattedMessage += message[..closingNameIndex];
+                formattedMessage += "</color>";
+                formattedMessage += message[closingNameIndex..];
+                message = formattedMessage;
+            }
+
             messageText.text = message;
             messageText.color = color;
             aliveTime = duration;

@@ -14,6 +14,7 @@ namespace AnarPerPortes
         public static GameSettingsManager Singleton { get; private set; }
         public GameSettings CurrentSettings { get; private set; }
         public UnityEvent OnCurrentSettingsChanged { get; private set; } = new();
+        [SerializeField] private GameObject settingsScreen;
         [SerializeField] private Button saveSettingsButton;
         [SerializeField] private Slider mouseSensitivitySlider;
         [SerializeField] private Slider fieldOfViewSlider;
@@ -49,6 +50,12 @@ namespace AnarPerPortes
             enemyTipsButton.onClick.AddListener(ToggleEnemyTipsSetting);
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeybindManager.Singleton.CurrentKeybinds.Pause) && settingsScreen.activeSelf)
+                settingsScreen.SetActive(false);
+        }
+
         private void SaveSettingsButtonClicked()
         {
             OnCurrentSettingsChanged?.Invoke();
@@ -79,7 +86,6 @@ namespace AnarPerPortes
             postProcessingButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Efectos de postprocesado", CurrentSettings.EnablePostProcessing);
         }
 
-        //TODO: Convert into a dropdown
         private void ToggleSubtitlesSetting()
         {
             CurrentSettings.EnableSubtitles = !CurrentSettings.EnableSubtitles;

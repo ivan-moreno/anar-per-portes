@@ -144,29 +144,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tip: {fileID: 11400000, guid: 4aa66e2e9df963443b1ead28734697ae, type: 2}
-  walkieTalkieAlertSound: {fileID: 8300000, guid: 8d32efb1b88e9ae4d93e9de09c6522df,
-    type: 3}
-  jumpscareSound: {fileID: 8300000, guid: 10425d7bc8c82e24289db0c9747569b0, type: 3}
+  walkieTalkieAlertSound: {fileID: 11400000, guid: 6829956b8ce42ce4385541dcb3c4f398,
+    type: 2}
+  jumpscareSound: {fileID: 11400000, guid: 1e8c8b38a3443ab47b7c5bbee4417486, type: 2}
   bunkerTargetSounds:
-  - {fileID: 8300000, guid: ae6bcce0310b764468e580475e36f0f5, type: 3}
-  bunkerTargetSoundSubtitles:
-  - "[YUSUF] Marchando hacia el B\xFAnker. Corto."
-  - "[YUSUF] Voy hacia el B\xFAnker. Corto."
+  - {fileID: 11400000, guid: c4b93f5a818ed37428c27a095db739c8, type: 2}
+  - {fileID: 11400000, guid: fe3a301f37de86340ac234435ffb8cda, type: 2}
   lighthouseTargetSounds:
-  - {fileID: 8300000, guid: ae6bcce0310b764468e580475e36f0f5, type: 3}
-  lighthouseTargetSoundSubtitles:
-  - '[YUSUF] Aviso, me estoy desplazando hacia el Faro. Corto.'
-  - '[YUSUF] Equipo, estoy en marcha hacia el Faro. Corto.'
+  - {fileID: 11400000, guid: edfb2014316bf924aa3aad27eec4ad28, type: 2}
+  - {fileID: 11400000, guid: e5398880e0b0dea49a8618670e0caea8, type: 2}
   observatoryTargetSounds:
-  - {fileID: 8300000, guid: ae6bcce0310b764468e580475e36f0f5, type: 3}
-  observatoryTargetSoundSubtitles:
-  - "[YUSUF] Mi direcci\xF3n es el Observatorio. Corto."
-  - "[YUSUF] Pr\xF3ximo objetivo, Observatorio. Corto."
+  - {fileID: 11400000, guid: bde2ab0c85044dc4181845fcf3643c3b, type: 2}
+  - {fileID: 11400000, guid: 89726205c94b2af47b634ec447dd7a56, type: 2}
   warehouseTargetSounds:
-  - {fileID: 8300000, guid: ae6bcce0310b764468e580475e36f0f5, type: 3}
-  warehouseTargetSoundSubtitles:
-  - "[YUSUF] Me dirijo al H\xE1ngar. Corto."
-  - "[YUSUF] Estoy de camino al H\xE1ngar. Corto."
+  - {fileID: 11400000, guid: e84017e0ceb99db45ab0675ecbd08a68, type: 2}
+  - {fileID: 11400000, guid: 0dfa820b92a7cda44a84b6b11e89e180, type: 2}
 --- !u!1001 &8356602006168009511
 PrefabInstance:
   m_ObjectHideFlags: 0
