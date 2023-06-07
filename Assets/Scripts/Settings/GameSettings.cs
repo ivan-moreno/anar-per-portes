@@ -22,5 +22,6 @@ namespace AnarPerPortes
         public bool EnableLargeSubtitles { get; set; } = false;
         public bool EnableDyslexicFriendlyFont { get; set; } = false;
         public bool EnableFlamboyantGraphics { get; set; } = false;
+        public bool EnableSpeedrunMode { get; set; } = false;
     }
 }

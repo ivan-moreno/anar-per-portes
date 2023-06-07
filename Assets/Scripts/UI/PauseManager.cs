@@ -65,7 +65,7 @@ namespace AnarPerPortes
             pauseAnimator.Play("Undraw", 0, 0f);
             StartCoroutine(nameof(ResumeEnumerator));
             PlayerController.Singleton.UnblockAll();
-            Time.timeScale = 1f;
+            Time.timeScale = GameSettingsManager.Singleton.CurrentSettings.EnableSpeedrunMode ? 2f : 1f;
             Cursor.lockState = CursorLockMode.Locked;
             OnPauseChanged?.Invoke(false);
         }

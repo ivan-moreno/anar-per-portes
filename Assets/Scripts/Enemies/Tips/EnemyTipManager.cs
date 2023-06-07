@@ -55,7 +55,7 @@ namespace AnarPerPortes
             isDisplaying = false;
             canvasGroup.blocksRaycasts = false;
             PlayerController.Singleton.UnblockAll();
-            Time.timeScale = 1f;
+            Time.timeScale = GameSettingsManager.Singleton.CurrentSettings.EnableSpeedrunMode ? 2f : 1f;
             onHideTipCallback?.Invoke();
         }
 

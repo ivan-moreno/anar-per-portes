@@ -28,6 +28,7 @@ namespace AnarPerPortes
         [SerializeField] private Button dyslexicFriendlyFontButton;
         [SerializeField] private Button flamboyantGraphicsButton;
         [SerializeField] private Button enemyTipsButton;
+        [SerializeField] private Button speedRunModeButton;
 
         private void Awake()
         {
@@ -50,6 +51,7 @@ namespace AnarPerPortes
             dyslexicFriendlyFontButton.onClick.AddListener(ToggleDyslexicFriendlyFontSetting);
             flamboyantGraphicsButton.onClick.AddListener(ToggleFlamboyantGraphicsSetting);
             enemyTipsButton.onClick.AddListener(ToggleEnemyTipsSetting);
+            speedRunModeButton.onClick.AddListener(ToggleSpeedRunModeSetting);
         }
 
         private void Update()
@@ -142,6 +144,12 @@ namespace AnarPerPortes
             enemyTipsButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Mostrar ayuda sobre nuevos enemigos", !areEnemyTipsEnabled);
         }
 
+        private void ToggleSpeedRunModeSetting()
+        {
+            CurrentSettings.EnableSpeedrunMode = !CurrentSettings.EnableSpeedrunMode;
+            speedRunModeButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Modo Speedrun", CurrentSettings.EnableSpeedrunMode);
+        }
+
         private string GetSettingText(string text, bool isOn)
         {
             return text + (isOn ? " <color=#88CCFF>(SÍ)</color>" : " <color=#FF4444>(NO)</color>");
@@ -194,6 +202,7 @@ namespace AnarPerPortes
             visionMotionButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Meneo de la cámara", CurrentSettings.EnableVisionMotion);
             dyslexicFriendlyFontButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Fuente apta para disléxicos", CurrentSettings.EnableDyslexicFriendlyFont);
             flamboyantGraphicsButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Gráficos importantes llamativos", CurrentSettings.EnableFlamboyantGraphics);
+            speedRunModeButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Modo Speedrun", CurrentSettings.EnableSpeedrunMode);
             var areEnemyTipsEnabled = CurrentSettings.EnemyTipSetting is EnemyTipSetting.ShowOnFirstEncounterAndWhenCaught;
             enemyTipsButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Mostrar ayuda sobre nuevos enemigos", areEnemyTipsEnabled);
         }

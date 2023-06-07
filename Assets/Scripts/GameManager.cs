@@ -26,14 +26,24 @@ namespace AnarPerPortes
         private void Awake()
         {
             Singleton = this;
-            Time.timeScale = 1f;
+        }
+
+        private void Start()
+        {
+            OnSettingsChanged();
+            GameSettingsManager.Singleton.OnCurrentSettingsChanged.AddListener(OnSettingsChanged);
+        }
+
+        private void OnSettingsChanged()
+        {
+            Time.timeScale = GameSettingsManager.Singleton.CurrentSettings.EnableSpeedrunMode ? 2f : 1f;
         }
 
         private IEnumerator RestartLevelEnumerator()
         {
             FadeScreenManager.Singleton.Display();
             yield return new WaitForSecondsRealtime(1f);
-            Time.timeScale = 1f;
+            Time.timeScale = GameSettingsManager.Singleton.CurrentSettings.EnableSpeedrunMode ? 2f : 1f;
             yield return SceneManager.LoadSceneAsync(0);
         }
 
