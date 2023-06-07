@@ -15,9 +15,8 @@ namespace AnarPerPortes
             if (hVelocityMagnitude <= 0.1f)
                 return;
 
-            var rng = Random.Range(0, stepSounds.Length);
-            var rngStepSound = stepSounds[rng];
-            audioSource.PlayOneShot(rngStepSound);
+            audioSource.PlayOneShot(stepSounds.RandomItem());
+            SkellHearManager.Singleton.AddNoise(1f);
         }
 
         private void Start()

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: SkellWarning
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: 18c801d6670116d4d9f364d2b06aa07c, type: 3}
-  subtitleText: (alerta del cazador)
+  subtitleText: "(el cazador est\xE1 al acecho)"
   subtitleTeam: 2

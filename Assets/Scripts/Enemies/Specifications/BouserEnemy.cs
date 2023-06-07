@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace AnarPerPortes
 {
@@ -7,6 +8,7 @@ namespace AnarPerPortes
     public class BouserEnemy : Enemy
     {
         public static bool EnemyIsActive { get; set; } = false;
+        [HideInInspector] public static UnityEvent<BouserEnemy> OnSpawn = new();
         public bool IsDefeated { get; private set; } = false;
 
         [Header("Stats")]
@@ -58,6 +60,9 @@ namespace AnarPerPortes
 
             //TODO: Launch animation
             IsDefeated = true;
+
+            if (isMeetSkell)
+                StartCoroutine(nameof(GrabTailWithSkellCoroutine));
         }
 
         public void MeetSkell(SkellEnemy skellEnemy)
@@ -67,7 +72,7 @@ namespace AnarPerPortes
         }
 
         //TODO: Rename all XEnumerator to XCoroutine
-        IEnumerator MeetSkellCoroutine()
+        private IEnumerator MeetSkellCoroutine()
         {
             room.OpenBouserDoor();
             isMeetSkell = true;
@@ -87,6 +92,13 @@ namespace AnarPerPortes
             yield return new WaitForSeconds(2.9f);
 
             SubtitleManager.Singleton.PushSubtitle(meetSkellDialogs[3].SubtitleText, meetSkellDialogs[3].SubtitleTeam);
+        }
+
+        private IEnumerator GrabTailWithSkellCoroutine()
+        {
+            yield return new WaitForSeconds(1f);
+            PlayerController.Singleton.BlockAll();
+            CatchManager.Singleton.CatchPlayer("BAD ENDING", "Has arruinado una batalla de rap legendaria.");
         }
 
         private void Start()
@@ -115,6 +127,7 @@ namespace AnarPerPortes
 
             nextMoveTime = Random.Range(nextMoveMinTime, nextMoveMaxTime);
             ChangeTargetLocationRandom();
+            OnSpawn?.Invoke(this);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
 

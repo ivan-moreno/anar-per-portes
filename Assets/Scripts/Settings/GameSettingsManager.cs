@@ -18,6 +18,7 @@ namespace AnarPerPortes
         [SerializeField] private Button saveSettingsButton;
         [SerializeField] private Slider mouseSensitivitySlider;
         [SerializeField] private Slider fieldOfViewSlider;
+        [SerializeField] private Slider volumeSlider;
         [SerializeField] private Button smaaButton;
         [SerializeField] private Button postProcessingButton;
         [SerializeField] private Button subtitlesButton;
@@ -39,6 +40,7 @@ namespace AnarPerPortes
             saveSettingsButton.onClick.AddListener(SaveSettingsButtonClicked);
             mouseSensitivitySlider.onValueChanged.AddListener(ChangeMouseSensitivitySetting);
             fieldOfViewSlider.onValueChanged.AddListener(ChangeFieldOfViewSetting);
+            volumeSlider.onValueChanged.AddListener(ChangeVolumeSetting);
             smaaButton.onClick.AddListener(ToggleSmaaSetting);
             postProcessingButton.onClick.AddListener(TogglePostProcessingSetting);
             subtitlesButton.onClick.AddListener(ToggleSubtitlesSetting);
@@ -72,6 +74,12 @@ namespace AnarPerPortes
         {
             CurrentSettings.FieldOfView = value;
             fieldOfViewSlider.transform.parent.GetComponentInChildren<TMP_Text>().text = $"Campo de visión <color=#88EEEE>({CurrentSettings.FieldOfView:0})</color>";
+        }
+
+        private void ChangeVolumeSetting(float value)
+        {
+            CurrentSettings.Volume = value;
+            volumeSlider.transform.parent.GetComponentInChildren<TMP_Text>().text = $"Volumen <color=#88EEEE>({CurrentSettings.Volume * 100f:0}%)</color>";
         }
 
         private void ToggleSmaaSetting()
@@ -176,6 +184,7 @@ namespace AnarPerPortes
         {
             mouseSensitivitySlider.transform.parent.GetComponentInChildren<TMP_Text>().text = $"Sensibilidad del ratón <color=#88EEEE>({CurrentSettings.HMouseSensitivity / 100f:0.0})</color>";
             fieldOfViewSlider.transform.parent.GetComponentInChildren<TMP_Text>().text = $"Campo de visión <color=#88EEEE>({CurrentSettings.FieldOfView:0})</color>";
+            volumeSlider.transform.parent.GetComponentInChildren<TMP_Text>().text = $"Volumen <color=#88EEEE>({CurrentSettings.Volume * 100f:0}%)</color>";
             flamboyantGraphicsButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Gráficos importantes llamativos", CurrentSettings.EnableFlamboyantGraphics);
             smaaButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Antialias (SMAA)", CurrentSettings.EnableSmaa);
             postProcessingButton.GetComponentInChildren<TMP_Text>().text = GetSettingText("Efectos de postprocesado", CurrentSettings.EnablePostProcessing);

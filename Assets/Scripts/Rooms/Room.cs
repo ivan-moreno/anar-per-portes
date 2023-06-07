@@ -36,7 +36,13 @@ namespace AnarPerPortes
             NextRoomGenerationPoint = transform.Find("Logic").Find("NextRoomPoint");
             WaypointGroup = transform.Find("Logic").Find("Waypoints");
             PedroBreakPoint = transform.Find("Logic").Find("PedroBreakPoint");
-            door.OnDoorOpened.AddListener(() => OnDoorOpened?.Invoke());
+            door.OnDoorOpened.AddListener(DoorOpened);
+        }
+
+        private void DoorOpened()
+        {
+            OnDoorOpened?.Invoke();
+            SkellHearManager.Singleton.AddNoise(8f);
         }
     }
 }

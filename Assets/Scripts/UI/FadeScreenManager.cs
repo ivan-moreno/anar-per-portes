@@ -55,7 +55,7 @@ namespace AnarPerPortes
                 }
             }
 
-            AudioListener.volume = Mathf.Clamp01(Mathf.MoveTowards(AudioListener.volume, isDisplaying ? 0f : 1f, 4f * Time.unscaledDeltaTime));
+            AudioListener.volume = Mathf.Clamp01(Mathf.MoveTowards(AudioListener.volume, isDisplaying ? 0f : GameSettingsManager.Singleton.CurrentSettings.Volume, 4f * Time.unscaledDeltaTime));
             screenGroup.alpha = Mathf.MoveTowards(screenGroup.alpha, isDisplaying ? 1f : 0f, 4f * Time.unscaledDeltaTime);
         }
     }

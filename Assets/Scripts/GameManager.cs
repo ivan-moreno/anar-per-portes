@@ -17,6 +17,10 @@ namespace AnarPerPortes
         public void QuitGame()
         {
             Application.Quit();
+
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
         }
 
         private void Awake()
@@ -52,6 +56,7 @@ namespace AnarPerPortes
             GenerateMissingManager<PauseManager>();
             GenerateMissingManager<RoomManager>();
             GenerateMissingManager<SubtitleManager>();
+            GenerateMissingManager<SkellHearManager>();
             GenerateMissingManager<VolumeManager>();
         }
 

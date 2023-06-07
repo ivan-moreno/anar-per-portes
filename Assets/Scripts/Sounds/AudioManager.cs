@@ -26,5 +26,15 @@ namespace AnarPerPortes
         {
             Singleton = this;
         }
+
+        private void Start()
+        {
+            GameSettingsManager.Singleton.OnCurrentSettingsChanged.AddListener(OnSettingsChanged);
+        }
+
+        private void OnSettingsChanged()
+        {
+            AudioListener.volume = GameSettingsManager.Singleton.CurrentSettings.Volume;
+        }
     }
 }

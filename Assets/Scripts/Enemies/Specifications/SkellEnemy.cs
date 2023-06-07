@@ -9,14 +9,18 @@ namespace AnarPerPortes
         public static bool EnemyIsActive { get; set; } = false;
 
         [Header("Stats")]
-        [SerializeField] private float runSpeed = 16f;
+        [SerializeField] private float runSpeed = 10f;
+        [SerializeField] private float sprintSpeed = 16f;
+        [SerializeField] private float sprintAtDistance = 24f;
         [SerializeField] private float chaseRange = 8f;
         [SerializeField] private float catchRange = 2f;
+        [SerializeField] private int doorsUntilDespawn = 5;
 
         [Header("Sound")]
         [SerializeField] private SoundResource spawnSound;
         [SerializeField] private SoundResource warningSound;
         [SerializeField] private SoundResource jumpscareSound;
+        [SerializeField] private SoundResource endingMusic;
         [SerializeField] private SoundResource meetBouserMusic;
 
         private Vector3 targetLocation;
@@ -28,6 +32,7 @@ namespace AnarPerPortes
         private bool metBouser = false;
         private int waypointsTraversed = 0;
         private int roomsTraversed = 0;
+        private int openedDoors = 0;
         private BouserEnemy bouserEnemy;
 
         private void Start()
@@ -37,10 +42,38 @@ namespace AnarPerPortes
 
             transform.position = RoomManager.Singleton.Rooms[0].transform.position;
             targetLocation = RoomManager.Singleton.Rooms[0].WaypointGroup.GetChild(0).position;
-            bouserEnemy = FindObjectOfType<BouserEnemy>();
             audioSource.Play(spawnSound);
             animator.Play("Run");
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
+            RoomManager.Singleton.OnRoomGenerated.AddListener(RoomGenerated);
+
+            if (BouserEnemy.EnemyIsActive)
+                bouserEnemy = FindObjectOfType<BouserEnemy>();
+            else
+                BouserEnemy.OnSpawn.AddListener((spawnedBouser) => bouserEnemy = spawnedBouser);
+        }
+
+        private void RoomGenerated(Room room)
+        {
+            if (isOnBreak)
+                return;
+
+            if (RoomManager.Singleton.Rooms[0] == RoomManager.Singleton.Rooms[roomsTraversed])
+                waypointsTraversed = 0;
+
+            roomsTraversed--;
+
+            if (roomsTraversed < 0)
+                roomsTraversed = 0;
+
+            var waypointGroup = RoomManager.Singleton.Rooms[roomsTraversed].WaypointGroup;
+
+            targetLocation = waypointGroup.GetChild(waypointsTraversed).position;
+
+            openedDoors++;
+
+            if (openedDoors >= doorsUntilDespawn)
+                Despawn();
         }
 
         private void PauseChanged(bool isPaused)
@@ -72,7 +105,19 @@ namespace AnarPerPortes
             // Choose whether to go to the next map point or towards the Player.
             var determinedTargetLocation = isChasing ? PlayerController.Singleton.transform.position : targetLocation;
 
-            var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, runSpeed * Time.deltaTime);
+            var targetRunSpeed = runSpeed;
+
+            if (distanceToPlayer > sprintAtDistance)
+            {
+                targetRunSpeed = sprintSpeed;
+                animator.speed = sprintSpeed / runSpeed;
+            }
+            else
+            {
+                animator.speed = 1f;
+            }
+
+            var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, targetRunSpeed * Time.deltaTime);
 
             if (!A90Enemy.EnemyIsActive)
                 transform.position = nextPosition;
@@ -171,11 +216,14 @@ namespace AnarPerPortes
             yield return new WaitForSeconds(1.4f);
             audioSource.PlayOneShot(jumpscareSound);
             yield return new WaitForSeconds(1.15f);
+            audioSource.spatialBlend = 0f;
+            audioSource.PlayOneShot(endingMusic);
             CatchManager.Singleton.CatchPlayer("SKELL ENDING", "ni modo");
         }
 
         private IEnumerator MeetBouserCoroutine()
         {
+            EnemyIsActive = false;
             metBouser = true;
             bouserEnemy.MeetSkell(this);
             model.LookAt(bouserEnemy.transform);

@@ -38,9 +38,32 @@ namespace AnarPerPortes
 
             transform.position = RoomManager.Singleton.Rooms[0].transform.position;
             targetLocation = RoomManager.Singleton.Rooms[0].WaypointGroup.GetChild(0).position;
-            bouserEnemy = FindObjectOfType<BouserEnemy>();
             audioSource.Play(spawnSound);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
+            RoomManager.Singleton.OnRoomGenerated.AddListener(RoomGenerated);
+
+            if (BouserEnemy.EnemyIsActive)
+                bouserEnemy = FindObjectOfType<BouserEnemy>();
+            else
+                BouserEnemy.OnSpawn.AddListener((spawnedBouser) => bouserEnemy = spawnedBouser);
+        }
+
+        private void RoomGenerated(Room room)
+        {
+            if (isOnBreak)
+                return;
+
+            if (RoomManager.Singleton.Rooms[0] == RoomManager.Singleton.Rooms[roomsTraversed])
+                waypointsTraversed = 0;
+
+            roomsTraversed--;
+
+            if (roomsTraversed < 0)
+                roomsTraversed = 0;
+
+            var waypointGroup = RoomManager.Singleton.Rooms[roomsTraversed].WaypointGroup;
+
+            targetLocation = waypointGroup.GetChild(waypointsTraversed).position;
         }
 
         private void PauseChanged(bool isPaused)

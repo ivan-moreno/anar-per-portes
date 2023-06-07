@@ -29,6 +29,7 @@ namespace AnarPerPortes
             var lastRoom = RoomManager.Singleton.LastLoadedRoom.transform;
             var targetPos = lastRoom.position + (lastRoom.forward * 4f);
             transform.position = targetPos;
+            transform.LookAt(PlayerController.Singleton.transform.position);
             audioSource.Play(warningSound);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
@@ -50,11 +51,6 @@ namespace AnarPerPortes
 
             if (!isCatching && timeSinceSpawn >= despawnTime)
                 Despawn();
-        }
-
-        private void LateUpdate()
-        {
-            transform.LookAt(PlayerController.Singleton.transform.position);
         }
 
         private void CheckForMotion()

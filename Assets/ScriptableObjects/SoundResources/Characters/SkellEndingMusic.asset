@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 697d33dca1980aa44a3b852d2e215b8d, type: 3}
-  m_Name: BouserMeetSkellDialog3
+  m_Name: SkellEndingMusic
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: ae915740314d7a54c923e989b91bff29, type: 3}
-  subtitleText: "[SKELL] \xA1Ja ja ja! Claro que s\xED."
-  subtitleTeam: 1
+  audioClip: {fileID: 8300000, guid: fc4c0f91a35d2a34fbee051bcdbab9eb, type: 3}
+  subtitleText: "(\"Bandoleros\" de Don Omar & Tego Calder\xF3n)"
+  subtitleTeam: 0

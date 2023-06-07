@@ -79,9 +79,10 @@ namespace AnarPerPortes
         private IEnumerator UnloadOldestRoomEnumerator()
         {
             Rooms[1].CloseDoor();
-            yield return new WaitForSeconds(1f);
-            Rooms[0].Unload();
+            var oldestRoom = Rooms[0];
             Rooms.RemoveAt(0);
+            yield return new WaitForSeconds(1f);
+            oldestRoom.Unload();
         }
 
         private void OnDoorOpened()

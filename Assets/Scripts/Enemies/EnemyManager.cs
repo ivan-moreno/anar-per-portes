@@ -39,6 +39,7 @@ namespace AnarPerPortes
 
         //FIXME: Spawn Bouser and make him wait (inactive) instead of instantiating when his big door is opened.
         public GameObject BouserEnemyPrefab => bouserEnemyPrefab;
+        public GameObject SkellEnemyPrefab => skellEnemyPrefab;
 
         [SerializeField] private Transform enemiesGroup;
         [SerializeField] private GameObject daviloteEnemyPrefab;
@@ -148,23 +149,23 @@ namespace AnarPerPortes
 
             skellPossibility = new()
             {
-                EnemyPrefab = skellEnemyPrefab,
+                EnemyPrefab = null,
                 SpawnRequirements =
                     (room) => !SkellEnemy.EnemyIsActive
                     && !PedroEnemy.EnemyIsActive
                     && room is not IsleRoom
                     && room is not BouserRoom
-                    && RoomManager.Singleton.LastOpenedRoomNumber >= 30, //CHANGE ME
+                    && RoomManager.Singleton.LastOpenedRoomNumber >= 30,
                 RngRequirement = (possibility) =>
                 {
                     var rng = UnityEngine.Random.Range(0, 100);
                     rng += possibility.RoomsWithoutSpawn;
                     rng += roomsWithoutAnyEnemySpawn;
 
-                    if (possibility.RoomsWithoutSpawn <= 5) // CHANGE ME
+                    if (possibility.RoomsWithoutSpawn <= 8)
                         rng = 0;
 
-                    return rng >= 90; // CHANGE ME
+                    return rng >= 90;
                 }
             };
 
@@ -265,6 +266,9 @@ namespace AnarPerPortes
                 {
                     if (possibility == a90Possibility)
                         a90Enemy.Spawn();
+
+                    if (possibility == skellPossibility)
+                        SkellHearManager.Singleton.StartHearing();
 
                     possibility.DoSpawn();
                     roomsWithoutAnyEnemySpawn = 0;

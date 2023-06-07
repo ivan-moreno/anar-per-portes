@@ -144,12 +144,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tip: {fileID: 11400000, guid: 82dad1ed1659637449b6912c40f822cf, type: 2}
-  runSpeed: 16
+  runSpeed: 10
+  sprintSpeed: 16
+  sprintAtDistance: 32
   chaseRange: 16
   catchRange: 3
+  doorsUntilDespawn: 5
   spawnSound: {fileID: 11400000, guid: 08772e6e89a14e54aa9d314214d5bad9, type: 2}
   warningSound: {fileID: 11400000, guid: 780ff201ce8480042a0cbcd585707498, type: 2}
   jumpscareSound: {fileID: 11400000, guid: d5354e20cc69c73438ac43c13ecb871a, type: 2}
+  endingMusic: {fileID: 11400000, guid: 404db0d390c9c8240b887086cea48218, type: 2}
   meetBouserMusic: {fileID: 11400000, guid: cf0b6207ccfecd947a54f24067d68dfe, type: 2}
 --- !u!1001 &2654223997599509106
 PrefabInstance:
