@@ -53,6 +53,8 @@ namespace AnarPerPortes
 
             if (SkellEnemy.EnemyIsActive)
                 targetDistance = spawnBouserHardDistance;
+            else if (PedroEnemy.EnemyIsActive)
+                targetDistance = spawnBouserDistance;
 
             if (distance <= targetDistance)
                 SpawnBouser();
