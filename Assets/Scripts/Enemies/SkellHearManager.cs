@@ -8,6 +8,7 @@ namespace AnarPerPortes
     public sealed class SkellHearManager : MonoBehaviour
     {
         public static SkellHearManager Singleton { get; private set; }
+        public bool IsHearing { get; private set; } = false;
 
         [Header("Components")]
         [SerializeField] private Image soundWaveL;
@@ -15,6 +16,7 @@ namespace AnarPerPortes
 
         [Header("Stats")]
         [SerializeField][Min(1f)] private float maxNoise = 30f;
+        [SerializeField][Min(0f)] private float noiseDecayRate = 5f;
 
         [Header("Sound")]
         [SerializeField] private SoundResource warningSound;
@@ -22,11 +24,10 @@ namespace AnarPerPortes
         private AudioSource audioSource;
         private float noiseLevel = 0f;
         private float timeSinceLastNoise = 0f;
-        private bool isHearing = false;
 
         public void AddNoise(float amount)
         {
-            if (!isHearing || SkellEnemy.EnemyIsActive)
+            if (!IsHearing || SkellEnemy.IsOperative)
                 return;
 
             noiseLevel += amount;
@@ -36,17 +37,17 @@ namespace AnarPerPortes
             if (noiseLevel >= maxNoise)
             {
                 EnemyManager.Singleton.GenerateEnemy(EnemyManager.Singleton.SkellEnemyPrefab);
-                isHearing = false;
+                IsHearing = false;
                 noiseLevel = 0f;
             }
         }
 
         public void StartHearing()
         {
-            if (isHearing || SkellEnemy.EnemyIsActive)
+            if (IsHearing || SkellEnemy.IsOperative)
                 return;
 
-            isHearing = true;
+            IsHearing = true;
             audioSource.PlayOneShot(warningSound);
         }
 
@@ -63,7 +64,7 @@ namespace AnarPerPortes
         private void Update()
         {
             timeSinceLastNoise += Time.deltaTime;
-            noiseLevel -= Time.deltaTime * (timeSinceLastNoise * 5f);
+            noiseLevel -= Time.deltaTime * (timeSinceLastNoise * noiseDecayRate);
             noiseLevel = Mathf.Clamp(noiseLevel, 0f, maxNoise);
 
             var alpha = noiseLevel / (maxNoise * 2f) / Mathf.Clamp01(timeSinceLastNoise);

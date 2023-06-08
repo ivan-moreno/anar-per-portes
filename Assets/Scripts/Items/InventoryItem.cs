@@ -6,14 +6,16 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Inventory Item")]
     public class InventoryItem : MonoBehaviour
     {
-        [HideInInspector] public UnityEvent OnEquipped;
-        [HideInInspector] public UnityEvent OnUnequipped;
-        public Sprite Icon => icon;
+        public UnityEvent OnEquipped { get; } = new();
+        public UnityEvent OnUnequipped { get; } = new();
         public bool IsEquipped { get; private set; } = false;
+        public Sprite Icon => icon;
+
         [SerializeField] private AudioClip equipAudio;
         [SerializeField] private AudioClip unequipAudio;
         [SerializeField] private GameObject graphic;
         [SerializeField] private Sprite icon;
+
         private AudioSource audioSource;
 
         public void ToggleEquipped()

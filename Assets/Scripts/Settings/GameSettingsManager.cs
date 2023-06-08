@@ -12,8 +12,8 @@ namespace AnarPerPortes
     {
         public static GameSettingsManager Singleton { get; private set; }
         public GameSettings CurrentSettings { get; private set; }
-        public UnityEvent OnApplySettings { get; private set; } = new();
-        public UnityEvent OnCurrentSettingsChanged { get; private set; } = new(); //TODO: normalize UnityEvents to be either a field or a property
+        public UnityEvent OnApplySettings { get; } = new();
+        public UnityEvent OnCurrentSettingsChanged { get; } = new();
 
         [Header("Components")]
         [SerializeField] private GameObject settingsScreen;
@@ -96,6 +96,10 @@ namespace AnarPerPortes
             GenerateToggle(gameplayGroup)
                 .Initialize("Consejos sobre enemigos", CurrentSettings.EnableEnemyTips)
                 .WithTarget(target => CurrentSettings.EnableEnemyTips = target);
+
+            GenerateToggle(gameplayGroup)
+                .Initialize("Alucinaciones", CurrentSettings.EnableHallucinations)
+                .WithTarget(target => CurrentSettings.EnableHallucinations = target);
 
             GenerateToggle(gameplayGroup)
                 .Initialize("Modo Speedrun", CurrentSettings.EnableSpeedrunMode)

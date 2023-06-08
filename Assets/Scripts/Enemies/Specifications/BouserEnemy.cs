@@ -7,8 +7,8 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/Bouser Enemy")]
     public class BouserEnemy : Enemy
     {
-        public static bool EnemyIsActive { get; set; } = false;
-        [HideInInspector] public static UnityEvent<BouserEnemy> OnSpawn = new();
+        public static bool IsOperative { get; set; } = false;
+        public static UnityEvent<BouserEnemy> OnSpawn { get; } = new();
         public bool IsDefeated { get; private set; } = false;
 
         [Header("Stats")]
@@ -103,7 +103,7 @@ namespace AnarPerPortes
 
         private void Start()
         {
-            EnemyIsActive = true;
+            IsOperative = true;
             CacheComponents();
 
             room = RoomManager.Singleton.LastLoadedRoom as BouserRoom;
@@ -111,7 +111,7 @@ namespace AnarPerPortes
 
             transform.SetPositionAndRotation(room.BouserSpawnPoint.position, room.BouserSpawnPoint.rotation);
 
-            if (PedroEnemy.EnemyIsActive)
+            if (PedroEnemy.IsOperative)
             {
                 var pedroPos = FindObjectOfType<PedroEnemy>().transform.position;
                 var dist = Vector3.Distance(transform.position, pedroPos);
@@ -267,7 +267,7 @@ namespace AnarPerPortes
             if (isCatching)
                 return;
 
-            EnemyIsActive = false;
+            IsOperative = false;
             Destroy(gameObject);
         }
     }

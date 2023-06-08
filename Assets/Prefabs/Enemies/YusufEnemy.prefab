@@ -144,7 +144,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tip: {fileID: 11400000, guid: 4aa66e2e9df963443b1ead28734697ae, type: 2}
+  bunkerSignMaterial: {fileID: 2100000, guid: 28de9f229f2ba2946a79b42ee5bd15b3, type: 2}
+  lighthouseSignMaterial: {fileID: 2100000, guid: 8acf0a3031532fb4682a82e724329fa6,
+    type: 2}
+  observatorySignMaterial: {fileID: 2100000, guid: b26164277a8111944b183a435944e988,
+    type: 2}
+  warehouseSignMaterial: {fileID: 2100000, guid: 2a4529120bbb410489ab1cfa1ea45e2a,
+    type: 2}
   walkieTalkieAlertSound: {fileID: 11400000, guid: 6829956b8ce42ce4385541dcb3c4f398,
+    type: 2}
+  walkieTalkieStaticSound: {fileID: 11400000, guid: 7dc9856105e174b4693be2df81e4c4f2,
     type: 2}
   jumpscareSound: {fileID: 11400000, guid: 1e8c8b38a3443ab47b7c5bbee4417486, type: 2}
   bunkerTargetSounds:

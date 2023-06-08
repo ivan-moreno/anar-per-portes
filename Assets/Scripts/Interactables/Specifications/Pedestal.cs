@@ -37,8 +37,18 @@ namespace AnarPerPortes
         {
             audioSource = GetComponent<AudioSource>();
 
-            if (SkellEnemy.EnemyIsActive)
+            if (SkellEnemy.IsOperative)
                 gameObject.SetActive(false);
+
+            SkellEnemy.OnSpawned.AddListener(OnSkellSpawned);
+        }
+
+        void OnSkellSpawned(SkellEnemy skellEnemy)
+        {
+            if (isOccupied)
+                ReleasePlayer();
+
+            gameObject.SetActive(false);
         }
 
         private void Update()

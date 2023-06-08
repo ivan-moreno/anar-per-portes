@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5385844077808519163}
   - component: {fileID: 5385844077808519162}
   - component: {fileID: 5385844077808519165}
+  - component: {fileID: 1780174414450340223}
   m_Layer: 0
   m_Name: SkellEnemy
   m_TagString: Untagged
@@ -155,6 +156,27 @@ MonoBehaviour:
   jumpscareSound: {fileID: 11400000, guid: d5354e20cc69c73438ac43c13ecb871a, type: 2}
   endingMusic: {fileID: 11400000, guid: 404db0d390c9c8240b887086cea48218, type: 2}
   meetBouserMusic: {fileID: 11400000, guid: cf0b6207ccfecd947a54f24067d68dfe, type: 2}
+--- !u!65 &1780174414450340223
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5385844077808519164}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.25, y: 2, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &2654223997599509106
 PrefabInstance:
   m_ObjectHideFlags: 0

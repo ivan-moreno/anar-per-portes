@@ -51,9 +51,9 @@ namespace AnarPerPortes
             var distance = Vector3.Distance(bouserRoomDoorsAnimator.transform.position, PlayerController.Singleton.transform.position);
             var targetDistance = spawnedBouserAmount >= 1 ? spawnBouserHardDistance : spawnBouserDistance;
 
-            if (SkellEnemy.EnemyIsActive)
+            if (SkellEnemy.IsOperative)
                 targetDistance = spawnBouserHardDistance;
-            else if (PedroEnemy.EnemyIsActive)
+            else if (PedroEnemy.IsOperative)
                 targetDistance = spawnBouserDistance;
 
             if (distance <= targetDistance)

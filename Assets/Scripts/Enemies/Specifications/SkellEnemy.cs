@@ -1,12 +1,14 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace AnarPerPortes
 {
     [AddComponentMenu("Anar per Portes/Enemies/Skell Enemy")]
     public class SkellEnemy : Enemy
     {
-        public static bool EnemyIsActive { get; set; } = false;
+        public static bool IsOperative { get; set; } = false;
+        public static UnityEvent<SkellEnemy> OnSpawned { get; } = new();
 
         [Header("Stats")]
         [SerializeField] private float runSpeed = 10f;
@@ -37,7 +39,7 @@ namespace AnarPerPortes
 
         private void Start()
         {
-            EnemyIsActive = true;
+            IsOperative = true;
             CacheComponents();
 
             transform.position = RoomManager.Singleton.Rooms[0].transform.position;
@@ -47,10 +49,12 @@ namespace AnarPerPortes
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
             RoomManager.Singleton.OnRoomGenerated.AddListener(RoomGenerated);
 
-            if (BouserEnemy.EnemyIsActive)
+            if (BouserEnemy.IsOperative)
                 bouserEnemy = FindObjectOfType<BouserEnemy>();
             else
                 BouserEnemy.OnSpawn.AddListener((spawnedBouser) => bouserEnemy = spawnedBouser);
+
+            OnSpawned?.Invoke(this);
         }
 
         private void RoomGenerated(Room room)
@@ -119,7 +123,7 @@ namespace AnarPerPortes
 
             var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, targetRunSpeed * Time.deltaTime);
 
-            if (!SheepyEnemy.EnemyIsActive && !A90Enemy.EnemyIsActive)
+            if (!SheepyEnemy.IsOperative && !A90Enemy.IsOperative)
                 transform.position = nextPosition;
 
             reachedTarget = !isChasing && Vector3.Distance(transform.position, targetLocation) <= runSpeed * Time.deltaTime;
@@ -223,7 +227,7 @@ namespace AnarPerPortes
 
         private IEnumerator MeetBouserCoroutine()
         {
-            EnemyIsActive = false;
+            IsOperative = false;
             metBouser = true;
             bouserEnemy.MeetSkell(this);
             model.LookAt(bouserEnemy.transform);
@@ -237,7 +241,7 @@ namespace AnarPerPortes
 
         private void Despawn()
         {
-            EnemyIsActive = false;
+            IsOperative = false;
             Destroy(gameObject);
         }
     }

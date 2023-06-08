@@ -7,7 +7,7 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Room Door")]
     public class RoomDoor : MonoBehaviour
     {
-        [HideInInspector] public UnityEvent OnDoorOpened;
+        public UnityEvent OnDoorOpened { get; } = new();
         [SerializeField] private BoxCollider closedCollider;
         private bool isOpened = false;
         private Animator animator;

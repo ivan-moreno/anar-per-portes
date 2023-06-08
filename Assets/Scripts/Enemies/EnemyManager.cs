@@ -68,13 +68,13 @@ namespace AnarPerPortes
         private void Start()
         {
             // TODO: Find a more automatic way of solving this?
-            DaviloteEnemy.EnemyIsActive = false;
-            BouserEnemy.EnemyIsActive = false;
-            PedroEnemy.EnemyIsActive = false;
-            SheepyEnemy.EnemyIsActive = false;
-            SkellEnemy.EnemyIsActive = false;
-            YusufEnemy.EnemyIsActive = false;
-            A90Enemy.EnemyIsActive = false;
+            DaviloteEnemy.IsOperative = false;
+            BouserEnemy.IsOperative = false;
+            PedroEnemy.IsOperative = false;
+            SheepyEnemy.IsOperative = false;
+            SkellEnemy.IsOperative = false;
+            YusufEnemy.IsOperative = false;
+            A90Enemy.IsOperative = false;
 
             RoomManager.Singleton.OnRoomGenerated.AddListener(ProcessEnemyPossibilities);
 
@@ -82,8 +82,9 @@ namespace AnarPerPortes
             {
                 EnemyPrefab = pedroEnemyPrefab,
                 SpawnRequirements =
-                    (room) => !PedroEnemy.EnemyIsActive
-                    && !SkellEnemy.EnemyIsActive
+                    (room) => !PedroEnemy.IsOperative
+                    && !SkellHearManager.Singleton.IsHearing
+                    && !SkellEnemy.IsOperative
                     && room is not IsleRoom
                     && room.HasHidingSpots
                     && RoomManager.Singleton.LastOpenedRoomNumber >= 10,
@@ -106,7 +107,7 @@ namespace AnarPerPortes
             {
                 EnemyPrefab = daviloteEnemyPrefab,
                 SpawnRequirements =
-                    (room) => !DaviloteEnemy.EnemyIsActive
+                    (room) => !DaviloteEnemy.IsOperative
                     && room is not BouserRoom
                     && room is not IsleRoom
                     && RoomManager.Singleton.LastOpenedRoomNumber >= 15,
@@ -129,7 +130,7 @@ namespace AnarPerPortes
             {
                 EnemyPrefab = sheepyEnemyPrefab,
                 SpawnRequirements =
-                    (room) => !SheepyEnemy.EnemyIsActive
+                    (room) => !SheepyEnemy.IsOperative
                     && room is not IsleRoom
                     && RoomManager.Singleton.LastOpenedRoomNumber >= 5,
                 RngRequirement = (possibility) =>
@@ -151,8 +152,8 @@ namespace AnarPerPortes
             {
                 EnemyPrefab = null,
                 SpawnRequirements =
-                    (room) => !SkellEnemy.EnemyIsActive
-                    && !PedroEnemy.EnemyIsActive
+                    (room) => !SkellEnemy.IsOperative
+                    && !PedroEnemy.IsOperative
                     && room is not IsleRoom
                     && room is not BouserRoom
                     && RoomManager.Singleton.LastOpenedRoomNumber >= 30,
@@ -175,7 +176,7 @@ namespace AnarPerPortes
             {
                 EnemyPrefab = null,
                 SpawnRequirements =
-                    (room) => !A90Enemy.EnemyIsActive
+                    (room) => !A90Enemy.IsOperative
                     && room is not IsleRoom
                     && RoomManager.Singleton.LastOpenedRoomNumber >= 90,
                 RngRequirement = (possibility) =>

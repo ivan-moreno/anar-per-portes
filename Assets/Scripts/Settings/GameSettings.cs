@@ -19,5 +19,6 @@ namespace AnarPerPortes
         public bool EnableOpenDyslexicFont { get; set; } = false;
         public bool EnableFlamboyantGraphics { get; set; } = false;
         public bool EnableSpeedrunMode { get; set; } = false;
+        public bool EnableHallucinations { get; set; } = true;
     }
 }

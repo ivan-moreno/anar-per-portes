@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6310198025595531088}
   - component: {fileID: 6310198025595531089}
   - component: {fileID: 6310198025595531090}
+  - component: {fileID: 4886486392957816987}
   m_Layer: 0
   m_Name: PedroEnemy
   m_TagString: Untagged
@@ -146,12 +147,35 @@ MonoBehaviour:
   tip: {fileID: 11400000, guid: 606729c1551efbe40becf50dac4a9530, type: 2}
   runSpeed: 18
   chaseRange: 16
+  graceRange: 8
+  maxGraceTime: 4
   catchRange: 2
   spawnSound: {fileID: 11400000, guid: 4119a90a75eda78478ae48ed5ad0227d, type: 2}
   finishRunSound: {fileID: 11400000, guid: f4d00efa34eb0b84587f442491384674, type: 2}
   meetBouserSound: {fileID: 11400000, guid: b95f0705e9188a246ba679ecdcf62bc5, type: 2}
   laughAtBouserSound: {fileID: 11400000, guid: 61b0b33e2915e584ea9f95f8b4c2df7d, type: 2}
   jumpscareSound: {fileID: 11400000, guid: 36ffbf5c25e2e314b9fc7232bb7b9e24, type: 2}
+--- !u!65 &4886486392957816987
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6310198025595531095}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.25, y: 2, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &6310198024124025993
 PrefabInstance:
   m_ObjectHideFlags: 0

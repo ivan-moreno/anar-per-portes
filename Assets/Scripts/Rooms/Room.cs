@@ -10,8 +10,8 @@ namespace AnarPerPortes
         public Transform NextRoomGenerationPoint { get; private set; }
         public Transform PedroBreakPoint { get; private set; }
         public bool HasHidingSpots => hasHidingSpots;
-        [HideInInspector] public UnityEvent OnDoorOpened;
-        [HideInInspector] public UnityEvent OnUnloading;
+        public UnityEvent OnDoorOpened { get; } = new();
+        public UnityEvent OnUnloading { get; } = new();
         [SerializeField] protected bool hasHidingSpots = false;
         [SerializeField] protected RoomDoor door;
 

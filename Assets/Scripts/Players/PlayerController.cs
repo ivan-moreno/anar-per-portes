@@ -15,6 +15,7 @@ namespace AnarPerPortes
         public static PlayerController Singleton { get; private set; }
         public bool IsHidingAsStatue { get; set; } = false;
         public bool IsCaught { get; set; } = false;
+        public float WalkSpeed { get; private set; } = 8f;
         public Camera Camera { get; private set; }
         public Camera UiCamera { get; private set; }
         public Vector3 Velocity => velocity;
@@ -27,7 +28,6 @@ namespace AnarPerPortes
         private Vector3 velocity;
         private Vector3 motion;
         private float vLook;
-        private float walkSpeed = 8f;
         private int blockMoveCharges = 0;
         private int blockLookCharges = 0;
         private int blockInteractCharges = 0;
@@ -122,6 +122,11 @@ namespace AnarPerPortes
             ItemManager.Singleton.GenerateSlotFor(item);
         }
 
+        public bool HasItem(string itemId)
+        {
+            return items.Find(x => x.name.Equals(itemId)) != null;
+        }
+
         public void SetVisionTarget(Transform target, Vector3 offset = default)
         {
             visionTarget = target;
@@ -184,7 +189,7 @@ namespace AnarPerPortes
 
         private void UpdateInteraction()
         {
-            if (IsCaught || IsHidingAsStatue)
+            if (!CanInteract || IsCaught || IsHidingAsStatue)
                 return;
 
             var foundHit = Physics.Raycast(
@@ -274,7 +279,7 @@ namespace AnarPerPortes
             motion = transform.rotation * motion;
 
             // Applies the Walk Speed stat.
-            motion *= walkSpeed;
+            motion *= WalkSpeed;
 
             // Streamlines movement speed to be the same on any framerate.
             motion *= Time.deltaTime;
@@ -315,10 +320,10 @@ namespace AnarPerPortes
             // Normalize horizontal velocity between values 0 and 1.
             var hVelocity = new Vector3(velocity.x, 0f, velocity.z).sqrMagnitude;
 
-            if (walkSpeed <= 0f)
+            if (WalkSpeed <= 0f)
                 hVelocity = 0f;
             else
-                hVelocity /= walkSpeed * 8f;
+                hVelocity /= WalkSpeed * 8f;
 
             var animatorHVelocity = visionAnimator.GetFloat("HVelocity");
 

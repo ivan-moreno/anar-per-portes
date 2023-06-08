@@ -6,11 +6,13 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/Pedro Enemy")]
     public class PedroEnemy : Enemy
     {
-        public static bool EnemyIsActive { get; set; } = false;
+        public static bool IsOperative { get; set; } = false;
 
         [Header("Stats")]
         [SerializeField] private float runSpeed = 16f;
         [SerializeField] private float chaseRange = 8f;
+        [SerializeField] private float graceRange = 6f;
+        [SerializeField] private float maxGraceTime = 4f;
         [SerializeField] private float catchRange = 2f;
 
         [Header("Audio")]
@@ -24,16 +26,18 @@ namespace AnarPerPortes
         private bool reachedTarget = false;
         private bool isChasing = false;
         private bool isOnBreak = false;
+        private bool isGrace = false;
         private bool lineOfSightCheck = false;
         private bool isCatching = false;
         private bool metBouser = false;
+        private float graceTime;
         private int waypointsTraversed = 0;
         private int roomsTraversed = 0;
         private BouserEnemy bouserEnemy;
 
         private void Start()
         {
-            EnemyIsActive = true;
+            IsOperative = true;
             CacheComponents();
 
             transform.position = RoomManager.Singleton.Rooms[0].transform.position;
@@ -42,7 +46,7 @@ namespace AnarPerPortes
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
             RoomManager.Singleton.OnRoomGenerated.AddListener(RoomGenerated);
 
-            if (BouserEnemy.EnemyIsActive)
+            if (BouserEnemy.IsOperative)
                 bouserEnemy = FindObjectOfType<BouserEnemy>();
             else
                 BouserEnemy.OnSpawn.AddListener((spawnedBouser) => bouserEnemy = spawnedBouser);
@@ -83,7 +87,7 @@ namespace AnarPerPortes
                 && lineOfSightCheck
                 && !PlayerController.Singleton.IsHidingAsStatue
                 && !PlayerController.Singleton.IsCaught;
-
+            
             if (!isOnBreak && isChasing && distanceToPlayer <= catchRange)
                 CatchPlayer();
 
@@ -93,9 +97,19 @@ namespace AnarPerPortes
             // Choose whether to go to the next map point or towards the Player.
             var determinedTargetLocation = isChasing ? PlayerController.Singleton.transform.position : targetLocation;
 
-            var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, runSpeed * Time.deltaTime);
+            var targetRunSpeed = runSpeed;
 
-            if (!SheepyEnemy.EnemyIsActive && !A90Enemy.EnemyIsActive)
+            if (isGrace)
+            {
+                targetRunSpeed = PlayerController.Singleton.WalkSpeed;
+                graceTime += Time.deltaTime;
+            }
+
+            isGrace = graceTime < maxGraceTime && distanceToPlayer < graceRange;
+
+            var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, targetRunSpeed * Time.deltaTime);
+
+            if (!SheepyEnemy.IsOperative && !A90Enemy.IsOperative)
                 transform.position = nextPosition;
 
             reachedTarget = !isChasing && Vector3.Distance(transform.position, targetLocation) <= runSpeed * Time.deltaTime;
@@ -236,7 +250,7 @@ namespace AnarPerPortes
 
         private void Despawn()
         {
-            EnemyIsActive = false;
+            IsOperative = false;
             Destroy(gameObject);
         }
     }

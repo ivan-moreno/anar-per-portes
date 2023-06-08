@@ -8,7 +8,7 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/A90 Enemy")]
     public sealed class A90Enemy : Enemy
     {
-        public static bool EnemyIsActive { get; set; } = false;
+        public static bool IsOperative { get; set; } = false;
 
         [Header("Components")]
         [SerializeField] private Image image;
@@ -28,7 +28,7 @@ namespace AnarPerPortes
 
         public void Spawn()
         {
-            EnemyIsActive = true;
+            IsOperative = true;
             var rngX = Random.Range(-512f, 512f);
             var rngY = Random.Range(-350f, 350f);
             image.rectTransform.anchoredPosition = new(rngX, rngY);
@@ -43,7 +43,7 @@ namespace AnarPerPortes
             if (isCatching)
                 return;
 
-            EnemyIsActive = false;
+            IsOperative = false;
             image.enabled = false;
             checkedMotion = false;
             timeSinceSpawn = 0f;
@@ -67,7 +67,7 @@ namespace AnarPerPortes
 
         private void Update()
         {
-            if (EnemyIsActive)
+            if (IsOperative)
                 timeSinceSpawn += Time.deltaTime;
 
             if (!checkedMotion && timeSinceSpawn >= 0.6f && !jumpscareAnimator.gameObject.activeSelf)

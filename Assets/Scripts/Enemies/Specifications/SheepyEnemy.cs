@@ -6,7 +6,7 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/Sheepy Enemy")]
     public class SheepyEnemy : Enemy
     {
-        public static bool EnemyIsActive { get; set; } = false;
+        public static bool IsOperative { get; set; } = false;
 
         [Header("Stats")]
         [SerializeField] private float checkMotionTime = 1.2f;
@@ -23,7 +23,7 @@ namespace AnarPerPortes
 
         private void Start()
         {
-            EnemyIsActive = true;
+            IsOperative = true;
             CacheComponents();
 
             var lastRoom = RoomManager.Singleton.LastLoadedRoom.transform;
@@ -31,6 +31,7 @@ namespace AnarPerPortes
             transform.position = targetPos;
             transform.LookAt(PlayerController.Singleton.transform.position);
             audioSource.Play(warningSound);
+            SkellHearManager.Singleton.AddNoise(8f);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
 
@@ -96,7 +97,7 @@ namespace AnarPerPortes
             if (isCatching)
                 return;
 
-            EnemyIsActive = false;
+            IsOperative = false;
             Destroy(gameObject);
         }
     }

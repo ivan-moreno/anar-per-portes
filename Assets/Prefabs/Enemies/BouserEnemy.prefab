@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 81038424985809430}
   - component: {fileID: 81038424985809429}
   - component: {fileID: 7360200917861140041}
+  - component: {fileID: 2876786163564584225}
   m_Layer: 0
   m_Name: BouserEnemy
   m_TagString: Untagged
@@ -188,6 +189,27 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 89fe920f28cfc2442b918a0a1d7f3e74, type: 2}
   - {fileID: 11400000, guid: 9e97cbe7ce2273741a71c8be04f36836, type: 2}
   - {fileID: 11400000, guid: 10a8f482e0ffe5b4ca72d89165a84013, type: 2}
+--- !u!65 &2876786163564584225
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 81038424985809431}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.25, y: 2, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &7445021135071740010
 GameObject:
   m_ObjectHideFlags: 0

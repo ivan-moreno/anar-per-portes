@@ -6,7 +6,7 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/Davilote Enemy")]
     public class DaviloteEnemy : Enemy
     {
-        public static bool EnemyIsActive { get; set; } = false;
+        public static bool IsOperative { get; set; } = false;
 
         [Header("Stats")]
         [SerializeField] private float catchAngle = 120f;
@@ -19,7 +19,7 @@ namespace AnarPerPortes
 
         private void Start()
         {
-            EnemyIsActive = true;
+            IsOperative = true;
             CacheComponents();
             transform.rotation = PlayerController.Singleton.transform.rotation;
             audioSource.PlayOneShot(warningSound.AudioClip);
@@ -90,7 +90,7 @@ namespace AnarPerPortes
             if (isCatching)
                 return;
 
-            EnemyIsActive = false;
+            IsOperative = false;
             Destroy(gameObject);
         }
     }

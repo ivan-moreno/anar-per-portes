@@ -985,6 +985,7 @@ MonoBehaviour:
   soundWaveL: {fileID: 228384924}
   soundWaveR: {fileID: 1621260341}
   maxNoise: 30
+  noiseDecayRate: 5
   warningSound: {fileID: 11400000, guid: 780ff201ce8480042a0cbcd585707498, type: 2}
 --- !u!82 &127431901
 AudioSource:
@@ -5411,12 +5412,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f17d7b1debc9c549a784b77eab6233a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnEquipped:
-    m_PersistentCalls:
-      m_Calls: []
-  OnUnequipped:
-    m_PersistentCalls:
-      m_Calls: []
   equipAudio: {fileID: 8300000, guid: 09239a67b823b1d49b29fbc1376c1689, type: 3}
   unequipAudio: {fileID: 0}
   graphic: {fileID: 1572586051}
@@ -9751,7 +9746,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: -37.799988}
+  m_AnchoredPosition: {x: 0, y: -37.80005}
   m_SizeDelta: {x: 1024, y: 128}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1075539983
@@ -15877,6 +15872,7 @@ MonoBehaviour:
   - {fileID: 1343002099365941501, guid: e5ac37522a5a18743af015760161c568, type: 3}
   - {fileID: 1343002099365941501, guid: 5dc594a04f55ea649b9a3ba88d44d9c5, type: 3}
   - {fileID: 1343002099365941501, guid: 3f68c082b3590c44ea99b617628f9081, type: 3}
+  - {fileID: 1343002099365941501, guid: d7ffef69a4a8b6f4dbf0a25b0b438c02, type: 3}
   - {fileID: 1343002099365941501, guid: 74be0658e24ed1d45a1960b03f05e40b, type: 3}
   - {fileID: 1343002099365941501, guid: cef435b3203895c42a271a0e48296abe, type: 3}
   - {fileID: 449040676408261766, guid: f304dc99c4be86d44a3c746e0f57cf2c, type: 3}
