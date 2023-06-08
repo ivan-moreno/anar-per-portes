@@ -12,10 +12,12 @@ namespace AnarPerPortes
         public Room LastLoadedRoom { get; private set; }
         public int LastOpenedRoomNumber { get; private set; } = 0;
         public List<Room> Rooms { get; } = new(capacity: maxLoadedRooms);
-        [HideInInspector] public UnityEvent<Room> OnRoomGenerated;
+        public UnityEvent<Room> OnRoomGenerated { get; } = new();
+
         [SerializeField] private Transform roomsGroup;
         [SerializeField] private GameObject startRoomPrefab;
         [SerializeField] private GameObject[] generalRoomPrefabs;
+
         private const int maxLoadedRooms = 4;
 
         public void OpenDoorAndGenerateNextRoomRandom()

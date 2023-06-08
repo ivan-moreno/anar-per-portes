@@ -9,7 +9,7 @@ namespace AnarPerPortes
     public sealed class PauseManager : MonoBehaviour
     {
         public static PauseManager Singleton { get; private set; }
-        public UnityEvent<bool> OnPauseChanged { get; private set; } = new();
+        public UnityEvent<bool> OnPauseChanged { get; } = new();
         public bool IsPaused { get; private set; } = false;
         [SerializeField] private GameObject pauseMenu;
         [SerializeField] private Button resumeButton;

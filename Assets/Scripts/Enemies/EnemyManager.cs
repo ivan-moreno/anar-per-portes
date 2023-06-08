@@ -45,6 +45,7 @@ namespace AnarPerPortes
         [SerializeField] private GameObject daviloteEnemyPrefab;
         [SerializeField] private GameObject bouserEnemyPrefab;
         [SerializeField] private GameObject pedroEnemyPrefab;
+        [SerializeField] private GameObject sangotEnemyPrefab;
         [SerializeField] private GameObject sheepyEnemyPrefab;
         [SerializeField] private GameObject skellEnemyPrefab;
         [SerializeField] private GameObject yusufEnemyPrefab;
@@ -55,6 +56,7 @@ namespace AnarPerPortes
 
         private EnemyPossibility davilotePossibility;
         private EnemyPossibility pedroPossibility;
+        private EnemyPossibility sangotPossibility;
         private EnemyPossibility sheepyPossibility;
         private EnemyPossibility skellPossibility;
         private EnemyPossibility a90Possibility;
@@ -68,9 +70,10 @@ namespace AnarPerPortes
         private void Start()
         {
             // TODO: Find a more automatic way of solving this?
-            DaviloteEnemy.IsOperative = false;
             BouserEnemy.IsOperative = false;
+            DaviloteEnemy.IsOperative = false;
             PedroEnemy.IsOperative = false;
+            SangotEnemy.IsOperative = false;
             SheepyEnemy.IsOperative = false;
             SkellEnemy.IsOperative = false;
             YusufEnemy.IsOperative = false;
@@ -125,6 +128,33 @@ namespace AnarPerPortes
             };
 
             allEnemyPossibilities.Add(davilotePossibility);
+
+            sangotPossibility = new()
+            {
+                EnemyPrefab = sangotEnemyPrefab,
+                SpawnRequirements =
+                    (room) => !SangotEnemy.IsOperative
+                    && !DaviloteEnemy.IsOperative
+                    && !SheepyEnemy.IsOperative
+                    && !SkellEnemy.IsOperative
+                    && !PedroEnemy.IsOperative
+                    && room is not BouserRoom
+                    && room is not IsleRoom
+                    && RoomManager.Singleton.LastOpenedRoomNumber >= 20,
+                RngRequirement = (possibility) =>
+                {
+                    var rng = UnityEngine.Random.Range(0, 100);
+                    rng += possibility.RoomsWithoutSpawn * 2;
+                    rng += roomsWithoutAnyEnemySpawn;
+
+                    if (possibility.RoomsWithoutSpawn <= 7)
+                        rng = 0;
+
+                    return rng >= 80;
+                }
+            };
+
+            allEnemyPossibilities.Add(sangotPossibility);
 
             sheepyPossibility = new()
             {
@@ -207,6 +237,8 @@ namespace AnarPerPortes
             else if (Input.GetKeyUp(KeyCode.F5))
                 GenerateEnemy(skellEnemyPrefab);
             else if (Input.GetKeyUp(KeyCode.F6))
+                GenerateEnemy(sangotEnemyPrefab);
+            else if (Input.GetKeyUp(KeyCode.F7))
                 a90Enemy.Spawn();
 #endif
         }
@@ -253,6 +285,14 @@ namespace AnarPerPortes
                 !pedroPossibility.WillSpawn
                 && skellPossibility.HasSpawnRequirements(generatedRoom)
                 && skellPossibility.HasRngRequirement();
+
+            sangotPossibility.WillSpawn =
+                !pedroPossibility.WillSpawn
+                && !davilotePossibility.WillSpawn
+                && !sheepyPossibility.WillSpawn
+                && !skellPossibility.WillSpawn
+                && sangotPossibility.HasSpawnRequirements(generatedRoom)
+                && sangotPossibility.HasRngRequirement();
 
             a90Possibility.WillSpawn =
                 !sheepyPossibility.WillSpawn

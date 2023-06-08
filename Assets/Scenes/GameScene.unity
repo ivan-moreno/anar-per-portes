@@ -3837,6 +3837,8 @@ MonoBehaviour:
     type: 3}
   pedroEnemyPrefab: {fileID: 6310198025595531095, guid: 352f03fcbc0c70f42a63a76022d7243c,
     type: 3}
+  sangotEnemyPrefab: {fileID: 6422591401462199753, guid: e853c9548381d4443bda3ab47dab662b,
+    type: 3}
   sheepyEnemyPrefab: {fileID: 81038424985809431, guid: 0d15b53105901f641ac021398974a6b9,
     type: 3}
   skellEnemyPrefab: {fileID: 5385844077808519164, guid: a5168f79ddc74bc46ab30461b96e896a,
@@ -15855,9 +15857,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e826d1fc9977441a4132b8889cdc09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRoomGenerated:
-    m_PersistentCalls:
-      m_Calls: []
   roomsGroup: {fileID: 1045465326}
   startRoomPrefab: {fileID: 1343002099365941501, guid: 5cc099752353fce4b81fa271b424285e,
     type: 3}
