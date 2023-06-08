@@ -217,7 +217,7 @@ namespace AnarPerPortes
             if (!hasEnemyScript)
                 return;
 
-            var shouldDisplayTip = GameSettingsManager.Singleton.CurrentSettings.EnemyTipSetting is EnemyTipSetting.ShowOnFirstEncounterAndWhenCaught;
+            var shouldDisplayTip = GameSettingsManager.Singleton.CurrentSettings.EnableEnemyTips;
 
             if (shouldDisplayTip && !displayedEnemyTipNames.Contains(enemyPrefab.name))
             {

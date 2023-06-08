@@ -22,7 +22,7 @@ namespace AnarPerPortes
 
         private void OnSettingsChanged()
         {
-            if (GameSettingsManager.Singleton.CurrentSettings.EnableDyslexicFriendlyFont)
+            if (GameSettingsManager.Singleton.CurrentSettings.EnableOpenDyslexicFont)
             {
                 label.font = AccessibilityFontManager.Singleton.DyslexicFriendlyFont;
 

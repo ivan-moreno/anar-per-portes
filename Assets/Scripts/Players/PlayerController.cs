@@ -155,7 +155,6 @@ namespace AnarPerPortes
         {
             Camera.fieldOfView = GameSettingsManager.Singleton.CurrentSettings.FieldOfView;
             var cameraData = Camera.GetComponent<UniversalAdditionalCameraData>();
-            cameraData.renderPostProcessing = GameSettingsManager.Singleton.CurrentSettings.EnablePostProcessing;
             cameraData.antialiasing = GameSettingsManager.Singleton.CurrentSettings.EnableSmaa
                 ? AntialiasingMode.SubpixelMorphologicalAntiAliasing
                 : AntialiasingMode.None;
@@ -232,11 +231,11 @@ namespace AnarPerPortes
         private void UpdateRotation()
         {
             var hLookInput = Input.GetAxisRaw("Mouse X");
-            hLookInput *= GameSettingsManager.Singleton.CurrentSettings.HMouseSensitivity;
+            hLookInput *= GameSettingsManager.Singleton.CurrentSettings.MouseSensitivity;
             hLookInput *= Time.unscaledDeltaTime;
 
             var vLookInput = -Input.GetAxisRaw("Mouse Y");
-            vLookInput *= GameSettingsManager.Singleton.CurrentSettings.VMouseSensitivity;
+            vLookInput *= GameSettingsManager.Singleton.CurrentSettings.MouseSensitivity;
             vLookInput *= Time.unscaledDeltaTime;
 
             if (!CanLook)

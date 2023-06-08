@@ -5,17 +5,18 @@ using UnityEngine.UI;
 
 namespace AnarPerPortes
 {
+    [AddComponentMenu("Anar per Portes/Widgets/Slider Widget")]
     public class SliderWidget : Widget
     {
-        [SerializeField] private TMP_Text titleLabel;
         [SerializeField] private TMP_Text valueLabel;
         [SerializeField] private Slider slider;
+        private string valueLabelFormat = "{0}";
         private Action<float> targetSetting;
 
         public SliderWidget Initialize(string title, float value, float minValue, float maxValue)
         {
             titleLabel.text = title;
-            valueLabel.text = value.ToString("0");
+            valueLabel.text = string.Format(valueLabelFormat, value.ToString("0"));
             slider.minValue = minValue;
             slider.maxValue = maxValue;
             slider.value = value;
@@ -30,6 +31,13 @@ namespace AnarPerPortes
             return this;
         }
 
+        public SliderWidget WithValueFormat(string format)
+        {
+            valueLabelFormat = format;
+            valueLabel.text = string.Format(valueLabelFormat, slider.value.ToString("0"));
+            return this;
+        }
+
         public SliderWidget WithTarget(Action<float> targetSetting)
         {
             this.targetSetting = targetSetting;
@@ -38,7 +46,7 @@ namespace AnarPerPortes
 
         private void OnSliderValueChanged(float value)
         {
-            valueLabel.text = value.ToString("0");
+            valueLabel.text = string.Format(valueLabelFormat, value.ToString("0"));
         }
 
         private void OnApplySettings()

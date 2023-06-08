@@ -10,7 +10,9 @@ namespace AnarPerPortes
     {
         public static VolumeManager Singleton { get; private set; }
         private Volume volume;
+        private Bloom bloom;
         private Vignette vignette;
+        private ColorAdjustments colorAdjustments;
         private const float defaultVignetteIntensity = 0.25f;
         private const float hidingVignetteIntensity = 0.5f;
 
@@ -22,7 +24,19 @@ namespace AnarPerPortes
         private void Start()
         {
             volume = GetComponent<Volume>();
+            volume.profile.TryGet(out bloom);
             volume.profile.TryGet(out vignette);
+            volume.profile.TryGet(out colorAdjustments);
+            OnSettingsChanged(); // TODO: Is this call necessary?
+            GameSettingsManager.Singleton.OnCurrentSettingsChanged.AddListener(OnSettingsChanged);
+        }
+
+        private void OnSettingsChanged()
+        {
+            bloom.active = GameSettingsManager.Singleton.CurrentSettings.EnablePostProcessing;
+            vignette.active = GameSettingsManager.Singleton.CurrentSettings.EnablePostProcessing;
+            colorAdjustments.contrast.value = GameSettingsManager.Singleton.CurrentSettings.Contrast;
+            colorAdjustments.saturation.value = GameSettingsManager.Singleton.CurrentSettings.Saturation;
         }
 
         private void Update()

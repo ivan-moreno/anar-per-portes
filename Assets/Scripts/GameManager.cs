@@ -36,7 +36,11 @@ namespace AnarPerPortes
 
         private void OnSettingsChanged()
         {
-            Time.timeScale = GameSettingsManager.Singleton.CurrentSettings.EnableSpeedrunMode ? 2f : 1f;
+            if (!PauseManager.Singleton.IsPaused)
+                Time.timeScale = GameSettingsManager.Singleton.CurrentSettings.EnableSpeedrunMode ? 2f : 1f;
+
+            Screen.fullScreen = GameSettingsManager.Singleton.CurrentSettings.EnableFullscreen;
+            QualitySettings.vSyncCount = GameSettingsManager.Singleton.CurrentSettings.EnableVSync ? 1 : 0;
         }
 
         private IEnumerator RestartLevelEnumerator()

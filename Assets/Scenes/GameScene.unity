@@ -4672,7 +4672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 2
+    m_Mode: 3
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -4833,7 +4833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 2
+    m_Mode: 3
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -8343,7 +8343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 2
+    m_Mode: 3
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -10134,8 +10134,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 470, y: -143}
-  m_SizeDelta: {x: 940, y: 80}
+  m_AnchoredPosition: {x: 535.80963, y: -280}
+  m_SizeDelta: {x: 1071.6193, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1104266605
 MonoBehaviour:
@@ -12080,7 +12080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 2
+    m_Mode: 3
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -17370,7 +17370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 2
+    m_Mode: 3
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -19501,6 +19501,8 @@ MonoBehaviour:
   controlsGroup: {fileID: 572401387}
   graphicsGroup: {fileID: 1628638266}
   audioGroup: {fileID: 388071906}
+  toggleWidgetPrefab: {fileID: 3307575869516075185, guid: 36f84fb2b6e220d44afe40dd04e732ff,
+    type: 3}
   sliderWidgetPrefab: {fileID: 2136911028598505379, guid: a54085b7feba86447956e3cc87b6a527,
     type: 3}
 --- !u!1 &2132868644

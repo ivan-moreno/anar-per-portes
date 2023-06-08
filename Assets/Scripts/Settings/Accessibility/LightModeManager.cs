@@ -22,7 +22,7 @@ namespace AnarPerPortes
 
         private void OnSettingsChanged()
         {
-            RenderSettings.ambientLight = GameSettingsManager.Singleton.CurrentSettings.EnableLightMode
+            RenderSettings.ambientLight = GameSettingsManager.Singleton.CurrentSettings.EnableRoomBrighten
                 ? lightModeAmbientLight
                 : defaultAmbientLight;
         }

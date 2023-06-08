@@ -63,7 +63,7 @@ namespace AnarPerPortes
         private void Update()
         {
             timeSinceLastNoise += Time.deltaTime;
-            noiseLevel -= Time.deltaTime * (timeSinceLastNoise);
+            noiseLevel -= Time.deltaTime * (timeSinceLastNoise * 5f);
             noiseLevel = Mathf.Clamp(noiseLevel, 0f, maxNoise);
 
             var alpha = noiseLevel / (maxNoise * 2f) / Mathf.Clamp01(timeSinceLastNoise);

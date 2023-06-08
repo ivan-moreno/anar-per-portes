@@ -30,6 +30,7 @@ namespace AnarPerPortes
         [SerializeField] private Transform audioGroup;
 
         [Header("Prefabs")]
+        [SerializeField] private GameObject toggleWidgetPrefab;
         [SerializeField] private GameObject sliderWidgetPrefab;
 
         private void Awake()
@@ -92,9 +93,78 @@ namespace AnarPerPortes
                 .WithWholeNumbers()
                 .WithTarget(target => CurrentSettings.FieldOfView = target);
 
+            GenerateToggle(gameplayGroup)
+                .Initialize("Consejos sobre enemigos", CurrentSettings.EnableEnemyTips)
+                .WithTarget(target => CurrentSettings.EnableEnemyTips = target);
+
+            GenerateToggle(gameplayGroup)
+                .Initialize("Modo Speedrun", CurrentSettings.EnableSpeedrunMode)
+                .WithTarget(target => CurrentSettings.EnableSpeedrunMode = target);
+
+            GenerateSlider(controlsGroup)
+                .Initialize("Sensibilidad del ratón", CurrentSettings.MouseSensitivity, 0f, 500f)
+                .WithWholeNumbers()
+                .WithTarget(target => CurrentSettings.MouseSensitivity = target);
+
+            GenerateToggle(accessibilityGroup)
+                .Initialize("Subtítulos", CurrentSettings.EnableSubtitles)
+                .WithTarget(target => CurrentSettings.EnableSubtitles = target);
+
+            GenerateToggle(accessibilityGroup)
+                .Initialize("Subtítulos grandes", CurrentSettings.EnableLargeSubtitles)
+                .WithTarget(target => CurrentSettings.EnableLargeSubtitles = target);
+
+            GenerateToggle(accessibilityGroup)
+                .Initialize("Fuente OpenDyslexic", CurrentSettings.EnableOpenDyslexicFont)
+                .WithTarget(target => CurrentSettings.EnableOpenDyslexicFont = target);
+
+            GenerateToggle(accessibilityGroup)
+                .Initialize("Iluminar salas", CurrentSettings.EnableRoomBrighten)
+                .WithTarget(target => CurrentSettings.EnableRoomBrighten = target);
+
+            GenerateToggle(accessibilityGroup)
+                .Initialize("Resaltar elementos importantes", CurrentSettings.EnableFlamboyantGraphics)
+                .WithTarget(target => CurrentSettings.EnableFlamboyantGraphics = target);
+
+            GenerateToggle(accessibilityGroup)
+                .Initialize("Meneo de la cámara", CurrentSettings.EnableVisionMotion)
+                .WithTarget(target => CurrentSettings.EnableVisionMotion = target);
+
+            GenerateToggle(graphicsGroup)
+                .Initialize("Pantalla completa", CurrentSettings.EnableFullscreen)
+                .WithTarget(target => CurrentSettings.EnableFullscreen = target);
+
+            GenerateToggle(graphicsGroup)
+                .Initialize("Sincronización vertical", CurrentSettings.EnableVSync)
+                .WithTarget(target => CurrentSettings.EnableVSync = target);
+
+            GenerateSlider(graphicsGroup)
+                .Initialize("Contraste", CurrentSettings.Contrast, -100f, 100f)
+                .WithWholeNumbers()
+                .WithTarget(target => CurrentSettings.Contrast = target);
+
+            GenerateSlider(graphicsGroup)
+                .Initialize("Saturación", CurrentSettings.Saturation, -100f, 100f)
+                .WithWholeNumbers()
+                .WithTarget(target => CurrentSettings.Saturation = target);
+
+            GenerateToggle(graphicsGroup)
+                .Initialize("Antialias (SMAA)", CurrentSettings.EnableSmaa)
+                .WithTarget(target => CurrentSettings.EnableSmaa = target);
+
+            GenerateToggle(graphicsGroup)
+                .Initialize("Efectos de postprocesado", CurrentSettings.EnablePostProcessing)
+                .WithTarget(target => CurrentSettings.EnablePostProcessing = target);
+
             GenerateSlider(audioGroup)
-                .Initialize("Volumen", CurrentSettings.Volume, 0f, 100f)
+                .Initialize("Volumen", CurrentSettings.Volume * 100f, 0f, 100f)
+                .WithValueFormat("{0}%")
                 .WithTarget(target => CurrentSettings.Volume = Mathf.Clamp01(target / 100f));
+        }
+
+        private ToggleWidget GenerateToggle(Transform group)
+        {
+            return Instantiate(toggleWidgetPrefab, group).GetComponent<ToggleWidget>();
         }
 
         private SliderWidget GenerateSlider(Transform group)
