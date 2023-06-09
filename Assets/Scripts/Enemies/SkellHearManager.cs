@@ -17,6 +17,7 @@ namespace AnarPerPortes
         [Header("Stats")]
         [SerializeField][Min(1f)] private float maxNoise = 30f;
         [SerializeField][Min(0f)] private float noiseDecayRate = 5f;
+        [SerializeField][Min(1)] private int doorsUntilDespawn = 8;
 
         [Header("Sound")]
         [SerializeField] private SoundResource warningSound;
@@ -24,6 +25,7 @@ namespace AnarPerPortes
         private AudioSource audioSource;
         private float noiseLevel = 0f;
         private float timeSinceLastNoise = 0f;
+        private int openedDoors = 0;
 
         public void AddNoise(float amount)
         {
@@ -39,6 +41,7 @@ namespace AnarPerPortes
                 EnemyManager.Singleton.GenerateEnemy(EnemyManager.Singleton.SkellEnemyPrefab);
                 IsHearing = false;
                 noiseLevel = 0f;
+                openedDoors = 0;
             }
         }
 
@@ -59,6 +62,20 @@ namespace AnarPerPortes
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
+            RoomManager.Singleton.OnRoomGenerated.AddListener(OnRoomGenerated);
+        }
+
+        void OnRoomGenerated(Room room)
+        {
+            openedDoors++;
+
+            if (openedDoors >= doorsUntilDespawn)
+            {
+                IsHearing = false;
+                noiseLevel = 0f;
+                openedDoors = 0;
+            }
+
         }
 
         private void Update()

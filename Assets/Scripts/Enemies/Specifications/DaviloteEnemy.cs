@@ -23,7 +23,7 @@ namespace AnarPerPortes
             CacheComponents();
             transform.rotation = PlayerController.Singleton.transform.rotation;
             audioSource.PlayOneShot(warningSound.AudioClip);
-            SubtitleManager.Singleton.PushSubtitle(warningSound.SubtitleText, Team.Hostile);
+            SubtitleManager.Singleton.PushSubtitle(warningSound);
             RoomManager.Singleton.OnRoomGenerated.AddListener((_) => Despawn());
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }

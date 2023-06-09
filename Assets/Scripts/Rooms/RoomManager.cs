@@ -65,6 +65,7 @@ namespace AnarPerPortes
 
             LastLoadedRoom = room;
             Rooms.Add(room);
+            room.Initialize();
             room.OnDoorOpened.AddListener(OnDoorOpened);
 
             if (Rooms.Count >= maxLoadedRooms)
@@ -90,7 +91,7 @@ namespace AnarPerPortes
         private void OnDoorOpened()
         {
             LastOpenedRoomNumber++;
-            SubtitleManager.Singleton.PushSubtitle("Puerta nº: " + LastOpenedRoomNumber);
+            SubtitleManager.Singleton.PushSubtitle("Puerta nº: " + LastOpenedRoomNumber, 2f);
             GenerateNextRoomRandom();
         }
     }

@@ -31,7 +31,7 @@ namespace AnarPerPortes
             Destroy(gameObject);
         }
 
-        protected virtual void Start()
+        public virtual void Initialize()
         {
             NextRoomGenerationPoint = transform.Find("Logic").Find("NextRoomPoint");
             WaypointGroup = transform.Find("Logic").Find("Waypoints");

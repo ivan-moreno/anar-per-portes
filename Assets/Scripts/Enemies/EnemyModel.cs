@@ -11,9 +11,7 @@ namespace AnarPerPortes
 
         public void Step()
         {
-            var rng = Random.Range(0, stepSounds.Length);
-            var rngStepSound = stepSounds[rng];
-            audioSource.PlayOneShot(rngStepSound);
+            audioSource.PlayOneShot(stepSounds.RandomItem());
         }
 
         private void Start()

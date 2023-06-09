@@ -1061,6 +1061,7 @@ MonoBehaviour:
   soundWaveR: {fileID: 1621260341}
   maxNoise: 30
   noiseDecayRate: 5
+  doorsUntilDespawn: 8
   warningSound: {fileID: 11400000, guid: 780ff201ce8480042a0cbcd585707498, type: 2}
 --- !u!82 &127431901
 AudioSource:

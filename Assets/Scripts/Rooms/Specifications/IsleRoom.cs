@@ -19,11 +19,11 @@ namespace AnarPerPortes
             incorrectWaySign.material = incorrectWayMaterial;
         }
 
-        protected override void Start()
+        public override void Initialize()
         {
             door.OnDoorOpened.AddListener(() => incorrectDoor.Deactivate());
             incorrectDoor.OnDoorOpened.AddListener(() => OnIncorrectDoorOpened?.Invoke());
-            base.Start();
+            base.Initialize();
 
             if (PlayerController.Singleton.HasItem("WalkieTalkie"))
                 walkieTalkieGiver.SetActive(false);

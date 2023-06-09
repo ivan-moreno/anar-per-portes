@@ -86,16 +86,16 @@ namespace AnarPerPortes
             audioSource.PlayOneShot(meetSkellSound);
             yield return new WaitForSeconds(1f);
 
-            SubtitleManager.Singleton.PushSubtitle(meetSkellDialogs[0].SubtitleText, meetSkellDialogs[0].SubtitleTeam);
+            SubtitleManager.Singleton.PushSubtitle(meetSkellDialogs[0]);
             yield return new WaitForSeconds(1.3f);
 
-            SubtitleManager.Singleton.PushSubtitle(meetSkellDialogs[1].SubtitleText, meetSkellDialogs[1].SubtitleTeam);
+            SubtitleManager.Singleton.PushSubtitle(meetSkellDialogs[1]);
             yield return new WaitForSeconds(3.6f);
 
-            SubtitleManager.Singleton.PushSubtitle(meetSkellDialogs[2].SubtitleText, meetSkellDialogs[2].SubtitleTeam);
+            SubtitleManager.Singleton.PushSubtitle(meetSkellDialogs[2]);
             yield return new WaitForSeconds(2.9f);
 
-            SubtitleManager.Singleton.PushSubtitle(meetSkellDialogs[3].SubtitleText, meetSkellDialogs[3].SubtitleTeam);
+            SubtitleManager.Singleton.PushSubtitle(meetSkellDialogs[3]);
             yield return new WaitForSeconds(3.2f);
             animator.Play("Funkin");
         }

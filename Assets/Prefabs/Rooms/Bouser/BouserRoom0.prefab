@@ -10019,12 +10019,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cec6f59d2cba71e4cb40b4bc790a6724, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnDoorOpened:
-    m_PersistentCalls:
-      m_Calls: []
-  OnUnloading:
-    m_PersistentCalls:
-      m_Calls: []
   hasHidingSpots: 1
   door: {fileID: 2296051180337967010}
   bouserWaypointGroup: {fileID: 8718051535099404532}
@@ -10032,6 +10026,7 @@ MonoBehaviour:
   bouserRoomDoorsAnimator: {fileID: 7542326246780960057}
   spawnBouserDistance: 9
   spawnBouserHardDistance: 25
+  closeEntranceDoorDistance: 32
 --- !u!1 &1622808463265911872
 GameObject:
   m_ObjectHideFlags: 0
@@ -10092,7 +10087,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1938039701654841159}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 60}
+  m_LocalPosition: {x: 0, y: 0, z: 42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -20660,7 +20655,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8726786363131213178}
   m_LocalRotation: {x: -0, y: -0.8660256, z: -0, w: 0.49999973}
-  m_LocalPosition: {x: 2.588424, y: 0, z: 57.90897}
+  m_LocalPosition: {x: 3.2845683, y: 0, z: 68.7032}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

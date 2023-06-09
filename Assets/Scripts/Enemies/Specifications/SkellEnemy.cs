@@ -11,12 +11,12 @@ namespace AnarPerPortes
         public static UnityEvent<SkellEnemy> OnSpawned { get; } = new();
 
         [Header("Stats")]
-        [SerializeField] private float runSpeed = 10f;
-        [SerializeField] private float sprintSpeed = 16f;
-        [SerializeField] private float sprintAtDistance = 24f;
-        [SerializeField] private float chaseRange = 8f;
-        [SerializeField] private float catchRange = 2f;
-        [SerializeField] private int doorsUntilDespawn = 5;
+        [SerializeField][Min(0f)] private float runSpeed = 10f;
+        [SerializeField][Min(0f)] private float sprintSpeed = 16f;
+        [SerializeField][Min(0f)] private float sprintAtDistance = 24f;
+        [SerializeField][Min(0f)] private float chaseRange = 8f;
+        [SerializeField][Min(0f)] private float catchRange = 2f;
+        [SerializeField][Min(1)] private int doorsUntilDespawn = 5;
 
         [Header("Sound")]
         [SerializeField] private SoundResource spawnSound;

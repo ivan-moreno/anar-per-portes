@@ -69,7 +69,7 @@ namespace AnarPerPortes
             else
             {
                 animator.Play("Retreat");
-                SubtitleManager.Singleton.PushSubtitle(safeSound.SubtitleText, safeSound.SubtitleTeam);
+                SubtitleManager.Singleton.PushSubtitle(safeSound);
             }
         }
 

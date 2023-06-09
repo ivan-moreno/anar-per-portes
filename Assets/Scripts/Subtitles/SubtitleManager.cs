@@ -25,7 +25,15 @@ namespace AnarPerPortes
             return sourceColors.TryGetValue(source, out var color) ? color : Color.white;
         }
 
-        public void PushSubtitle(string message, Team team = Team.Common)
+        public void PushSubtitle(SoundResource soundResource)
+        {
+            PushSubtitle(
+                soundResource.SubtitleText,
+                Mathf.Clamp(soundResource.AudioClip.length, 3f, 16f),
+                soundResource.SubtitleTeam);
+        }
+
+        public void PushSubtitle(string message, float duration = 4f, Team team = Team.Common)
         {
             if (!GameSettingsManager.Singleton.CurrentSettings.EnableSubtitles)
                 return;
@@ -42,7 +50,7 @@ namespace AnarPerPortes
                 return;
             }
 
-            subtitleMessage.Initialize(message, 4f, GetSourceColor(team));
+            subtitleMessage.Initialize(message, duration, GetSourceColor(team));
         }
 
         private void Update()
