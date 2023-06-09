@@ -57,6 +57,7 @@ namespace AnarPerPortes
         {
             GenerateMissingManager<AccessibilityFontManager>();
             GenerateMissingManager<AudioManager>();
+            GenerateMissingManager<BlackoutManager>();
             GenerateMissingManager<BlurOverlayManager>();
             GenerateMissingManager<CatchManager>();
             GenerateMissingManager<EnemyManager>();

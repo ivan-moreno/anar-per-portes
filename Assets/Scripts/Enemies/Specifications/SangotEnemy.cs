@@ -29,6 +29,7 @@ namespace AnarPerPortes
             IsOperative = true;
             CacheComponents();
 
+            BlackoutManager.Singleton.PlayDoorOpen();
             BlurOverlayManager.Singleton.SetBlurSmooth(new(0.73f, 0.37f, 1f, 1f), 0.5f);
 
             originalPlayerPosition = PlayerController.Singleton.transform.position;
@@ -64,8 +65,9 @@ namespace AnarPerPortes
 
             if (despawnTime <= 0f && !isCatching)
             {
-                PlayerController.Singleton.Teleport(originalPlayerPosition);
+                BlackoutManager.Singleton.PlayDoorOpen();
                 BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 0.5f);
+                PlayerController.Singleton.Teleport(originalPlayerPosition);
                 Despawn();
                 return;
             }
