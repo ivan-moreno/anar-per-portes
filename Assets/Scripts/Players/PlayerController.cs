@@ -124,6 +124,7 @@ namespace AnarPerPortes
         {
             equippedItem.Consume();
             items.Remove(equippedItem);
+            hasItemEquipped = false;
         }
 
         public bool HasItem(string itemId)
