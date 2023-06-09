@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: SangotJumpscare
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: ff4c03594b6cf3445af8a372125eee92, type: 3}
-  subtitleText: "[SANGOT] \xA1TOMAAA!"
+  subtitleText: "[SANGOT] Mira mira, \xBFsabes qu\xE9 tienes que hacer? \xA1TOMAAA!"
   subtitleTeam: 2

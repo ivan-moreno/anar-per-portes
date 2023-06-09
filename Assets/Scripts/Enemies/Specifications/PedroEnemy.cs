@@ -21,12 +21,14 @@ namespace AnarPerPortes
         [SerializeField] private SoundResource meetBouserSound;
         [SerializeField] private SoundResource laughAtBouserSound;
         [SerializeField] private SoundResource jumpscareSound;
+        [SerializeField] private SoundResource[] loseSounds;
 
         private Vector3 targetLocation;
         private bool reachedTarget = false;
         private bool isChasing = false;
         private bool isOnBreak = false;
         private bool isGrace = false;
+        private bool lostPlayer = false;
         private bool lineOfSightCheck = false;
         private bool isCatching = false;
         private bool metBouser = false;
@@ -82,6 +84,13 @@ namespace AnarPerPortes
         {
             var distanceToPlayer = Vector3.Distance(transform.position, PlayerController.Singleton.transform.position);
 
+            // Player camouflaged while chasing
+            if (!lostPlayer && isChasing && isGrace && PlayerController.Singleton.IsHidingAsStatue)
+            {
+                StartCoroutine(nameof(LosePlayerCoroutine));
+                return;
+            }
+
             isChasing = !isOnBreak
                 && distanceToPlayer <= chaseRange
                 && lineOfSightCheck
@@ -105,7 +114,9 @@ namespace AnarPerPortes
                 graceTime += Time.deltaTime;
             }
 
-            isGrace = graceTime < maxGraceTime && distanceToPlayer < graceRange;
+            isGrace = graceTime < maxGraceTime
+                && distanceToPlayer < graceRange
+                && !PlayerController.Singleton.IsHidingAsStatue;
 
             var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, targetRunSpeed * Time.deltaTime);
 
@@ -184,6 +195,28 @@ namespace AnarPerPortes
                         StartCoroutine(nameof(MeetBouserCoroutine));
                 }
             }
+        }
+
+        IEnumerator LosePlayerCoroutine()
+        {
+            if (lostPlayer)
+                yield break;
+
+            lostPlayer = true;
+            graceTime = maxGraceTime + 1f;
+            audioSource.Stop();
+            audioSource.PlayOneShot(loseSounds.RandomItem());
+            var originalRunSpeed = runSpeed;
+            runSpeed = 0f;
+            animator.Play("Idle");
+            yield return new WaitForSeconds(1.5f);
+
+            if (isCatching)
+                yield break;
+
+            audioSource.Play();
+            runSpeed = originalRunSpeed;
+            animator.Play("Run");
         }
 
         private bool PlayerIsInLineOfSight()

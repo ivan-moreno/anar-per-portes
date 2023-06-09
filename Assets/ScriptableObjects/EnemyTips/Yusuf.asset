@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Yusuf
   m_EditorClassIdentifier: 
   title: Yusuf
-  message: "Yusuf te est\xE1 dando caza.\r\n\r\nEscucha atentamente al Walkie-Talkie
-    y evita coincidir con Yusuf."
+  message: "Yusuf te est\xE1 dando caza.\r\n\r\n\xA1Escucha atentamente al Walkie-Talkie
+    y evita coincidir con Yusuf!"
   render: {fileID: 21300000, guid: 0e13a643bf0a34948b6117d1f3f5545b, type: 3}

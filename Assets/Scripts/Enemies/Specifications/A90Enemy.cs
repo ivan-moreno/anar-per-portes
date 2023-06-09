@@ -35,7 +35,6 @@ namespace AnarPerPortes
             image.enabled = true;
             AudioManager.Singleton.MuteAllAudioMixers();
             audioSource.Play(warningSound);
-            SubtitleManager.Singleton.PushSubtitle("(distorsiones)", Team.Hostile);
         }
 
         private void Despawn()
@@ -104,7 +103,6 @@ namespace AnarPerPortes
 
             isCatching = true;
             PlayerController.Singleton.IsCaught = true;
-            AudioManager.Singleton.UnmuteAllAudioMixers();
             audioSource.Stop();
             audioSource.PlayOneShot(jumpscareSound);
             PlayerController.Singleton.BlockAll();
@@ -115,6 +113,7 @@ namespace AnarPerPortes
         private IEnumerator CatchPlayerEnumerator()
         {
             yield return new WaitForSeconds(5f);
+            AudioManager.Singleton.UnmuteAllAudioMixers();
             GameManager.Singleton.RestartLevel();
         }
     }

@@ -155,6 +155,9 @@ MonoBehaviour:
   meetBouserSound: {fileID: 11400000, guid: b95f0705e9188a246ba679ecdcf62bc5, type: 2}
   laughAtBouserSound: {fileID: 11400000, guid: 61b0b33e2915e584ea9f95f8b4c2df7d, type: 2}
   jumpscareSound: {fileID: 11400000, guid: 36ffbf5c25e2e314b9fc7232bb7b9e24, type: 2}
+  loseSounds:
+  - {fileID: 11400000, guid: 8535ba282f7b10b40ab24f677bf67906, type: 2}
+  - {fileID: 11400000, guid: 829e6a481c856444194f709dc697659f, type: 2}
 --- !u!65 &4886486392957816987
 BoxCollider:
   m_ObjectHideFlags: 0

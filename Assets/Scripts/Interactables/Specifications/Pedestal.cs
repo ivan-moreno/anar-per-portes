@@ -41,6 +41,7 @@ namespace AnarPerPortes
                 gameObject.SetActive(false);
 
             SkellEnemy.OnSpawned.AddListener(OnSkellSpawned);
+            SangotEnemy.OnSpawned.AddListener(OnSangotSpawned);
         }
 
         void OnSkellSpawned(SkellEnemy skellEnemy)
@@ -49,6 +50,12 @@ namespace AnarPerPortes
                 ReleasePlayer();
 
             gameObject.SetActive(false);
+        }
+
+        void OnSangotSpawned(SangotEnemy sangotEnemy)
+        {
+            if (isOccupied)
+                ReleasePlayer();
         }
 
         private void Update()

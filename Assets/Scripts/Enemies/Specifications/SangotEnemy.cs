@@ -22,11 +22,17 @@ namespace AnarPerPortes
         [SerializeField] private SoundResource endingMusic;
 
         private bool isCatching = false;
+        private Vector3 originalPlayerPosition;
 
         private void Start()
         {
             IsOperative = true;
             CacheComponents();
+
+            BlurOverlayManager.Singleton.SetBlurSmooth(new(0.73f, 0.37f, 1f, 1f), 0.5f);
+
+            originalPlayerPosition = PlayerController.Singleton.transform.position;
+            PlayerController.Singleton.Teleport(EnemyManager.Singleton.SangotRealm.position);
 
             var spawnPosition = PlayerController.Singleton.transform.position;
             spawnPosition += PlayerController.Singleton.transform.forward * spawnDistance;
@@ -54,6 +60,16 @@ namespace AnarPerPortes
 
         private void Update()
         {
+            despawnTime -= Time.deltaTime;
+
+            if (despawnTime <= 0f && !isCatching)
+            {
+                PlayerController.Singleton.Teleport(originalPlayerPosition);
+                BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 0.5f);
+                Despawn();
+                return;
+            }
+
             transform.LookAt(PlayerController.Singleton.transform.position);
             var distanceToPlayer = Vector3.Distance(transform.position, PlayerController.Singleton.transform.position);
 
@@ -77,6 +93,7 @@ namespace AnarPerPortes
             isCatching = true;
             animator.Play("Jumpscare");
             audioSource.Stop();
+            audioSource.PlayOneShot(jumpscareSound);
             PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));
             StartCoroutine(nameof(CatchPlayerCoroutine));
@@ -84,8 +101,7 @@ namespace AnarPerPortes
 
         private IEnumerator CatchPlayerCoroutine()
         {
-            yield return new WaitForSeconds(1.5f);
-            audioSource.PlayOneShot(jumpscareSound);
+            yield return new WaitForSeconds(1.45f);
             audioSource.spatialBlend = 0f;
             audioSource.PlayOneShot(endingMusic);
             CatchManager.Singleton.CatchPlayer("SANGOT ENDING", "youtube.com/@sangot");
@@ -93,6 +109,9 @@ namespace AnarPerPortes
 
         private void Despawn()
         {
+            if (isCatching)
+                return;
+
             IsOperative = false;
             Destroy(gameObject);
         }
