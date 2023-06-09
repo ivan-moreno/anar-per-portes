@@ -65,10 +65,7 @@ namespace AnarPerPortes
 
             if (despawnTime <= 0f && !isCatching)
             {
-                BlackoutManager.Singleton.PlayDoorOpen();
-                BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 0.5f);
-                PlayerController.Singleton.Teleport(originalPlayerPosition);
-                Despawn();
+                WrapUp();
                 return;
             }
 
@@ -92,6 +89,13 @@ namespace AnarPerPortes
             if (isCatching)
                 return;
 
+            if (PlayerController.Singleton.EquippedItemIs("Roblobolita"))
+            {
+                PlayerController.Singleton.ConsumeEquippedItem();
+                WrapUp();
+                return;
+            }
+
             isCatching = true;
             animator.Play("Jumpscare");
             audioSource.Stop();
@@ -107,6 +111,14 @@ namespace AnarPerPortes
             audioSource.spatialBlend = 0f;
             audioSource.PlayOneShot(endingMusic);
             CatchManager.Singleton.CatchPlayer("SANGOT ENDING", "youtube.com/@sangot");
+        }
+
+        private void WrapUp()
+        {
+            BlackoutManager.Singleton.PlayDoorOpen();
+            BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 0.5f);
+            PlayerController.Singleton.Teleport(originalPlayerPosition);
+            Despawn();
         }
 
         private void Despawn()

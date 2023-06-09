@@ -29,7 +29,7 @@ namespace AnarPerPortes
         {
             PushSubtitle(
                 soundResource.SubtitleText,
-                Mathf.Clamp(soundResource.AudioClip.length, 3f, 16f),
+                Mathf.Clamp(soundResource.AudioClip.length + 1f, 3f, 16f),
                 soundResource.SubtitleTeam);
         }
 

@@ -28,5 +28,10 @@ namespace AnarPerPortes
             if (PlayerController.Singleton.HasItem("WalkieTalkie"))
                 walkieTalkieGiver.SetActive(false);
         }
+
+        public void CloseIncorrectDoor()
+        {
+            incorrectDoor.Close();
+        }
     }
 }

@@ -8,6 +8,7 @@ namespace AnarPerPortes
     {
         public UnityEvent OnEquipped { get; } = new();
         public UnityEvent OnUnequipped { get; } = new();
+        public UnityEvent OnConsumed { get; } = new();
         public bool IsEquipped { get; private set; } = false;
         public Sprite Icon => icon;
 
@@ -50,6 +51,12 @@ namespace AnarPerPortes
 
             if (unequipAudio != null)
                 audioSource.PlayOneShot(unequipAudio);
+        }
+
+        public void Consume()
+        {
+            Unequip();
+            OnConsumed?.Invoke();
         }
 
         private void Start()

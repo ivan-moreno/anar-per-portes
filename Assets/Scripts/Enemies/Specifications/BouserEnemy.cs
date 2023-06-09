@@ -244,6 +244,13 @@ namespace AnarPerPortes
             if (isCatching || isGrabbingTail || isMeetSkell)
                 return;
 
+            if (PlayerController.Singleton.EquippedItemIs("Roblobolita"))
+            {
+                PlayerController.Singleton.ConsumeEquippedItem();
+                GrabTail();
+                return;
+            }
+
             isCatching = true;
             animator.Play("Jumpscare");
             audioSource.Stop();

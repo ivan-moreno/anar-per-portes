@@ -24,12 +24,14 @@ namespace AnarPerPortes
         [SerializeField] private SoundResource[] observatoryTargetSounds;
         [SerializeField] private SoundResource[] warehouseTargetSounds;
 
+        private IsleRoom isleRoom;
+
         private void Start()
         {
             IsOperative = true;
             CacheComponents();
 
-            var isleRoom = RoomManager.Singleton.LastLoadedRoom as IsleRoom;
+            isleRoom = RoomManager.Singleton.LastLoadedRoom as IsleRoom;
             var targetPos = isleRoom.IncorrectDoor.transform.position + (isleRoom.IncorrectDoor.transform.forward * 4f);
             transform.position = targetPos;
             audioSource.PlayOneShot(walkieTalkieAlertSound);
@@ -93,6 +95,17 @@ namespace AnarPerPortes
         private IEnumerator CatchPlayerEnumerator()
         {
             yield return new WaitForSeconds(1f);
+
+            if (PlayerController.Singleton.EquippedItemIs("Roblobolita"))
+            {
+                PlayerController.Singleton.ConsumeEquippedItem();
+                PlayerController.Singleton.ClearVisionTarget();
+                PlayerController.Singleton.UnblockAll();
+                isleRoom.CloseIncorrectDoor();
+                Despawn();
+                yield break;
+            }
+
             CatchManager.Singleton.CatchPlayer("YUSUF ENDING", "Fuerzas Yusuf, Fuerzas Yusuf");
             audioSource.Play();
         }

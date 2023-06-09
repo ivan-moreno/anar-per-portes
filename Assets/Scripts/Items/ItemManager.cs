@@ -26,6 +26,7 @@ namespace AnarPerPortes
 
             item.OnEquipped.AddListener(ResetTimeSinceItemChange);
             item.OnUnequipped.AddListener(ResetTimeSinceItemChange);
+            item.OnConsumed.AddListener(() => Destroy(instance));
 
             slot.Initialize(item);
         }

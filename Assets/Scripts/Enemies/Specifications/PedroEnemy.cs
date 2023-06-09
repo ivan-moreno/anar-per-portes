@@ -235,6 +235,13 @@ namespace AnarPerPortes
             if (isCatching || isOnBreak || runSpeed <= 0f)
                 return;
 
+            if (PlayerController.Singleton.EquippedItemIs("Roblobolita"))
+            {
+                PlayerController.Singleton.ConsumeEquippedItem();
+                Despawn();
+                return;
+            }
+
             isCatching = true;
             audioSource.Stop();
             audioSource.PlayOneShot(jumpscareSound);

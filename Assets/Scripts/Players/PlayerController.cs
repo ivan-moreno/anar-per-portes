@@ -5,9 +5,6 @@ using UnityEngine.Rendering.Universal;
 
 namespace AnarPerPortes
 {
-    /// <summary>
-    /// Logic class that reads Player input and acts accordingly.
-    /// </summary>
     [AddComponentMenu("Anar per Portes/Player Controller")]
     [RequireComponent(typeof(CharacterController))]
     public class PlayerController : MonoBehaviour
@@ -25,6 +22,7 @@ namespace AnarPerPortes
         [SerializeField] private Animator modelAnimator;
         private Animator visionAnimator;
         private CharacterController characterController;
+        private InventoryItem equippedItem;
         private Vector3 velocity;
         private Vector3 motion;
         private float vLook;
@@ -122,9 +120,20 @@ namespace AnarPerPortes
             ItemManager.Singleton.GenerateSlotFor(item);
         }
 
+        public void ConsumeEquippedItem()
+        {
+            equippedItem.Consume();
+            items.Remove(equippedItem);
+        }
+
         public bool HasItem(string itemId)
         {
             return items.Find(x => x.name.Equals(itemId)) != null;
+        }
+
+        public bool EquippedItemIs(string itemId)
+        {
+            return equippedItem.name.Equals(itemId);
         }
 
         public void SetVisionTarget(Transform target, Vector3 offset = default)
@@ -296,6 +305,19 @@ namespace AnarPerPortes
                 items[0].ToggleEquipped();
 
                 hasItemEquipped = items.Any(x => x.IsEquipped);
+
+                if (hasItemEquipped)
+                    equippedItem = items[0];
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2) && items.Count > 0)
+            {
+                items.FindAll(x => x != items[1]).ForEach(x => x.Unequip());
+                items[1].ToggleEquipped();
+
+                hasItemEquipped = items.Any(x => x.IsEquipped);
+
+                if (hasItemEquipped)
+                    equippedItem = items[1];
             }
 
             var itemLayerWeight = modelAnimator.GetLayerWeight(1);
