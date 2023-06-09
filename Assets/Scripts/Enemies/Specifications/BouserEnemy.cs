@@ -96,6 +96,8 @@ namespace AnarPerPortes
             yield return new WaitForSeconds(2.9f);
 
             SubtitleManager.Singleton.PushSubtitle(meetSkellDialogs[3].SubtitleText, meetSkellDialogs[3].SubtitleTeam);
+            yield return new WaitForSeconds(3.2f);
+            animator.Play("Funkin");
         }
 
         private IEnumerator GrabTailWithSkellCoroutine()

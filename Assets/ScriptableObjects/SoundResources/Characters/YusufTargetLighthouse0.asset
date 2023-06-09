@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697d33dca1980aa44a3b852d2e215b8d, type: 3}
   m_Name: YusufTargetLighthouse0
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: ae6bcce0310b764468e580475e36f0f5, type: 3}
+  audioClip: {fileID: 8300000, guid: 9d3d67d6dd9e359418c80aeb7424a058, type: 3}
   subtitleText: '[YUSUF] Aviso, me estoy desplazando hacia el Faro. Corto.'
   subtitleTeam: 2

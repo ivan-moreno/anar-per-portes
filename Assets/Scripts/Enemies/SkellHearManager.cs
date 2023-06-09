@@ -67,7 +67,7 @@ namespace AnarPerPortes
             noiseLevel -= Time.deltaTime * (timeSinceLastNoise * noiseDecayRate);
             noiseLevel = Mathf.Clamp(noiseLevel, 0f, maxNoise);
 
-            var alpha = noiseLevel / (maxNoise * 2f) / Mathf.Clamp01(timeSinceLastNoise);
+            var alpha = noiseLevel / (maxNoise * 2f) / Mathf.Clamp(timeSinceLastNoise, Mathf.Epsilon, 1f);
 
             soundWaveL.color
                 = soundWaveR.color

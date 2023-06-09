@@ -22,7 +22,6 @@ namespace AnarPerPortes
         [SerializeField] private float closeEntranceDoorDistance = 32f;
 
         private bool spawnedBouser = false;
-        private bool closedDoor = false;
 
         public void SpawnBouser()
         {

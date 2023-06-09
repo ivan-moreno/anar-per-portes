@@ -227,6 +227,7 @@ namespace AnarPerPortes
 
         private IEnumerator MeetBouserCoroutine()
         {
+            RoomManager.Singleton.LastLoadedRoom.OnUnloading.AddListener(Despawn);
             IsOperative = false;
             metBouser = true;
             bouserEnemy.MeetSkell(this);
@@ -234,9 +235,10 @@ namespace AnarPerPortes
             runSpeed = 0f;
             animator.Play("Idle");
             audioSource.Stop();
-            yield return new WaitForSeconds(14f);
-            audioSource.PlayOneShot(meetBouserMusic);
-            //TODO: Make Bouser react, move both to singing location
+            yield return new WaitForSeconds(12f);
+            audioSource.clip = meetBouserMusic.AudioClip;
+            audioSource.Play(meetBouserMusic);
+            animator.Play("Funkin");
         }
 
         private void Despawn()
