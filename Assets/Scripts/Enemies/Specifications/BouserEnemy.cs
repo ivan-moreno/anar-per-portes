@@ -68,6 +68,9 @@ namespace AnarPerPortes
 
         public void MeetSkell(SkellEnemy skellEnemy)
         {
+            if (isCatching || IsDefeated)
+                return;
+
             this.skellEnemy = skellEnemy;
             StartCoroutine(nameof(MeetSkellCoroutine));
         }
