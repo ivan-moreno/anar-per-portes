@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace AnarPerPortes
         public static SubtitleManager Singleton { get; private set; }
         [SerializeField] private Transform subtitleMessagesGroup;
         [SerializeField] private GameObject subtitleMessagePrefab;
+        private const int maxSubtitles = 8;
 
         // TODO: Upgrade to readonly classes
         private static readonly Dictionary<Team, Color> sourceColors = new()
@@ -41,6 +43,12 @@ namespace AnarPerPortes
             }
 
             subtitleMessage.Initialize(message, 4f, GetSourceColor(team));
+        }
+
+        private void Update()
+        {
+            if (subtitleMessagesGroup.childCount > maxSubtitles)
+                Destroy(subtitleMessagesGroup.GetChild(0).gameObject);
         }
 
         private void Awake()

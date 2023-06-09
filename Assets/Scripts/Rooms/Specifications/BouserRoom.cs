@@ -7,6 +7,7 @@ namespace AnarPerPortes
     {
         public Transform BouserWaypointGroup => bouserWaypointGroup;
         public Transform BouserSpawnPoint => bouserSpawnPoint;
+        public bool PlayerIsInsideRoom { get; private set; } = false;
 
         private static int spawnedBouserAmount = 0;
 
@@ -18,8 +19,10 @@ namespace AnarPerPortes
         [Header("Stats")]
         [SerializeField] private float spawnBouserDistance = 9f;
         [SerializeField] private float spawnBouserHardDistance = 25f;
+        [SerializeField] private float closeEntranceDoorDistance = 32f;
 
         private bool spawnedBouser = false;
+        private bool closedDoor = false;
 
         public void SpawnBouser()
         {
@@ -45,10 +48,17 @@ namespace AnarPerPortes
 
         private void FixedUpdate()
         {
+            var distance = Vector3.Distance(bouserRoomDoorsAnimator.transform.position, PlayerController.Singleton.transform.position);
+
+            if (!PlayerIsInsideRoom && distance <= closeEntranceDoorDistance)
+            {
+                PlayerIsInsideRoom = true;
+                RoomManager.Singleton.Rooms[^2].CloseDoor();
+            }
+
             if (spawnedBouser)
                 return;
 
-            var distance = Vector3.Distance(bouserRoomDoorsAnimator.transform.position, PlayerController.Singleton.transform.position);
             var targetDistance = spawnedBouserAmount >= 1 ? spawnBouserHardDistance : spawnBouserDistance;
 
             if (SkellEnemy.IsOperative)

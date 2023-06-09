@@ -42,8 +42,8 @@ namespace AnarPerPortes
         private float timeSinceReachedTarget = 0f;
         private SkellEnemy skellEnemy;
 
-        private const float nextMoveMinTime = 1f;
-        private const float nextMoveMaxTime = 3f;
+        private const float nextMoveMinTime = 0.2f;
+        private const float nextMoveMaxTime = 2f;
 
         public void GrabTail()
         {
@@ -57,6 +57,7 @@ namespace AnarPerPortes
             audioCooldown = 0f;
             Talk(tailSounds.RandomItem());
             room.OpenBouserDoor();
+            GetComponent<BoxCollider>().enabled = false;
 
             //TODO: Launch animation
             IsDefeated = true;
@@ -174,7 +175,8 @@ namespace AnarPerPortes
 
             isChasing = playerIsInSight
                 && !PlayerController.Singleton.IsHidingAsStatue
-                && !PlayerController.Singleton.IsCaught;
+                && !PlayerController.Singleton.IsCaught
+                && room.PlayerIsInsideRoom;
 
             if (isChasing && distanceToPlayer <= catchRange)
                 CatchPlayer();
