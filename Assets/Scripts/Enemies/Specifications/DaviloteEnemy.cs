@@ -48,7 +48,7 @@ namespace AnarPerPortes
 
         private void LateUpdate()
         {
-            transform.position = PlayerController.Singleton.transform.position - (transform.forward * 2f);
+            transform.position = PlayerController.Singleton.transform.position - (transform.forward * 4f);
         }
 
         private void FixedUpdate()
@@ -73,6 +73,7 @@ namespace AnarPerPortes
 
             isCatching = true;
             audioSource.PlayOneShot(jumpscareSound);
+            animator.Play("Jumpscare");
             PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform);
             StartCoroutine(nameof(CatchPlayerEnumerator));
@@ -80,7 +81,7 @@ namespace AnarPerPortes
 
         private IEnumerator CatchPlayerEnumerator()
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.84f);
             CatchManager.Singleton.CatchPlayer("DAVILOTE ENDING", "No eres un payaso, eres el circo entero.");
             audioSource.Play();
         }

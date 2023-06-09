@@ -144,6 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tip: {fileID: 11400000, guid: b82728e7d3f3c33409737ba4906edcef, type: 2}
+  catchAngle: 120
   warningSound: {fileID: 11400000, guid: 926753d070a505e47a52f3c891fee747, type: 2}
   jumpscareSound: {fileID: 11400000, guid: c266ae1dd9f08fc42a0566530294a90b, type: 2}
 --- !u!1001 &7581871667035627441
@@ -248,7 +249,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: ff8d6970bcb1d66408bce41ebc499f32, type: 2}
+      objectReference: {fileID: 9100000, guid: a87ea07c06159484ca2b2a84633d915e, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

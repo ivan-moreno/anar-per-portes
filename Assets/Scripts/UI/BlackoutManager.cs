@@ -10,7 +10,7 @@ namespace AnarPerPortes
 
         public void PlayDoorOpen()
         {
-            blackoutAnimator.Play("DoorOpen");
+            blackoutAnimator.Play("DoorOpen", 0, 0f);
         }
 
         public void Hide()

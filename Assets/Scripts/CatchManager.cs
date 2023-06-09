@@ -13,6 +13,7 @@ namespace AnarPerPortes
         [SerializeField] private Image screenshot;
         [SerializeField] private TMP_Text titleText;
         [SerializeField] private TMP_Text messageText;
+        [SerializeField] private Image subscribeImage;
         private bool canClickToRetry = false;
 
         public void CatchPlayer(string title, string message)
@@ -21,6 +22,10 @@ namespace AnarPerPortes
             PlayerController.Singleton.BlockAll();
             titleText.text = title;
             messageText.text = message;
+
+            if (title.ToUpper().Equals("SANGOT ENDING"))
+                subscribeImage.gameObject.SetActive(true);
+
             Time.timeScale = 0f;
             StartCoroutine(nameof(TakeSnapshot));
         }
