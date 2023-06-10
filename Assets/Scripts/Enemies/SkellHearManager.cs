@@ -39,9 +39,7 @@ namespace AnarPerPortes
             if (noiseLevel >= maxNoise)
             {
                 EnemyManager.Singleton.GenerateEnemy(EnemyManager.Singleton.SkellEnemyPrefab);
-                IsHearing = false;
-                noiseLevel = 0f;
-                openedDoors = 0;
+                WrapUp();
             }
         }
 
@@ -63,19 +61,22 @@ namespace AnarPerPortes
         {
             audioSource = GetComponent<AudioSource>();
             RoomManager.Singleton.OnRoomGenerated.AddListener(OnRoomGenerated);
+            S7Enemy.OnSpawn.AddListener((_) => WrapUp());
         }
 
-        void OnRoomGenerated(Room room)
+        private void OnRoomGenerated(Room room)
         {
             openedDoors++;
 
             if (openedDoors >= doorsUntilDespawn)
-            {
-                IsHearing = false;
-                noiseLevel = 0f;
-                openedDoors = 0;
-            }
+                WrapUp();
+        }
 
+        private void WrapUp()
+        {
+            IsHearing = false;
+            noiseLevel = 0f;
+            openedDoors = 0;
         }
 
         private void Update()

@@ -74,6 +74,8 @@ namespace AnarPerPortes
             if (PlayerController.Singleton.EquippedItemIs("Roblobolita"))
             {
                 PlayerController.Singleton.ConsumeEquippedItem();
+                BlurOverlayManager.Singleton.SetBlur(Color.white);
+                BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 2f);
                 Despawn();
                 return;
             }

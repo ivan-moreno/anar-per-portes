@@ -100,6 +100,8 @@ namespace AnarPerPortes
             {
                 isleRoom.CloseIncorrectDoor();
                 PlayerController.Singleton.ConsumeEquippedItem();
+                BlurOverlayManager.Singleton.SetBlur(Color.white);
+                BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 2f);
                 yield return new WaitForSeconds(0.5f);
                 PlayerController.Singleton.ClearVisionTarget();
                 PlayerController.Singleton.UnblockAll();

@@ -47,6 +47,7 @@ namespace AnarPerPortes
             audioSource.Play(spawnSound);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
             RoomManager.Singleton.OnRoomGenerated.AddListener(RoomGenerated);
+            S7Enemy.OnSpawn.AddListener((_) => Despawn());
 
             if (BouserEnemy.IsOperative)
                 bouserEnemy = FindObjectOfType<BouserEnemy>();
@@ -238,6 +239,8 @@ namespace AnarPerPortes
             if (PlayerController.Singleton.EquippedItemIs("Roblobolita"))
             {
                 PlayerController.Singleton.ConsumeEquippedItem();
+                BlurOverlayManager.Singleton.SetBlur(Color.white);
+                BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 2f);
                 Despawn();
                 return;
             }

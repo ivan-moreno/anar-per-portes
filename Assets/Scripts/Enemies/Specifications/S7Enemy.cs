@@ -58,6 +58,11 @@ namespace AnarPerPortes
             if (SheepyEnemy.IsOperative || SangotEnemy.IsOperative || A90Enemy.IsOperative)
                 return;
 
+            advanceSpeed += 0.2f * Time.deltaTime;
+
+            if (advanceSpeed >= PlayerController.Singleton.WalkSpeed - 2f)
+                advanceSpeed = PlayerController.Singleton.WalkSpeed - 2f;
+
             transform.Translate(Vector3.forward * advanceSpeed * Time.deltaTime, Space.Self);
         }
 
