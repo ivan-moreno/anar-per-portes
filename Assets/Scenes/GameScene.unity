@@ -27594,15 +27594,20 @@ MonoBehaviour:
   - {fileID: 1343002099365941501, guid: c908b4e63c64be54eb7c9473745cbce4, type: 3}
   - {fileID: 1343002099365941501, guid: e5ac37522a5a18743af015760161c568, type: 3}
   - {fileID: 1343002099365941501, guid: 5dc594a04f55ea649b9a3ba88d44d9c5, type: 3}
+  snowdinRoomPrefabs:
+  - {fileID: 1343002099365941501, guid: 29027582e15780049bfdf0108fd6ab01, type: 3}
+  isleRoomPrefabs:
   - {fileID: 1343002099365941501, guid: 3f68c082b3590c44ea99b617628f9081, type: 3}
   - {fileID: 1343002099365941501, guid: d7ffef69a4a8b6f4dbf0a25b0b438c02, type: 3}
+  bouserRoomPrefabs:
   - {fileID: 1343002099365941501, guid: 74be0658e24ed1d45a1960b03f05e40b, type: 3}
-  - {fileID: 1343002099365941501, guid: cef435b3203895c42a271a0e48296abe, type: 3}
-  - {fileID: 449040676408261766, guid: f304dc99c4be86d44a3c746e0f57cf2c, type: 3}
-  - {fileID: 1343002099365941501, guid: 29027582e15780049bfdf0108fd6ab01, type: 3}
+  s7RoomPrefabs:
   - {fileID: 1343002099365941501, guid: a50d59520cff98a449e073d616267d2e, type: 3}
   - {fileID: 1343002099365941501, guid: 330f8f1f49fc2f042adab5f1818bf1f5, type: 3}
-  - {fileID: 919132149155446097, guid: 87fee518018bc1645af62f54f2070523, type: 3}
+  - {fileID: 1343002099365941501, guid: 53ff599fbbd39114693f138dfdcf8195, type: 3}
+  cameoRoomPrefabs:
+  - {fileID: 1343002099365941501, guid: cef435b3203895c42a271a0e48296abe, type: 3}
+  - {fileID: 449040676408261766, guid: f304dc99c4be86d44a3c746e0f57cf2c, type: 3}
 --- !u!1 &1633947515
 GameObject:
   m_ObjectHideFlags: 0
