@@ -1,3 +1,4 @@
+using static AnarPerPortes.ShortUtils;
 using UnityEngine;
 
 namespace AnarPerPortes
@@ -18,7 +19,7 @@ namespace AnarPerPortes
 
         [Header("Stats")]
         [SerializeField] private float spawnBouserDistance = 9f;
-        [SerializeField] private float spawnBouserHardDistance = 25f;
+        [SerializeField] private float spawnBouserHardDistance = 38f;
         [SerializeField] private float closeEntranceDoorDistance = 32f;
 
         private bool spawnedBouser = false;
@@ -47,7 +48,19 @@ namespace AnarPerPortes
 
         private void FixedUpdate()
         {
+            if (RoomManager.Singleton.LastLoadedRoom != this)
+                return;
+
             var distance = Vector3.Distance(bouserRoomDoorsAnimator.transform.position, PlayerController.Singleton.transform.position);
+
+            if (IsHardmodeEnabled() && !PlayerIsInsideRoom && distance <= spawnBouserHardDistance)
+            {
+                PlayerIsInsideRoom = true;
+                RoomManager.Singleton.Rooms[^2].CloseDoor();
+                SpawnBouser();
+                spawnedBouser = true;
+                return;
+            }
 
             if (!PlayerIsInsideRoom && distance <= closeEntranceDoorDistance)
             {
@@ -58,12 +71,7 @@ namespace AnarPerPortes
             if (spawnedBouser)
                 return;
 
-            var targetDistance = spawnedBouserAmount >= 1 ? spawnBouserHardDistance : spawnBouserDistance;
-
-            if (SkellEnemy.IsOperative)
-                targetDistance = spawnBouserHardDistance;
-            else if (PedroEnemy.IsOperative)
-                targetDistance = spawnBouserDistance;
+            var targetDistance = IsHardmodeEnabled() ? spawnBouserHardDistance : spawnBouserDistance;
 
             if (distance <= targetDistance)
                 SpawnBouser();

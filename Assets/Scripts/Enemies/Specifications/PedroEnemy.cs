@@ -86,7 +86,7 @@ namespace AnarPerPortes
             var distanceToPlayer = Vector3.Distance(transform.position, PlayerController.Singleton.transform.position);
 
             // Player camouflaged while chasing
-            if (!lostPlayer && isChasing && isGrace && PlayerController.Singleton.IsHidingAsStatue)
+            if (!lostPlayer && isChasing && isGrace && PlayerController.Singleton.IsCamouflaged)
             {
                 StartCoroutine(nameof(LosePlayerCoroutine));
                 return;
@@ -95,7 +95,7 @@ namespace AnarPerPortes
             isChasing = !isOnBreak
                 && distanceToPlayer <= chaseRange
                 && lineOfSightCheck
-                && !PlayerController.Singleton.IsHidingAsStatue
+                && !PlayerController.Singleton.IsCamouflaged
                 && !PlayerController.Singleton.IsCaught;
             
             if (!isOnBreak && isChasing && distanceToPlayer <= catchRange)
@@ -117,7 +117,7 @@ namespace AnarPerPortes
 
             isGrace = graceTime < maxGraceTime
                 && distanceToPlayer < graceRange
-                && !PlayerController.Singleton.IsHidingAsStatue;
+                && !PlayerController.Singleton.IsCamouflaged;
 
             var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, targetRunSpeed * Time.deltaTime);
 

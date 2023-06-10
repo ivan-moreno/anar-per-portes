@@ -65,6 +65,7 @@ namespace AnarPerPortes
             GenerateMissingManager<FadeScreenManager>();
             GenerateMissingManager<FlamboyantGraphicManager>();
             GenerateMissingManager<GameSettingsManager>();
+            GenerateMissingManager<HardmodeManager>();
             GenerateMissingManager<InteractionManager>();
             GenerateMissingManager<ItemManager>();
             GenerateMissingManager<KeybindManager>();

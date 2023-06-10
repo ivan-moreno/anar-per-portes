@@ -1,3 +1,4 @@
+using static AnarPerPortes.ShortUtils;
 using System.Collections;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace AnarPerPortes
         [SerializeField] private float catchAngle = 120f;
 
         [Header("Audio")]
-        [SerializeField] private SoundResource warningSound;
+        [SerializeField] private SoundResource[] warningSound;
         [SerializeField] private SoundResource jumpscareSound;
 
         private bool isCatching = false;
@@ -22,8 +23,7 @@ namespace AnarPerPortes
             IsOperative = true;
             CacheComponents();
             transform.rotation = PlayerController.Singleton.transform.rotation;
-            audioSource.PlayOneShot(warningSound.AudioClip);
-            SubtitleManager.Singleton.PushSubtitle(warningSound);
+            audioSource.PlayOneShot(warningSound.RandomItem());
             RoomManager.Singleton.OnRoomGenerated.AddListener((_) => Despawn());
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
@@ -44,6 +44,9 @@ namespace AnarPerPortes
                 transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 4f);
                 return;
             }
+
+            if (IsHardmodeEnabled())
+                transform.Rotate(0f, 10f * Time.deltaTime, 0f);
         }
 
         private void LateUpdate()

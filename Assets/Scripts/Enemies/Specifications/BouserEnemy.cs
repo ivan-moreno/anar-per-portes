@@ -1,3 +1,4 @@
+using static AnarPerPortes.ShortUtils;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,10 +14,12 @@ namespace AnarPerPortes
 
         [Header("Stats")]
         [SerializeField] private float runSpeed = 8f;
+        [SerializeField] private float runSpeedHard = 12f;
         [SerializeField] private float sprintSpeed = 14f;
         [SerializeField] private float sprintAtDistance = 15f;
         [SerializeField] private float catchRange = 2f;
         [SerializeField] private float sightAngle = 45f;
+        [SerializeField] private float sightAngleHard = 90f;
 
         [Header("Audio")]
         [SerializeField] private SoundResource jumpscareSound;
@@ -113,6 +116,13 @@ namespace AnarPerPortes
             CacheComponents();
 
             room = RoomManager.Singleton.LastLoadedRoom as BouserRoom;
+
+            if (room == null)
+            {
+                Despawn();
+                return;
+            }    
+
             room.OnUnloading.AddListener(Despawn);
 
             transform.SetPositionAndRotation(room.BouserSpawnPoint.position, room.BouserSpawnPoint.rotation);
@@ -171,7 +181,7 @@ namespace AnarPerPortes
             var playerIsInSight = IsWithinAngle(transform, PlayerController.Singleton.transform);
 
             // Player camouflaged while chasing
-            if (isChasing && PlayerController.Singleton.IsHidingAsStatue)
+            if (isChasing && PlayerController.Singleton.IsCamouflaged)
             {
                 Talk(loseSounds.RandomItem());
             }
@@ -179,7 +189,7 @@ namespace AnarPerPortes
             var wasChasing = isChasing;
 
             isChasing = playerIsInSight
-                && !PlayerController.Singleton.IsHidingAsStatue
+                && !PlayerController.Singleton.IsCamouflaged
                 && !PlayerController.Singleton.IsCaught
                 && room.PlayerIsInsideRoom;
 
@@ -196,17 +206,20 @@ namespace AnarPerPortes
             // Choose whether to go to the next map point or towards the Player.
             var determinedTargetLocation = isChasing ? PlayerController.Singleton.transform.position : targetLocation;
 
-            var targetRunSpeed = runSpeed;
+            var targetRunSpeed = IsHardmodeEnabled() ? runSpeedHard : runSpeed;
 
             if (isChasing && distanceToPlayer > sprintAtDistance)
             {
                 targetRunSpeed = sprintSpeed;
-                animator.speed = sprintSpeed / runSpeed;
+                animator.speed = sprintSpeed / targetRunSpeed;
             }
             else
             {
-                animator.speed = 1f;
+                animator.speed = IsHardmodeEnabled() ? runSpeedHard / runSpeed : 1f;
             }
+
+            if (A90Enemy.IsOperative)
+                targetRunSpeed = 0f;
 
             var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, targetRunSpeed * Time.deltaTime);
             transform.position = nextPosition;
@@ -236,7 +249,7 @@ namespace AnarPerPortes
         {
             var directionToTarget = target.position - source.position;
             var angle = Vector3.Angle(source.forward, directionToTarget);
-            return angle <= sightAngle;
+            return angle <= (IsHardmodeEnabled() ? sightAngleHard : sightAngle);
         }
 
         private void CatchPlayer()

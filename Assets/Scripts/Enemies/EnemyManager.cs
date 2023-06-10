@@ -1,3 +1,4 @@
+using static AnarPerPortes.ShortUtils;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -95,7 +96,7 @@ namespace AnarPerPortes
                     && !SkellEnemy.IsOperative
                     && room is not IsleRoom
                     && room.HasHidingSpots
-                    && RoomManager.Singleton.LastOpenedRoomNumber >= 10,
+                    && (IsHardmodeEnabled() || RoomManager.Singleton.LastOpenedRoomNumber >= 10),
                 RngRequirement = (possibility) =>
                 {
                     var rng = UnityEngine.Random.Range(0, 100);
@@ -118,7 +119,7 @@ namespace AnarPerPortes
                     (room) => !DaviloteEnemy.IsOperative
                     && room is not BouserRoom
                     && room is not IsleRoom
-                    && RoomManager.Singleton.LastOpenedRoomNumber >= 15,
+                    && (IsHardmodeEnabled() || RoomManager.Singleton.LastOpenedRoomNumber >= 15),
                 RngRequirement = (possibility) =>
                 {
                     var rng = UnityEngine.Random.Range(0, 100);
@@ -145,7 +146,7 @@ namespace AnarPerPortes
                     && !PedroEnemy.IsOperative
                     && room is not BouserRoom
                     && room is not IsleRoom
-                    && RoomManager.Singleton.LastOpenedRoomNumber >= 20,
+                    && (IsHardmodeEnabled() || RoomManager.Singleton.LastOpenedRoomNumber >= 20),
                 RngRequirement = (possibility) =>
                 {
                     var rng = UnityEngine.Random.Range(0, 100);
@@ -167,7 +168,7 @@ namespace AnarPerPortes
                 SpawnRequirements =
                     (room) => !SheepyEnemy.IsOperative
                     && room is not IsleRoom
-                    && RoomManager.Singleton.LastOpenedRoomNumber >= 5,
+                    && (IsHardmodeEnabled() || RoomManager.Singleton.LastOpenedRoomNumber >= 5),
                 RngRequirement = (possibility) =>
                 {
                     var rng = UnityEngine.Random.Range(0, 100);
@@ -191,7 +192,7 @@ namespace AnarPerPortes
                     && !PedroEnemy.IsOperative
                     && room is not IsleRoom
                     && room is not BouserRoom
-                    && RoomManager.Singleton.LastOpenedRoomNumber >= 30,
+                    && (IsHardmodeEnabled() || RoomManager.Singleton.LastOpenedRoomNumber >= 30),
                 RngRequirement = (possibility) =>
                 {
                     var rng = UnityEngine.Random.Range(0, 100);
@@ -213,7 +214,7 @@ namespace AnarPerPortes
                 SpawnRequirements =
                     (room) => !A90Enemy.IsOperative
                     && room is not IsleRoom
-                    && RoomManager.Singleton.LastOpenedRoomNumber >= 90,
+                    && (IsHardmodeEnabled() || RoomManager.Singleton.LastOpenedRoomNumber >= 90),
                 RngRequirement = (possibility) =>
                 {
                     var rng = UnityEngine.Random.Range(0, 100);

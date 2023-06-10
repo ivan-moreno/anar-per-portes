@@ -145,7 +145,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tip: {fileID: 11400000, guid: b82728e7d3f3c33409737ba4906edcef, type: 2}
   catchAngle: 120
-  warningSound: {fileID: 11400000, guid: 926753d070a505e47a52f3c891fee747, type: 2}
+  warningSound:
+  - {fileID: 11400000, guid: 53d7b5e27b416c84198fdf0d9e302cb5, type: 2}
+  - {fileID: 11400000, guid: 2dc6d3306759edf45ad2cb9d221ab668, type: 2}
+  - {fileID: 11400000, guid: 04ce8394224d1d749ba8c7650ddb6d35, type: 2}
+  - {fileID: 11400000, guid: 2373cdcbef983c44fbbd3292a6f8ab38, type: 2}
+  - {fileID: 11400000, guid: eb4d8c7a0addeae44baa7993cd61be33, type: 2}
   jumpscareSound: {fileID: 11400000, guid: c266ae1dd9f08fc42a0566530294a90b, type: 2}
 --- !u!1001 &7581871667035627441
 PrefabInstance:

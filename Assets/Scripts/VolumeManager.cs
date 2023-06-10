@@ -41,7 +41,7 @@ namespace AnarPerPortes
 
         private void Update()
         {
-            var targetVignetteIntensity = PlayerController.Singleton.IsHidingAsStatue ? hidingVignetteIntensity : defaultVignetteIntensity;
+            var targetVignetteIntensity = PlayerController.Singleton.IsCamouflaged ? hidingVignetteIntensity : defaultVignetteIntensity;
             vignette.intensity.value = Mathf.Lerp(vignette.intensity.value, targetVignetteIntensity, Time.deltaTime * 4f);
         }
     }

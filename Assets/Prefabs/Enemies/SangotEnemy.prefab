@@ -145,6 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tip: {fileID: 11400000, guid: 6e3e24ebd70019d4f9c5f16979a27355, type: 2}
   spawnDistance: 38
+  spawnDistanceHard: 27
   runSpeed: 12
   catchRange: 2
   despawnTime: 4

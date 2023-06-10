@@ -10025,7 +10025,7 @@ MonoBehaviour:
   bouserSpawnPoint: {fileID: 4244623369999411229}
   bouserRoomDoorsAnimator: {fileID: 7542326246780960057}
   spawnBouserDistance: 9
-  spawnBouserHardDistance: 25
+  spawnBouserHardDistance: 38
   closeEntranceDoorDistance: 32
 --- !u!1 &1622808463265911872
 GameObject:

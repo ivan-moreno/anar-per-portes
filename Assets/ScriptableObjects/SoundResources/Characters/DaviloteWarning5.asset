@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 697d33dca1980aa44a3b852d2e215b8d, type: 3}
-  m_Name: DaviloteWarning
+  m_Name: DaviloteWarning5
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: 5e9d0c05c0b4dd048b4b9fa9fa23741e, type: 3}
-  subtitleText: "[DAVILOTE] Mira detr\xE1s de t\xED."
+  audioClip: {fileID: 8300000, guid: 4fe2485446456ca40a5f73a2de4845b1, type: 3}
+  subtitleText: "[DAVILOTE] Mira hacia atr\xE1s."
   subtitleTeam: 2

@@ -201,7 +201,6 @@ namespace AnarPerPortes
                 {
                     candidateRoomSets.Add(roomSet);
                     candidateTotalChance += roomSet.RoomSetChance;
-                    Debug.Log("Candidate: " + roomSet.ToString());
                 }
 
                 roomSet.RoomsWithoutSpawn++;
@@ -212,7 +211,6 @@ namespace AnarPerPortes
 
             foreach (var roomSet in candidateRoomSets)
             {
-                Debug.Log("Checking Candidate: " + roomSet.ToString());
                 if (!spawnedRoom && roomSet.IsInChanceRange(rng))
                 {
                     roomSet.SpawnRandomSetRoom();

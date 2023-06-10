@@ -1,3 +1,4 @@
+using static AnarPerPortes.ShortUtils;
 using System.Collections;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace AnarPerPortes
 
         [Header("Stats")]
         [SerializeField] private float checkMotionTime = 1.2f;
+        [SerializeField] private float checkMotionTimeHard = 0.6f;
         [SerializeField] private float despawnTime = 2.2f;
 
         [Header("Audio")]
@@ -47,7 +49,9 @@ namespace AnarPerPortes
         {
             timeSinceSpawn += Time.deltaTime;
 
-            if (!checkedMotion && timeSinceSpawn >= checkMotionTime)
+            var targetCheckMotionTime = IsHardmodeEnabled() ? checkMotionTimeHard : checkMotionTime;
+
+            if (!checkedMotion && timeSinceSpawn >= targetCheckMotionTime)
                 CheckForMotion();
 
             if (!isCatching && timeSinceSpawn >= despawnTime)

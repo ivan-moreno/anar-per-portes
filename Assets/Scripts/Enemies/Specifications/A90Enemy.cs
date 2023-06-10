@@ -1,3 +1,4 @@
+using static AnarPerPortes.ShortUtils;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +17,11 @@ namespace AnarPerPortes
 
         [Header("Stats")]
         [SerializeField] private float checkMotionTime = 1.2f;
+        [SerializeField] private float checkMotionTimeHard = 0.6f;
         [SerializeField] private float despawnTime = 1.5f;
+        [SerializeField] private float despawnTimeHard = 0.9f;
+        [SerializeField] private float hardmodeMinSpawnTime = 15f;
+        [SerializeField] private float hardmodeMaxSpawnTime = 30f;
 
         [Header("Audio")]
         [SerializeField] private SoundResource warningSound;
@@ -25,15 +30,24 @@ namespace AnarPerPortes
         private float timeSinceSpawn = 0f;
         private bool checkedMotion = false;
         private bool isCatching = false;
+        private float hardmodeSpawnTime = 20f;
 
         public void Spawn()
         {
+            if (PlayerController.Singleton.IsCaught)
+                return;
+
             IsOperative = true;
             var rngX = Random.Range(-512f, 512f);
             var rngY = Random.Range(-350f, 350f);
             image.rectTransform.anchoredPosition = new(rngX, rngY);
             image.enabled = true;
+            timeSinceSpawn = 0f;
             AudioManager.Singleton.MuteAllAudioMixers();
+
+            if (IsHardmodeEnabled())
+                audioSource.time = 0.4f;
+
             audioSource.Play(warningSound);
         }
 
@@ -54,6 +68,9 @@ namespace AnarPerPortes
         {
             audioSource = GetComponent<AudioSource>();
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
+
+            if (IsHardmodeEnabled())
+                hardmodeSpawnTime = Random.Range(hardmodeMinSpawnTime, hardmodeMaxSpawnTime);
         }
 
         private void PauseChanged(bool isPaused)
@@ -66,19 +83,34 @@ namespace AnarPerPortes
 
         private void Update()
         {
+            if (IsHardmodeEnabled() && !IsOperative)
+            {
+                hardmodeSpawnTime -= Time.deltaTime;
+
+                if (hardmodeSpawnTime <= 0f)
+                {
+                    hardmodeSpawnTime = Random.Range(hardmodeMinSpawnTime, hardmodeMaxSpawnTime);
+                    Spawn();
+                }
+            }
+
             if (IsOperative)
                 timeSinceSpawn += Time.deltaTime;
 
             if (!checkedMotion && timeSinceSpawn >= 0.6f && !jumpscareAnimator.gameObject.activeSelf)
             {
                 jumpscareAnimator.gameObject.SetActive(true);
-                jumpscareAnimator.Play("Warning", 0, 0f);
+                jumpscareAnimator.Play("Warning", 0, IsHardmodeEnabled() ? 0.8f : 0f);
             }
 
-            if (!checkedMotion && timeSinceSpawn >= checkMotionTime)
+            var targetCheckMotionTime = HardmodeManager.Singleton.IsHardmodeEnabled
+                ? checkMotionTimeHard
+                : checkMotionTime;
+
+            if (!checkedMotion && timeSinceSpawn >= targetCheckMotionTime)
                 CheckForMotion();
 
-            if (checkedMotion && timeSinceSpawn >= despawnTime)
+            if (checkedMotion && timeSinceSpawn >= (IsHardmodeEnabled() ? despawnTimeHard : despawnTime))
                 Despawn();
         }
 

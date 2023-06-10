@@ -10,7 +10,7 @@ namespace AnarPerPortes
     public class PlayerController : MonoBehaviour
     {
         public static PlayerController Singleton { get; private set; }
-        public bool IsHidingAsStatue { get; set; } = false;
+        public bool IsCamouflaged { get; set; } = false;
         public bool IsCaught { get; set; } = false;
         public float WalkSpeed { get; private set; } = 8f;
         public Camera Camera { get; private set; }
@@ -203,7 +203,7 @@ namespace AnarPerPortes
 
         private void UpdateInteraction()
         {
-            if (!CanInteract || IsCaught || IsHidingAsStatue)
+            if (!CanInteract || IsCaught || IsCamouflaged)
                 return;
 
             var foundHit = Physics.Raycast(

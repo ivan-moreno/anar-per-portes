@@ -146,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tip: {fileID: 11400000, guid: 41355d12b98e36247ad0a245fbd11df6, type: 2}
   checkMotionTime: 1.2
+  checkMotionTimeHard: 0.7
   despawnTime: 2.2
   warningSound: {fileID: 11400000, guid: 9f32496526778bb489501e41825c0f2a, type: 2}
   safeSound: {fileID: 11400000, guid: 4be8db89e03c95048bd65344ac5fd63b, type: 2}

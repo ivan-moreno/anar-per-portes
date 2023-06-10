@@ -1,3 +1,4 @@
+using static AnarPerPortes.ShortUtils;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -19,6 +20,8 @@ namespace AnarPerPortes
         [Header("Audio")]
         [SerializeField] private SoundResource spawnSound;
 
+        private static bool hasAlreadyAppeared = false;
+        private float timeSinceSpawn;
         private int openedDoors = 0;
         private bool isCatching = false;
 
@@ -55,6 +58,7 @@ namespace AnarPerPortes
                 return;
 
             IsOperative = false;
+            hasAlreadyAppeared = true;
             BlackoutManager.Singleton.PlayDoorOpen();
             BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 0.5f);
             Destroy(gameObject);
@@ -62,7 +66,12 @@ namespace AnarPerPortes
 
         private void Update()
         {
+            timeSinceSpawn += Time.deltaTime;
+
             if (SheepyEnemy.IsOperative || SangotEnemy.IsOperative || A90Enemy.IsOperative)
+                return;
+
+            if (!hasAlreadyAppeared && timeSinceSpawn < 3f && !IsHardmodeEnabled())
                 return;
 
             advanceSpeed += 0.2f * Time.deltaTime;

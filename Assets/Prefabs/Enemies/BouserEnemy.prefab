@@ -147,10 +147,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tip: {fileID: 11400000, guid: f423e36fb58b6a54fa3a58e7c2c0b9d6, type: 2}
   runSpeed: 6
+  runSpeedHard: 10
   sprintSpeed: 12
   sprintAtDistance: 15
   catchRange: 3
   sightAngle: 90
+  sightAngleHard: 120
   jumpscareSound: {fileID: 11400000, guid: 9f8e6dc3dc8f3cf4a9d5246ed0d41652, type: 2}
   meetSkellSound: {fileID: 11400000, guid: 9dfb018f7efeba747ac7a4749718c737, type: 2}
   meetSkellDialogs:

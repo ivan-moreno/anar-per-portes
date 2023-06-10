@@ -1,3 +1,4 @@
+using static AnarPerPortes.ShortUtils;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,6 +13,7 @@ namespace AnarPerPortes
 
         [Header("Stats")]
         [SerializeField] private float spawnDistance = 32f;
+        [SerializeField] private float spawnDistanceHard = 24f;
         [SerializeField] private float runSpeed = 10f;
         [SerializeField] private float catchRange = 2f;
         [SerializeField] private float despawnTime = 2f;
@@ -36,14 +38,29 @@ namespace AnarPerPortes
             PlayerController.Singleton.Teleport(EnemyManager.Singleton.SangotRealm.position);
 
             var spawnPosition = PlayerController.Singleton.transform.position;
-            spawnPosition += PlayerController.Singleton.transform.forward * spawnDistance;
 
-            var rng = Random.Range(0, 3);
+            if (IsHardmodeEnabled())
+            {
+                var rngX = Random.Range(-1, 2);
+                var rngZ = Random.Range(-1, 2);
 
-            if (rng == -1)
-                spawnPosition -= PlayerController.Singleton.transform.right * 8f;
-            else if (rng == 1)
-                spawnPosition += PlayerController.Singleton.transform.right * 8f;
+                if (rngZ == 0)
+                    rngX = Random.Range(0, 2) == 0 ? -1 : 1;
+
+                spawnPosition.x += spawnDistanceHard * rngX;
+                spawnPosition.z += spawnDistanceHard * rngZ;
+            }
+            else
+            {
+                spawnPosition += PlayerController.Singleton.transform.forward * spawnDistance;
+
+                var rng = Random.Range(0, 3);
+
+                if (rng == -1)
+                    spawnPosition -= PlayerController.Singleton.transform.right * 8f;
+                else if (rng == 1)
+                    spawnPosition += PlayerController.Singleton.transform.right * 8f;
+            }
 
             transform.position = spawnPosition;
             audioSource.Play(spawnSound);
