@@ -37,14 +37,13 @@ namespace AnarPerPortes
 
         private void GenerateNextRoomRandom()
         {
-            var rng = Random.Range(0, generalRoomPrefabs.Length);
-            var randomRoom = generalRoomPrefabs[rng];
-            GenerateNextRoom(randomRoom);
+            GenerateNextRoom(generalRoomPrefabs.RandomItem());
         }
 
         private void GenerateNextRoom(GameObject roomPrefab)
         {
             var instance = Instantiate(roomPrefab, roomsGroup);
+            instance.name = roomPrefab.name;
 
             if (LastLoadedRoom == null)
                 instance.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);

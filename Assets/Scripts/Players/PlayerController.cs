@@ -124,6 +124,7 @@ namespace AnarPerPortes
         {
             equippedItem.Consume();
             items.Remove(equippedItem);
+            equippedItem = null;
             hasItemEquipped = false;
         }
 
@@ -134,6 +135,9 @@ namespace AnarPerPortes
 
         public bool EquippedItemIs(string itemId)
         {
+            if (equippedItem == null)
+                return false;
+
             return equippedItem.name.Equals(itemId);
         }
 
@@ -300,6 +304,7 @@ namespace AnarPerPortes
             if (IsCaught)
                 return;
 
+            // TODO: Rework this
             if (Input.GetKeyDown(KeyCode.Alpha1) && items.Count > 0)
             {
                 items.FindAll(x => x != items[0]).ForEach(x => x.Unequip());
@@ -309,6 +314,8 @@ namespace AnarPerPortes
 
                 if (hasItemEquipped)
                     equippedItem = items[0];
+                else
+                    equippedItem = null;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2) && items.Count > 0)
             {
@@ -319,6 +326,8 @@ namespace AnarPerPortes
 
                 if (hasItemEquipped)
                     equippedItem = items[1];
+                else
+                    equippedItem = null;
             }
 
             var itemLayerWeight = modelAnimator.GetLayerWeight(1);

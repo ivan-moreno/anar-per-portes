@@ -4272,6 +4272,8 @@ MonoBehaviour:
     type: 3}
   yusufEnemyPrefab: {fileID: 8356602005302806919, guid: f5fdc44c86fdcb64fb4f58eb4a52af40,
     type: 3}
+  s7EnemyPrefab: {fileID: 5830401531844588778, guid: d8b8c4404a1c7bd4489bd49b93fe86e9,
+    type: 3}
   a90Enemy: {fileID: 543234776}
 --- !u!1 &364487915
 GameObject:
@@ -12353,7 +12355,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1198020652}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -27598,6 +27600,7 @@ MonoBehaviour:
   - {fileID: 1343002099365941501, guid: cef435b3203895c42a271a0e48296abe, type: 3}
   - {fileID: 449040676408261766, guid: f304dc99c4be86d44a3c746e0f57cf2c, type: 3}
   - {fileID: 1343002099365941501, guid: 29027582e15780049bfdf0108fd6ab01, type: 3}
+  - {fileID: 1343002099365941501, guid: a50d59520cff98a449e073d616267d2e, type: 3}
 --- !u!1 &1633947515
 GameObject:
   m_ObjectHideFlags: 0
@@ -31093,17 +31096,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ce498644f16bb6441832b2ce0aafddf4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.042
+      value: -0.058
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce498644f16bb6441832b2ce0aafddf4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.134
+      value: 0.101
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce498644f16bb6441832b2ce0aafddf4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.576
+      value: 0.569
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce498644f16bb6441832b2ce0aafddf4,
         type: 3}

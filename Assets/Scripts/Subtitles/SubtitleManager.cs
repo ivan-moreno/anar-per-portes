@@ -27,9 +27,14 @@ namespace AnarPerPortes
 
         public void PushSubtitle(SoundResource soundResource)
         {
+            var calculatedDuration = Mathf.Clamp(soundResource.AudioClip.length + 1f, 3f, 16f);
+
+            if (soundResource.SubtitleText.StartsWith("("))
+                calculatedDuration = 4;
+
             PushSubtitle(
                 soundResource.SubtitleText,
-                Mathf.Clamp(soundResource.AudioClip.length + 1f, 3f, 16f),
+                calculatedDuration,
                 soundResource.SubtitleTeam);
         }
 

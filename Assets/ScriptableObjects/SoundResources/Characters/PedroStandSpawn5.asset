@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: PedroStandSpawn5
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: c4c1e156e20449e4ebb8a69240798ecf, type: 3}
-  subtitleText: '[PEDRO] '
+  subtitleText: '[PEDRO] Ten cuidado con los huesos que te encuentres.'
   subtitleTeam: 1

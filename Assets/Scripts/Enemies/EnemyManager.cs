@@ -41,6 +41,7 @@ namespace AnarPerPortes
         public Transform SangotRealm => sangotRealm;
         public GameObject BouserEnemyPrefab => bouserEnemyPrefab;
         public GameObject SkellEnemyPrefab => skellEnemyPrefab;
+        public GameObject S7EnemyPrefab => s7EnemyPrefab;
 
         [SerializeField] private Transform enemiesGroup;
         [SerializeField] private Transform sangotRealm;
@@ -51,6 +52,7 @@ namespace AnarPerPortes
         [SerializeField] private GameObject sheepyEnemyPrefab;
         [SerializeField] private GameObject skellEnemyPrefab;
         [SerializeField] private GameObject yusufEnemyPrefab;
+        [SerializeField] private GameObject s7EnemyPrefab;
         [SerializeField] private A90Enemy a90Enemy;
 
         private int roomsWithoutAnyEnemySpawn = 0;
@@ -80,6 +82,7 @@ namespace AnarPerPortes
             SkellEnemy.IsOperative = false;
             YusufEnemy.IsOperative = false;
             A90Enemy.IsOperative = false;
+            S7Enemy.IsOperative = false;
 
             RoomManager.Singleton.OnRoomGenerated.AddListener(ProcessEnemyPossibilities);
 
@@ -252,7 +255,7 @@ namespace AnarPerPortes
             if (!hasEnemyScript)
                 return;
 
-            var shouldDisplayTip = GameSettingsManager.Singleton.CurrentSettings.EnableEnemyTips;
+            var shouldDisplayTip = GameSettingsManager.Singleton.CurrentSettings.EnableEnemyTips && enemy.Tip != null;
 
             if (shouldDisplayTip && !displayedEnemyTipNames.Contains(enemyPrefab.name))
             {
@@ -270,6 +273,12 @@ namespace AnarPerPortes
 
         private void ProcessEnemyPossibilities(Room generatedRoom)
         {
+            if (generatedRoom.name.Equals("S7Room0"))
+            {
+                GenerateEnemy(s7EnemyPrefab);
+                return;
+            }
+
             if (generatedRoom is BouserRoom)
                 roomsWithoutAnyEnemySpawn = 0;
 

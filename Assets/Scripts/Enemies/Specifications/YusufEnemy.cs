@@ -98,10 +98,11 @@ namespace AnarPerPortes
 
             if (PlayerController.Singleton.EquippedItemIs("Roblobolita"))
             {
+                isleRoom.CloseIncorrectDoor();
                 PlayerController.Singleton.ConsumeEquippedItem();
+                yield return new WaitForSeconds(0.5f);
                 PlayerController.Singleton.ClearVisionTarget();
                 PlayerController.Singleton.UnblockAll();
-                isleRoom.CloseIncorrectDoor();
                 Despawn();
                 yield break;
             }

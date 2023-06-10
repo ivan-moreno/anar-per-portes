@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: PedroStandSpawn4
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: be137bc26a0099b40b153f8bb3b34b4e, type: 3}
-  subtitleText: '[PEDRO] '
+  subtitleText: "[PEDRO] Si contin\xFAa para alante, te mostrar\xE9 algo interesante
+    que le gustar\xE1."
   subtitleTeam: 1

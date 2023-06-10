@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: PedroStandSpawn3
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: 2c173e7247c681e4bab120a7e0d099e0, type: 3}
-  subtitleText: '[PEDRO] '
+  subtitleText: "[PEDRO] Oh bueno...yo estaba aqu\xED buscando unos humanos y bueno,
+    no quiero decir nada pero tengo una sorpresa para t\xED."
   subtitleTeam: 1
