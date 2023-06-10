@@ -13,11 +13,13 @@ namespace AnarPerPortes
         public int LastOpenedRoomNumber { get; private set; } = 0;
         public List<Room> Rooms { get; } = new(capacity: maxLoadedRooms);
         public UnityEvent<Room> OnRoomGenerated { get; } = new();
+        public UnityEvent<Room> OnRoomUnloading { get; } = new();
 
         [SerializeField] private Transform roomsGroup;
         [SerializeField] private GameObject startRoomPrefab;
         [SerializeField] private GameObject[] generalRoomPrefabs;
 
+        private Room lastGeneratedRoom;
         private const int maxLoadedRooms = 4;
 
         public void OpenDoorAndGenerateNextRoomRandom()
@@ -67,9 +69,13 @@ namespace AnarPerPortes
             room.Initialize();
             room.OnDoorOpened.AddListener(OnDoorOpened);
 
+            if (lastGeneratedRoom != null)
+                lastGeneratedRoom.NextRoom = room;
+
             if (Rooms.Count >= maxLoadedRooms)
                 UnloadOldestRoom();
 
+            lastGeneratedRoom = room;
             OnRoomGenerated?.Invoke(room);
         }
 
@@ -83,6 +89,7 @@ namespace AnarPerPortes
             Rooms[1].CloseDoor();
             var oldestRoom = Rooms[0];
             Rooms.RemoveAt(0);
+            OnRoomUnloading?.Invoke(oldestRoom);
             yield return new WaitForSeconds(1f);
             oldestRoom.Unload();
         }

@@ -6,6 +6,7 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Rooms/Room")]
     public class Room : MonoBehaviour
     {
+        public Room NextRoom { get; set; }
         public Transform WaypointGroup { get; private set; }
         public Transform NextRoomGenerationPoint { get; private set; }
         public Transform PedroBreakPoint { get; private set; }

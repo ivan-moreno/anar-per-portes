@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace AnarPerPortes
@@ -9,14 +7,14 @@ namespace AnarPerPortes
     {
         [Header("Stats")]
         [SerializeField][Min(0f)] private float walkSpeed = 1f;
+        [SerializeField][Min(0f)] private float waitAtDoorDistance = 5f;
 
         private Animator animator;
         private Transform model;
-        private Vector3 targetLocation;
+        private Room currentRoom;
+        private bool isWaiting = false;
         private bool reachedTarget = false;
-        private bool waiting = false;
-        private int waypointsTraversed = 0;
-        private int roomsTraversed = 0;
+        private int targetWaypointIndex = 0;
 
         private void Start()
         {
@@ -24,67 +22,79 @@ namespace AnarPerPortes
             animator = GetComponentInChildren<Animator>();
             model = animator.transform;
 
-            transform.position = RoomManager.Singleton.Rooms[0].transform.position;
-            targetLocation = RoomManager.Singleton.Rooms[0].WaypointGroup.GetChild(0).position;
+            currentRoom = RoomManager.Singleton.Rooms[0];
+            transform.position = currentRoom.transform.position;
             animator.SetBool("IsWalking", true);
-            RoomManager.Singleton.OnRoomGenerated.AddListener(RoomGenerated);
+            RoomManager.Singleton.OnRoomGenerated.AddListener(OnRoomGenerated);
+            RoomManager.Singleton.OnRoomUnloading.AddListener(OnRoomUnloading);
         }
 
-        private void RoomGenerated(Room room)
+        private void OnRoomGenerated(Room room)
         {
-            if (roomsTraversed >= RoomManager.Singleton.Rooms.Count)
-                roomsTraversed = RoomManager.Singleton.Rooms.Count - 1;
-
-            var waypointGroup = RoomManager.Singleton.Rooms[roomsTraversed].WaypointGroup;
-
-            targetLocation = waypointGroup.GetChild(waypointsTraversed).position;
-            waiting = false;
+            if (isWaiting)
+            {
+                isWaiting = false;
+                currentRoom = room;
+                targetWaypointIndex = 0;
+                animator.SetBool("IsWalking", true);
+            }
         }
 
-        private void Update()
+        private void OnRoomUnloading(Room room)
         {
-            var nextPosition = Vector3.MoveTowards(transform.position, targetLocation, walkSpeed * Time.deltaTime);
-            transform.position = nextPosition;
+            if (room == currentRoom)
+                TargetNextRoom();
+        }
 
-            if (waiting)
-            {
+        private void TargetNextRoom()
+        {
+            currentRoom = currentRoom.NextRoom;
+            targetWaypointIndex = 0;
+        }
 
-            }
-            else if (waypointsTraversed == RoomManager.Singleton.Rooms[roomsTraversed].WaypointGroup.childCount - 1)
-                reachedTarget = Vector3.Distance(transform.position, targetLocation) <= 5f;
-            else
-                reachedTarget = Vector3.Distance(transform.position, targetLocation) <= walkSpeed * Time.deltaTime;
-
-            if (reachedTarget && !waiting)
-            {
-                if (waypointsTraversed >= RoomManager.Singleton.Rooms[roomsTraversed].WaypointGroup.childCount - 1)
-                {
-                    roomsTraversed++;
-                    waypointsTraversed = 0;
-                }
-                else
-                    waypointsTraversed++;
-
-                if (roomsTraversed < RoomManager.Singleton.Rooms.Count)
-                    targetLocation = RoomManager.Singleton.Rooms[roomsTraversed].WaypointGroup.GetChild(waypointsTraversed).position;
-                else
-                {
-                    waiting = true;
-                    targetLocation = transform.position;
-                }
-            }
-
-            animator.SetBool("IsWalking", !waiting);
-
-            if (walkSpeed <= 0f)
-                return;
-
-            var direction = Vector3.Normalize(targetLocation - transform.position);
-
+        private void LookAtDirection(Vector3 direction)
+        {
             if (direction.magnitude < Mathf.Epsilon)
                 return;
 
             model.rotation = Quaternion.Slerp(model.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 8f);
+        }
+
+        private void Update()
+        {
+            if (isWaiting)
+                return;
+
+            var targetWaypoint = currentRoom.WaypointGroup.GetChild(targetWaypointIndex);
+            transform.position = Vector3.MoveTowards(transform.position, targetWaypoint.position, walkSpeed * Time.deltaTime);
+
+            var isLastRoom = currentRoom == RoomManager.Singleton.LastLoadedRoom;
+            var isLastWaypoint = targetWaypointIndex == currentRoom.WaypointGroup.childCount - 1;
+            var distanceToWaypoint = Vector3.Distance(transform.position, targetWaypoint.position);
+
+            reachedTarget = isLastRoom && isLastWaypoint
+                ? distanceToWaypoint <= waitAtDoorDistance
+                : distanceToWaypoint <= walkSpeed * Time.deltaTime;
+
+            if (!reachedTarget)
+            {
+                var direction = Vector3.Normalize(targetWaypoint.position - transform.position);
+                LookAtDirection(direction);
+                return;
+            }
+
+            if (isLastWaypoint)
+            {
+                if (isLastRoom)
+                {
+                    isWaiting = true;
+                    animator.SetBool("IsWalking", false);
+                }
+                else
+                    TargetNextRoom();
+            }
+            else
+                targetWaypointIndex++;
         }
     }
 }
