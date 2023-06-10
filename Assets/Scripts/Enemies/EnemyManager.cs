@@ -273,7 +273,7 @@ namespace AnarPerPortes
 
         private void ProcessEnemyPossibilities(Room generatedRoom)
         {
-            if (generatedRoom.name.Equals("S7Room0"))
+            if (generatedRoom.name.StartsWith("S7Room"))
             {
                 GenerateEnemy(s7EnemyPrefab);
                 return;

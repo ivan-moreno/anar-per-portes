@@ -55,6 +55,14 @@ namespace AnarPerPortes
                 return;
             }
 
+            //TODO: Fix breaking words, allow for more lines
+            if (message.Length > 128)
+            {
+                var lineA = message[..128];
+                var lineB = message[128..];
+                message = string.Concat(lineA, "\n", lineB);
+            }
+
             subtitleMessage.Initialize(message, duration, GetSourceColor(team));
         }
 

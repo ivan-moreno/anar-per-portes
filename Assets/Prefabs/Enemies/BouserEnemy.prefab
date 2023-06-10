@@ -163,6 +163,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a6bded504e58c264e8c683d30d04bff2, type: 2}
   - {fileID: 11400000, guid: 10a664513192eb049852501aeb86b57c, type: 2}
   - {fileID: 11400000, guid: 344335975eec0be47b3eeddea9580144, type: 2}
+  - {fileID: 11400000, guid: 5ac0e1b26601418459533c936310544f, type: 2}
+  - {fileID: 11400000, guid: c4ba2a2e3eade0f4e9cda1866e46a7d4, type: 2}
+  - {fileID: 11400000, guid: 72be20ed85cffc34bae6f2ded3af6449, type: 2}
   loseSounds:
   - {fileID: 11400000, guid: ce1aca4b1192ff949bea562658438aa9, type: 2}
   - {fileID: 11400000, guid: cf1ce00a63030c644abd669cbaada9e6, type: 2}
@@ -179,12 +182,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 84057ce60336f1440b2767dbbf53ca75, type: 2}
   - {fileID: 11400000, guid: 614ac5ebbab38d5469bea33e093ed8ed, type: 2}
   - {fileID: 11400000, guid: 374ee1cbd643dc34a89c2ccb494d63e8, type: 2}
+  - {fileID: 11400000, guid: 95bc1fa23030a054cbf254380ac3b13d, type: 2}
   findSounds:
   - {fileID: 11400000, guid: 61f785618467abd4db4ea869df28c3fd, type: 2}
   - {fileID: 11400000, guid: e8f942036e4ec1d49a212c70bf2d19c3, type: 2}
   tailSounds:
   - {fileID: 11400000, guid: a056421f2045bef45a30123e54a0a6a1, type: 2}
   - {fileID: 11400000, guid: 169a7dab850a6b44a8597f1ef49c745c, type: 2}
+  - {fileID: 11400000, guid: ff33001e81aa976488f180e0ee00d6f0, type: 2}
+  - {fileID: 11400000, guid: 53d151196f1d5f241827ac53a669309b, type: 2}
+  - {fileID: 11400000, guid: 21e54a2fa2a4bb24a9962b3c3cc5c622, type: 2}
   meetPedroSounds:
   - {fileID: 11400000, guid: 89fe920f28cfc2442b918a0a1d7f3e74, type: 2}
   - {fileID: 11400000, guid: 9e97cbe7ce2273741a71c8be04f36836, type: 2}

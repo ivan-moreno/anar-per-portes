@@ -10,10 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 697d33dca1980aa44a3b852d2e215b8d, type: 3}
-  m_Name: PedroStandSpawn2
+  m_Name: BouserTail2
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: 21655a46cce1be040bf0f4328a0e6bc6, type: 3}
-  subtitleText: "[PEDRO] Te dejar\xE9 pasar. Pero tiene que tener cuidado con mi
-    hermano porque... bueno, a \xE9l le gusta cazar muchos humanos. A m\xED como
-    que me da igual no me importa, a parte de que no tiene mucho sentido, pero bueno..."
+  audioClip: {fileID: 8300000, guid: 13c58d7881a9ed0449b542709024563d, type: 3}
+  subtitleText: "[BOUSER] \xA1Me las pagar\xE1s!"
   subtitleTeam: 1
