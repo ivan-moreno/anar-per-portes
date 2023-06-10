@@ -20,6 +20,7 @@ namespace AnarPerPortes
         [SerializeField] private SoundResource spawnSound;
 
         private int openedDoors = 0;
+        private bool isCatching = false;
 
         private void Start()
         {
@@ -39,6 +40,9 @@ namespace AnarPerPortes
 
         private void OnRoomGenerated(Room room)
         {
+            if (isCatching)
+                return;
+
             openedDoors++;
 
             if (openedDoors >= doorsUntilDespawn)
@@ -47,6 +51,9 @@ namespace AnarPerPortes
 
         private void Despawn()
         {
+            if (isCatching)
+                return;
+
             IsOperative = false;
             BlackoutManager.Singleton.PlayDoorOpen();
             BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 0.5f);
@@ -76,6 +83,10 @@ namespace AnarPerPortes
 
         private IEnumerator CatchCoroutine()
         {
+            if (isCatching)
+                yield break;
+
+            isCatching = true;
             advanceSpeed = 0f;
             GetComponent<BoxCollider>().enabled = false;
             audioSource.Stop();

@@ -293,6 +293,9 @@ namespace AnarPerPortes
 
         private void Despawn()
         {
+            if (isCatching)
+                return;
+
             IsOperative = false;
             Destroy(gameObject);
         }
