@@ -204,6 +204,13 @@ namespace AnarPerPortes
 
         private void CatchPlayer()
         {
+            if (IsRoblomanDisguise)
+            {
+                RevealRoblomanDisguise();
+                Despawn();
+                return;
+            }
+
             if (isCatching || isOnBreak || metBouser)
                 return;
 

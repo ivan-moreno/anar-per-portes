@@ -397,9 +397,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 228384923}
-  - {fileID: 1621260340}
-  - {fileID: 310812904}
+  - {fileID: 2119537367}
   - {fileID: 441362726}
   - {fileID: 230485492}
   - {fileID: 746736442}
@@ -2429,12 +2427,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 228384922}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 14123594}
+  m_Father: {fileID: 2119537367}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
@@ -3314,12 +3312,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 310812903}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 14123594}
+  m_Father: {fileID: 2119537367}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4256,13 +4254,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dbfd7085c6e53c42b86bfbce341842c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roblomanChance: 5
+  roblomanMinDoorsOpened: 40
   enemiesGroup: {fileID: 2034099627}
   sangotRealm: {fileID: 85422482}
+  a90Enemy: {fileID: 543234776}
   daviloteEnemyPrefab: {fileID: 81038424985809431, guid: 57bac9367fe373144b690b668438b275,
     type: 3}
   bouserEnemyPrefab: {fileID: 81038424985809431, guid: d3f98aab40d823844b6857fcd4c4b2d5,
     type: 3}
   pedroEnemyPrefab: {fileID: 6310198025595531095, guid: 352f03fcbc0c70f42a63a76022d7243c,
+    type: 3}
+  roblomanEnemyPrefab: {fileID: 8955348677679868631, guid: 7379eae927424d54dba51e1839dfeec0,
     type: 3}
   sangotEnemyPrefab: {fileID: 6422591401462199753, guid: e853c9548381d4443bda3ab47dab662b,
     type: 3}
@@ -4274,7 +4277,6 @@ MonoBehaviour:
     type: 3}
   s7EnemyPrefab: {fileID: 5830401531844588778, guid: d8b8c4404a1c7bd4489bd49b93fe86e9,
     type: 3}
-  a90Enemy: {fileID: 543234776}
 --- !u!1 &364487915
 GameObject:
   m_ObjectHideFlags: 0
@@ -6359,6 +6361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tip: {fileID: 0}
+  roblomanDisguiseObject: {fileID: 0}
   image: {fileID: 230485493}
   jumpscareAnimator: {fileID: 394747126}
   checkMotionTime: 1.2
@@ -27376,7 +27379,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 14123594}
+  m_Father: {fileID: 2119537367}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
@@ -29006,6 +29009,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1e60f3a5fc4188f4088fb742e9fa92d2, type: 2}
   - {fileID: 11400000, guid: 4a53e82159c50ff4aaf5f935ab11ba06, type: 2}
   - {fileID: 11400000, guid: a384766251e753149aa306bfdea9bdde, type: 2}
+  - {fileID: 11400000, guid: ebc97abfa0fb88845bb6d04a987164ec, type: 2}
+  - {fileID: 11400000, guid: 803100c9327ef0449920dc356221cfec, type: 2}
 --- !u!82 &1818711196
 AudioSource:
   m_ObjectHideFlags: 0
@@ -31609,6 +31614,45 @@ MonoBehaviour:
     type: 3}
   sliderWidgetPrefab: {fileID: 2136911028598505379, guid: a54085b7feba86447956e3cc87b6a527,
     type: 3}
+--- !u!1 &2119537366
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2119537367}
+  m_Layer: 5
+  m_Name: VisionEffects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2119537367
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119537366}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 228384923}
+  - {fileID: 1621260340}
+  - {fileID: 310812904}
+  m_Father: {fileID: 14123594}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2132868644
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: AmbianceSound13
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: 94c46f52470bd4f40a93bbb504545b8e, type: 3}
-  subtitleText: ("Robotniklandia")
+  subtitleText: (alguien dice "Robotniklandia")
   subtitleTeam: 0

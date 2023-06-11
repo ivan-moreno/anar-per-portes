@@ -233,6 +233,13 @@ namespace AnarPerPortes
 
         private void CatchPlayer()
         {
+            if (IsRoblomanDisguise)
+            {
+                RevealRoblomanDisguise();
+                Despawn();
+                return;
+            }
+
             if (isCatching || isOnBreak || runSpeed <= 0f)
                 return;
 
@@ -295,6 +302,9 @@ namespace AnarPerPortes
         {
             if (isCatching)
                 return;
+
+            if (IsRoblomanDisguise)
+                RoblomanEnemy.IsOperative = false;
 
             IsOperative = false;
             Destroy(gameObject);

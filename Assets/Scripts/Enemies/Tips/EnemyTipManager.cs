@@ -19,7 +19,7 @@ namespace AnarPerPortes
         private float timeSinceDisplay = 0f;
         private const float minDisplayTime = 4f;
 
-        public void DisplayTip(string title, string message, Sprite render, Action onHideTipCallback)
+        public void DisplayTip(string title, string message, Sprite render, Action onHideTipCallback = null)
         {
             if (isDisplaying)
                 return;

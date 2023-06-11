@@ -36,13 +36,12 @@ namespace AnarPerPortes
                 incorrectDoor.OnDoorOpened.AddListener(DeactivateHardmodeTimer);
             }
 
+            hardmodeLaser.gameObject.SetActive(IsHardmodeEnabled());
+
             base.Initialize();
 
             if (PlayerController.Singleton.HasItem("WalkieTalkie"))
                 walkieTalkieGiver.SetActive(false);
-
-            if (IsHardmodeEnabled())
-                hardmodeLaser.gameObject.SetActive(true);
         }
 
         public void CloseIncorrectDoor()

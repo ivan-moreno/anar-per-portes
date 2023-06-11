@@ -96,6 +96,15 @@ namespace AnarPerPortes
         {
             yield return new WaitForSeconds(1f);
 
+            if (IsRoblomanDisguise)
+            {
+                PlayerController.Singleton.ClearVisionTarget();
+                PlayerController.Singleton.UnblockAll();
+                RevealRoblomanDisguise();
+                Despawn();
+                yield break;
+            }
+
             if (PlayerController.Singleton.EquippedItemIs("Roblobolita"))
             {
                 isleRoom.CloseIncorrectDoor();
@@ -116,6 +125,10 @@ namespace AnarPerPortes
         private void Despawn()
         {
             IsOperative = false;
+
+            if (IsRoblomanDisguise)
+                RoblomanEnemy.IsOperative = false;
+
             Destroy(gameObject);
         }
     }

@@ -2,6 +2,7 @@ using static AnarPerPortes.ShortUtils;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 namespace AnarPerPortes
 {
@@ -34,6 +35,14 @@ namespace AnarPerPortes
                 RoomsWithoutSpawn = 0;
                 WillSpawn = false;
             }
+
+            public void DoSpawnAsRoblomanDisguise()
+            {
+                if (EnemyPrefab != null)
+                    EnemyManager.Singleton.GenerateRoblomanDisguiseEnemy(EnemyPrefab);
+
+                WillSpawn = false;
+            }
         }
 
         public static EnemyManager Singleton { get; private set; }
@@ -44,17 +53,25 @@ namespace AnarPerPortes
         public GameObject SkellEnemyPrefab => skellEnemyPrefab;
         public GameObject S7EnemyPrefab => s7EnemyPrefab;
 
+        [Header("Stats")]
+        [SerializeField] private float roblomanChance = 5f;
+        [SerializeField] private int roblomanMinDoorsOpened = 40;
+
+        [Header("Components")]
         [SerializeField] private Transform enemiesGroup;
         [SerializeField] private Transform sangotRealm;
+        [SerializeField] private A90Enemy a90Enemy;
+
+        [Header("Prefabs")]
         [SerializeField] private GameObject daviloteEnemyPrefab;
         [SerializeField] private GameObject bouserEnemyPrefab;
         [SerializeField] private GameObject pedroEnemyPrefab;
+        [SerializeField] private GameObject roblomanEnemyPrefab;
         [SerializeField] private GameObject sangotEnemyPrefab;
         [SerializeField] private GameObject sheepyEnemyPrefab;
         [SerializeField] private GameObject skellEnemyPrefab;
         [SerializeField] private GameObject yusufEnemyPrefab;
         [SerializeField] private GameObject s7EnemyPrefab;
-        [SerializeField] private A90Enemy a90Enemy;
 
         private int roomsWithoutAnyEnemySpawn = 0;
         private static readonly HashSet<string> displayedEnemyTipNames = new();
@@ -66,6 +83,12 @@ namespace AnarPerPortes
         private EnemyPossibility skellPossibility;
         private EnemyPossibility a90Possibility;
         private readonly List<EnemyPossibility> allEnemyPossibilities = new();
+
+        public RoblomanEnemy SpawnRoblomanAt(Vector3 location)
+        {
+            var instance = Instantiate(roblomanEnemyPrefab, location, Quaternion.identity, enemiesGroup);
+            return instance.GetComponent<RoblomanEnemy>();
+        }
 
         private void Awake()
         {
@@ -79,6 +102,7 @@ namespace AnarPerPortes
             DaviloteEnemy.IsOperative = false;
             PedroEnemy.IsOperative = false;
             SangotEnemy.IsOperative = false;
+            RoblomanEnemy.IsOperative = false;
             SheepyEnemy.IsOperative = false;
             SkellEnemy.IsOperative = false;
             YusufEnemy.IsOperative = false;
@@ -272,6 +296,32 @@ namespace AnarPerPortes
                 Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity, enemiesGroup);
         }
 
+        public void GenerateRoblomanDisguiseEnemy(GameObject enemyPrefab)
+        {
+            if (RoblomanEnemy.IsOperative)
+                return;
+
+            var shouldDisplayTip =
+                GameSettingsManager.Singleton.CurrentSettings.EnableEnemyTips
+                && !displayedEnemyTipNames.Contains(roblomanEnemyPrefab.name);
+
+            if (shouldDisplayTip)
+            {
+                displayedEnemyTipNames.Add(roblomanEnemyPrefab.name);
+
+                var roblomanTip = roblomanEnemyPrefab.GetComponent<RoblomanEnemy>().Tip;
+
+                EnemyTipManager.Singleton.DisplayTip(
+                    roblomanTip.Title,
+                    roblomanTip.Message,
+                    roblomanTip.Render);
+            }
+
+            var instance = Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity, enemiesGroup);
+            instance.GetComponent<Enemy>().MarkAsRoblomanDisguise();
+            RoblomanEnemy.IsOperative = true;
+        }
+
         private void ProcessEnemyPossibilities(Room generatedRoom)
         {
             if (generatedRoom.name.StartsWith("S7Room"))
@@ -323,7 +373,16 @@ namespace AnarPerPortes
                     if (possibility == skellPossibility)
                         SkellHearManager.Singleton.StartHearing();
 
-                    possibility.DoSpawn();
+                    var canSpawnRoblomanDisguise =
+                        !RoblomanEnemy.IsOperative
+                        && RoomManager.Singleton.LastOpenedRoomNumber >= roblomanMinDoorsOpened
+                        && UnityEngine.Random.Range(0f, 100f) <= roblomanChance;
+
+                    if (canSpawnRoblomanDisguise)
+                        possibility.DoSpawnAsRoblomanDisguise();
+                    else
+                        possibility.DoSpawn();
+
                     roomsWithoutAnyEnemySpawn = 0;
                 }
                 else

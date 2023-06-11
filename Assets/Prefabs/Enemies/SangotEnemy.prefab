@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6422591401462199758}
-  - component: {fileID: 6422591401462199759}
   - component: {fileID: 6422591401462199752}
+  - component: {fileID: 6422591401462199759}
   m_Layer: 0
   m_Name: SangotEnemy
   m_TagString: Untagged
@@ -32,8 +32,30 @@ Transform:
   m_Children:
   - {fileID: 6830350340565136028}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6422591401462199752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6422591401462199753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7903a7817fc871548a6c9b260ceb5bac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tip: {fileID: 11400000, guid: 6e3e24ebd70019d4f9c5f16979a27355, type: 2}
+  roblomanDisguiseObject: {fileID: 3235602104841603172}
+  spawnDistance: 38
+  spawnDistanceHard: 27
+  runSpeed: 12
+  catchRange: 2
+  despawnTime: 4
+  spawnSound: {fileID: 11400000, guid: ce374eec58673384f845ac770627a638, type: 2}
+  jumpscareSound: {fileID: 11400000, guid: 10ecf777dac5c0c469c26338def5b3ed, type: 2}
+  endingMusic: {fileID: 11400000, guid: 476ad1ff16b051c488433ec7aae66979, type: 2}
 --- !u!82 &6422591401462199759
 AudioSource:
   m_ObjectHideFlags: 0
@@ -131,27 +153,128 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6422591401462199752
+--- !u!1001 &2316612902936261941
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 866400310694054464}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 88680729651296a40985b7ee28625fb6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 88680729651296a40985b7ee28625fb6,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.1866573
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 88680729651296a40985b7ee28625fb6,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.728513
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 88680729651296a40985b7ee28625fb6,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 88680729651296a40985b7ee28625fb6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 88680729651296a40985b7ee28625fb6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 88680729651296a40985b7ee28625fb6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.31
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 88680729651296a40985b7ee28625fb6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 88680729651296a40985b7ee28625fb6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 88680729651296a40985b7ee28625fb6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 88680729651296a40985b7ee28625fb6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 88680729651296a40985b7ee28625fb6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 88680729651296a40985b7ee28625fb6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 88680729651296a40985b7ee28625fb6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 88680729651296a40985b7ee28625fb6,
+        type: 3}
+      propertyPath: m_Name
+      value: RoblomanEars
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 88680729651296a40985b7ee28625fb6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 88680729651296a40985b7ee28625fb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 205098809712043528}
+  m_SourcePrefab: {fileID: 100100000, guid: 88680729651296a40985b7ee28625fb6, type: 3}
+--- !u!4 &2858935103082943198 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 88680729651296a40985b7ee28625fb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2316612902936261941}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3235602104841603172 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 88680729651296a40985b7ee28625fb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2316612902936261941}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &205098809712043528
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6422591401462199753}
+  m_GameObject: {fileID: 3235602104841603172}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7903a7817fc871548a6c9b260ceb5bac, type: 3}
+  m_Script: {fileID: 11500000, guid: e9c72d4a4edd5af4483276034cb5ee66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tip: {fileID: 11400000, guid: 6e3e24ebd70019d4f9c5f16979a27355, type: 2}
-  spawnDistance: 38
-  spawnDistanceHard: 27
-  runSpeed: 12
-  catchRange: 2
-  despawnTime: 4
-  spawnSound: {fileID: 11400000, guid: ce374eec58673384f845ac770627a638, type: 2}
-  jumpscareSound: {fileID: 11400000, guid: 10ecf777dac5c0c469c26338def5b3ed, type: 2}
-  endingMusic: {fileID: 11400000, guid: 476ad1ff16b051c488433ec7aae66979, type: 2}
+  flamboyantMaterial: {fileID: 2100000, guid: 868fe1511d2a749419b4ca0df99de695, type: 2}
 --- !u!1001 &6431419609645520247
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -252,13 +375,23 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 62c4474f36636244a98caca2426b1f29, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6144858713050193719, guid: 5a47434163d9cb445ae996df169d971c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2858935103082943198}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: -8550858407913363374, guid: 5a47434163d9cb445ae996df169d971c,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6431419609645520244}
   m_SourcePrefab: {fileID: 100100000, guid: 5a47434163d9cb445ae996df169d971c, type: 3}
+--- !u!4 &866400310694054464 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6144858713050193719, guid: 5a47434163d9cb445ae996df169d971c,
+    type: 3}
+  m_PrefabInstance: {fileID: 6431419609645520247}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5770731365885443365 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8550858407913363374, guid: 5a47434163d9cb445ae996df169d971c,

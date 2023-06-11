@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace AnarPerPortes
 {
     public class PickableItem : MonoBehaviour, IInteractable
     {
+        public UnityEvent OnPacked { get; } = new();
         [SerializeField] private string itemId;
         [SerializeField] private string tooltipItemName;
         [SerializeField] private Transform tooltipPosition;
@@ -21,6 +23,7 @@ namespace AnarPerPortes
         public void Interact()
         {
             PlayerController.Singleton.PackItem(itemId);
+            OnPacked?.Invoke();
             Destroy(gameObject);
         }
     }
