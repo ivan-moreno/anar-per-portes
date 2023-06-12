@@ -114,6 +114,7 @@ namespace AnarPerPortes
             YusufEnemy.IsOperative = false;
             A90Enemy.IsOperative = false;
             S7Enemy.IsOperative = false;
+            CatalanBirdDriverEnemy.IsCursed = false;
 
             RoomManager.Singleton.OnRoomGenerated.AddListener(ProcessEnemyPossibilities);
 

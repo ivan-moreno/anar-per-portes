@@ -24,6 +24,9 @@ namespace AnarPerPortes
 
         private void Start()
         {
+            if (CatalanBirdDriverEnemy.IsCursed)
+                Destroy(gameObject);
+
             animator = GetComponent<Animator>();
             audioSource = GetComponent<AudioSource>();
 
@@ -60,6 +63,7 @@ namespace AnarPerPortes
 
             if (rng == 2)
             {
+                CatalanBirdDriverEnemy.IsCursed = true;
                 animator.Play("GiveCurse");
                 yield return new WaitForSeconds(2f);
                 PlayerSound(curseSound);

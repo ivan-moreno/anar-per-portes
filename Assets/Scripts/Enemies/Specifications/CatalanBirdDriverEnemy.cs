@@ -1,4 +1,5 @@
 using UnityEngine;
+using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes
 {
@@ -6,18 +7,157 @@ namespace AnarPerPortes
     public class CatalanBirdDriverEnemy : Enemy
     {
         public static bool IsOperative { get; private set; } = false;
+        public static bool IsCursed { get; set; } = false;
+
+        [Header("Stats")]
+        [SerializeField] private float maxSpeed = 14f;
+        [SerializeField] private float maxTurboSpeed = 22f;
+        [SerializeField] private float maxDriftSpeed = 6f;
+        [SerializeField] private float turboDistance = 20f;
+        [SerializeField] private float turboMaxAngle = 20f;
+        [SerializeField] private float acceleration = 2f;
+        [SerializeField] private float turnRate = 20f;
+        [SerializeField] private float driftTurnRate = 60f;
+        [SerializeField] private float driftAngle = 70f;
+
+        [Header("Audio")]
+        [SerializeField] private SoundResource spawnSound;
+        [SerializeField] private SoundResource turboSound;
+
+        private float currentSpeed = 0f;
+        private bool isCatching = false;
+        private bool isTurbo = false;
+        private bool isDrift = false;
+        private float turboCooldown;
 
         private void Start()
         {
             IsOperative = true;
             CacheComponents();
 
+            audioSource.PlayOneShot(spawnSound);
+
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
+            RoomManager.Singleton.OnRoomGenerated.AddListener(x => Despawn());
         }
 
-        void Despawn()
+        private void Update()
         {
-            //TODO: If is catching, don't despawn
+            if (A90Enemy.IsOperative)
+                return;
+
+            var distance = DistanceToPlayer(transform);
+            var angleDiff = AngleDiff(transform, PlayerController.Singleton.transform);
+
+            isDrift = angleDiff > turboMaxAngle;
+
+            var wasTurbo = false;
+
+            turboCooldown -= Time.deltaTime;
+
+            isTurbo = turboCooldown <= 0f
+                && distance < turboDistance
+                && angleDiff < turboMaxAngle;
+
+            if (!wasTurbo && isTurbo)
+            {
+                animator.Play("Turbo");
+                audioSource.PlayOneShot(turboSound);
+                turboCooldown = 5f;
+            }
+
+            var targetSpeed =
+                isDrift ? maxDriftSpeed
+                : isTurbo ? maxTurboSpeed
+                : maxSpeed;
+
+            currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, isTurbo ? acceleration * 2f : acceleration * Time.deltaTime);
+
+            var preMovePosition = transform.position;
+            transform.Translate(Vector3.forward * currentSpeed * Time.deltaTime, Space.Self);
+            var velocity = Time.timeScale <= 0f ? Vector3.zero : (transform.position - preMovePosition) / Time.deltaTime;
+
+            var targetTurnRate = isDrift ? driftTurnRate : turnRate;
+            targetTurnRate *= -TargetSide();
+            var targetRotation = transform.eulerAngles.y + targetTurnRate * Time.deltaTime;
+
+            if (distance > 8f && currentSpeed <= maxSpeed)
+                transform.rotation = Quaternion.Euler(0f, targetRotation, 0f);
+
+            var hVelocity = new Vector3(velocity.x, 0f, velocity.z).sqrMagnitude;
+
+            if (maxTurboSpeed <= 0f)
+                hVelocity = 0f;
+            else
+                hVelocity /= maxTurboSpeed * 8f;
+
+            var animatorHVelocity = animator.GetFloat("HVelocity");
+
+            // Smooth out the velocity changes.
+            var smoothHVelocity = Mathf.Lerp(animatorHVelocity, hVelocity, Time.deltaTime * 16f);
+
+            if (float.IsNaN(smoothHVelocity))
+                smoothHVelocity = 0f;
+
+            if (animator.enabled)
+                animator.SetFloat("HVelocity", smoothHVelocity);
+        }
+
+        private float AngleDiff(Transform source, Transform target)
+        {
+            var directionToTarget = target.position - source.position;
+            var angle = Vector3.Angle(source.forward, directionToTarget);
+            return angle;
+        }
+
+        private float TargetSide()
+        {
+            var delta = (PlayerPosition() - transform.position).normalized;
+            var cross = Vector3.Cross(delta, transform.forward);
+
+            if (cross == Vector3.zero)
+            {
+                return 0f;
+            }
+            else if (cross.y > 0)
+            {
+                return 1f;
+            }
+            else
+            {
+                return -1f;
+            }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (!other.CompareTag("Player"))
+                return;
+
+            if (IsRoblomanDisguise)
+            {
+                RevealRoblomanDisguise();
+                Despawn();
+                return;
+            }
+
+            if (TryConsumePlayerImmunityItem())
+            {
+                Despawn();
+                return;
+            }
+
+            isCatching = true;
+            PlayerController.Singleton.BeginCatchSequence();
+            PlayerController.Singleton.BlockAll();
+            audioSource.Stop();
+            CatchManager.Singleton.CatchPlayer("OCELL CATALÀ ENDING", "CASSO EN L'OLLA, NEN!");
+        }
+
+        private void Despawn()
+        {
+            if (isCatching)
+                return;
 
             IsOperative = false;
             Destroy(gameObject);

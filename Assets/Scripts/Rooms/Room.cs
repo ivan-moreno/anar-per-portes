@@ -47,6 +47,9 @@ namespace AnarPerPortes
         {
             OnDoorOpened?.Invoke();
             SkellHearManager.Singleton.AddNoise(8f);
+
+            if (TryGetComponent(out AudioSource audioSource))
+                audioSource.Stop();
         }
     }
 }

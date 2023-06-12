@@ -15,12 +15,12 @@ namespace AnarPerPortes
             public float RoomSetChance { get; }
             public Func<RoomSet, bool> SpawnRequirements { get; set; }
             public Func<RoomSet, bool> RngRequirement { get; set; }
-            public int RoomsWithoutSpawn { get; set; } = 1000;
+            public int RoomsWithoutSpawn { get; set; } = 0;
 
             private readonly GameObject[] roomPrefabs;
             private readonly List<GameObject> roomPrefabsPool = new();
-            private float minChanceRange;
-            private float maxChanceRange;
+            public float minChanceRange;
+            public float maxChanceRange;
 
             public RoomSet(float setChance, params GameObject[] roomPrefabs)
             {
@@ -88,6 +88,7 @@ namespace AnarPerPortes
         [SerializeField] private GameObject[] bouserRoomPrefabs;
         [SerializeField] private GameObject[] s7RoomPrefabs;
         [SerializeField] private GameObject[] cameoRoomPrefabs;
+        [SerializeField] private GameObject[] catalunyaRoomPrefabs;
 
         private RoomSet generalRoomSet;
         private RoomSet snowdinRoomSet;
@@ -95,6 +96,7 @@ namespace AnarPerPortes
         private RoomSet bouserRoomSet;
         private RoomSet s7RoomSet;
         private RoomSet cameoRoomSet;
+        private RoomSet catalunyaRoomSet;
         private readonly List<RoomSet> allRoomSets = new();
 
         private Room lastGeneratedRoom;
@@ -153,7 +155,10 @@ namespace AnarPerPortes
 
             AddRoomSets(
                 generalRoomSet = new(100f, generalRoomPrefabs),
-                snowdinRoomSet = new(20f, snowdinRoomPrefabs),
+                snowdinRoomSet = new(20f, snowdinRoomPrefabs)
+                {
+                    SpawnRequirements = (roomSet) => roomSet.RoomsWithoutSpawn >= 7
+                },
                 isleRoomSet = new(50f, isleRoomPrefabs)
                 {
                     SpawnRequirements = (roomSet) => roomSet.RoomsWithoutSpawn >= 10
@@ -162,17 +167,22 @@ namespace AnarPerPortes
                 {
                     SpawnRequirements = (roomSet) => roomSet.RoomsWithoutSpawn >= 16
                 },
-                s7RoomSet = new(50f, s7RoomPrefabs)
+                s7RoomSet = new(40f, s7RoomPrefabs)
                 {
                     SpawnRequirements = (roomSet) =>
                     RoomManager.Singleton.LastOpenedRoomNumber > 50
                     && roomSet.RoomsWithoutSpawn >= 8
                 },
-                cameoRoomSet = new(25f, cameoRoomPrefabs)
+                cameoRoomSet = new(10f, cameoRoomPrefabs)
                 {
                     SpawnRequirements = (roomSet) =>
                     RoomManager.Singleton.LastOpenedRoomNumber > 10
-                    && roomSet.RoomsWithoutSpawn >= 8
+                    && roomSet.RoomsWithoutSpawn >= 10
+                },
+                catalunyaRoomSet = new(10f, catalunyaRoomPrefabs)
+                {
+                    SpawnRequirements = (roomSet) => CatalanBirdDriverEnemy.IsCursed
+                    && roomSet.RoomsWithoutSpawn >= 10
                 });
         }
 
@@ -198,6 +208,7 @@ namespace AnarPerPortes
                 if (roomSet.HasSpawnRequirements() && roomSet.HasRngRequirement())
                 {
                     candidateRoomSets.Add(roomSet);
+                    roomSet.DeclareChanceRange(candidateTotalChance, candidateTotalChance + roomSet.RoomSetChance);
                     candidateTotalChance += roomSet.RoomSetChance;
                 }
 

@@ -27668,6 +27668,8 @@ MonoBehaviour:
   cameoRoomPrefabs:
   - {fileID: 1343002099365941501, guid: cef435b3203895c42a271a0e48296abe, type: 3}
   - {fileID: 449040676408261766, guid: f304dc99c4be86d44a3c746e0f57cf2c, type: 3}
+  catalunyaRoomPrefabs:
+  - {fileID: 1343002099365941501, guid: 28c968b7a39224846931529e36767779, type: 3}
 --- !u!1 &1633947515
 GameObject:
   m_ObjectHideFlags: 0
