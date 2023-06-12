@@ -79,36 +79,45 @@ namespace AnarPerPortes
 
         private void CatchPlayer()
         {
-            if (IsRoblomanDisguise)
-            {
-                RevealRoblomanDisguise();
-                Despawn();
-                return;
-            }
-
-            if (isCatching)
-                return;
-
-            if (PlayerController.Singleton.EquippedItemIs("Roblobolita"))
-            {
-                PlayerController.Singleton.ConsumeEquippedItem();
-                BlurOverlayManager.Singleton.SetBlur(Color.white);
-                BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 2f);
-                Despawn();
-                return;
-            }
-
-            isCatching = true;
-            animator.Play("Jumpscare");
-            audioSource.PlayOneShot(jumpscareSound);
-            PlayerController.Singleton.BlockAll();
-            PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));
             StartCoroutine(nameof(CatchPlayerEnumerator));
         }
 
         private IEnumerator CatchPlayerEnumerator()
         {
-            yield return new WaitForSeconds(0.8f);
+            if (IsRoblomanDisguise)
+            {
+                RevealRoblomanDisguise();
+                Despawn();
+                yield break;
+            }
+
+            if (TryConsumePlayerImmunityItem())
+            {
+                Despawn();
+                yield break;
+            }
+
+            if (isCatching)
+                yield break;
+
+            isCatching = true;
+            PlayerController.Singleton.BlockAll();
+            PlayerController.Singleton.SetVisionTarget(transform);
+            animator.Play("Jumpscare");
+            audioSource.PlayOneShot(jumpscareSound);
+
+            var timer = 0f;
+            var originalPos = transform.position;
+            var targetPos = PlayerPosition() + PlayerController.Singleton.transform.forward * 2f;
+
+            while (timer < 1f)
+            {
+                timer += Time.deltaTime * 1.5f;
+                transform.LookAt(PlayerPosition());
+                transform.position = Vector3.Lerp(originalPos, targetPos, timer);
+                yield return null;
+            }
+
             CatchManager.Singleton.CatchPlayer("SHEEPY ENDING", "¡¡Deja paso a las ovejaaas!!");
         }
 

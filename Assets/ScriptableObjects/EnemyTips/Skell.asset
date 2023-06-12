@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Skell
   m_EditorClassIdentifier: 
   title: Skell
-  message: "Skell te ha escuchado.\r\n\r\n\xA1Corre!"
+  message: "Skell te ha escuchado.\r\n\r\n\xA1No le mires!"
   render: {fileID: 21300000, guid: fe222423aa0dfea49b11fb377aaa2996, type: 3}

@@ -1,8 +1,7 @@
-using static AnarPerPortes.ShortUtils;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
+using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes
 {
@@ -50,12 +49,15 @@ namespace AnarPerPortes
         //FIXME: Spawn Bouser and make him wait (inactive) instead of instantiating when his big door is opened.
         public Transform SangotRealm => sangotRealm;
         public GameObject BouserEnemyPrefab => bouserEnemyPrefab;
-        public GameObject SkellEnemyPrefab => skellEnemyPrefab;
+        public GameObject SkellBetaEnemyPrefab => skellBetaEnemyPrefab;
         public GameObject S7EnemyPrefab => s7EnemyPrefab;
 
         [Header("Stats")]
+        [SerializeField] private float skellChance = 5f;
+        [SerializeField] private int skellMinDoorsOpened = 35;
         [SerializeField] private float roblomanChance = 5f;
         [SerializeField] private int roblomanMinDoorsOpened = 40;
+
 
         [Header("Components")]
         [SerializeField] private Transform enemiesGroup;
@@ -70,6 +72,7 @@ namespace AnarPerPortes
         [SerializeField] private GameObject sangotEnemyPrefab;
         [SerializeField] private GameObject sheepyEnemyPrefab;
         [SerializeField] private GameObject skellEnemyPrefab;
+        [SerializeField] private GameObject skellBetaEnemyPrefab;
         [SerializeField] private GameObject yusufEnemyPrefab;
         [SerializeField] private GameObject s7EnemyPrefab;
 
@@ -81,6 +84,7 @@ namespace AnarPerPortes
         private EnemyPossibility sangotPossibility;
         private EnemyPossibility sheepyPossibility;
         private EnemyPossibility skellPossibility;
+        private EnemyPossibility skellBetaPossibility;
         private EnemyPossibility a90Possibility;
         private readonly List<EnemyPossibility> allEnemyPossibilities = new();
 
@@ -97,7 +101,7 @@ namespace AnarPerPortes
 
         private void Start()
         {
-            // TODO: Find a more automatic way of solving this?
+            // TODO: Use a HashSet with enemies that are operative
             BouserEnemy.IsOperative = false;
             DaviloteEnemy.IsOperative = false;
             PedroEnemy.IsOperative = false;
@@ -105,6 +109,7 @@ namespace AnarPerPortes
             RoblomanEnemy.IsOperative = false;
             SheepyEnemy.IsOperative = false;
             SkellEnemy.IsOperative = false;
+            SkellBetaEnemy.IsOperative = false;
             YusufEnemy.IsOperative = false;
             A90Enemy.IsOperative = false;
             S7Enemy.IsOperative = false;
@@ -117,7 +122,7 @@ namespace AnarPerPortes
                 SpawnRequirements =
                     (room) => !PedroEnemy.IsOperative
                     && !SkellHearManager.Singleton.IsHearing
-                    && !SkellEnemy.IsOperative
+                    && !SkellBetaEnemy.IsOperative
                     && room is not IsleRoom
                     && room.HasHidingSpots
                     && (IsHardmodeEnabled() || RoomManager.Singleton.LastOpenedRoomNumber >= 10),
@@ -166,11 +171,11 @@ namespace AnarPerPortes
                     (room) => !SangotEnemy.IsOperative
                     && !DaviloteEnemy.IsOperative
                     && !SheepyEnemy.IsOperative
-                    && !SkellEnemy.IsOperative
+                    && !SkellBetaEnemy.IsOperative
                     && !PedroEnemy.IsOperative
                     && room is not BouserRoom
                     && room is not IsleRoom
-                    && (IsHardmodeEnabled() || RoomManager.Singleton.LastOpenedRoomNumber >= 20),
+                    && (IsHardmodeEnabled() || RoomManager.Singleton.LastOpenedRoomNumber >= skellMinDoorsOpened),
                 RngRequirement = (possibility) =>
                 {
                     var rng = UnityEngine.Random.Range(0, 100);
@@ -210,9 +215,33 @@ namespace AnarPerPortes
 
             skellPossibility = new()
             {
-                EnemyPrefab = null,
+                EnemyPrefab = skellEnemyPrefab,
                 SpawnRequirements =
                     (room) => !SkellEnemy.IsOperative
+                    && SkellHearManager.Singleton.IsHunting
+                    && room is not BouserRoom
+                    && (IsHardmodeEnabled() || RoomManager.Singleton.LastOpenedRoomNumber >= 0), //30
+                RngRequirement = (possibility) =>
+                {
+                    var rng = UnityEngine.Random.Range(0, 100);
+                    rng += possibility.RoomsWithoutSpawn * 5;
+                    rng += roomsWithoutAnyEnemySpawn * 50;
+
+                    if (possibility.RoomsWithoutSpawn <= 2)
+                        rng = 0;
+
+                    return rng >= 90;
+                }
+            };
+
+            allEnemyPossibilities.Add(skellPossibility);
+
+            // Unused
+            skellBetaPossibility = new()
+            {
+                EnemyPrefab = null,
+                SpawnRequirements =
+                    (room) => !SkellBetaEnemy.IsOperative
                     && !PedroEnemy.IsOperative
                     && room is not IsleRoom
                     && room is not BouserRoom
@@ -229,8 +258,6 @@ namespace AnarPerPortes
                     return rng >= 90;
                 }
             };
-
-            allEnemyPossibilities.Add(skellPossibility);
 
             a90Possibility = new()
             {
@@ -265,7 +292,7 @@ namespace AnarPerPortes
             else if (Input.GetKeyUp(KeyCode.F4))
                 GenerateEnemy(sheepyEnemyPrefab);
             else if (Input.GetKeyUp(KeyCode.F5))
-                GenerateEnemy(skellEnemyPrefab);
+                GenerateEnemy(skellBetaEnemyPrefab);
             else if (Input.GetKeyUp(KeyCode.F6))
                 GenerateEnemy(sangotEnemyPrefab);
             else if (Input.GetKeyUp(KeyCode.F7))
@@ -343,16 +370,25 @@ namespace AnarPerPortes
             davilotePossibility.WillSpawn = davilotePossibility.HasSpawnRequirements(generatedRoom) && davilotePossibility.HasRngRequirement();
             sheepyPossibility.WillSpawn = sheepyPossibility.HasSpawnRequirements(generatedRoom) && sheepyPossibility.HasRngRequirement();
 
+            if (RoomManager.Singleton.LastOpenedRoomNumber >= skellMinDoorsOpened
+                && UnityEngine.Random.Range(0f, 100f) <= skellChance)
+                SkellHearManager.Singleton.StartHearing();
+
             skellPossibility.WillSpawn =
-                !pedroPossibility.WillSpawn
-                && skellPossibility.HasSpawnRequirements(generatedRoom)
+                skellPossibility.HasSpawnRequirements(generatedRoom)
                 && skellPossibility.HasRngRequirement();
+
+            // Unused
+            skellBetaPossibility.WillSpawn =
+                !pedroPossibility.WillSpawn
+                && skellBetaPossibility.HasSpawnRequirements(generatedRoom)
+                && skellBetaPossibility.HasRngRequirement();
 
             sangotPossibility.WillSpawn =
                 !pedroPossibility.WillSpawn
                 && !davilotePossibility.WillSpawn
                 && !sheepyPossibility.WillSpawn
-                && !skellPossibility.WillSpawn
+                && !skellBetaPossibility.WillSpawn
                 && sangotPossibility.HasSpawnRequirements(generatedRoom)
                 && sangotPossibility.HasRngRequirement();
 
@@ -369,9 +405,6 @@ namespace AnarPerPortes
                 {
                     if (possibility == a90Possibility)
                         a90Enemy.Spawn();
-
-                    if (possibility == skellPossibility)
-                        SkellHearManager.Singleton.StartHearing();
 
                     var canSpawnRoblomanDisguise =
                         !RoblomanEnemy.IsOperative

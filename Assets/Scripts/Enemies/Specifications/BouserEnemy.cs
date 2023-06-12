@@ -43,7 +43,7 @@ namespace AnarPerPortes
         private float audioCooldown = 0f;
         private int targetReachesToTalk = 1;
         private float timeSinceReachedTarget = 0f;
-        private SkellEnemy skellEnemy;
+        private SkellBetaEnemy skellEnemy;
 
         private const float nextMoveMinTime = 0.2f;
         private const float nextMoveMaxTime = 2f;
@@ -69,7 +69,7 @@ namespace AnarPerPortes
                 StartCoroutine(nameof(GrabTailWithSkellCoroutine));
         }
 
-        public void MeetSkell(SkellEnemy skellEnemy)
+        public void MeetSkell(SkellBetaEnemy skellEnemy)
         {
             if (isCatching || IsDefeated)
                 return;

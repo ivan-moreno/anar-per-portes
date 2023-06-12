@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 697d33dca1980aa44a3b852d2e215b8d, type: 3}
-  m_Name: SkellSpawn
+  m_Name: SkellHuntMusic
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: 56baa6c878b8aae4abdfd8be8ff94294, type: 3}
-  subtitleText: "(pasos del cazador a la lejan\xEDa)"
+  audioClip: {fileID: 8300000, guid: 0b51da0ee5483f340b11e4cca5f0d066, type: 3}
+  subtitleText: "(m\xFAsica t\xE9trica)"
   subtitleTeam: 2

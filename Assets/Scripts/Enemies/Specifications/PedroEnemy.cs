@@ -178,7 +178,7 @@ namespace AnarPerPortes
 
         private void FixedUpdate()
         {
-            lineOfSightCheck = PlayerIsInLineOfSight();
+            lineOfSightCheck = PlayerIsInLineOfSight(transform.position + Vector3.up);
 
             if (!metBouser && RoomManager.Singleton.LastLoadedRoom is BouserRoom bouserRoom)
             {
@@ -221,49 +221,37 @@ namespace AnarPerPortes
             animator.Play("Run");
         }
 
-        private bool PlayerIsInLineOfSight()
-        {
-            return Physics.Linecast(
-                    start: transform.position + Vector3.up,
-                    end: PlayerPosition() + Vector3.up,
-                    hitInfo: out var hit,
-                    layerMask: LayerMask.GetMask("Default", "Player"),
-                    queryTriggerInteraction: QueryTriggerInteraction.Ignore)
-                && hit.transform.gameObject.layer == LayerMask.NameToLayer("Player");
-        }
-
         private void CatchPlayer()
         {
-            if (IsRoblomanDisguise)
-            {
-                RevealRoblomanDisguise();
-                Despawn();
-                return;
-            }
-
-            if (isCatching || isOnBreak || runSpeed <= 0f)
-                return;
-
-            if (PlayerController.Singleton.EquippedItemIs("Roblobolita"))
-            {
-                PlayerController.Singleton.ConsumeEquippedItem();
-                BlurOverlayManager.Singleton.SetBlur(Color.white);
-                BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 2f);
-                Despawn();
-                return;
-            }
-
-            isCatching = true;
-            audioSource.Stop();
-            audioSource.PlayOneShot(jumpscareSound);
-            PlayerController.Singleton.BlockAll();
-            PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));
+            
             StartCoroutine(nameof(CatchPlayerEnumerator));
         }
 
         private IEnumerator CatchPlayerEnumerator()
         {
+            if (isCatching || isOnBreak || runSpeed <= 0f)
+                yield break;
+
+            if (IsRoblomanDisguise)
+            {
+                RevealRoblomanDisguise();
+                Despawn();
+                yield break;
+            }
+
+            if (TryConsumePlayerImmunityItem())
+            {
+                Despawn();
+                yield break;
+            }
+
+            isCatching = true;
+            PlayerController.Singleton.BlockAll();
+            PlayerController.Singleton.SetVisionTarget(transform);
+            audioSource.Stop();
+            audioSource.PlayOneShot(jumpscareSound);
             yield return new WaitForSeconds(0.7f);
+
             CatchManager.Singleton.CatchPlayer("PEDRO ENDING", "Parece que quiso pasar un mal rato, chico. Hehehehehe.");
         }
 

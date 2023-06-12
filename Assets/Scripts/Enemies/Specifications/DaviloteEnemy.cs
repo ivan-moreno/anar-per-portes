@@ -71,36 +71,34 @@ namespace AnarPerPortes
 
         private void CatchPlayer()
         {
-            if (IsRoblomanDisguise)
-            {
-                RevealRoblomanDisguise();
-                Despawn();
-                return;
-            }
-
-            if (isCatching)
-                return;
-
-            if (PlayerController.Singleton.EquippedItemIs("Roblobolita"))
-            {
-                PlayerController.Singleton.ConsumeEquippedItem();
-                BlurOverlayManager.Singleton.SetBlur(Color.white);
-                BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 2f);
-                Despawn();
-                return;
-            }
-
-            isCatching = true;
-            audioSource.PlayOneShot(jumpscareSound);
-            animator.Play("Jumpscare");
-            PlayerController.Singleton.BlockAll();
-            PlayerController.Singleton.SetVisionTarget(transform);
             StartCoroutine(nameof(CatchPlayerEnumerator));
         }
 
         private IEnumerator CatchPlayerEnumerator()
         {
+            if (IsRoblomanDisguise)
+            {
+                RevealRoblomanDisguise();
+                Despawn();
+                yield break;
+            }
+
+            if (TryConsumePlayerImmunityItem())
+            {
+                Despawn();
+                yield break;
+            }
+
+            if (isCatching)
+                yield break;
+
+            isCatching = true;
+            PlayerController.Singleton.BlockAll();
+            PlayerController.Singleton.SetVisionTarget(transform);
+            animator.Play("Jumpscare");
+            audioSource.PlayOneShot(jumpscareSound);
             yield return new WaitForSeconds(0.84f);
+
             CatchManager.Singleton.CatchPlayer("DAVILOTE ENDING", "No eres un payaso, eres el circo entero.");
             audioSource.Play();
         }

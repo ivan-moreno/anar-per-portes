@@ -7,12 +7,14 @@ namespace AnarPerPortes
     public class Room : MonoBehaviour
     {
         public Room NextRoom { get; set; }
-        public Transform WaypointGroup { get; private set; }
         public Transform NextRoomGenerationPoint { get; private set; }
+        public Transform WaypointGroup { get; private set; }
+        public Transform SkellLocationsGroup { get; private set; }
         public Transform PedroBreakPoint { get; private set; }
-        public bool HasHidingSpots => hasHidingSpots;
         public UnityEvent OnDoorOpened { get; } = new();
         public UnityEvent OnUnloading { get; } = new();
+        public bool HasHidingSpots => hasHidingSpots;
+
         [SerializeField] protected bool hasHidingSpots = false;
         [SerializeField] protected RoomDoor door;
 
@@ -36,6 +38,7 @@ namespace AnarPerPortes
         {
             NextRoomGenerationPoint = transform.Find("Logic").Find("NextRoomPoint");
             WaypointGroup = transform.Find("Logic").Find("Waypoints");
+            SkellLocationsGroup = transform.Find("Logic").Find("SkellLocations");
             PedroBreakPoint = transform.Find("Logic").Find("PedroBreakPoint");
             door.OnDoorOpened.AddListener(DoorOpened);
         }

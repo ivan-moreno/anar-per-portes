@@ -15,11 +15,11 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  m_FogMode: 3
-  m_FogDensity: 0.01
-  m_LinearFogStart: 0
-  m_LinearFogEnd: 300
+  m_FogColor: {r: 0.12247467, g: 0.07944701, b: 0.122641504, a: 1}
+  m_FogMode: 1
+  m_FogDensity: 0.03
+  m_LinearFogStart: 4
+  m_LinearFogEnd: 32
   m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
@@ -1019,8 +1019,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 127431899}
-  - component: {fileID: 127431901}
   - component: {fileID: 127431900}
+  - component: {fileID: 127431901}
   m_Layer: 0
   m_Name: SkellHearManager
   m_TagString: Untagged
@@ -1057,10 +1057,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundWaveL: {fileID: 228384924}
   soundWaveR: {fileID: 1621260341}
-  maxNoise: 30
-  noiseDecayRate: 5
+  maxNoise: 20
+  noiseDecayRate: 3
   doorsUntilDespawn: 8
+  doorsUntilHuntDespawn: 15
   warningSound: {fileID: 11400000, guid: 780ff201ce8480042a0cbcd585707498, type: 2}
+  huntMusic: {fileID: 11400000, guid: 7bcc2953fdedcbd429ea7e9d352882e0, type: 2}
 --- !u!82 &127431901
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1072,11 +1074,11 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 4e4aff11f3d110a4e8b5e38105932283,
     type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 6e8899d2d7bba3448ad35184ab191a6e, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -4254,6 +4256,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dbfd7085c6e53c42b86bfbce341842c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skellChance: 5
+  skellMinDoorsOpened: 35
   roblomanChance: 5
   roblomanMinDoorsOpened: 40
   enemiesGroup: {fileID: 2034099627}
@@ -4271,7 +4275,9 @@ MonoBehaviour:
     type: 3}
   sheepyEnemyPrefab: {fileID: 81038424985809431, guid: 0d15b53105901f641ac021398974a6b9,
     type: 3}
-  skellEnemyPrefab: {fileID: 5385844077808519164, guid: a5168f79ddc74bc46ab30461b96e896a,
+  skellEnemyPrefab: {fileID: 5385844077808519164, guid: e7f39ae80bbd3614ebb63b5ecd309f5c,
+    type: 3}
+  skellBetaEnemyPrefab: {fileID: 5385844077808519164, guid: a5168f79ddc74bc46ab30461b96e896a,
     type: 3}
   yusufEnemyPrefab: {fileID: 8356602005302806919, guid: f5fdc44c86fdcb64fb4f58eb4a52af40,
     type: 3}

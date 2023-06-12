@@ -9,18 +9,21 @@ namespace AnarPerPortes
     {
         public static SkellHearManager Singleton { get; private set; }
         public bool IsHearing { get; private set; } = false;
+        public bool IsHunting { get; private set; } = false;
 
         [Header("Components")]
         [SerializeField] private Image soundWaveL;
         [SerializeField] private Image soundWaveR;
 
         [Header("Stats")]
-        [SerializeField][Min(1f)] private float maxNoise = 30f;
-        [SerializeField][Min(0f)] private float noiseDecayRate = 5f;
+        [SerializeField][Min(1f)] private float maxNoise = 20f;
+        [SerializeField][Min(0f)] private float noiseDecayRate = 3f;
         [SerializeField][Min(1)] private int doorsUntilDespawn = 8;
+        [SerializeField][Min(1)] private int doorsUntilHuntDespawn = 20;
 
         [Header("Sound")]
         [SerializeField] private SoundResource warningSound;
+        [SerializeField] private SoundResource huntMusic;
 
         private AudioSource audioSource;
         private float noiseLevel = 0f;
@@ -29,27 +32,61 @@ namespace AnarPerPortes
 
         public void AddNoise(float amount)
         {
-            if (!IsHearing || SkellEnemy.IsOperative)
+            if (!IsHearing || IsHunting)
                 return;
 
             noiseLevel += amount;
-            noiseLevel = Mathf.Clamp(noiseLevel, 0f, maxNoise);
+            noiseLevel = Mathf.Clamp(noiseLevel, 0f, maxNoise * 2f);
             timeSinceLastNoise = 0f;
 
             if (noiseLevel >= maxNoise)
-            {
-                EnemyManager.Singleton.GenerateEnemy(EnemyManager.Singleton.SkellEnemyPrefab);
-                WrapUp();
-            }
+                StartHunting();
         }
 
         public void StartHearing()
         {
-            if (IsHearing || SkellEnemy.IsOperative)
+            if (IsHearing || IsHunting)
                 return;
 
             IsHearing = true;
+            openedDoors = 0;
             audioSource.PlayOneShot(warningSound);
+        }
+
+        public void StartHunting()
+        {
+            if (IsHunting)
+                return;
+
+            WrapUp();
+
+            IsHunting = true;
+            audioSource.Play(huntMusic);
+            RenderSettings.fog = true;
+        }
+
+        public void FinishHunting()
+        {
+            IsHunting = false;
+            audioSource.Stop();
+            openedDoors = 0;
+            RenderSettings.fog = false;
+        }
+
+        public void PauseHuntMusic()
+        {
+            if (!audioSource.isPlaying)
+                return;
+
+            audioSource.Pause();
+        }
+
+        public void UnpauseHuntMusic()
+        {
+            if (audioSource.isPlaying)
+                return;
+
+            audioSource.UnPause();
         }
 
         private void Awake()
@@ -67,6 +104,14 @@ namespace AnarPerPortes
         private void OnRoomGenerated(Room room)
         {
             openedDoors++;
+
+            if (IsHunting)
+            {
+                if (openedDoors >= doorsUntilHuntDespawn)
+                    FinishHunting();
+
+                return;
+            }
 
             if (openedDoors >= doorsUntilDespawn)
                 WrapUp();
@@ -98,6 +143,8 @@ namespace AnarPerPortes
 #if UNITY_EDITOR
             if (Input.GetKeyDown(KeyCode.K))
                 StartHearing();
+            else if (Input.GetKeyDown(KeyCode.H))
+                StartHunting();
 #endif
         }
     }

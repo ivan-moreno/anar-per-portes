@@ -29,6 +29,7 @@ namespace AnarPerPortes
             var rngPosOffset = new Vector3(rngXPos, 0f, rngZPos).normalized * 16f;
             transform.position = PlayerPosition() + new Vector3(rngPosOffset.x, 0f, rngPosOffset.z);
             audioSource.PlayOneShot(sounds.RandomItem());
+            SkellHearManager.Singleton.AddNoise(4f);
             timeUntilNextSound = Random.Range(20f, 90f);
         }
     }

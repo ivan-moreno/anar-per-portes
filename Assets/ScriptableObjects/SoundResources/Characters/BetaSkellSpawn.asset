@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 697d33dca1980aa44a3b852d2e215b8d, type: 3}
-  m_Name: SkellMeetBouserMusic
+  m_Name: BetaSkellSpawn
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: 943d4af843819734989d9a5e833f49fb, type: 3}
-  subtitleText: ("Game Over" de Saster & Kiwiquest)
-  subtitleTeam: 0
+  audioClip: {fileID: 8300000, guid: 56baa6c878b8aae4abdfd8be8ff94294, type: 3}
+  subtitleText: "(pasos del cazador a la lejan\xEDa)"
+  subtitleTeam: 2

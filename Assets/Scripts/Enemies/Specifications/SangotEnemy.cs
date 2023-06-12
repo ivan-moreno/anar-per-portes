@@ -103,42 +103,35 @@ namespace AnarPerPortes
 
         private void CatchPlayer()
         {
-            if (IsRoblomanDisguise)
-            {
-                RevealRoblomanDisguise().OnPlayerPackedReward.AddListener(() =>
-                {
-                    WrapUp();
-                    Despawn();
-                });
-
-                gameObject.SetActive(false);
-                return;
-            }
-
-            if (isCatching)
-                return;
-
-            if (PlayerController.Singleton.EquippedItemIs("Roblobolita"))
-            {
-                PlayerController.Singleton.ConsumeEquippedItem();
-                BlurOverlayManager.Singleton.SetBlur(Color.white);
-                BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 2f);
-                WrapUp();
-                return;
-            }
-
-            isCatching = true;
-            animator.Play("Jumpscare");
-            audioSource.Stop();
-            audioSource.PlayOneShot(jumpscareSound);
-            PlayerController.Singleton.BlockAll();
-            PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));
             StartCoroutine(nameof(CatchPlayerCoroutine));
         }
 
         private IEnumerator CatchPlayerCoroutine()
         {
+            if (IsRoblomanDisguise)
+            {
+                RevealRoblomanDisguise().OnPlayerPackedReward.AddListener(WrapUp);
+                gameObject.SetActive(false);
+                yield break;
+            }
+
+            if (TryConsumePlayerImmunityItem())
+            {
+                WrapUp();
+                yield break;
+            }
+
+            if (isCatching)
+                yield break;
+
+            isCatching = true;
+            PlayerController.Singleton.BlockAll();
+            PlayerController.Singleton.SetVisionTarget(transform);
+            animator.Play("Jumpscare");
+            audioSource.Stop();
+            audioSource.PlayOneShot(jumpscareSound);
             yield return new WaitForSeconds(1.45f);
+
             audioSource.spatialBlend = 0f;
             audioSource.PlayOneShot(endingMusic);
             CatchManager.Singleton.CatchPlayer("SANGOT ENDING", "youtube.com/@sangot");

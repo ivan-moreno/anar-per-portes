@@ -36,20 +36,7 @@ namespace AnarPerPortes
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
-
-            if (SkellEnemy.IsOperative)
-                gameObject.SetActive(false);
-
-            SkellEnemy.OnSpawned.AddListener(OnSkellSpawned);
             SangotEnemy.OnSpawned.AddListener(OnSangotSpawned);
-        }
-
-        void OnSkellSpawned(SkellEnemy skellEnemy)
-        {
-            if (isOccupied)
-                ReleasePlayer();
-
-            gameObject.SetActive(false);
         }
 
         void OnSangotSpawned(SangotEnemy sangotEnemy)
