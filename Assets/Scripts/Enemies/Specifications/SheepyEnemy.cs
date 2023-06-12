@@ -18,10 +18,13 @@ namespace AnarPerPortes
         [SerializeField] private SoundResource warningSound;
         [SerializeField] private SoundResource safeSound;
         [SerializeField] private SoundResource jumpscareSound;
+        [SerializeField] private SoundResource[] meetDaviloteSounds;
+        [SerializeField] private SoundResource[] meetDaviloteEndSounds;
 
         private float timeSinceSpawn = 0f;
         private bool checkedMotion = false;
         private bool isCatching = false;
+        private bool isMeetingDavilote = false;
 
         private void Start()
         {
@@ -55,7 +58,7 @@ namespace AnarPerPortes
             if (!checkedMotion && timeSinceSpawn >= targetCheckMotionTime)
                 CheckForMotion();
 
-            if (!isCatching && timeSinceSpawn >= despawnTime)
+            if (!isCatching && !isMeetingDavilote && timeSinceSpawn >= despawnTime)
                 Despawn();
         }
 
@@ -73,9 +76,33 @@ namespace AnarPerPortes
                 CatchPlayer();
             else
             {
-                animator.Play("Retreat");
-                PushSubtitle(safeSound);
+                if (DaviloteEnemy.IsOperative)
+                    StartCoroutine(nameof(MeetDaviloteCoroutine));
+                else
+                {
+                    animator.Play("Retreat");
+                    PushSubtitle(safeSound);
+                }
             }
+        }
+
+        private IEnumerator MeetDaviloteCoroutine()
+        {
+            isMeetingDavilote = true;
+            audioSource.Stop();
+            var sound = meetDaviloteSounds.RandomItem();
+            animator.Play("MeetDaviloteStart", 0, 0f);
+            audioSource.PlayOneShot(sound);
+            yield return new WaitForSeconds(sound.AudioClip.length + 0.1f);
+
+            var waitTime = FindObjectOfType<DaviloteEnemy>().MeetSheepy();
+            yield return new WaitForSeconds(waitTime);
+
+            animator.Play("MeetDaviloteEnd", 0, 0f);
+            audioSource.PlayOneShot(meetDaviloteEndSounds.RandomItem());
+            yield return new WaitForSeconds(1.2f);
+
+            Despawn();
         }
 
         private void CatchPlayer()
@@ -110,7 +137,7 @@ namespace AnarPerPortes
 
             var timer = 0f;
             var originalPos = transform.position;
-            var targetPos = PlayerPosition() + PlayerController.Singleton.transform.forward * 2f;
+            var targetPos = PlayerPosition() + (PlayerController.Singleton.transform.forward * 2f);
 
             while (timer < 1f)
             {

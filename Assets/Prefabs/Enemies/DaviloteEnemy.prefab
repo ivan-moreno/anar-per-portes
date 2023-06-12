@@ -49,13 +49,24 @@ MonoBehaviour:
   tip: {fileID: 11400000, guid: b82728e7d3f3c33409737ba4906edcef, type: 2}
   roblomanDisguiseObject: {fileID: 9024756251410164309}
   catchAngle: 120
-  warningSound:
+  jumpscareSound: {fileID: 11400000, guid: c266ae1dd9f08fc42a0566530294a90b, type: 2}
+  warningSounds:
   - {fileID: 11400000, guid: 53d7b5e27b416c84198fdf0d9e302cb5, type: 2}
   - {fileID: 11400000, guid: 2dc6d3306759edf45ad2cb9d221ab668, type: 2}
   - {fileID: 11400000, guid: 04ce8394224d1d749ba8c7650ddb6d35, type: 2}
   - {fileID: 11400000, guid: 2373cdcbef983c44fbbd3292a6f8ab38, type: 2}
   - {fileID: 11400000, guid: eb4d8c7a0addeae44baa7993cd61be33, type: 2}
-  jumpscareSound: {fileID: 11400000, guid: c266ae1dd9f08fc42a0566530294a90b, type: 2}
+  meetSheepySounds:
+  - {fileID: 11400000, guid: c194de7c51f102a4ebfd26688081d89d, type: 2}
+  - {fileID: 11400000, guid: 109e97d4d2c92f2468f2dddd729f2331, type: 2}
+  - {fileID: 11400000, guid: 56a44ac7161b5284ca597788243f2791, type: 2}
+  - {fileID: 11400000, guid: 41885491212648e4a986e6ee09f18f80, type: 2}
+  - {fileID: 11400000, guid: a7541ee63d34c0f45bf3eb20f479107f, type: 2}
+  - {fileID: 11400000, guid: c787b8d9336781f469ab821ae8fe1004, type: 2}
+  - {fileID: 11400000, guid: ccf16712f475cc9459822c2c8fa5791f, type: 2}
+  - {fileID: 11400000, guid: bcd34503c95f620488eca1b8d2b426a8, type: 2}
+  - {fileID: 11400000, guid: 058a3310e1063e3448e33bf827494ccf, type: 2}
+  - {fileID: 11400000, guid: befab2b3477ae8f4da1721671396be9b, type: 2}
 --- !u!82 &81038424985809429
 AudioSource:
   m_ObjectHideFlags: 0

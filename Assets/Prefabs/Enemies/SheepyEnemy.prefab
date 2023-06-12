@@ -55,6 +55,16 @@ MonoBehaviour:
   warningSound: {fileID: 11400000, guid: 9f32496526778bb489501e41825c0f2a, type: 2}
   safeSound: {fileID: 11400000, guid: 4be8db89e03c95048bd65344ac5fd63b, type: 2}
   jumpscareSound: {fileID: 11400000, guid: 8cd338970ea37c14294992f701dbe571, type: 2}
+  meetDaviloteSounds:
+  - {fileID: 11400000, guid: f62a68714ccd7e147a39633078220af6, type: 2}
+  - {fileID: 11400000, guid: 5bf6836924844fa4995c03d9c01e9c99, type: 2}
+  - {fileID: 11400000, guid: 52bb5db9ba2b1b443a32802b00d4ed15, type: 2}
+  meetDaviloteEndSounds:
+  - {fileID: 11400000, guid: f942b178c6a7d7d4898e47aef72dc2da, type: 2}
+  - {fileID: 11400000, guid: c1e467b02ecac4a4d8a9372f1f12fcf4, type: 2}
+  - {fileID: 11400000, guid: af05aba440814fd479c4df14cf839602, type: 2}
+  - {fileID: 11400000, guid: bf33867abab2f38499bbe4a8f508c8d7, type: 2}
+  - {fileID: 11400000, guid: 30a72320ff480c944a58a1a04f70431d, type: 2}
 --- !u!82 &81038424985809429
 AudioSource:
   m_ObjectHideFlags: 0

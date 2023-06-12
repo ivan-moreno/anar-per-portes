@@ -13,17 +13,29 @@ namespace AnarPerPortes
         [SerializeField] private float catchAngle = 120f;
 
         [Header("Audio")]
-        [SerializeField] private SoundResource[] warningSound;
         [SerializeField] private SoundResource jumpscareSound;
+        [SerializeField] private SoundResource[] warningSounds;
+        [SerializeField] private SoundResource[] meetSheepySounds;
 
         private bool isCatching = false;
+
+        public float MeetSheepy()
+        {
+            audioSource.Stop();
+            var sound = meetSheepySounds.RandomItem();
+            audioSource.PlayOneShot(sound);
+            return sound.AudioClip.length + 0.1f;
+        }
 
         private void Start()
         {
             IsOperative = true;
             CacheComponents();
             transform.rotation = PlayerController.Singleton.transform.rotation;
-            audioSource.PlayOneShot(warningSound.RandomItem());
+
+            if (!SheepyEnemy.IsOperative)
+                audioSource.PlayOneShot(warningSounds.RandomItem());
+
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             RoomManager.Singleton.OnRoomGenerated.AddListener((_) => Despawn());
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
