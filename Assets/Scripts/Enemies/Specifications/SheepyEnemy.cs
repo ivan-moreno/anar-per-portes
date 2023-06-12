@@ -28,12 +28,13 @@ namespace AnarPerPortes
             IsOperative = true;
             CacheComponents();
 
-            var lastRoom = RoomManager.Singleton.LastLoadedRoom.transform;
+            var lastRoom = RoomManager.Singleton.LatestRoom.transform;
             var targetPos = lastRoom.position + (lastRoom.forward * 4f);
             transform.position = targetPos;
             transform.LookAt(PlayerPosition());
             audioSource.Play(warningSound);
             SkellHearManager.Singleton.AddNoise(8f);
+            PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
 
@@ -101,6 +102,7 @@ namespace AnarPerPortes
                 yield break;
 
             isCatching = true;
+            PlayerController.Singleton.BeginCatchSequence();
             PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform);
             animator.Play("Jumpscare");

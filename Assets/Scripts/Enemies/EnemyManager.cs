@@ -49,6 +49,7 @@ namespace AnarPerPortes
         //FIXME: Spawn Bouser and make him wait (inactive) instead of instantiating when his big door is opened.
         public Transform SangotRealm => sangotRealm;
         public GameObject BouserEnemyPrefab => bouserEnemyPrefab;
+        public GameObject SkellEnemyPrefab => skellEnemyPrefab;
         public GameObject SkellBetaEnemyPrefab => skellBetaEnemyPrefab;
         public GameObject S7EnemyPrefab => s7EnemyPrefab;
 

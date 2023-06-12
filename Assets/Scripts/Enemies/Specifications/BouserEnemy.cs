@@ -115,7 +115,7 @@ namespace AnarPerPortes
             IsOperative = true;
             CacheComponents();
 
-            room = RoomManager.Singleton.LastLoadedRoom as BouserRoom;
+            room = RoomManager.Singleton.LatestRoom as BouserRoom;
 
             if (room == null)
             {
@@ -123,6 +123,7 @@ namespace AnarPerPortes
                 return;
             }
 
+            PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             room.OnUnloading.AddListener(Despawn);
 
             transform.SetPositionAndRotation(room.BouserSpawnPoint.position, room.BouserSpawnPoint.rotation);
@@ -276,6 +277,7 @@ namespace AnarPerPortes
             animator.Play("Jumpscare");
             audioSource.Stop();
             audioSource.PlayOneShot(jumpscareSound);
+            PlayerController.Singleton.BeginCatchSequence();
             PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0.5f, 0f));
             StartCoroutine(nameof(CatchPlayerEnumerator));

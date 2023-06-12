@@ -74,7 +74,7 @@ namespace AnarPerPortes
         }
 
         public static RoomManager Singleton { get; private set; }
-        public Room LastLoadedRoom { get; private set; }
+        public Room LatestRoom { get; private set; }
         public int LastOpenedRoomNumber { get; private set; } = 0;
         public List<Room> Rooms { get; } = new(capacity: maxLoadedRooms);
         public UnityEvent<Room> OnRoomGenerated { get; } = new();
@@ -102,7 +102,7 @@ namespace AnarPerPortes
 
         public void OpenDoorAndGenerateNextRoomRandom()
         {
-            LastLoadedRoom.OpenDoor();
+            LatestRoom.OpenDoor();
         }
 
         public void GenerateNextRoom(GameObject roomPrefab)
@@ -110,13 +110,13 @@ namespace AnarPerPortes
             var instance = Instantiate(roomPrefab, roomsGroup);
             instance.name = roomPrefab.name;
 
-            if (LastLoadedRoom == null)
+            if (LatestRoom == null)
                 instance.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
             else
             {
                 instance.transform.SetPositionAndRotation(
-                    LastLoadedRoom.NextRoomGenerationPoint.position,
-                    LastLoadedRoom.NextRoomGenerationPoint.rotation);
+                    LatestRoom.NextRoomGenerationPoint.position,
+                    LatestRoom.NextRoomGenerationPoint.rotation);
             }
 
             var hasRoomComponent = instance.TryGetComponent(out Room room);
@@ -127,7 +127,7 @@ namespace AnarPerPortes
                 return;
             }
 
-            LastLoadedRoom = room;
+            LatestRoom = room;
             Rooms.Add(room);
             room.Initialize();
             room.OnDoorOpened.AddListener(OnDoorOpened);
@@ -153,25 +153,22 @@ namespace AnarPerPortes
 
             AddRoomSets(
                 generalRoomSet = new(100f, generalRoomPrefabs),
-                snowdinRoomSet = new(20f, snowdinRoomPrefabs)
-                {
-                    SpawnRequirements = (roomSet) => !PlayerController.Singleton.HasItem("Roblobolita")
-                },
-                isleRoomSet = new(100f, isleRoomPrefabs)
+                snowdinRoomSet = new(20f, snowdinRoomPrefabs),
+                isleRoomSet = new(50f, isleRoomPrefabs)
                 {
                     SpawnRequirements = (roomSet) => roomSet.RoomsWithoutSpawn >= 10
                 },
-                bouserRoomSet = new(100f, bouserRoomPrefabs)
+                bouserRoomSet = new(25f, bouserRoomPrefabs)
                 {
                     SpawnRequirements = (roomSet) => roomSet.RoomsWithoutSpawn >= 16
                 },
-                s7RoomSet = new(100f, s7RoomPrefabs)
+                s7RoomSet = new(50f, s7RoomPrefabs)
                 {
                     SpawnRequirements = (roomSet) =>
                     RoomManager.Singleton.LastOpenedRoomNumber > 50
                     && roomSet.RoomsWithoutSpawn >= 8
                 },
-                cameoRoomSet = new(100f, cameoRoomPrefabs)
+                cameoRoomSet = new(25f, cameoRoomPrefabs)
                 {
                     SpawnRequirements = (roomSet) =>
                     RoomManager.Singleton.LastOpenedRoomNumber > 10

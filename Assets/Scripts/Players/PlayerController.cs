@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering.Universal;
 
 namespace AnarPerPortes
@@ -12,6 +13,7 @@ namespace AnarPerPortes
     {
         public static PlayerController Singleton { get; private set; }
         public bool IsCamouflaged { get; set; } = false;
+        public bool IsInCatchSequence { get; set; } = false;
         public bool IsCaught { get; set; } = false;
         public float WalkSpeed { get; private set; } = 8f;
         public Camera Camera { get; private set; }
@@ -20,6 +22,7 @@ namespace AnarPerPortes
         private bool CanMove => blockMoveCharges <= 0;
         private bool CanLook => blockLookCharges <= 0f;
         private bool CanInteract => blockInteractCharges <= 0f;
+        public UnityEvent OnBeginCatchSequence { get; } = new();
 
         [SerializeField] private Animator modelAnimator;
 
@@ -41,6 +44,12 @@ namespace AnarPerPortes
 
         private const float vLookMaxAngle = 70f;
         private const float interactRange = 2.5f;
+
+        public void BeginCatchSequence()
+        {
+            IsInCatchSequence = true;
+            OnBeginCatchSequence?.Invoke();
+        }
 
         public void BlockAll()
         {
@@ -201,10 +210,10 @@ namespace AnarPerPortes
             velocity = Time.timeScale <= 0f ? Vector3.zero : (transform.position - preMovePosition) / Time.deltaTime;
 
             if (transform.position.y < -32f)
-                Teleport(RoomManager.Singleton.LastLoadedRoom.transform.position);
+                Teleport(RoomManager.Singleton.LatestRoom.transform.position);
 
             if (Input.GetKeyUp(KeyCode.F1))
-                Teleport(RoomManager.Singleton.LastLoadedRoom.NextRoomGenerationPoint.position);
+                Teleport(RoomManager.Singleton.LatestRoom.NextRoomGenerationPoint.position);
         }
 
         private void UpdateInteraction()

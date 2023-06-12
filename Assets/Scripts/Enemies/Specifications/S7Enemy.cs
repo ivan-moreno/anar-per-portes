@@ -30,7 +30,7 @@ namespace AnarPerPortes
             IsOperative = true;
             audioSource = GetComponent<AudioSource>();
 
-            var room = RoomManager.Singleton.LastLoadedRoom.transform;
+            var room = RoomManager.Singleton.LatestRoom.transform;
             transform.SetPositionAndRotation(room.position - (room.forward * spawnDistance), room.rotation);
             BlackoutManager.Singleton.PlayDoorOpen();
             BlurOverlayManager.Singleton.SetBlurSmooth(new(1f, 0f, 0f, 0.5f), 0.5f);

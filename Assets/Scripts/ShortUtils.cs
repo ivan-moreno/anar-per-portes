@@ -51,6 +51,11 @@ namespace AnarPerPortes
             return true;
         }
 
+        public static Room LatestRoom()
+        {
+            return RoomManager.Singleton.LatestRoom;
+        }
+
         public static void PushSubtitle(SoundResource soundResource)
         {
             SubtitleManager.Singleton.PushSubtitle(soundResource);

@@ -32,7 +32,7 @@ namespace AnarPerPortes
             IsOperative = true;
             CacheComponents();
 
-            isleRoom = RoomManager.Singleton.LastLoadedRoom as IsleRoom;
+            isleRoom = RoomManager.Singleton.LatestRoom as IsleRoom;
             var targetPos = isleRoom.IncorrectDoor.transform.position + (isleRoom.IncorrectDoor.transform.forward * 4f);
             transform.position = targetPos;
             audioSource.PlayOneShot(walkieTalkieAlertSound);
@@ -70,6 +70,7 @@ namespace AnarPerPortes
                 isleRoom.SetSignMaterials(signMaterials.RandomItem(), warehouseSignMaterial);
             }
 
+            PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             isleRoom.OnDoorOpened.AddListener(Despawn);
             isleRoom.OnIncorrectDoorOpened.AddListener(CatchPlayer);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
@@ -87,6 +88,11 @@ namespace AnarPerPortes
         {
             transform.LookAt(PlayerPosition());
             audioSource.PlayOneShot(jumpscareSound);
+
+            if (!IsRoblomanDisguise
+                && !PlayerController.Singleton.EquippedItemIs("Roblobolita"))
+                PlayerController.Singleton.BeginCatchSequence();
+
             PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));
             IsOperative = false;

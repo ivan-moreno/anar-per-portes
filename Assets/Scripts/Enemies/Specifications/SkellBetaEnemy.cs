@@ -47,6 +47,7 @@ namespace AnarPerPortes
             targetLocation = RoomManager.Singleton.Rooms[0].WaypointGroup.GetChild(0).position;
             audioSource.Play(spawnSound);
             animator.Play("Run");
+            PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
             RoomManager.Singleton.OnRoomGenerated.AddListener(RoomGenerated);
             S7Enemy.OnSpawn.AddListener((_) => Despawn());
@@ -136,7 +137,7 @@ namespace AnarPerPortes
                 {
                     runSpeed = 0f;
                     animator.Play("Idle");
-                    model.rotation = RoomManager.Singleton.LastLoadedRoom.PedroBreakPoint.rotation;
+                    model.rotation = RoomManager.Singleton.LatestRoom.PedroBreakPoint.rotation;
                     animator.Play("Idle");
                     audioSource.Stop();
                     enabled = false;
@@ -153,15 +154,15 @@ namespace AnarPerPortes
 
                 if (roomsTraversed >= RoomManager.Singleton.Rooms.Count)
                 {
-                    if (RoomManager.Singleton.LastLoadedRoom is BouserRoom)
+                    if (RoomManager.Singleton.LatestRoom is BouserRoom)
                     {
                         Despawn();
                         return;
                     }
 
                     isOnBreak = true;
-                    targetLocation = RoomManager.Singleton.LastLoadedRoom.PedroBreakPoint.position;
-                    RoomManager.Singleton.LastLoadedRoom.OnUnloading.AddListener(Despawn);
+                    targetLocation = RoomManager.Singleton.LatestRoom.PedroBreakPoint.position;
+                    RoomManager.Singleton.LatestRoom.OnUnloading.AddListener(Despawn);
                     return;
                 }
 
@@ -228,6 +229,7 @@ namespace AnarPerPortes
             animator.Play("Jumpscare");
             audioSource.Stop();
             //audioSource.PlayOneShot(jumpscareSound); consider
+            PlayerController.Singleton.BeginCatchSequence();
             PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));
             StartCoroutine(nameof(CatchPlayerCoroutine));
@@ -245,7 +247,7 @@ namespace AnarPerPortes
 
         private IEnumerator MeetBouserCoroutine()
         {
-            RoomManager.Singleton.LastLoadedRoom.OnUnloading.AddListener(Despawn);
+            RoomManager.Singleton.LatestRoom.OnUnloading.AddListener(Despawn);
             IsOperative = false;
             metBouser = true;
             bouserEnemy.MeetSkell(this);

@@ -18,6 +18,7 @@ namespace AnarPerPortes
 
         [Header("Audio")]
         [SerializeField] private SoundResource spawnSound;
+        [SerializeField] private SoundResource spawnAheadSound;
         [SerializeField] private SoundResource finishRunSound;
         [SerializeField] private SoundResource meetBouserSound;
         [SerializeField] private SoundResource laughAtBouserSound;
@@ -46,6 +47,7 @@ namespace AnarPerPortes
             transform.position = RoomManager.Singleton.Rooms[0].transform.position;
             targetLocation = RoomManager.Singleton.Rooms[0].WaypointGroup.GetChild(0).position;
             audioSource.Play(spawnSound);
+            PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
             RoomManager.Singleton.OnRoomGenerated.AddListener(RoomGenerated);
             S7Enemy.OnSpawn.AddListener((_) => Despawn());
@@ -82,6 +84,7 @@ namespace AnarPerPortes
                 audioSource.UnPause();
         }
 
+        //TODO: Update Waypoint AI to latest (Pom-Pom's)
         private void Update()
         {
             var distanceToPlayer = Vector3.Distance(transform.position, PlayerPosition());
@@ -133,7 +136,7 @@ namespace AnarPerPortes
                 {
                     runSpeed = 0f;
                     animator.Play("Idle");
-                    model.rotation = RoomManager.Singleton.LastLoadedRoom.PedroBreakPoint.rotation;
+                    model.rotation = RoomManager.Singleton.LatestRoom.PedroBreakPoint.rotation;
                     audioSource.Stop();
                     audioSource.PlayOneShot(finishRunSound);
                     enabled = false;
@@ -150,15 +153,15 @@ namespace AnarPerPortes
 
                 if (roomsTraversed >= RoomManager.Singleton.Rooms.Count)
                 {
-                    if (RoomManager.Singleton.LastLoadedRoom is BouserRoom)
+                    if (RoomManager.Singleton.LatestRoom is BouserRoom)
                     {
                         Despawn();
                         return;
                     }
 
                     isOnBreak = true;
-                    targetLocation = RoomManager.Singleton.LastLoadedRoom.PedroBreakPoint.position;
-                    RoomManager.Singleton.LastLoadedRoom.OnUnloading.AddListener(Despawn);
+                    targetLocation = RoomManager.Singleton.LatestRoom.PedroBreakPoint.position;
+                    LatestRoom().OnUnloading.AddListener(Despawn);
                     return;
                 }
 
@@ -180,7 +183,7 @@ namespace AnarPerPortes
         {
             lineOfSightCheck = PlayerIsInLineOfSight(transform.position + Vector3.up);
 
-            if (!metBouser && RoomManager.Singleton.LastLoadedRoom is BouserRoom bouserRoom)
+            if (!metBouser && RoomManager.Singleton.LatestRoom is BouserRoom bouserRoom)
             {
                 if (bouserEnemy != null && bouserEnemy.IsDefeated)
                 {
@@ -246,6 +249,7 @@ namespace AnarPerPortes
             }
 
             isCatching = true;
+            PlayerController.Singleton.BeginCatchSequence();
             PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform);
             audioSource.Stop();
@@ -264,7 +268,7 @@ namespace AnarPerPortes
             audioSource.Stop();
             audioSource.PlayOneShot(meetBouserSound);
             yield return new WaitForSeconds(3f);
-            var bouserRoom = RoomManager.Singleton.LastLoadedRoom as BouserRoom;
+            var bouserRoom = RoomManager.Singleton.LatestRoom as BouserRoom;
             bouserRoom.SpawnBouser();
             yield return new WaitForSeconds(1f);
             runSpeed = originalRunSpeed;

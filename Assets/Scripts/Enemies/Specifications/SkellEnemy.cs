@@ -20,18 +20,33 @@ namespace AnarPerPortes
         [SerializeField] private SoundResource jumpscareSound;
         [SerializeField] private SoundResource endingMusic;
 
+        public bool SpawnedBecauseOfFog { get; set; } = false;
         private bool isLooked = false;
         private bool isInLookRange = false;
         private bool hasLineOfSight = false;
         private bool isCatching = false;
         private float lookTime;
 
+        public void CatchPlayer()
+        {
+            StartCoroutine(nameof(CatchPlayerCoroutine));
+        }
+
         private void Start()
         {
             IsOperative = true;
             CacheComponents();
 
+            if (SpawnedBecauseOfFog)
+            {
+                transform.LookAt(PlayerPosition());
+                CatchPlayer();
+                return;
+            }
+
             RepositionInRoom();
+            PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
+            LatestRoom().OnUnloading.AddListener(Despawn);
         }
 
         private void Update()
@@ -87,7 +102,7 @@ namespace AnarPerPortes
 
         private void RepositionInRoom()
         {
-            var room = RoomManager.Singleton.LastLoadedRoom;
+            var room = RoomManager.Singleton.LatestRoom;
 
             if (room.SkellLocationsGroup == null)
             {
@@ -118,11 +133,6 @@ namespace AnarPerPortes
                 Despawn();
         }
 
-        private void CatchPlayer()
-        {
-            StartCoroutine(nameof(CatchPlayerCoroutine));
-        }
-
         private IEnumerator CatchPlayerCoroutine()
         {
             if (IsRoblomanDisguise)
@@ -142,6 +152,7 @@ namespace AnarPerPortes
                 yield break;
 
             isCatching = true;
+            PlayerController.Singleton.BeginCatchSequence();
             PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform, new(0f, -0.25f, 0f));
             SkellHearManager.Singleton.PauseHuntMusic();

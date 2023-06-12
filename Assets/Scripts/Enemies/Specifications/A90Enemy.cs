@@ -34,7 +34,7 @@ namespace AnarPerPortes
 
         public void Spawn()
         {
-            if (PlayerController.Singleton.IsCaught)
+            if (PlayerController.Singleton.IsCaught || PlayerController.Singleton.IsInCatchSequence)
                 return;
 
             IsOperative = true;
@@ -67,6 +67,7 @@ namespace AnarPerPortes
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
+            PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
 
             if (IsHardmodeEnabled())
@@ -134,6 +135,7 @@ namespace AnarPerPortes
                 return;
 
             isCatching = true;
+            PlayerController.Singleton.BeginCatchSequence();
             PlayerController.Singleton.IsCaught = true;
             audioSource.Stop();
             audioSource.PlayOneShot(jumpscareSound);

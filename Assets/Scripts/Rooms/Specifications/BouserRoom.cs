@@ -48,7 +48,7 @@ namespace AnarPerPortes
 
         private void FixedUpdate()
         {
-            if (RoomManager.Singleton.LastLoadedRoom != this)
+            if (RoomManager.Singleton.LatestRoom != this)
                 return;
 
             var distance = Vector3.Distance(bouserRoomDoorsAnimator.transform.position, PlayerPosition());

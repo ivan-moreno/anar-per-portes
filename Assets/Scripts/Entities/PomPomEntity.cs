@@ -68,7 +68,7 @@ namespace AnarPerPortes
             var targetWaypoint = currentRoom.WaypointGroup.GetChild(targetWaypointIndex);
             transform.position = Vector3.MoveTowards(transform.position, targetWaypoint.position, walkSpeed * Time.deltaTime);
 
-            var isLastRoom = currentRoom == RoomManager.Singleton.LastLoadedRoom;
+            var isLastRoom = currentRoom == RoomManager.Singleton.LatestRoom;
             var isLastWaypoint = targetWaypointIndex == currentRoom.WaypointGroup.childCount - 1;
             var distanceToWaypoint = Vector3.Distance(transform.position, targetWaypoint.position);
 

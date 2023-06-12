@@ -1,5 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes
 {
@@ -14,6 +16,7 @@ namespace AnarPerPortes
         [Header("Sound")]
         [SerializeField] private SoundResource[] rewardStartSounds;
         [SerializeField] private SoundResource rewardEndSound;
+        [SerializeField] private SoundResource despawnSound;
 
         private bool isRewardCollected = false;
 
@@ -25,20 +28,28 @@ namespace AnarPerPortes
             audioSource.PlayOneShot(rewardStartSounds.RandomItem());
 
             rewardPickable.OnPacked.AddListener(OnRewardPacked);
-            RoomManager.Singleton.LastLoadedRoom.OnUnloading.AddListener(Despawn);
+            LatestRoom().OnUnloading.AddListener(Despawn);
         }
 
         private void OnRewardPacked()
         {
+            StartCoroutine(nameof(OnRewardPackedCoroutine));
+        }
+
+        private IEnumerator OnRewardPackedCoroutine()
+        {
             if (isRewardCollected)
-                return;
+                yield break;
 
             isRewardCollected = true;
             animator.Play("RewardEnd", 0, 0f);
             audioSource.PlayOneShot(rewardEndSound);
             IsOperative = false;
             OnPlayerPackedReward?.Invoke();
-            Destroy(gameObject, 0.85f);
+            yield return new WaitForSeconds(0.6f);
+            audioSource.PlayOneShot(despawnSound.AudioClip);
+            yield return new WaitForSeconds(0.25f);
+            Despawn();
         }
 
         private void LateUpdate()
@@ -49,7 +60,7 @@ namespace AnarPerPortes
             transform.LookAt(PlayerController.Singleton.transform);
         }
 
-        void Despawn()
+        private void Despawn()
         {
             IsOperative = false;
             Destroy(gameObject);

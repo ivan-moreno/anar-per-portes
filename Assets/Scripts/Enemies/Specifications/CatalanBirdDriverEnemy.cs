@@ -11,6 +11,16 @@ namespace AnarPerPortes
         {
             IsOperative = true;
             CacheComponents();
+
+            PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
+        }
+
+        void Despawn()
+        {
+            //TODO: If is catching, don't despawn
+
+            IsOperative = false;
+            Destroy(gameObject);
         }
     }
 }

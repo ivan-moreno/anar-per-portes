@@ -24,6 +24,7 @@ namespace AnarPerPortes
             CacheComponents();
             transform.rotation = PlayerController.Singleton.transform.rotation;
             audioSource.PlayOneShot(warningSound.RandomItem());
+            PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             RoomManager.Singleton.OnRoomGenerated.AddListener((_) => Despawn());
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
@@ -93,6 +94,7 @@ namespace AnarPerPortes
                 yield break;
 
             isCatching = true;
+            PlayerController.Singleton.BeginCatchSequence();
             PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform);
             animator.Play("Jumpscare");

@@ -21,6 +21,8 @@ namespace AnarPerPortes
         [SerializeField][Min(0f)] private float noiseDecayRate = 3f;
         [SerializeField][Min(1)] private int doorsUntilDespawn = 8;
         [SerializeField][Min(1)] private int doorsUntilHuntDespawn = 20;
+        [SerializeField][Min(0f)] private float farthestFogDistance = 32f;
+        [SerializeField][Min(0f)] private float hardmodeNoiseMultiplier = 0.8f;
 
         [Header("Sound")]
         [SerializeField] private SoundResource warningSound;
@@ -33,23 +35,28 @@ namespace AnarPerPortes
 
         public void AddNoise(float amount)
         {
-            if (!IsHearing || IsHunting)
+            if (!IsHearing)
                 return;
 
+            if (IsHardmodeEnabled())
+                amount *= hardmodeNoiseMultiplier;
+
             noiseLevel += amount;
-            noiseLevel = Mathf.Clamp(noiseLevel, 0f, maxNoise * 2f);
+            noiseLevel = Mathf.Clamp(noiseLevel, 0f, maxNoise + 1f);
             timeSinceLastNoise = 0f;
 
-            if (noiseLevel >= maxNoise)
+            if (noiseLevel < maxNoise)
+                return;
+
+            if (IsHardmodeEnabled())
+                CatchPlayerHardmode();
+            else
                 StartHunting();
         }
 
         public void StartHearing()
         {
-            if (IsHardmodeEnabled())
-                return;
-
-            if (IsHearing || IsHunting)
+            if (!IsHardmodeEnabled() && (IsHearing || IsHunting))
                 return;
 
             IsHearing = true;
@@ -140,6 +147,15 @@ namespace AnarPerPortes
             openedDoors = 0;
         }
 
+        private void CatchPlayerHardmode()
+        {
+            var targetPos = PlayerPosition() + (PlayerController.Singleton.transform.forward * (RenderSettings.fogStartDistance + 3f));
+            var instance = Instantiate(EnemyManager.Singleton.SkellEnemyPrefab, targetPos, Quaternion.identity);
+            instance.GetComponent<SkellEnemy>().SpawnedBecauseOfFog = true;
+            WrapUp();
+            enabled = false;
+        }
+
         private void Update()
         {
             timeSinceLastNoise += Time.deltaTime;
@@ -162,6 +178,13 @@ namespace AnarPerPortes
             else if (Input.GetKeyDown(KeyCode.H))
                 StartHunting();
 #endif
+
+            if (!IsHardmodeEnabled())
+                return;
+
+            var targetFogDistance = RenderSettings.fogStartDistance + farthestFogDistance * (1f - (noiseLevel / maxNoise));
+
+            RenderSettings.fogEndDistance = Mathf.Lerp(RenderSettings.fogEndDistance, targetFogDistance, Time.deltaTime * 4f);
         }
     }
 }
