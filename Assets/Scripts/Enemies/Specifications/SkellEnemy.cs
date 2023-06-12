@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes
 {
@@ -94,7 +95,7 @@ namespace AnarPerPortes
             if (metBouser)
                 return;
 
-            var distanceToPlayer = Vector3.Distance(transform.position, PlayerController.Singleton.transform.position);
+            var distanceToPlayer = Vector3.Distance(transform.position, PlayerPosition());
 
             isChasing = !isOnBreak
                 && distanceToPlayer <= chaseRange
@@ -108,7 +109,7 @@ namespace AnarPerPortes
                 return;
 
             // Choose whether to go to the next map point or towards the Player.
-            var determinedTargetLocation = isChasing ? PlayerController.Singleton.transform.position : targetLocation;
+            var determinedTargetLocation = isChasing ? PlayerPosition() : targetLocation;
 
             var targetRunSpeed = runSpeed;
 
@@ -195,7 +196,7 @@ namespace AnarPerPortes
         {
             return Physics.Linecast(
                     start: transform.position + Vector3.up,
-                    end: PlayerController.Singleton.transform.position + Vector3.up,
+                    end: PlayerPosition() + Vector3.up,
                     hitInfo: out var hit,
                     layerMask: LayerMask.GetMask("Default", "Player"),
                     queryTriggerInteraction: QueryTriggerInteraction.Ignore)

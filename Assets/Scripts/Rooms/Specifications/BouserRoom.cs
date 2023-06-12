@@ -1,5 +1,5 @@
-using static AnarPerPortes.ShortUtils;
 using UnityEngine;
+using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes
 {
@@ -51,7 +51,7 @@ namespace AnarPerPortes
             if (RoomManager.Singleton.LastLoadedRoom != this)
                 return;
 
-            var distance = Vector3.Distance(bouserRoomDoorsAnimator.transform.position, PlayerController.Singleton.transform.position);
+            var distance = Vector3.Distance(bouserRoomDoorsAnimator.transform.position, PlayerPosition());
 
             if (IsHardmodeEnabled() && !PlayerIsInsideRoom && distance <= spawnBouserHardDistance)
             {

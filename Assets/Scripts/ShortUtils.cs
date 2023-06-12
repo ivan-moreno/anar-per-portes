@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using UnityEngine;
 
 namespace AnarPerPortes
 {
@@ -11,6 +7,11 @@ namespace AnarPerPortes
         public static bool IsHardmodeEnabled()
         {
             return HardmodeManager.Singleton.IsHardmodeEnabled;
+        }
+
+        public static Vector3 PlayerPosition()
+        {
+            return PlayerController.Singleton.transform.position;
         }
     }
 }

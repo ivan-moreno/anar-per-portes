@@ -1,4 +1,5 @@
 using UnityEngine;
+using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes
 {
@@ -26,7 +27,7 @@ namespace AnarPerPortes
             var rngXPos = Random.Range(-1f, 1f);
             var rngZPos = Random.Range(-1f, 1f);
             var rngPosOffset = new Vector3(rngXPos, 0f, rngZPos).normalized * 16f;
-            transform.position = PlayerController.Singleton.transform.position + new Vector3(rngPosOffset.x, 0f, rngPosOffset.z);
+            transform.position = PlayerPosition() + new Vector3(rngPosOffset.x, 0f, rngPosOffset.z);
             audioSource.PlayOneShot(sounds.RandomItem());
             timeUntilNextSound = Random.Range(20f, 90f);
         }

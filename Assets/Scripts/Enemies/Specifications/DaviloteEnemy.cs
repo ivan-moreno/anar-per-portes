@@ -1,6 +1,6 @@
-using static AnarPerPortes.ShortUtils;
 using System.Collections;
 using UnityEngine;
+using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes
 {
@@ -40,7 +40,7 @@ namespace AnarPerPortes
         {
             if (isCatching)
             {
-                var targetPos = PlayerController.Singleton.transform.position - transform.forward;
+                var targetPos = PlayerPosition() - transform.forward;
                 transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 4f);
                 return;
             }
@@ -51,7 +51,7 @@ namespace AnarPerPortes
 
         private void LateUpdate()
         {
-            transform.position = PlayerController.Singleton.transform.position - (transform.forward * 4f);
+            transform.position = PlayerPosition() - (transform.forward * 4f);
         }
 
         private void FixedUpdate()
@@ -62,7 +62,7 @@ namespace AnarPerPortes
 
             var vCameraAngle = PlayerController.Singleton.Camera.transform.eulerAngles.x;
 
-            if (vCameraAngle is > 60f and < 80f or > 280f and < 300f)
+            if (vCameraAngle is (> 60f and < 80f) or (> 280f and < 300f))
                 return;
 
             if (Mathf.Abs(angleDiff) > catchAngle)

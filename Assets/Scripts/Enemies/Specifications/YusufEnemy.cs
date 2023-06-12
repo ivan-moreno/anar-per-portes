@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes
 {
@@ -84,7 +85,7 @@ namespace AnarPerPortes
 
         private void CatchPlayer()
         {
-            transform.LookAt(PlayerController.Singleton.transform.position);
+            transform.LookAt(PlayerPosition());
             audioSource.PlayOneShot(jumpscareSound);
             PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));

@@ -1,6 +1,6 @@
-using static AnarPerPortes.ShortUtils;
 using System.Collections;
 using UnityEngine;
+using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes
 {
@@ -31,7 +31,7 @@ namespace AnarPerPortes
             var lastRoom = RoomManager.Singleton.LastLoadedRoom.transform;
             var targetPos = lastRoom.position + (lastRoom.forward * 4f);
             transform.position = targetPos;
-            transform.LookAt(PlayerController.Singleton.transform.position);
+            transform.LookAt(PlayerPosition());
             audioSource.Play(warningSound);
             SkellHearManager.Singleton.AddNoise(8f);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);

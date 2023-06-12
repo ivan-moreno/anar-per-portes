@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes
 {
@@ -83,7 +84,7 @@ namespace AnarPerPortes
 
         private void Update()
         {
-            var distanceToPlayer = Vector3.Distance(transform.position, PlayerController.Singleton.transform.position);
+            var distanceToPlayer = Vector3.Distance(transform.position, PlayerPosition());
 
             // Player camouflaged while chasing
             if (!lostPlayer && isChasing && isGrace && PlayerController.Singleton.IsCamouflaged)
@@ -97,7 +98,7 @@ namespace AnarPerPortes
                 && lineOfSightCheck
                 && !PlayerController.Singleton.IsCamouflaged
                 && !PlayerController.Singleton.IsCaught;
-            
+
             if (!isOnBreak && isChasing && distanceToPlayer <= catchRange)
                 CatchPlayer();
 
@@ -105,7 +106,7 @@ namespace AnarPerPortes
                 return;
 
             // Choose whether to go to the next map point or towards the Player.
-            var determinedTargetLocation = isChasing ? PlayerController.Singleton.transform.position : targetLocation;
+            var determinedTargetLocation = isChasing ? PlayerPosition() : targetLocation;
 
             var targetRunSpeed = runSpeed;
 
@@ -198,7 +199,7 @@ namespace AnarPerPortes
             }
         }
 
-        IEnumerator LosePlayerCoroutine()
+        private IEnumerator LosePlayerCoroutine()
         {
             if (lostPlayer)
                 yield break;
@@ -224,7 +225,7 @@ namespace AnarPerPortes
         {
             return Physics.Linecast(
                     start: transform.position + Vector3.up,
-                    end: PlayerController.Singleton.transform.position + Vector3.up,
+                    end: PlayerPosition() + Vector3.up,
                     hitInfo: out var hit,
                     layerMask: LayerMask.GetMask("Default", "Player"),
                     queryTriggerInteraction: QueryTriggerInteraction.Ignore)

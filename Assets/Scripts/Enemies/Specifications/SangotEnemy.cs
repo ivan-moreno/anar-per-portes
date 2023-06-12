@@ -1,7 +1,7 @@
-using static AnarPerPortes.ShortUtils;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes
 {
@@ -34,10 +34,10 @@ namespace AnarPerPortes
             BlackoutManager.Singleton.PlayDoorOpen();
             BlurOverlayManager.Singleton.SetBlurSmooth(new(0.73f, 0.37f, 1f, 1f), 0.5f);
 
-            originalPlayerPosition = PlayerController.Singleton.transform.position;
+            originalPlayerPosition = PlayerPosition();
             PlayerController.Singleton.Teleport(EnemyManager.Singleton.SangotRealm.position);
 
-            var spawnPosition = PlayerController.Singleton.transform.position;
+            var spawnPosition = PlayerPosition();
 
             if (IsHardmodeEnabled())
             {
@@ -86,8 +86,8 @@ namespace AnarPerPortes
                 return;
             }
 
-            transform.LookAt(PlayerController.Singleton.transform.position);
-            var distanceToPlayer = Vector3.Distance(transform.position, PlayerController.Singleton.transform.position);
+            transform.LookAt(PlayerPosition());
+            var distanceToPlayer = Vector3.Distance(transform.position, PlayerPosition());
 
             if (distanceToPlayer <= catchRange)
                 CatchPlayer();
@@ -95,7 +95,7 @@ namespace AnarPerPortes
             if (isCatching)
                 return;
 
-            var nextPosition = Vector3.MoveTowards(transform.position, PlayerController.Singleton.transform.position, runSpeed * Time.deltaTime);
+            var nextPosition = Vector3.MoveTowards(transform.position, PlayerPosition(), runSpeed * Time.deltaTime);
 
             if (!SheepyEnemy.IsOperative && !A90Enemy.IsOperative)
                 transform.position = nextPosition;

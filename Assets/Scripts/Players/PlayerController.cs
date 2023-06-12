@@ -7,6 +7,7 @@ namespace AnarPerPortes
 {
     [AddComponentMenu("Anar per Portes/Player Controller")]
     [RequireComponent(typeof(CharacterController))]
+    [RequireComponent(typeof(AudioSource))]
     public class PlayerController : MonoBehaviour
     {
         public static PlayerController Singleton { get; private set; }
@@ -19,8 +20,11 @@ namespace AnarPerPortes
         private bool CanMove => blockMoveCharges <= 0;
         private bool CanLook => blockLookCharges <= 0f;
         private bool CanInteract => blockInteractCharges <= 0f;
+
         [SerializeField] private Animator modelAnimator;
+
         private Animator visionAnimator;
+        private AudioSource audioSource;
         private CharacterController characterController;
         private InventoryItem equippedItem;
         private Vector3 velocity;
@@ -34,6 +38,7 @@ namespace AnarPerPortes
         private bool hasItemEquipped = false;
         private Transform visionTarget;
         private Vector3 visionTargetOffset;
+
         private const float vLookMaxAngle = 70f;
         private const float interactRange = 2.5f;
 
@@ -164,6 +169,7 @@ namespace AnarPerPortes
             visionAnimator = transform.Find("Vision").GetComponent<Animator>();
             Camera = visionAnimator.GetComponentInChildren<Camera>();
             UiCamera = Camera.transform.GetChild(0).GetComponent<Camera>();
+            audioSource = GetComponent<AudioSource>();
             Cursor.lockState = CursorLockMode.Locked;
 
             OnSettingsChanged();
@@ -369,6 +375,11 @@ namespace AnarPerPortes
                 visionAnimator.SetFloat("HVelocity", smoothHVelocity);
 
             modelAnimator.SetFloat("HVelocity", smoothHVelocity);
+        }
+
+        internal void PlayAudio(SoundResource sound)
+        {
+            audioSource.PlayOneShot(sound);
         }
     }
 }

@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Robloman
   m_EditorClassIdentifier: 
   title: Robloman
-  message: "Robloman se ha disfrazado de un enemigo.\n\nSi dejas que te atrape, \xA1te
-    recompensar\xE1!\n\nPuedes deducir si un enemigo en realidad es Robloman fij\xE1ndote
-    bien en su aspecto."
+  message: "Robloman se ha disfrazado de un enemigo.\n\n\xA1El disfraz no es perfecto!
+    Si Robloman te alcanza, \xA1te recompensar\xE1!"
   render: {fileID: 21300000, guid: bb8b0e57ee401264bb147673357fdf29, type: 3}

@@ -29969,8 +29969,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1932167405}
-  - component: {fileID: 1932167407}
   - component: {fileID: 1932167406}
+  - component: {fileID: 1932167407}
   - component: {fileID: 1932167408}
   m_Layer: 6
   m_Name: Player
@@ -30093,7 +30093,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0

@@ -1,7 +1,7 @@
-using static AnarPerPortes.ShortUtils;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes
 {
@@ -121,7 +121,7 @@ namespace AnarPerPortes
             {
                 Despawn();
                 return;
-            }    
+            }
 
             room.OnUnloading.AddListener(Despawn);
 
@@ -177,7 +177,7 @@ namespace AnarPerPortes
             if (isGrabbingTail || isMeetSkell)
                 return;
 
-            var distanceToPlayer = Vector3.Distance(transform.position, PlayerController.Singleton.transform.position);
+            var distanceToPlayer = Vector3.Distance(transform.position, PlayerPosition());
             var playerIsInSight = IsWithinAngle(transform, PlayerController.Singleton.transform);
 
             // Player camouflaged while chasing
@@ -204,7 +204,7 @@ namespace AnarPerPortes
                 Talk(findSounds.RandomItem());
 
             // Choose whether to go to the next map point or towards the Player.
-            var determinedTargetLocation = isChasing ? PlayerController.Singleton.transform.position : targetLocation;
+            var determinedTargetLocation = isChasing ? PlayerPosition() : targetLocation;
 
             var targetRunSpeed = IsHardmodeEnabled() ? runSpeedHard : runSpeed;
 

@@ -76,7 +76,7 @@ namespace AnarPerPortes
             if (!hardmodeTimerActive)
                 return;
 
-            hardmodeLaser.LookAt(PlayerController.Singleton.transform.position + new Vector3(0f, 1.0f, 0f));
+            hardmodeLaser.LookAt(PlayerPosition() + new Vector3(0f, 1.0f, 0f));
         }
     }
 }
