@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: "Ocell Catal\xE0"
   message: "Has perdido la apuesta de Ocell Catal\xE0, y ahora viene a reclamar su
-    premio...\r\n\r\n\xA1Corre!"
-  render: {fileID: 21300000, guid: b0a6ce884167d1d449e2a88d4c00b789, type: 3}
+    premio...\r\n\r\n\xA1Corre y esquiva a un lado!"
+  render: {fileID: 21300000, guid: 48517e1bbe3fae244bc368389b826cf4, type: 3}
