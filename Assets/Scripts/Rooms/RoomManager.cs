@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes
 {
@@ -240,7 +241,7 @@ namespace AnarPerPortes
         private void OnDoorOpened()
         {
             LastOpenedRoomNumber++;
-            SubtitleManager.Singleton.PushSubtitle("Puerta " + LastOpenedRoomNumber, 2f);
+            PushSubtitle("Puerta " + LastOpenedRoomNumber, 2f);
             GenerateNextRoomRandom();
         }
     }

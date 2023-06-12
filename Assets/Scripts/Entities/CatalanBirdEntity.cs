@@ -62,7 +62,7 @@ namespace AnarPerPortes
             {
                 animator.Play("GiveCurse");
                 yield return new WaitForSeconds(2f);
-                PlayerController.Singleton.PlayAudio(curseSound);
+                PlayerSound(curseSound);
                 Destroy(gameObject);
             }
             else

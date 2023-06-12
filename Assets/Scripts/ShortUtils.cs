@@ -9,6 +9,11 @@ namespace AnarPerPortes
             return HardmodeManager.Singleton.IsHardmodeEnabled;
         }
 
+        public static void PlayerSound(SoundResource sound)
+        {
+            PlayerController.Singleton.PlaySound(sound);
+        }
+
         public static Vector3 PlayerPosition()
         {
             return PlayerController.Singleton.transform.position;
@@ -44,6 +49,16 @@ namespace AnarPerPortes
             BlurOverlayManager.Singleton.SetBlur(Color.white);
             BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 2f);
             return true;
+        }
+
+        public static void PushSubtitle(SoundResource soundResource)
+        {
+            SubtitleManager.Singleton.PushSubtitle(soundResource);
+        }
+
+        public static void PushSubtitle(string message, float duration = 4f, Team team = Team.Common)
+        {
+            SubtitleManager.Singleton.PushSubtitle(message, duration, team);
         }
     }
 }

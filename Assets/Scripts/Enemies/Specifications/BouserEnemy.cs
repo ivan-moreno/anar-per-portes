@@ -89,16 +89,16 @@ namespace AnarPerPortes
             audioSource.PlayOneShot(meetSkellSound);
             yield return new WaitForSeconds(1f);
 
-            SubtitleManager.Singleton.PushSubtitle(meetSkellDialogs[0]);
+            PushSubtitle(meetSkellDialogs[0]);
             yield return new WaitForSeconds(1.3f);
 
-            SubtitleManager.Singleton.PushSubtitle(meetSkellDialogs[1]);
+            PushSubtitle(meetSkellDialogs[1]);
             yield return new WaitForSeconds(3.6f);
 
-            SubtitleManager.Singleton.PushSubtitle(meetSkellDialogs[2]);
+            PushSubtitle(meetSkellDialogs[2]);
             yield return new WaitForSeconds(2.9f);
 
-            SubtitleManager.Singleton.PushSubtitle(meetSkellDialogs[3]);
+            PushSubtitle(meetSkellDialogs[3]);
             yield return new WaitForSeconds(3.2f);
             animator.Play("Funkin");
         }
@@ -182,9 +182,7 @@ namespace AnarPerPortes
 
             // Player camouflaged while chasing
             if (isChasing && PlayerController.Singleton.IsCamouflaged)
-            {
                 Talk(loseSounds.RandomItem());
-            }
 
             var wasChasing = isChasing;
 
@@ -208,7 +206,7 @@ namespace AnarPerPortes
 
             var targetRunSpeed = IsHardmodeEnabled() ? runSpeedHard : runSpeed;
 
-            if (isChasing && distanceToPlayer > sprintAtDistance)
+            if (!IsHardmodeEnabled() && isChasing && distanceToPlayer > sprintAtDistance)
             {
                 targetRunSpeed = sprintSpeed;
                 animator.speed = sprintSpeed / targetRunSpeed;

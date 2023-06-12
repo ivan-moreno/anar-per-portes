@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes
 {
@@ -45,6 +46,9 @@ namespace AnarPerPortes
 
         public void StartHearing()
         {
+            if (IsHardmodeEnabled())
+                return;
+
             if (IsHearing || IsHunting)
                 return;
 
@@ -61,12 +65,18 @@ namespace AnarPerPortes
             WrapUp();
 
             IsHunting = true;
-            audioSource.Play(huntMusic);
+
+            if (!IsHardmodeEnabled())
+                audioSource.Play(huntMusic);
+
             RenderSettings.fog = true;
         }
 
         public void FinishHunting()
         {
+            if (IsHardmodeEnabled())
+                return;
+
             IsHunting = false;
             audioSource.Stop();
             openedDoors = 0;
@@ -75,6 +85,9 @@ namespace AnarPerPortes
 
         public void PauseHuntMusic()
         {
+            if (IsHardmodeEnabled())
+                return;
+
             if (!audioSource.isPlaying)
                 return;
 
@@ -83,6 +96,9 @@ namespace AnarPerPortes
 
         public void UnpauseHuntMusic()
         {
+            if (IsHardmodeEnabled())
+                return;
+
             if (audioSource.isPlaying)
                 return;
 

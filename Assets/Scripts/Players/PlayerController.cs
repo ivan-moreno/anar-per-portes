@@ -377,7 +377,7 @@ namespace AnarPerPortes
             modelAnimator.SetFloat("HVelocity", smoothHVelocity);
         }
 
-        internal void PlayAudio(SoundResource sound)
+        internal void PlaySound(SoundResource sound)
         {
             audioSource.PlayOneShot(sound);
         }
