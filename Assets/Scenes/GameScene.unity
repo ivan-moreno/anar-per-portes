@@ -4258,9 +4258,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dbfd7085c6e53c42b86bfbce341842c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skellChance: 5
+  skellChance: 10
   skellMinDoorsOpened: 35
-  roblomanChance: 5
+  roblomanChance: 10
   roblomanMinDoorsOpened: 40
   enemiesGroup: {fileID: 2034099627}
   sangotRealm: {fileID: 85422482}

@@ -372,7 +372,7 @@ namespace AnarPerPortes
             davilotePossibility.WillSpawn = davilotePossibility.HasSpawnRequirements(generatedRoom) && davilotePossibility.HasRngRequirement();
             sheepyPossibility.WillSpawn = sheepyPossibility.HasSpawnRequirements(generatedRoom) && sheepyPossibility.HasRngRequirement();
 
-            if (RoomManager.Singleton.LastOpenedRoomNumber >= skellMinDoorsOpened
+            if ((RoomManager.Singleton.LastOpenedRoomNumber >= skellMinDoorsOpened || IsHardmodeEnabled())
                 && UnityEngine.Random.Range(0f, 100f) <= skellChance)
                 SkellHearManager.Singleton.StartHearing();
 
@@ -410,7 +410,7 @@ namespace AnarPerPortes
 
                     var canSpawnRoblomanDisguise =
                         !RoblomanEnemy.IsOperative
-                        && RoomManager.Singleton.LastOpenedRoomNumber >= roblomanMinDoorsOpened
+                        && (RoomManager.Singleton.LastOpenedRoomNumber >= roblomanMinDoorsOpened || IsHardmodeEnabled())
                         && UnityEngine.Random.Range(0f, 100f) <= roblomanChance;
 
                     if (canSpawnRoblomanDisguise)

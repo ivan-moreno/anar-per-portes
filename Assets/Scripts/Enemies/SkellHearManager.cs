@@ -135,8 +135,7 @@ namespace AnarPerPortes
 
                 return;
             }
-
-            if (openedDoors >= doorsUntilDespawn)
+            else if (IsHearing && openedDoors >= doorsUntilDespawn)
                 WrapUp();
         }
 

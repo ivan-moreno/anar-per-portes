@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: ca14c36635d60504b9fa52dfd09ce929, type: 3}
   subtitleText: "[BOUSER] \xA1Aaah! \xA1Mi \xFAnico punto d\xE9bil...! Aunque tengo
-    otro, pero no puedo decirtelo."
+    otro, pero no puedo decirlo."
   subtitleTeam: 1

@@ -57,9 +57,6 @@ namespace AnarPerPortes
                 transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 4f);
                 return;
             }
-
-            if (IsHardmodeEnabled())
-                transform.Rotate(0f, 10f * Time.deltaTime, 0f);
         }
 
         private void LateUpdate()
