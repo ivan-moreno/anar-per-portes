@@ -16,12 +16,14 @@ namespace AnarPerPortes
         [SerializeField] private Animator jumpscareAnimator;
 
         [Header("Stats")]
-        [SerializeField] private float checkMotionTime = 1.2f;
-        [SerializeField] private float checkMotionTimeHard = 0.6f;
-        [SerializeField] private float despawnTime = 1.5f;
-        [SerializeField] private float despawnTimeHard = 0.9f;
-        [SerializeField] private float hardmodeMinSpawnTime = 15f;
-        [SerializeField] private float hardmodeMaxSpawnTime = 30f;
+        [SerializeField][Min(0f)] private float checkMotionTime = 1.2f;
+        [SerializeField][Min(0f)] private float despawnTime = 1.5f;
+        [SerializeField][Min(0f)] private float despawnTimeHard = 0.9f;
+
+        [Header("Hardmode Stats")]
+        [SerializeField][Min(0f)] private float checkMotionTimeHard = 0.6f;
+        [SerializeField][Min(0f)] private float hardmodeMinSpawnTime = 15f;
+        [SerializeField][Min(0f)] private float hardmodeMaxSpawnTime = 30f;
 
         [Header("Audio")]
         [SerializeField] private SoundResource warningSound;
@@ -34,21 +36,26 @@ namespace AnarPerPortes
 
         public void Spawn()
         {
-            if (PlayerController.Singleton.IsCaught || PlayerController.Singleton.IsInCatchSequence)
+            if (!PlayerController.Singleton.CanBeCaught)
                 return;
 
             IsOperative = true;
-            var rngX = Random.Range(-512f, 512f);
-            var rngY = Random.Range(-350f, 350f);
-            image.rectTransform.anchoredPosition = new(rngX, rngY);
-            image.enabled = true;
-            timeSinceSpawn = 0f;
+            ChangeScreenLocation();
             AudioManager.Singleton.MuteAllAudioMixers();
 
             if (IsHardmodeEnabled())
                 audioSource.time = 0.4f;
 
             audioSource.Play(warningSound);
+        }
+
+        private void ChangeScreenLocation()
+        {
+            var rngX = Random.Range(-512f, 512f);
+            var rngY = Random.Range(-350f, 350f);
+            image.rectTransform.anchoredPosition = new(rngX, rngY);
+            image.enabled = true;
+            timeSinceSpawn = 0f;
         }
 
         private void Despawn()
@@ -131,8 +138,13 @@ namespace AnarPerPortes
 
         private void CatchPlayer()
         {
+            StartCoroutine(nameof(CatchPlayerEnumerator));
+        }
+
+        private IEnumerator CatchPlayerEnumerator()
+        {
             if (isCatching)
-                return;
+                yield break;
 
             isCatching = true;
             PlayerController.Singleton.BeginCatchSequence();
@@ -141,11 +153,7 @@ namespace AnarPerPortes
             audioSource.PlayOneShot(jumpscareSound);
             PlayerController.Singleton.BlockAll();
             jumpscareAnimator.Play("Jumpscare", 0, 0f);
-            StartCoroutine(nameof(CatchPlayerEnumerator));
-        }
 
-        private IEnumerator CatchPlayerEnumerator()
-        {
             yield return new WaitForSeconds(5f);
             AudioManager.Singleton.UnmuteAllAudioMixers();
             GameManager.Singleton.RestartLevel();

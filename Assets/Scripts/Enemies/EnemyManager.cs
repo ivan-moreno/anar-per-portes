@@ -177,7 +177,7 @@ namespace AnarPerPortes
                     && !PedroEnemy.IsOperative
                     && room is not BouserRoom
                     && room is not IsleRoom
-                    && (IsHardmodeEnabled() || RoomManager.Singleton.LastOpenedRoomNumber >= skellMinDoorsOpened),
+                    && (IsHardmodeEnabled() || RoomManager.Singleton.LastOpenedRoomNumber >= 35),
                 RngRequirement = (possibility) =>
                 {
                     var rng = UnityEngine.Random.Range(0, 100);
@@ -221,8 +221,7 @@ namespace AnarPerPortes
                 SpawnRequirements =
                     (room) => !SkellEnemy.IsOperative
                     && SkellHearManager.Singleton.IsHunting
-                    && room is not BouserRoom
-                    && (IsHardmodeEnabled() || RoomManager.Singleton.LastOpenedRoomNumber >= 0), //30
+                    && room is not BouserRoom,
                 RngRequirement = (possibility) =>
                 {
                     var rng = UnityEngine.Random.Range(0, 100);

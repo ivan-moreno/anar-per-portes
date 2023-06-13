@@ -32,10 +32,7 @@ namespace AnarPerPortes
             IsOperative = true;
             CacheComponents();
             transform.rotation = PlayerController.Singleton.transform.rotation;
-
-            if (!SheepyEnemy.IsOperative)
-                audioSource.PlayOneShot(warningSounds.RandomItem());
-
+            audioSource.PlayOneShot(warningSounds.RandomItem());
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             RoomManager.Singleton.OnRoomGenerated.AddListener((_) => Despawn());
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);

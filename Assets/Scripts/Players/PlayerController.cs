@@ -13,6 +13,7 @@ namespace AnarPerPortes
     {
         public static PlayerController Singleton { get; private set; }
         public bool IsCamouflaged { get; set; } = false;
+        public bool CanBeCaught { get; set; } = true;
         public bool IsInCatchSequence { get; set; } = false;
         public bool IsCaught { get; set; } = false;
         public float WalkSpeed { get; private set; } = 8f;
@@ -47,7 +48,11 @@ namespace AnarPerPortes
 
         public void BeginCatchSequence()
         {
+            if (!CanBeCaught)
+                return;
+
             IsInCatchSequence = true;
+            CanBeCaught = false;
             OnBeginCatchSequence?.Invoke();
         }
 
