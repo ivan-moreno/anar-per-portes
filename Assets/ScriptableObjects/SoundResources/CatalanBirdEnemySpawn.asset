@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 697d33dca1980aa44a3b852d2e215b8d, type: 3}
-  m_Name: CatalanBirdDriverSpawn
+  m_Name: CatalanBirdEnemySpawn
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: ce9cff696ee39fa429b561dc9cff0c6c, type: 3}
   subtitleText: (motor de tractor)

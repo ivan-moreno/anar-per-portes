@@ -73,9 +73,10 @@ namespace AnarPerPortes
             }
         }
 
+        public const int maxGeneratedRooms = 9999;
         public static RoomManager Singleton { get; private set; }
         public Room LatestRoom { get; private set; }
-        public int LastOpenedRoomNumber { get; private set; } = 0;
+        public int LatestRoomNumber { get; private set; } = 0;
         public List<Room> Rooms { get; } = new(capacity: maxLoadedRooms);
         public UnityEvent<Room> OnRoomGenerated { get; } = new();
         public UnityEvent<Room> OnRoomUnloading { get; } = new();
@@ -109,6 +110,12 @@ namespace AnarPerPortes
 
         public void GenerateNextRoom(GameObject roomPrefab)
         {
+            if (LatestRoomNumber >= maxGeneratedRooms)
+            {
+                PushSubtitle("Has llegado a la sala 9999. El juego no va a seguir generando salas. ¡¿Felicidades...?!", 30f, Team.Friendly);
+                return;
+            }
+
             var instance = Instantiate(roomPrefab, roomsGroup);
             instance.name = roomPrefab.name;
 
@@ -170,18 +177,18 @@ namespace AnarPerPortes
                 s7RoomSet = new(40f, s7RoomPrefabs)
                 {
                     SpawnRequirements = (roomSet) =>
-                    RoomManager.Singleton.LastOpenedRoomNumber > 50
+                    RoomManager.Singleton.LatestRoomNumber > 50
                     && roomSet.RoomsWithoutSpawn >= 8
                 },
                 cameoRoomSet = new(10f, cameoRoomPrefabs)
                 {
                     SpawnRequirements = (roomSet) =>
-                    RoomManager.Singleton.LastOpenedRoomNumber > 10
+                    RoomManager.Singleton.LatestRoomNumber > 10
                     && roomSet.RoomsWithoutSpawn >= 10
                 },
                 catalunyaRoomSet = new(10f, catalunyaRoomPrefabs)
                 {
-                    SpawnRequirements = (roomSet) => CatalanBirdDriverEnemy.IsCursed
+                    SpawnRequirements = (roomSet) => CatalanBirdEnemy.IsCursed
                     && roomSet.RoomsWithoutSpawn >= 10
                 });
         }
@@ -248,8 +255,8 @@ namespace AnarPerPortes
 
         private void OnDoorOpened()
         {
-            LastOpenedRoomNumber++;
-            PushSubtitle("Puerta " + LastOpenedRoomNumber, 2f);
+            LatestRoomNumber++;
+            PushSubtitle("Puerta " + LatestRoomNumber, 2f);
             GenerateNextRoomRandom();
         }
     }

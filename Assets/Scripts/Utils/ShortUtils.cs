@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace AnarPerPortes
 {
@@ -17,6 +19,21 @@ namespace AnarPerPortes
         public static Vector3 PlayerPosition()
         {
             return PlayerController.Singleton.transform.position;
+        }
+
+        public static T GetEnemyInstance<T>() where T : Enemy
+        {
+            return (T)EnemyManager.Singleton.GetEnemyInstance<T>();
+        }
+
+        public static bool EnemyIsOperative<T>() where T : Enemy
+        {
+            return EnemyManager.Singleton.EnemyIsOperative<T>();
+        }
+
+        public static bool EnemyIsOperative(Type type)
+        {
+            return EnemyManager.Singleton.EnemyIsOperative(type);
         }
 
         public static float DistanceToPlayer(Transform originTransform)
@@ -54,6 +71,11 @@ namespace AnarPerPortes
         public static Room LatestRoom()
         {
             return RoomManager.Singleton.LatestRoom;
+        }
+
+        public static int LatestRoomNumber()
+        {
+            return RoomManager.Singleton.LatestRoomNumber;
         }
 
         public static void PushSubtitle(SoundResource soundResource)

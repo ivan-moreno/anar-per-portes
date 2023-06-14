@@ -9,17 +9,19 @@ namespace AnarPerPortes
     public sealed class EnemyTipManager : MonoBehaviour
     {
         public static EnemyTipManager Singleton { get; private set; }
+
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private TMP_Text titleText;
         [SerializeField] private TMP_Text messageText;
         [SerializeField] private Image renderImage;
+
         private Animator screenAnimator;
         private bool isDisplaying = false;
         private Action onHideTipCallback;
         private float timeSinceDisplay = 0f;
         private const float minDisplayTime = 4f;
 
-        public void DisplayTip(string title, string message, Sprite render, Action onHideTipCallback = null)
+        public void DisplayTip(EnemyTip tip, Action onHideTipCallback = null)
         {
             if (isDisplaying)
                 return;
@@ -28,9 +30,9 @@ namespace AnarPerPortes
             timeSinceDisplay = 0f;
             canvasGroup.alpha = 1f;
             canvasGroup.blocksRaycasts = true;
-            titleText.text = title;
-            messageText.text = message;
-            renderImage.sprite = render;
+            titleText.text = tip.Title;
+            messageText.text = tip.Message;
+            renderImage.sprite = tip.Render;
             PlayerController.Singleton.BlockAll();
             this.onHideTipCallback = onHideTipCallback;
             screenAnimator.Play("Draw", 0, 0f);

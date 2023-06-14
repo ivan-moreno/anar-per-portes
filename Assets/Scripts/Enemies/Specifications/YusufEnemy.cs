@@ -8,8 +8,6 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/Yusuf Enemy")]
     public class YusufEnemy : Enemy
     {
-        public static bool IsOperative { get; set; } = false;
-
         [Header("Signs")]
         [SerializeField] private Material bunkerSignMaterial;
         [SerializeField] private Material lighthouseSignMaterial;
@@ -18,7 +16,6 @@ namespace AnarPerPortes
 
         [Header("Sound")]
         [SerializeField] private SoundResource walkieTalkieAlertSound;
-        [SerializeField] private SoundResource walkieTalkieStaticSound;
         [SerializeField] private SoundResource jumpscareSound;
         [SerializeField] private SoundResource[] bunkerTargetSounds;
         [SerializeField] private SoundResource[] lighthouseTargetSounds;
@@ -29,13 +26,13 @@ namespace AnarPerPortes
 
         private void Start()
         {
-            IsOperative = true;
+            base.Spawn();
             CacheComponents();
 
             isleRoom = RoomManager.Singleton.LatestRoom as IsleRoom;
             var targetPos = isleRoom.IncorrectDoor.transform.position + (isleRoom.IncorrectDoor.transform.forward * 4f);
             transform.position = targetPos;
-            audioSource.PlayOneShot(walkieTalkieAlertSound);
+            audioSource.PlayOneShot(walkieTalkieAlertSound.AudioClip);
 
             var rng = Random.Range(0, 4);
 
@@ -95,7 +92,6 @@ namespace AnarPerPortes
 
             PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));
-            IsOperative = false;
             StartCoroutine(nameof(CatchPlayerEnumerator));
         }
 
@@ -127,16 +123,6 @@ namespace AnarPerPortes
 
             CatchManager.Singleton.CatchPlayer("YUSUF ENDING", "Fuerzas Yusuf, Fuerzas Yusuf");
             audioSource.Play();
-        }
-
-        private void Despawn()
-        {
-            IsOperative = false;
-
-            if (IsRoblomanDisguise)
-                RoblomanEnemy.IsOperative = false;
-
-            Destroy(gameObject);
         }
     }
 }

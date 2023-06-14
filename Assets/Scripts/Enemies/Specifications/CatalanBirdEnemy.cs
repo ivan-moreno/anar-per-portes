@@ -4,9 +4,8 @@ using static AnarPerPortes.ShortUtils;
 namespace AnarPerPortes
 {
     [AddComponentMenu("Anar per Portes/Enemies/Catalan Bird Driver Enemy")]
-    public class CatalanBirdDriverEnemy : Enemy
+    public class CatalanBirdEnemy : Enemy
     {
-        public static bool IsOperative { get; private set; } = false;
         public static bool IsCursed { get; set; } = false;
 
         [Header("Stats")]
@@ -25,16 +24,18 @@ namespace AnarPerPortes
         [SerializeField] private SoundResource turboSound;
 
         private float currentSpeed = 0f;
-        private bool isCatching = false;
         private bool isTurbo = false;
         private bool isDrift = false;
         private float turboCooldown;
 
-        private void Start()
+        public override void Spawn()
         {
-            IsOperative = true;
+            base.Spawn();
             CacheComponents();
 
+            var targetPosition = LatestRoom().transform.position + LatestRoom().transform.forward * 56;
+            var targetRotation = Quaternion.LookRotation(-LatestRoom().transform.forward);
+            transform.SetPositionAndRotation(targetPosition, targetRotation);
             audioSource.PlayOneShot(spawnSound);
 
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
@@ -43,7 +44,7 @@ namespace AnarPerPortes
 
         private void Update()
         {
-            if (A90Enemy.IsOperative)
+            if (EnemyIsOperative<A90Enemy>())
                 return;
 
             var distance = DistanceToPlayer(transform);
@@ -74,7 +75,7 @@ namespace AnarPerPortes
             currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, isTurbo ? acceleration * 2f : acceleration * Time.deltaTime);
 
             var preMovePosition = transform.position;
-            transform.Translate(Vector3.forward * currentSpeed * Time.deltaTime, Space.Self);
+            transform.Translate(currentSpeed * Time.deltaTime * Vector3.forward, Space.Self);
             var velocity = Time.timeScale <= 0f ? Vector3.zero : (transform.position - preMovePosition) / Time.deltaTime;
 
             var targetTurnRate = isDrift ? driftTurnRate : turnRate;
@@ -116,17 +117,11 @@ namespace AnarPerPortes
             var cross = Vector3.Cross(delta, transform.forward);
 
             if (cross == Vector3.zero)
-            {
                 return 0f;
-            }
             else if (cross.y > 0)
-            {
                 return 1f;
-            }
             else
-            {
                 return -1f;
-            }
         }
 
         private void OnTriggerEnter(Collider other)
@@ -152,15 +147,6 @@ namespace AnarPerPortes
             PlayerController.Singleton.BlockAll();
             audioSource.Stop();
             CatchManager.Singleton.CatchPlayer("OCELL CATALÀ ENDING", "CASSO EN L'OLLA, NEN!");
-        }
-
-        private void Despawn()
-        {
-            if (isCatching)
-                return;
-
-            IsOperative = false;
-            Destroy(gameObject);
         }
     }
 }

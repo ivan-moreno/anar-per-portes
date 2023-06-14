@@ -8,7 +8,6 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/Skell Beta Enemy")]
     public class SkellBetaEnemy : Enemy
     {
-        public static bool IsOperative { get; set; } = false;
         public static UnityEvent<SkellBetaEnemy> OnSpawned { get; } = new();
 
         [Header("Stats")]
@@ -31,16 +30,15 @@ namespace AnarPerPortes
         private bool isChasing = false;
         private bool isOnBreak = false;
         private bool lineOfSightCheck = false;
-        private bool isCatching = false;
         private bool metBouser = false;
         private int waypointsTraversed = 0;
         private int roomsTraversed = 0;
         private int openedDoors = 0;
         private BouserEnemy bouserEnemy;
 
-        private void Start()
+        public override void Spawn()
         {
-            IsOperative = true;
+            base.Spawn();
             CacheComponents();
 
             transform.position = RoomManager.Singleton.Rooms[0].transform.position;
@@ -50,10 +48,10 @@ namespace AnarPerPortes
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
             RoomManager.Singleton.OnRoomGenerated.AddListener(RoomGenerated);
-            S7Enemy.OnSpawn.AddListener((_) => Despawn());
+            Specimen7Enemy.OnSpawn.AddListener((_) => Despawn());
 
-            if (BouserEnemy.IsOperative)
-                bouserEnemy = FindObjectOfType<BouserEnemy>();
+            if (EnemyIsOperative<BouserEnemy>())
+                bouserEnemy = GetEnemyInstance<BouserEnemy>();
             else
                 BouserEnemy.OnSpawn.AddListener((spawnedBouser) => bouserEnemy = spawnedBouser);
 
@@ -126,7 +124,7 @@ namespace AnarPerPortes
 
             var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, targetRunSpeed * Time.deltaTime);
 
-            if (!SheepyEnemy.IsOperative && !A90Enemy.IsOperative)
+            if (!EnemyIsOperative<SheepyEnemy>() && !EnemyIsOperative<A90Enemy>())
                 transform.position = nextPosition;
 
             reachedTarget = !isChasing && Vector3.Distance(transform.position, targetLocation) <= runSpeed * Time.deltaTime;
@@ -238,8 +236,10 @@ namespace AnarPerPortes
         private IEnumerator CatchPlayerCoroutine()
         {
             yield return new WaitForSeconds(1.4f);
+
             audioSource.PlayOneShot(jumpscareSound);
             yield return new WaitForSeconds(1.15f);
+
             audioSource.spatialBlend = 0f;
             audioSource.PlayOneShot(endingMusic);
             CatchManager.Singleton.CatchPlayer("SKELL ENDING", "ni modo");
@@ -248,7 +248,6 @@ namespace AnarPerPortes
         private IEnumerator MeetBouserCoroutine()
         {
             RoomManager.Singleton.LatestRoom.OnUnloading.AddListener(Despawn);
-            IsOperative = false;
             metBouser = true;
             bouserEnemy.MeetSkell(this);
             model.LookAt(bouserEnemy.transform);
@@ -256,18 +255,10 @@ namespace AnarPerPortes
             animator.Play("Idle");
             audioSource.Stop();
             yield return new WaitForSeconds(12f);
+
             audioSource.clip = meetBouserMusic.AudioClip;
             audioSource.Play(meetBouserMusic);
             animator.Play("Funkin");
-        }
-
-        private void Despawn()
-        {
-            if (isCatching)
-                return;
-
-            IsOperative = false;
-            Destroy(gameObject);
         }
     }
 }

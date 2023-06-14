@@ -252,8 +252,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd7241981b54a5b4e82012453ae4411e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasHidingSpots: 0
   door: {fileID: 1343002099155468836}
+  isSmallSize: 0
+  isMediumSize: 1
+  isLargeSize: 0
+  isSafe: 0
+  isNormalmodeExclusive: 0
+  isHardmodeExclusive: 0
+  hasPedestals: 0
+  hasHallucinations: 1
   incorrectDoor: {fileID: 2946954031465601077}
   walkieTalkieGiver: {fileID: 237668737196563779}
   correctWaySign: {fileID: 3289112394495086722}

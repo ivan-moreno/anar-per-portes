@@ -121,7 +121,7 @@ namespace AnarPerPortes
         {
             audioSource = GetComponent<AudioSource>();
             RoomManager.Singleton.OnRoomGenerated.AddListener(OnRoomGenerated);
-            S7Enemy.OnSpawn.AddListener((_) => WrapUp());
+            Specimen7Enemy.OnSpawn.AddListener((_) => WrapUp());
         }
 
         private void OnRoomGenerated(Room room)

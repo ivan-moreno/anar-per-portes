@@ -8,7 +8,6 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/Sangot Enemy")]
     public class SangotEnemy : Enemy
     {
-        public static bool IsOperative { get; set; } = false;
         public static UnityEvent<SangotEnemy> OnSpawned { get; } = new();
 
         [Header("Stats")]
@@ -23,12 +22,11 @@ namespace AnarPerPortes
         [SerializeField] private SoundResource jumpscareSound;
         [SerializeField] private SoundResource endingMusic;
 
-        private bool isCatching = false;
         private Vector3 originalPlayerPosition;
 
-        private void Start()
+        public override void Spawn()
         {
-            IsOperative = true;
+            base.Spawn();
             CacheComponents();
 
             BlackoutManager.Singleton.PlayDoorOpen();
@@ -64,8 +62,10 @@ namespace AnarPerPortes
 
             transform.position = spawnPosition;
             audioSource.Play(spawnSound);
+
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
+
             OnSpawned?.Invoke(this);
         }
 
@@ -98,7 +98,7 @@ namespace AnarPerPortes
 
             var nextPosition = Vector3.MoveTowards(transform.position, PlayerPosition(), runSpeed * Time.deltaTime);
 
-            if (!SheepyEnemy.IsOperative && !A90Enemy.IsOperative)
+            if (!EnemyIsOperative<SheepyEnemy>() && !EnemyIsOperative<A90Enemy>())
                 transform.position = nextPosition;
         }
 
@@ -145,19 +145,6 @@ namespace AnarPerPortes
             BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 0.5f);
             PlayerController.Singleton.Teleport(originalPlayerPosition);
             Despawn();
-        }
-
-        private void Despawn()
-        {
-            if (isCatching)
-                return;
-
-            IsOperative = false;
-
-            if (IsRoblomanDisguise)
-                RoblomanEnemy.IsOperative = false;
-
-            Destroy(gameObject);
         }
     }
 }

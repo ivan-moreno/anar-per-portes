@@ -10,8 +10,6 @@ namespace AnarPerPortes
         public Transform BouserSpawnPoint => bouserSpawnPoint;
         public bool PlayerIsInsideRoom { get; private set; } = false;
 
-        private static int spawnedBouserAmount = 0;
-
         [Header("Components")]
         [SerializeField] private Transform bouserWaypointGroup;
         [SerializeField] private Transform bouserSpawnPoint;
@@ -30,9 +28,8 @@ namespace AnarPerPortes
                 return;
 
             spawnedBouser = true;
-            spawnedBouserAmount++;
             PlayBouserDoorAnimation();
-            EnemyManager.Singleton.GenerateEnemy(EnemyManager.Singleton.BouserEnemyPrefab);
+            GetEnemyInstance<BouserEnemy>().WakeUp();
         }
 
         public void OpenBouserDoor()

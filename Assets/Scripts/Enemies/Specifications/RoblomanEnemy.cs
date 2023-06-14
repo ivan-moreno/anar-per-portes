@@ -9,7 +9,6 @@ namespace AnarPerPortes
     [RequireComponent(typeof(AudioSource))]
     public class RoblomanEnemy : Enemy
     {
-        public static bool IsOperative { get; set; } = false;
         public UnityEvent OnPlayerPackedReward { get; } = new();
         [SerializeField] private PickableItem rewardPickable;
 
@@ -20,9 +19,9 @@ namespace AnarPerPortes
 
         private bool isRewardCollected = false;
 
-        private void Start()
+        public override void Spawn()
         {
-            IsOperative = true;
+            base.Spawn();
             CacheComponents();
 
             audioSource.PlayOneShot(rewardStartSounds.RandomItem());
@@ -44,11 +43,12 @@ namespace AnarPerPortes
             isRewardCollected = true;
             animator.Play("RewardEnd", 0, 0f);
             audioSource.PlayOneShot(rewardEndSound);
-            IsOperative = false;
             OnPlayerPackedReward?.Invoke();
             yield return new WaitForSeconds(0.6f);
+
             audioSource.PlayOneShot(despawnSound.AudioClip);
             yield return new WaitForSeconds(0.25f);
+
             Despawn();
         }
 
@@ -58,12 +58,6 @@ namespace AnarPerPortes
                 return;
 
             transform.LookAt(PlayerController.Singleton.transform);
-        }
-
-        private void Despawn()
-        {
-            IsOperative = false;
-            Destroy(gameObject);
         }
     }
 }

@@ -8,18 +8,19 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/Bouser Enemy")]
     public class BouserEnemy : Enemy
     {
-        public static bool IsOperative { get; set; } = false;
         public static UnityEvent<BouserEnemy> OnSpawn { get; } = new();
         public bool IsDefeated { get; private set; } = false;
 
         [Header("Stats")]
         [SerializeField] private float runSpeed = 8f;
-        [SerializeField] private float runSpeedHard = 12f;
         [SerializeField] private float sprintSpeed = 14f;
         [SerializeField] private float sprintAtDistance = 15f;
         [SerializeField] private float catchRange = 2f;
         [SerializeField] private float sightAngle = 45f;
-        [SerializeField] private float sightAngleHard = 90f;
+
+        [Header("Hardmode Stats")]
+        [SerializeField] private float runSpeedHardmode = 12f;
+        [SerializeField] private float sightAngleHardmode = 90f;
 
         [Header("Audio")]
         [SerializeField] private SoundResource jumpscareSound;
@@ -36,7 +37,6 @@ namespace AnarPerPortes
         private Vector3 targetLocation;
         private bool reachedTarget = false;
         private bool isChasing = false;
-        private bool isCatching = false;
         private bool isMeetSkell = false;
         private bool isGrabbingTail = false;
         private float nextMoveTime;
@@ -47,6 +47,50 @@ namespace AnarPerPortes
 
         private const float nextMoveMinTime = 0.2f;
         private const float nextMoveMaxTime = 2f;
+
+        public override void Spawn()
+        {
+            base.Spawn();
+            CacheComponents();
+
+            //TODO: Consider making disguisable and using a different AI for that case
+            room = LatestRoom() as BouserRoom;
+
+            if (room == null)
+            {
+                Despawn();
+                return;
+            }
+
+            transform.SetPositionAndRotation(room.BouserSpawnPoint.position, room.BouserSpawnPoint.rotation);
+
+            LatestRoom().OnUnloading.AddListener(Despawn);
+
+            PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
+            PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
+
+            OnSpawn?.Invoke(this);
+        }
+
+        public void WakeUp()
+        {
+            if (EnemyIsOperative<PedroEnemy>())
+            {
+                var pedroPos = FindObjectOfType<PedroEnemy>().transform.position;
+                var dist = Vector3.Distance(transform.position, pedroPos);
+
+                if (dist <= 32f)
+                    Talk(meetPedroSounds.RandomItem());
+
+                else
+                    Talk(warningSounds.RandomItem());
+            }
+            else
+                Talk(warningSounds.RandomItem());
+
+            nextMoveTime = Random.Range(nextMoveMinTime, nextMoveMaxTime);
+            ChangeTargetLocationRandom();
+        }
 
         public void GrabTail()
         {
@@ -110,44 +154,6 @@ namespace AnarPerPortes
             CatchManager.Singleton.CatchPlayer("BAD ENDING", "Has arruinado una batalla de rap legendaria.");
         }
 
-        private void Start()
-        {
-            IsOperative = true;
-            CacheComponents();
-
-            room = RoomManager.Singleton.LatestRoom as BouserRoom;
-
-            if (room == null)
-            {
-                Despawn();
-                return;
-            }
-
-            PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
-            room.OnUnloading.AddListener(Despawn);
-
-            transform.SetPositionAndRotation(room.BouserSpawnPoint.position, room.BouserSpawnPoint.rotation);
-
-            if (PedroEnemy.IsOperative)
-            {
-                var pedroPos = FindObjectOfType<PedroEnemy>().transform.position;
-                var dist = Vector3.Distance(transform.position, pedroPos);
-
-                if (dist <= 32f)
-                    Talk(meetPedroSounds.RandomItem());
-
-                else
-                    Talk(warningSounds.RandomItem());
-            }
-            else
-                Talk(warningSounds.RandomItem());
-
-            nextMoveTime = Random.Range(nextMoveMinTime, nextMoveMaxTime);
-            ChangeTargetLocationRandom();
-            OnSpawn?.Invoke(this);
-            PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
-        }
-
         private void PauseChanged(bool isPaused)
         {
             if (isPaused)
@@ -205,7 +211,7 @@ namespace AnarPerPortes
             // Choose whether to go to the next map point or towards the Player.
             var determinedTargetLocation = isChasing ? PlayerPosition() : targetLocation;
 
-            var targetRunSpeed = IsHardmodeEnabled() ? runSpeedHard : runSpeed;
+            var targetRunSpeed = IsHardmodeEnabled() ? runSpeedHardmode : runSpeed;
 
             if (!IsHardmodeEnabled() && isChasing && distanceToPlayer > sprintAtDistance)
             {
@@ -214,10 +220,10 @@ namespace AnarPerPortes
             }
             else
             {
-                animator.speed = IsHardmodeEnabled() ? runSpeedHard / runSpeed : 1f;
+                animator.speed = IsHardmodeEnabled() ? runSpeedHardmode / runSpeed : 1f;
             }
 
-            if (A90Enemy.IsOperative)
+            if (EnemyIsOperative<A90Enemy>())
                 targetRunSpeed = 0f;
 
             var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, targetRunSpeed * Time.deltaTime);
@@ -248,7 +254,7 @@ namespace AnarPerPortes
         {
             var directionToTarget = target.position - source.position;
             var angle = Vector3.Angle(source.forward, directionToTarget);
-            return angle <= (IsHardmodeEnabled() ? sightAngleHard : sightAngle);
+            return angle <= (IsHardmodeEnabled() ? sightAngleHardmode : sightAngle);
         }
 
         private void CatchPlayer()
@@ -297,19 +303,6 @@ namespace AnarPerPortes
 
             audioSource.PlayOneShot(soundResource);
             audioCooldown = soundResource.AudioClip.length;
-        }
-
-        private void Despawn()
-        {
-            if (isCatching)
-                return;
-
-            IsOperative = false;
-
-            if (IsRoblomanDisguise)
-                RoblomanEnemy.IsOperative = false;
-
-            Destroy(gameObject);
         }
     }
 }

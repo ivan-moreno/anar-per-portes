@@ -7,8 +7,6 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/Davilote Enemy")]
     public class DaviloteEnemy : Enemy
     {
-        public static bool IsOperative { get; set; } = false;
-
         [Header("Stats")]
         [SerializeField] private float catchAngle = 120f;
 
@@ -16,8 +14,6 @@ namespace AnarPerPortes
         [SerializeField] private SoundResource jumpscareSound;
         [SerializeField] private SoundResource[] warningSounds;
         [SerializeField] private SoundResource[] meetSheepySounds;
-
-        private bool isCatching = false;
 
         public float MeetSheepy()
         {
@@ -27,12 +23,14 @@ namespace AnarPerPortes
             return sound.AudioClip.length + 0.1f;
         }
 
-        private void Start()
+        public override void Spawn()
         {
-            IsOperative = true;
+            base.Spawn();
             CacheComponents();
+
             transform.rotation = PlayerController.Singleton.transform.rotation;
             audioSource.PlayOneShot(warningSounds.RandomItem());
+
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             RoomManager.Singleton.OnRoomGenerated.AddListener((_) => Despawn());
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
@@ -109,19 +107,6 @@ namespace AnarPerPortes
 
             CatchManager.Singleton.CatchPlayer("DAVILOTE ENDING", "No eres un payaso, eres el circo entero.");
             audioSource.Play();
-        }
-
-        private void Despawn()
-        {
-            if (isCatching)
-                return;
-
-            IsOperative = false;
-
-            if (IsRoblomanDisguise)
-                RoblomanEnemy.IsOperative = false;
-
-            Destroy(gameObject);
         }
     }
 }

@@ -13,10 +13,20 @@ namespace AnarPerPortes
         public Transform PedroBreakPoint { get; private set; }
         public UnityEvent OnDoorOpened { get; } = new();
         public UnityEvent OnUnloading { get; } = new();
-        public bool HasHidingSpots => hasHidingSpots;
+        public bool HasPedestals => hasPedestals;
 
-        [SerializeField] protected bool hasHidingSpots = false;
+        [Header("Components")]
         [SerializeField] protected RoomDoor door;
+
+        [Header("Flags")]
+        [SerializeField] protected bool isSmallSize = false;
+        [SerializeField] protected bool isMediumSize = false;
+        [SerializeField] protected bool isLargeSize = false;
+        [SerializeField] protected bool isSafe = false;
+        [SerializeField] protected bool isNormalmodeExclusive = false;
+        [SerializeField] protected bool isHardmodeExclusive = false;
+        [SerializeField] protected bool hasPedestals = false;
+        [SerializeField] protected bool hasHallucinations = false;
 
         public void OpenDoor()
         {

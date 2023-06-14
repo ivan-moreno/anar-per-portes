@@ -9,8 +9,6 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/A90 Enemy")]
     public sealed class A90Enemy : Enemy
     {
-        public static bool IsOperative { get; set; } = false;
-
         [Header("Components")]
         [SerializeField] private Image image;
         [SerializeField] private Animator jumpscareAnimator;
@@ -31,15 +29,14 @@ namespace AnarPerPortes
 
         private float timeSinceSpawn = 0f;
         private bool checkedMotion = false;
-        private bool isCatching = false;
         private float hardmodeSpawnTime = 20f;
 
-        public void Spawn()
+        public override void Spawn()
         {
             if (!PlayerController.Singleton.CanBeCaught)
                 return;
 
-            IsOperative = true;
+            base.Spawn();
             ChangeScreenLocation();
             AudioManager.Singleton.MuteAllAudioMixers();
 
@@ -58,17 +55,17 @@ namespace AnarPerPortes
             timeSinceSpawn = 0f;
         }
 
-        private void Despawn()
+        protected override void Despawn()
         {
             if (isCatching)
                 return;
 
-            IsOperative = false;
             image.enabled = false;
             checkedMotion = false;
             timeSinceSpawn = 0f;
             jumpscareAnimator.gameObject.SetActive(false);
             AudioManager.Singleton.UnmuteAllAudioMixers();
+            base.Despawn();
         }
 
         private void Start()
@@ -91,7 +88,7 @@ namespace AnarPerPortes
 
         private void Update()
         {
-            if (IsHardmodeEnabled() && !IsOperative)
+            if (IsHardmodeEnabled() && !EnemyIsOperative<A90Enemy>())
             {
                 hardmodeSpawnTime -= Time.deltaTime;
 
@@ -102,7 +99,7 @@ namespace AnarPerPortes
                 }
             }
 
-            if (IsOperative)
+            if (EnemyIsOperative<A90Enemy>())
                 timeSinceSpawn += Time.deltaTime;
 
             if (!checkedMotion && timeSinceSpawn >= 0.6f && !jumpscareAnimator.gameObject.activeSelf)

@@ -13,6 +13,12 @@ namespace AnarPerPortes
         protected AudioSource audioSource;
         protected Animator animator;
         protected Transform model;
+        protected bool isCatching = false;
+
+        public virtual void Spawn()
+        {
+            EnemyManager.Singleton.MarkAsOperative(this);
+        }
 
         public void MarkAsRoblomanDisguise()
         {
@@ -25,6 +31,19 @@ namespace AnarPerPortes
             audioSource = GetComponent<AudioSource>();
             animator = GetComponentInChildren<Animator>();
             model = animator.transform;
+        }
+
+        protected virtual void Despawn()
+        {
+            if (isCatching)
+                return;
+
+            EnemyManager.Singleton.UnmarkAsOperative(this);
+
+            if (IsRoblomanDisguise)
+                EnemyManager.Singleton.UnmarkAsOperative<RoblomanEnemy>();
+
+            Destroy(gameObject);
         }
 
         protected virtual RoblomanEnemy RevealRoblomanDisguise()

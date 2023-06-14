@@ -60,7 +60,9 @@ namespace AnarPerPortes
             if (!IsHardmodeEnabled() || !hardmodeTimerActive)
                 return;
 
-            if (!A90Enemy.IsOperative && !SheepyEnemy.IsOperative && !SangotEnemy.IsOperative)
+            if (!EnemyIsOperative<A90Enemy>()
+                && !EnemyIsOperative<SheepyEnemy>()
+                && !EnemyIsOperative<SangotEnemy>())
                 hardmodeTimer += Time.deltaTime;
 
             if (hardmodeTimer >= hardmodeTimeToKill)

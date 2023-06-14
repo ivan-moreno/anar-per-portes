@@ -140,7 +140,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1343002099365941500}
-  - component: {fileID: 1343002099365941503}
+  - component: {fileID: 6326600191832153248}
   m_Layer: 0
   m_Name: S7Room2
   m_TagString: Untagged
@@ -166,7 +166,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1343002099365941503
+--- !u!114 &6326600191832153248
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -175,11 +175,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1343002099365941501}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0d01ed7d3fcfe64aa1ac9948b202f4f, type: 3}
+  m_Script: {fileID: 11500000, guid: 560957a0d56174847aa8cf99a145c618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasHidingSpots: 0
   door: {fileID: 1343002099155468836}
+  isSmallSize: 0
+  isMediumSize: 0
+  isLargeSize: 1
+  isSafe: 0
+  isNormalmodeExclusive: 0
+  isHardmodeExclusive: 0
+  hasPedestals: 0
+  hasHallucinations: 0
 --- !u!1 &1483918015748318030
 GameObject:
   m_ObjectHideFlags: 0

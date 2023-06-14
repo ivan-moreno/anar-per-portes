@@ -5,11 +5,10 @@ using UnityEngine.Events;
 
 namespace AnarPerPortes
 {
-    [AddComponentMenu("Anar per Portes/Enemies/S7 Enemy")]
-    public class S7Enemy : Enemy
+    [AddComponentMenu("Anar per Portes/Enemies/Specimen 7 Enemy")]
+    public class Specimen7Enemy : Enemy
     {
-        public static bool IsOperative { get; set; } = false;
-        public static UnityEvent<S7Enemy> OnSpawn { get; } = new();
+        public static UnityEvent<Specimen7Enemy> OnSpawn { get; } = new();
         [SerializeField] private string[] catchMessages;
 
         [Header("Stats")]
@@ -23,11 +22,10 @@ namespace AnarPerPortes
         private static bool hasAlreadyAppeared = false;
         private float timeSinceSpawn;
         private int openedDoors = 0;
-        private bool isCatching = false;
 
-        private void Start()
+        public override void Spawn()
         {
-            IsOperative = true;
+            base.Spawn();
             audioSource = GetComponent<AudioSource>();
 
             var room = RoomManager.Singleton.LatestRoom.transform;
@@ -52,23 +50,22 @@ namespace AnarPerPortes
                 Despawn();
         }
 
-        private void Despawn()
+        protected override void Despawn()
         {
             if (isCatching)
                 return;
 
-            IsOperative = false;
             hasAlreadyAppeared = true;
             BlackoutManager.Singleton.PlayDoorOpen();
             BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 0.5f);
-            Destroy(gameObject);
+            base.Despawn();
         }
 
         private void Update()
         {
             timeSinceSpawn += Time.deltaTime;
 
-            if (SheepyEnemy.IsOperative || SangotEnemy.IsOperative || A90Enemy.IsOperative)
+            if (EnemyIsOperative<SheepyEnemy>() || EnemyIsOperative<SangotEnemy>() || EnemyIsOperative<A90Enemy>())
                 return;
 
             if (!hasAlreadyAppeared && timeSinceSpawn < 3f && !IsHardmodeEnabled())
@@ -79,7 +76,7 @@ namespace AnarPerPortes
             if (advanceSpeed >= PlayerController.Singleton.WalkSpeed - 2f)
                 advanceSpeed = PlayerController.Singleton.WalkSpeed - 2f;
 
-            transform.Translate(Vector3.forward * advanceSpeed * Time.deltaTime, Space.Self);
+            transform.Translate(advanceSpeed * Time.deltaTime * Vector3.forward, Space.Self);
         }
 
         private void OnTriggerEnter(Collider other)

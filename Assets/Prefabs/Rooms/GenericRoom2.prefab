@@ -248,8 +248,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0d01ed7d3fcfe64aa1ac9948b202f4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasHidingSpots: 1
   door: {fileID: 1343002099155468836}
+  isSmallSize: 0
+  isMediumSize: 1
+  isLargeSize: 0
+  isSafe: 0
+  isNormalmodeExclusive: 0
+  isHardmodeExclusive: 0
+  hasPedestals: 1
+  hasHallucinations: 0
 --- !u!1 &1439098136689052750
 GameObject:
   m_ObjectHideFlags: 0

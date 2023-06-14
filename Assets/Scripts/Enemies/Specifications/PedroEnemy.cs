@@ -7,8 +7,6 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/Pedro Enemy")]
     public class PedroEnemy : Enemy
     {
-        public static bool IsOperative { get; set; } = false;
-
         [Header("Stats")]
         [SerializeField] private float runSpeed = 16f;
         [SerializeField] private float chaseRange = 8f;
@@ -32,28 +30,28 @@ namespace AnarPerPortes
         private bool isGrace = false;
         private bool lostPlayer = false;
         private bool lineOfSightCheck = false;
-        private bool isCatching = false;
         private bool metBouser = false;
         private float graceTime;
         private int waypointsTraversed = 0;
         private int roomsTraversed = 0;
         private BouserEnemy bouserEnemy;
 
-        private void Start()
+        public override void Spawn()
         {
-            IsOperative = true;
+            base.Spawn();
             CacheComponents();
 
             transform.position = RoomManager.Singleton.Rooms[0].transform.position;
             targetLocation = RoomManager.Singleton.Rooms[0].WaypointGroup.GetChild(0).position;
             audioSource.Play(spawnSound);
+
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
             RoomManager.Singleton.OnRoomGenerated.AddListener(RoomGenerated);
-            S7Enemy.OnSpawn.AddListener((_) => Despawn());
+            Specimen7Enemy.OnSpawn.AddListener((_) => Despawn());
 
-            if (BouserEnemy.IsOperative)
-                bouserEnemy = FindObjectOfType<BouserEnemy>();
+            if (EnemyIsOperative<BouserEnemy>())
+                bouserEnemy = GetEnemyInstance<BouserEnemy>();
             else
                 BouserEnemy.OnSpawn.AddListener((spawnedBouser) => bouserEnemy = spawnedBouser);
         }
@@ -125,7 +123,7 @@ namespace AnarPerPortes
 
             var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, targetRunSpeed * Time.deltaTime);
 
-            if (!SheepyEnemy.IsOperative && !A90Enemy.IsOperative)
+            if (!EnemyIsOperative<SheepyEnemy>() && !EnemyIsOperative<A90Enemy>())
                 transform.position = nextPosition;
 
             reachedTarget = !isChasing && Vector3.Distance(transform.position, targetLocation) <= runSpeed * Time.deltaTime;
@@ -289,18 +287,6 @@ namespace AnarPerPortes
             runSpeed = originalRunSpeed;
             animator.Play("Run");
             audioSource.Play();
-        }
-
-        private void Despawn()
-        {
-            if (isCatching)
-                return;
-
-            if (IsRoblomanDisguise)
-                RoblomanEnemy.IsOperative = false;
-
-            IsOperative = false;
-            Destroy(gameObject);
         }
     }
 }

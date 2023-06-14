@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static AnarPerPortes.ShortUtils;
 
@@ -8,57 +9,12 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Managers/Enemy Manager")]
     public sealed class EnemyManager : MonoBehaviour
     {
-        private sealed class EnemyPossibility
-        {
-            public GameObject EnemyPrefab { get; set; }
-            public Func<Room, bool> SpawnRequirements { get; set; }
-            public Func<EnemyPossibility, bool> RngRequirement { get; set; }
-            public int RoomsWithoutSpawn { get; set; } = 0;
-            public bool WillSpawn { get; set; } = false;
-
-            public bool HasSpawnRequirements(Room generatedRoom)
-            {
-                return SpawnRequirements is not null && SpawnRequirements.Invoke(generatedRoom);
-            }
-
-            public bool HasRngRequirement()
-            {
-                return RngRequirement is not null && RngRequirement.Invoke(this);
-            }
-
-            public void DoSpawn()
-            {
-                if (EnemyPrefab != null)
-                    EnemyManager.Singleton.GenerateEnemy(EnemyPrefab);
-
-                RoomsWithoutSpawn = 0;
-                WillSpawn = false;
-            }
-
-            public void DoSpawnAsRoblomanDisguise()
-            {
-                if (EnemyPrefab != null)
-                    EnemyManager.Singleton.GenerateRoblomanDisguiseEnemy(EnemyPrefab);
-
-                WillSpawn = false;
-            }
-        }
-
         public static EnemyManager Singleton { get; private set; }
 
-        //FIXME: Spawn Bouser and make him wait (inactive) instead of instantiating when his big door is opened.
-        public Transform SangotRealm => sangotRealm;
-        public GameObject BouserEnemyPrefab => bouserEnemyPrefab;
         public GameObject SkellEnemyPrefab => skellEnemyPrefab;
-        public GameObject SkellBetaEnemyPrefab => skellBetaEnemyPrefab;
-        public GameObject S7EnemyPrefab => s7EnemyPrefab;
+        public Transform SangotRealm => sangotRealm;
 
-        [Header("Stats")]
-        [SerializeField] private float skellChance = 5f;
-        [SerializeField] private int skellMinDoorsOpened = 35;
-        [SerializeField] private float roblomanChance = 5f;
-        [SerializeField] private int roblomanMinDoorsOpened = 40;
-
+        private static readonly HashSet<string> displayedEnemyTipNames = new();
 
         [Header("Components")]
         [SerializeField] private Transform enemiesGroup;
@@ -66,28 +22,74 @@ namespace AnarPerPortes
         [SerializeField] private A90Enemy a90Enemy;
 
         [Header("Prefabs")]
-        [SerializeField] private GameObject daviloteEnemyPrefab;
         [SerializeField] private GameObject bouserEnemyPrefab;
+        [SerializeField] private GameObject catalanBirdEnemyPrefab;
+        [SerializeField] private GameObject daviloteEnemyPrefab;
         [SerializeField] private GameObject pedroEnemyPrefab;
         [SerializeField] private GameObject roblomanEnemyPrefab;
         [SerializeField] private GameObject sangotEnemyPrefab;
         [SerializeField] private GameObject sheepyEnemyPrefab;
         [SerializeField] private GameObject skellEnemyPrefab;
-        [SerializeField] private GameObject skellBetaEnemyPrefab;
         [SerializeField] private GameObject yusufEnemyPrefab;
-        [SerializeField] private GameObject s7EnemyPrefab;
+        [SerializeField] private GameObject specimen7EnemyPrefab;
 
-        private int roomsWithoutAnyEnemySpawn = 0;
-        private static readonly HashSet<string> displayedEnemyTipNames = new();
+        private EnemyEgg[] eggs;
+        private readonly Dictionary<Type, Enemy> operativeEnemies = new();
 
-        private EnemyPossibility davilotePossibility;
-        private EnemyPossibility pedroPossibility;
-        private EnemyPossibility sangotPossibility;
-        private EnemyPossibility sheepyPossibility;
-        private EnemyPossibility skellPossibility;
-        private EnemyPossibility skellBetaPossibility;
-        private EnemyPossibility a90Possibility;
-        private readonly List<EnemyPossibility> allEnemyPossibilities = new();
+        public Enemy GetEnemyInstance<T>() where T : Enemy
+        {
+            if (operativeEnemies.TryGetValue(typeof(T), out var enemyInstance))
+                return enemyInstance;
+
+            return null;
+        }
+
+        public void MarkAsOperative(Enemy enemyInstance)
+        {
+            if (operativeEnemies.ContainsKey(enemyInstance.GetType()))
+            {
+                operativeEnemies[enemyInstance.GetType()] = enemyInstance;
+                return;
+            }
+
+            operativeEnemies.Add(enemyInstance.GetType(), enemyInstance);
+        }
+
+        public void UnmarkAsOperative<T>() where T : Enemy
+        {
+            operativeEnemies.Remove(typeof(T));
+        }
+
+        public void UnmarkAsOperative(Enemy enemyInstance)
+        {
+            operativeEnemies.Remove(enemyInstance.GetType());
+        }
+
+        public bool EnemyIsOperative<T>() where T : Enemy
+        {
+            return operativeEnemies.ContainsKey(typeof(T));
+        }
+
+        public bool EnemyIsOperative(Type type)
+        {
+            return operativeEnemies.ContainsKey(type);
+        }
+
+        public void SpawnEnemy(GameObject enemyPrefab, bool isDisguise = false)
+        {
+            if (isDisguise && EnemyIsOperative<RoblomanEnemy>())
+                return;
+
+            var instance = Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity, enemiesGroup);
+
+            instance.TryGetComponent(out Enemy enemy);
+            enemy.Spawn();
+
+            TryDisplayTip(enemy);
+
+            if (isDisguise)
+                instance.GetComponent<Enemy>().MarkAsRoblomanDisguise();
+        }
 
         public RoblomanEnemy SpawnRoblomanAt(Vector3 location)
         {
@@ -102,326 +104,212 @@ namespace AnarPerPortes
 
         private void Start()
         {
-            // TODO: Use a HashSet with enemies that are operative
-            BouserEnemy.IsOperative = false;
-            DaviloteEnemy.IsOperative = false;
-            PedroEnemy.IsOperative = false;
-            SangotEnemy.IsOperative = false;
-            RoblomanEnemy.IsOperative = false;
-            SheepyEnemy.IsOperative = false;
-            SkellEnemy.IsOperative = false;
-            SkellBetaEnemy.IsOperative = false;
-            YusufEnemy.IsOperative = false;
-            A90Enemy.IsOperative = false;
-            S7Enemy.IsOperative = false;
-            CatalanBirdDriverEnemy.IsCursed = false;
+            CatalanBirdEnemy.IsCursed = false;
 
-            RoomManager.Singleton.OnRoomGenerated.AddListener(ProcessEnemyPossibilities);
+            RoomManager.Singleton.OnRoomGenerated.AddListener((_) => TrySpawnEggs());
 
-            pedroPossibility = new()
+            eggs = new EnemyEgg[]
             {
-                EnemyPrefab = pedroEnemyPrefab,
-                SpawnRequirements =
-                    (room) => !PedroEnemy.IsOperative
-                    && !SkellHearManager.Singleton.IsHearing
-                    && !SkellBetaEnemy.IsOperative
-                    && room is not IsleRoom
-                    && room.HasHidingSpots
-                    && (IsHardmodeEnabled() || RoomManager.Singleton.LastOpenedRoomNumber >= 10),
-                RngRequirement = (possibility) =>
-                {
-                    var rng = UnityEngine.Random.Range(0, 100);
-                    rng += possibility.RoomsWithoutSpawn;
-                    rng += roomsWithoutAnyEnemySpawn;
+                new EnemyEggBuilder()
+                .WithId("specimen7")
+                .WithPrefab(specimen7EnemyPrefab)
+                .MarkAsForcedSpawnOnly()
+                .ForceSpawnOnRoom<Specimen7Room>()
+                .Build(),
 
-                    if (possibility.RoomsWithoutSpawn <= 4)
-                        rng = 0;
+                new EnemyEggBuilder()
+                .WithId("catalan-bird")
+                .WithPrefab(catalanBirdEnemyPrefab)
+                .MarkAsForcedSpawnOnly()
+                .ForceSpawnOnRoom<CatalunyaRoom>()
+                .Build(),
 
-                    return rng >= 70;
-                }
+                new EnemyEggBuilder()
+                .WithId("bouser")
+                .WithPrefab(bouserEnemyPrefab)
+                .MarkAsForcedSpawnOnly()
+                .ForceSpawnOnRoom<BouserRoom>()
+                .Build(),
+
+                new EnemyEggBuilder()
+                .WithId("yusuf")
+                .WithPrefab(yusufEnemyPrefab)
+                .MarkAsForcedSpawnOnly()
+                .ForceSpawnOnRoom<IsleRoom>()
+                .Build(),
+
+                new EnemyEggBuilder()
+                .WithId("sangot")
+                .WithPrefab(sangotEnemyPrefab)
+                .WithMinRoom(35)
+                .WithMinRoomsBetweenSpawns(10)
+                .WithMaxRoomsBetweenSpawns(30)
+                .WithBaseChance(20f)
+                .WithChanceChangePerRoom(+1)
+                .IncompatibleWithRoom<IsleRoom>()
+                .IncompatibleWithRoom<Specimen7Room>()
+                .IncompatibleWithEnemy<CatalanBirdEnemy>()
+                .IncompatibleWithEnemy<Specimen7Enemy>()
+                .IncompatibleWithEnemy<YusufEnemy>()
+                .MarkAsDisguisable()
+                .Build(),
+
+                new EnemyEggBuilder()
+                .WithId("sheepy")
+                .WithPrefab(sheepyEnemyPrefab)
+                .WithMinRoom(5)
+                .WithMinRoomsBetweenSpawns(8)
+                .WithMaxRoomsBetweenSpawns(20)
+                .WithBaseChance(30f)
+                .WithChanceChangePerRoom(+5)
+                .IncompatibleWithRoom<IsleRoom>()
+                .IncompatibleWithRoom<Specimen7Room>()
+                .IncompatibleWithEnemy<A90Enemy>()
+                .IncompatibleWithEnemy<CatalanBirdEnemy>()
+                .IncompatibleWithEnemy<SangotEnemy>()
+                .IncompatibleWithEnemy<Specimen7Enemy>()
+                .IncompatibleWithEnemy<YusufEnemy>()
+                .MarkAsDisguisable()
+                .Build(),
+
+                new EnemyEggBuilder()
+                .WithId("davilote")
+                .WithPrefab(daviloteEnemyPrefab)
+                .WithMinRoom(10)
+                .WithMinRoomsBetweenSpawns(8)
+                .WithMaxRoomsBetweenSpawns(20)
+                .WithBaseChance(30f)
+                .WithChanceChangePerRoom(+5)
+                .IncompatibleWithRoom<BouserRoom>()
+                .IncompatibleWithRoom<IsleRoom>()
+                .IncompatibleWithRoom<Specimen7Room>()
+                .IncompatibleWithEnemy<BouserEnemy>()
+                .IncompatibleWithEnemy<CatalanBirdEnemy>()
+                .IncompatibleWithEnemy<SangotEnemy>()
+                .IncompatibleWithEnemy<Specimen7Enemy>()
+                .IncompatibleWithEnemy<YusufEnemy>()
+                .MarkAsDisguisable()
+                .Build(),
+
+                new EnemyEggBuilder()
+                .WithId("pedro")
+                .WithPrefab(pedroEnemyPrefab)
+                .WithMinRoom(15)
+                .WithMinRoomsBetweenSpawns(8)
+                .WithMaxRoomsBetweenSpawns(20)
+                .WithBaseChance(30f)
+                .WithChanceChangePerRoom(+1)
+                //TODO Require room to have pedestals via Room Builder or something!
+                .WithAdditionalRequirements(() => LatestRoom().HasPedestals)
+                .IncompatibleWithRoom<Specimen7Room>()
+                .IncompatibleWithEnemy<CatalanBirdEnemy>()
+                .IncompatibleWithEnemy<SangotEnemy>()
+                .IncompatibleWithEnemy<Specimen7Enemy>()
+                .MarkAsDisguisable()
+                .Build(),
+
+                new EnemyEggBuilder()
+                .WithId("skell-hear")
+                .WithMinRoom(50)
+                .WithMinRoomsBetweenSpawns(15)
+                .WithMaxRoomsBetweenSpawns(25)
+                .WithBaseChance(10f)
+                .WithChanceChangePerRoom(+2)
+                .IncompatibleWithRoom<Specimen7Room>()
+                .IncompatibleWithEnemy<CatalanBirdEnemy>()
+                .IncompatibleWithEnemy<SangotEnemy>()
+                .IncompatibleWithEnemy<Specimen7Enemy>()
+                .IncompatibleWithEnemy<YusufEnemy>()
+                .WithOnSpawnCallback(egg => SkellHearManager.Singleton.StartHearing())
+                .Build(),
+
+                new EnemyEggBuilder()
+                .WithId("skell")
+                .WithPrefab(skellEnemyPrefab)
+                .WithMinRoomsBetweenSpawns(0)
+                .WithMaxRoomsBetweenSpawns(3)
+                .WithBaseChance(30f)
+                .WithChanceChangePerRoom(+5)
+                .WithAdditionalRequirements(() => SkellHearManager.Singleton.IsHunting)
+                .IncompatibleWithRoom<Specimen7Room>()
+                .IncompatibleWithEnemy<SangotEnemy>()
+                .IncompatibleWithEnemy<Specimen7Enemy>()
+                .MarkAsDisguisable()
+                .Build(),
+
+                new EnemyEggBuilder()
+                .WithId("a-90")
+                .WithMinRoom(90)
+                .WithMinRoomsBetweenSpawns(4)
+                .WithMaxRoomsBetweenSpawns(10)
+                .WithBaseChance(20f)
+                .IncompatibleWithRoom<BouserRoom>()
+                .IncompatibleWithRoom<IsleRoom>()
+                .IncompatibleWithRoom<Specimen7Room>()
+                .IncompatibleWithEnemy<BouserEnemy>()
+                .IncompatibleWithEnemy<CatalanBirdEnemy>()
+                .IncompatibleWithEnemy<SangotEnemy>()
+                .IncompatibleWithEnemy<Specimen7Enemy>()
+                .IncompatibleWithEnemy<YusufEnemy>()
+                .WithOnSpawnCallback(egg => a90Enemy.Spawn())
+                .Build(),
+
+                new EnemyEggBuilder()
+                .WithId("robloman")
+                .WithMinRoom(40)
+                .WithMinRoomsBetweenSpawns(5)
+                .WithMaxRoomsBetweenSpawns(10)
+                .WithBaseChance(40f)
+                .WithChanceChangePerRoom(+5)
+                .WithOnSpawnCallback(egg => SpawnRoblomanDisguise())
+                .Build(),
             };
-
-            allEnemyPossibilities.Add(pedroPossibility);
-
-            davilotePossibility = new()
-            {
-                EnemyPrefab = daviloteEnemyPrefab,
-                SpawnRequirements =
-                    (room) => !DaviloteEnemy.IsOperative
-                    && room is not BouserRoom
-                    && room is not IsleRoom
-                    && (IsHardmodeEnabled() || RoomManager.Singleton.LastOpenedRoomNumber >= 15),
-                RngRequirement = (possibility) =>
-                {
-                    var rng = UnityEngine.Random.Range(0, 100);
-                    rng += possibility.RoomsWithoutSpawn * 2;
-                    rng += roomsWithoutAnyEnemySpawn;
-
-                    if (possibility.RoomsWithoutSpawn <= 5)
-                        rng = 0;
-
-                    return rng >= 80;
-                }
-            };
-
-            allEnemyPossibilities.Add(davilotePossibility);
-
-            sangotPossibility = new()
-            {
-                EnemyPrefab = sangotEnemyPrefab,
-                SpawnRequirements =
-                    (room) => !SangotEnemy.IsOperative
-                    && !DaviloteEnemy.IsOperative
-                    && !SheepyEnemy.IsOperative
-                    && !SkellBetaEnemy.IsOperative
-                    && !PedroEnemy.IsOperative
-                    && room is not BouserRoom
-                    && room is not IsleRoom
-                    && (IsHardmodeEnabled() || RoomManager.Singleton.LastOpenedRoomNumber >= 35),
-                RngRequirement = (possibility) =>
-                {
-                    var rng = UnityEngine.Random.Range(0, 100);
-                    rng += possibility.RoomsWithoutSpawn * 2;
-                    rng += roomsWithoutAnyEnemySpawn;
-
-                    if (possibility.RoomsWithoutSpawn <= 7)
-                        rng = 0;
-
-                    return rng >= 80;
-                }
-            };
-
-            allEnemyPossibilities.Add(sangotPossibility);
-
-            sheepyPossibility = new()
-            {
-                EnemyPrefab = sheepyEnemyPrefab,
-                SpawnRequirements =
-                    (room) => !SheepyEnemy.IsOperative
-                    && room is not IsleRoom
-                    && (IsHardmodeEnabled() || RoomManager.Singleton.LastOpenedRoomNumber >= 5),
-                RngRequirement = (possibility) =>
-                {
-                    var rng = UnityEngine.Random.Range(0, 100);
-                    rng += possibility.RoomsWithoutSpawn * 2;
-                    rng += roomsWithoutAnyEnemySpawn;
-
-                    if (possibility.RoomsWithoutSpawn <= 5)
-                        rng = 0;
-
-                    return rng >= 80;
-                }
-            };
-
-            allEnemyPossibilities.Add(sheepyPossibility);
-
-            skellPossibility = new()
-            {
-                EnemyPrefab = skellEnemyPrefab,
-                SpawnRequirements =
-                    (room) => !SkellEnemy.IsOperative
-                    && SkellHearManager.Singleton.IsHunting
-                    && room is not BouserRoom,
-                RngRequirement = (possibility) =>
-                {
-                    var rng = UnityEngine.Random.Range(0, 100);
-                    rng += possibility.RoomsWithoutSpawn * 5;
-                    rng += roomsWithoutAnyEnemySpawn * 50;
-
-                    if (possibility.RoomsWithoutSpawn <= 2)
-                        rng = 0;
-
-                    return rng >= 90;
-                }
-            };
-
-            allEnemyPossibilities.Add(skellPossibility);
-
-            // Unused
-            skellBetaPossibility = new()
-            {
-                EnemyPrefab = null,
-                SpawnRequirements =
-                    (room) => !SkellBetaEnemy.IsOperative
-                    && !PedroEnemy.IsOperative
-                    && room is not IsleRoom
-                    && room is not BouserRoom
-                    && (IsHardmodeEnabled() || RoomManager.Singleton.LastOpenedRoomNumber >= 30),
-                RngRequirement = (possibility) =>
-                {
-                    var rng = UnityEngine.Random.Range(0, 100);
-                    rng += possibility.RoomsWithoutSpawn;
-                    rng += roomsWithoutAnyEnemySpawn;
-
-                    if (possibility.RoomsWithoutSpawn <= 8)
-                        rng = 0;
-
-                    return rng >= 90;
-                }
-            };
-
-            a90Possibility = new()
-            {
-                EnemyPrefab = null,
-                SpawnRequirements =
-                    (room) => !A90Enemy.IsOperative
-                    && room is not IsleRoom
-                    && (IsHardmodeEnabled() || RoomManager.Singleton.LastOpenedRoomNumber >= 90),
-                RngRequirement = (possibility) =>
-                {
-                    var rng = UnityEngine.Random.Range(0, 100);
-                    rng += possibility.RoomsWithoutSpawn;
-                    rng += roomsWithoutAnyEnemySpawn;
-
-                    if (possibility.RoomsWithoutSpawn <= 3)
-                        rng = 0;
-
-                    return rng >= 90;
-                }
-            };
-
-            allEnemyPossibilities.Add(a90Possibility);
         }
 
         private void Update()
         {
 #if UNITY_EDITOR
             if (Input.GetKeyUp(KeyCode.F2))
-                GenerateEnemy(pedroEnemyPrefab);
+                SpawnEnemy(pedroEnemyPrefab);
             else if (Input.GetKeyUp(KeyCode.F3))
-                GenerateEnemy(daviloteEnemyPrefab);
+                SpawnEnemy(daviloteEnemyPrefab);
             else if (Input.GetKeyUp(KeyCode.F4))
-                GenerateEnemy(sheepyEnemyPrefab);
+                SpawnEnemy(sheepyEnemyPrefab);
             else if (Input.GetKeyUp(KeyCode.F5))
-                GenerateEnemy(skellBetaEnemyPrefab);
+                SpawnEnemy(skellEnemyPrefab);
             else if (Input.GetKeyUp(KeyCode.F6))
-                GenerateEnemy(sangotEnemyPrefab);
+                SpawnEnemy(sangotEnemyPrefab);
             else if (Input.GetKeyUp(KeyCode.F7))
                 a90Enemy.Spawn();
 #endif
         }
 
-        public void GenerateEnemy(GameObject enemyPrefab)
+        private void TryDisplayTip(Enemy enemy)
         {
-            var hasEnemyScript = enemyPrefab.TryGetComponent(out Enemy enemy);
-
-            if (!hasEnemyScript)
-                return;
-
-            var shouldDisplayTip = GameSettingsManager.Singleton.CurrentSettings.EnableEnemyTips && enemy.Tip != null;
-
-            if (shouldDisplayTip && !displayedEnemyTipNames.Contains(enemyPrefab.name))
-            {
-                displayedEnemyTipNames.Add(enemyPrefab.name);
-
-                EnemyTipManager.Singleton.DisplayTip(
-                    enemy.Tip.Title,
-                    enemy.Tip.Message,
-                    enemy.Tip.Render,
-                    () => Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity, enemiesGroup));
-            }
-            else
-                Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity, enemiesGroup);
-        }
-
-        public void GenerateRoblomanDisguiseEnemy(GameObject enemyPrefab)
-        {
-            if (RoblomanEnemy.IsOperative)
-                return;
+            var targetName = enemy.IsRoblomanDisguise ? "robloman" : enemy.name;
+            var targetTip = enemy.IsRoblomanDisguise ? roblomanEnemyPrefab.GetComponent<Enemy>().Tip : enemy.Tip;
 
             var shouldDisplayTip =
                 GameSettingsManager.Singleton.CurrentSettings.EnableEnemyTips
-                && !displayedEnemyTipNames.Contains(roblomanEnemyPrefab.name);
+                && targetTip != null
+                && !displayedEnemyTipNames.Contains(targetName);
 
-            if (shouldDisplayTip)
-            {
-                displayedEnemyTipNames.Add(roblomanEnemyPrefab.name);
+            if (!shouldDisplayTip)
+                return;
 
-                var roblomanTip = roblomanEnemyPrefab.GetComponent<RoblomanEnemy>().Tip;
-
-                EnemyTipManager.Singleton.DisplayTip(
-                    roblomanTip.Title,
-                    roblomanTip.Message,
-                    roblomanTip.Render);
-            }
-
-            var instance = Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity, enemiesGroup);
-            instance.GetComponent<Enemy>().MarkAsRoblomanDisguise();
-            RoblomanEnemy.IsOperative = true;
+            displayedEnemyTipNames.Add(targetName);
+            EnemyTipManager.Singleton.DisplayTip(targetTip);
         }
 
-        private void ProcessEnemyPossibilities(Room generatedRoom)
+        private void TrySpawnEggs()
         {
-            if (generatedRoom.name.StartsWith("S7Room"))
-            {
-                GenerateEnemy(s7EnemyPrefab);
-                return;
-            }
+            foreach (var egg in eggs)
+                egg.TrySpawn();
+        }
 
-            if (generatedRoom is BouserRoom)
-                roomsWithoutAnyEnemySpawn = 0;
-
-            if (generatedRoom is IsleRoom)
-            {
-                GenerateEnemy(yusufEnemyPrefab);
-                roomsWithoutAnyEnemySpawn = 0;
-            }
-
-            pedroPossibility.WillSpawn = pedroPossibility.HasSpawnRequirements(generatedRoom) && pedroPossibility.HasRngRequirement();
-            davilotePossibility.WillSpawn = davilotePossibility.HasSpawnRequirements(generatedRoom) && davilotePossibility.HasRngRequirement();
-            sheepyPossibility.WillSpawn = sheepyPossibility.HasSpawnRequirements(generatedRoom) && sheepyPossibility.HasRngRequirement();
-
-            if ((RoomManager.Singleton.LastOpenedRoomNumber >= skellMinDoorsOpened || IsHardmodeEnabled())
-                && UnityEngine.Random.Range(0f, 100f) <= skellChance)
-                SkellHearManager.Singleton.StartHearing();
-
-            skellPossibility.WillSpawn =
-                skellPossibility.HasSpawnRequirements(generatedRoom)
-                && skellPossibility.HasRngRequirement();
-
-            // Unused
-            skellBetaPossibility.WillSpawn =
-                !pedroPossibility.WillSpawn
-                && skellBetaPossibility.HasSpawnRequirements(generatedRoom)
-                && skellBetaPossibility.HasRngRequirement();
-
-            sangotPossibility.WillSpawn =
-                !pedroPossibility.WillSpawn
-                && !davilotePossibility.WillSpawn
-                && !sheepyPossibility.WillSpawn
-                && !skellBetaPossibility.WillSpawn
-                && sangotPossibility.HasSpawnRequirements(generatedRoom)
-                && sangotPossibility.HasRngRequirement();
-
-            a90Possibility.WillSpawn =
-                !sheepyPossibility.WillSpawn
-                && a90Possibility.HasSpawnRequirements(generatedRoom)
-                && a90Possibility.HasRngRequirement();
-
-            roomsWithoutAnyEnemySpawn++;
-
-            foreach (var possibility in allEnemyPossibilities)
-            {
-                if (possibility.WillSpawn)
-                {
-                    if (possibility == a90Possibility)
-                        a90Enemy.Spawn();
-
-                    var canSpawnRoblomanDisguise =
-                        !RoblomanEnemy.IsOperative
-                        && (RoomManager.Singleton.LastOpenedRoomNumber >= roblomanMinDoorsOpened || IsHardmodeEnabled())
-                        && UnityEngine.Random.Range(0f, 100f) <= roblomanChance;
-
-                    if (canSpawnRoblomanDisguise)
-                        possibility.DoSpawnAsRoblomanDisguise();
-                    else
-                        possibility.DoSpawn();
-
-                    roomsWithoutAnyEnemySpawn = 0;
-                }
-                else
-                    possibility.RoomsWithoutSpawn++;
-            }
+        private void SpawnRoblomanDisguise()
+        {
+            eggs.Where(egg => egg.IsDisguiseable).ToArray().RandomItem().SpawnAsDisguise();
         }
     }
 }

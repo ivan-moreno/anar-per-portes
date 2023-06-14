@@ -4,18 +4,9 @@ using UnityEngine;
 
 namespace AnarPerPortes
 {
+    [AddComponentMenu("Anar per Portes/Managers/Flamboyant Graphic Manager")]
     public class FlamboyantGraphicManager : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
         
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
     }
 }

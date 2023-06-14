@@ -7,8 +7,6 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/Sheepy Enemy")]
     public class SheepyEnemy : Enemy
     {
-        public static bool IsOperative { get; set; } = false;
-
         [Header("Stats")]
         [SerializeField] private float checkMotionTime = 1.2f;
         [SerializeField] private float checkMotionTimeHard = 0.6f;
@@ -23,12 +21,11 @@ namespace AnarPerPortes
 
         private float timeSinceSpawn = 0f;
         private bool checkedMotion = false;
-        private bool isCatching = false;
         private bool isMeetingDavilote = false;
 
-        private void Start()
+        public override void Spawn()
         {
-            IsOperative = true;
+            base.Spawn();
             CacheComponents();
 
             var lastRoom = RoomManager.Singleton.LatestRoom.transform;
@@ -37,6 +34,7 @@ namespace AnarPerPortes
             transform.LookAt(PlayerPosition());
             audioSource.Play(warningSound);
             SkellHearManager.Singleton.AddNoise(8f);
+
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
@@ -76,7 +74,7 @@ namespace AnarPerPortes
                 CatchPlayer();
             else
             {
-                if (DaviloteEnemy.IsOperative)
+                if (EnemyIsOperative<DaviloteEnemy>())
                     StartCoroutine(nameof(MeetDaviloteCoroutine));
                 else
                 {
@@ -95,7 +93,7 @@ namespace AnarPerPortes
             audioSource.PlayOneShot(sound);
             yield return new WaitForSeconds(sound.AudioClip.length + 0.1f);
 
-            var waitTime = FindObjectOfType<DaviloteEnemy>().MeetSheepy();
+            var waitTime = GetEnemyInstance<DaviloteEnemy>().MeetSheepy();
             yield return new WaitForSeconds(waitTime);
 
             animator.Play("MeetDaviloteEnd", 0, 0f);
@@ -148,19 +146,6 @@ namespace AnarPerPortes
             }
 
             CatchManager.Singleton.CatchPlayer("SHEEPY ENDING", "¡¡Deja paso a las ovejaaas!!");
-        }
-
-        private void Despawn()
-        {
-            if (isCatching)
-                return;
-
-            IsOperative = false;
-
-            if (IsRoblomanDisguise)
-                RoblomanEnemy.IsOperative = false;
-
-            Destroy(gameObject);
         }
     }
 }

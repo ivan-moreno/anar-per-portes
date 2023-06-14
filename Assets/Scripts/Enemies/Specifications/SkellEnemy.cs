@@ -7,8 +7,6 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Enemies/Skell Enemy")]
     public class SkellEnemy : Enemy
     {
-        public static bool IsOperative { get; set; } = false;
-
         [Header("Stats")]
         [SerializeField][Min(0f)] private float minLookDistance = 20f;
         [SerializeField][Range(0f, 0.5f)] private float hViewLookRange = 0.1f;
@@ -24,7 +22,6 @@ namespace AnarPerPortes
         private bool isLooked = false;
         private bool isInLookRange = false;
         private bool hasLineOfSight = false;
-        private bool isCatching = false;
         private float lookTime;
 
         public void CatchPlayer()
@@ -32,9 +29,9 @@ namespace AnarPerPortes
             StartCoroutine(nameof(CatchPlayerCoroutine));
         }
 
-        private void Start()
+        public override void Spawn()
         {
-            IsOperative = true;
+            base.Spawn();
             CacheComponents();
 
             if (SpawnedBecauseOfFog)
@@ -45,6 +42,7 @@ namespace AnarPerPortes
             }
 
             RepositionInRoom();
+
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             LatestRoom().OnUnloading.AddListener(Despawn);
         }
@@ -176,14 +174,14 @@ namespace AnarPerPortes
             audioSource.PlayOneShot(endingMusic);
         }
 
-        private void Despawn()
+        protected override void Despawn()
         {
             if (isCatching)
                 return;
 
-            IsOperative = false;
             SkellHearManager.Singleton.UnpauseHuntMusic();
-            Destroy(gameObject);
+
+            base.Despawn();
         }
     }
 }
