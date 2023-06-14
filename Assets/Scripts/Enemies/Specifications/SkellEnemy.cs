@@ -2,7 +2,7 @@
 using UnityEngine;
 using static AnarPerPortes.ShortUtils;
 
-namespace AnarPerPortes
+namespace AnarPerPortes.Enemies
 {
     [AddComponentMenu("Anar per Portes/Enemies/Skell Enemy")]
     public class SkellEnemy : Enemy

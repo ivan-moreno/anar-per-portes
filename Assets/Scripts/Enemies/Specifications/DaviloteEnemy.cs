@@ -2,13 +2,13 @@ using System.Collections;
 using UnityEngine;
 using static AnarPerPortes.ShortUtils;
 
-namespace AnarPerPortes
+namespace AnarPerPortes.Enemies
 {
     [AddComponentMenu("Anar per Portes/Enemies/Davilote Enemy")]
     public class DaviloteEnemy : Enemy
     {
         [Header("Stats")]
-        [SerializeField] private float catchAngle = 120f;
+        [SerializeField][Min(0f)] private float catchAngle = 120f;
 
         [Header("Audio")]
         [SerializeField] private SoundResource jumpscareSound;
@@ -56,7 +56,7 @@ namespace AnarPerPortes
 
         private void LateUpdate()
         {
-            transform.position = PlayerPosition() - (transform.forward * 4f);
+            transform.position = PlayerPosition() - transform.forward * 4f;
         }
 
         private void FixedUpdate()
@@ -67,7 +67,7 @@ namespace AnarPerPortes
 
             var vCameraAngle = PlayerController.Singleton.Camera.transform.eulerAngles.x;
 
-            if (vCameraAngle is (> 60f and < 80f) or (> 280f and < 300f))
+            if (vCameraAngle is > 60f and < 80f or > 280f and < 300f)
                 return;
 
             if (Mathf.Abs(angleDiff) > catchAngle)
@@ -76,10 +76,10 @@ namespace AnarPerPortes
 
         private void CatchPlayer()
         {
-            StartCoroutine(nameof(CatchPlayerEnumerator));
+            StartCoroutine(nameof(CatchPlayerCoroutine));
         }
 
-        private IEnumerator CatchPlayerEnumerator()
+        private IEnumerator CatchPlayerCoroutine()
         {
             if (IsRoblomanDisguise)
             {

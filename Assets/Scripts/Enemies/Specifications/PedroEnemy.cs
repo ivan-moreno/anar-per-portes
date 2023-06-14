@@ -2,17 +2,17 @@ using System.Collections;
 using UnityEngine;
 using static AnarPerPortes.ShortUtils;
 
-namespace AnarPerPortes
+namespace AnarPerPortes.Enemies
 {
     [AddComponentMenu("Anar per Portes/Enemies/Pedro Enemy")]
     public class PedroEnemy : Enemy
     {
         [Header("Stats")]
-        [SerializeField] private float runSpeed = 16f;
-        [SerializeField] private float chaseRange = 8f;
-        [SerializeField] private float graceRange = 6f;
-        [SerializeField] private float maxGraceTime = 4f;
-        [SerializeField] private float catchRange = 2f;
+        [SerializeField][Min(0f)] private float runSpeed = 16f;
+        [SerializeField][Min(0f)] private float chaseRange = 8f;
+        [SerializeField][Min(0f)] private float graceRange = 6f;
+        [SerializeField][Min(0f)] private float maxGraceTime = 4f;
+        [SerializeField][Min(0f)] private float catchRange = 2f;
 
         [Header("Audio")]
         [SerializeField] private SoundResource spawnSound;
@@ -224,11 +224,10 @@ namespace AnarPerPortes
 
         private void CatchPlayer()
         {
-            
-            StartCoroutine(nameof(CatchPlayerEnumerator));
+            StartCoroutine(nameof(CatchPlayerCoroutine));
         }
 
-        private IEnumerator CatchPlayerEnumerator()
+        private IEnumerator CatchPlayerCoroutine()
         {
             if (isCatching || isOnBreak || runSpeed <= 0f)
                 yield break;
@@ -267,7 +266,7 @@ namespace AnarPerPortes
             audioSource.PlayOneShot(meetBouserSound);
             yield return new WaitForSeconds(3f);
             var bouserRoom = RoomManager.Singleton.LatestRoom as BouserRoom;
-            bouserRoom.SpawnBouser();
+            bouserRoom.WakeUpBouser();
             yield return new WaitForSeconds(1f);
             runSpeed = originalRunSpeed;
             animator.Play("Run");

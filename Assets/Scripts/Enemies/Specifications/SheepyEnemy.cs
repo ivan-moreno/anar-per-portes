@@ -2,15 +2,15 @@ using System.Collections;
 using UnityEngine;
 using static AnarPerPortes.ShortUtils;
 
-namespace AnarPerPortes
+namespace AnarPerPortes.Enemies
 {
     [AddComponentMenu("Anar per Portes/Enemies/Sheepy Enemy")]
     public class SheepyEnemy : Enemy
     {
         [Header("Stats")]
-        [SerializeField] private float checkMotionTime = 1.2f;
-        [SerializeField] private float checkMotionTimeHard = 0.6f;
-        [SerializeField] private float despawnTime = 2.2f;
+        [SerializeField][Min(0f)] private float checkMotionTime = 1.2f;
+        [SerializeField][Min(0f)] private float checkMotionTimeHard = 0.6f;
+        [SerializeField][Min(0f)] private float despawnTime = 2.2f;
 
         [Header("Audio")]
         [SerializeField] private SoundResource warningSound;
@@ -29,7 +29,7 @@ namespace AnarPerPortes
             CacheComponents();
 
             var lastRoom = RoomManager.Singleton.LatestRoom.transform;
-            var targetPos = lastRoom.position + (lastRoom.forward * 4f);
+            var targetPos = lastRoom.position + lastRoom.forward * 4f;
             transform.position = targetPos;
             transform.LookAt(PlayerPosition());
             audioSource.Play(warningSound);
@@ -105,10 +105,10 @@ namespace AnarPerPortes
 
         private void CatchPlayer()
         {
-            StartCoroutine(nameof(CatchPlayerEnumerator));
+            StartCoroutine(nameof(CatchPlayerCoroutine));
         }
 
-        private IEnumerator CatchPlayerEnumerator()
+        private IEnumerator CatchPlayerCoroutine()
         {
             if (IsRoblomanDisguise)
             {
@@ -135,7 +135,7 @@ namespace AnarPerPortes
 
             var timer = 0f;
             var originalPos = transform.position;
-            var targetPos = PlayerPosition() + (PlayerController.Singleton.transform.forward * 2f);
+            var targetPos = PlayerPosition() + PlayerController.Singleton.transform.forward * 2f;
 
             while (timer < 1f)
             {

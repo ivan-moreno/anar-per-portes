@@ -1,7 +1,7 @@
 using UnityEngine;
 using static AnarPerPortes.ShortUtils;
 
-namespace AnarPerPortes
+namespace AnarPerPortes.Enemies
 {
     [AddComponentMenu("Anar per Portes/Enemies/Catalan Bird Driver Enemy")]
     public class CatalanBirdEnemy : Enemy
@@ -9,15 +9,15 @@ namespace AnarPerPortes
         public static bool IsCursed { get; set; } = false;
 
         [Header("Stats")]
-        [SerializeField] private float maxSpeed = 14f;
-        [SerializeField] private float maxTurboSpeed = 22f;
-        [SerializeField] private float maxDriftSpeed = 6f;
-        [SerializeField] private float turboDistance = 20f;
-        [SerializeField] private float turboMaxAngle = 20f;
-        [SerializeField] private float acceleration = 2f;
-        [SerializeField] private float turnRate = 20f;
-        [SerializeField] private float driftTurnRate = 60f;
-        [SerializeField] private float driftAngle = 70f;
+        [SerializeField][Min(0f)] private float maxSpeed = 14f;
+        [SerializeField][Min(0f)] private float maxTurboSpeed = 22f;
+        [SerializeField][Min(0f)] private float maxDriftSpeed = 6f;
+        [SerializeField][Min(0f)] private float turboDistance = 20f;
+        [SerializeField][Min(0f)] private float turboMaxAngle = 20f;
+        [SerializeField][Min(0f)] private float acceleration = 2f;
+        [SerializeField][Min(0f)] private float turnRate = 20f;
+        [SerializeField][Min(0f)] private float driftTurnRate = 60f;
+        [SerializeField][Min(0f)] private float driftAngle = 70f;
 
         [Header("Audio")]
         [SerializeField] private SoundResource spawnSound;

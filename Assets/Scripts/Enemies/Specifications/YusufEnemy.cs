@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static AnarPerPortes.ShortUtils;
 
-namespace AnarPerPortes
+namespace AnarPerPortes.Enemies
 {
     [AddComponentMenu("Anar per Portes/Enemies/Yusuf Enemy")]
     public class YusufEnemy : Enemy
@@ -30,7 +30,7 @@ namespace AnarPerPortes
             CacheComponents();
 
             isleRoom = RoomManager.Singleton.LatestRoom as IsleRoom;
-            var targetPos = isleRoom.IncorrectDoor.transform.position + (isleRoom.IncorrectDoor.transform.forward * 4f);
+            var targetPos = isleRoom.IncorrectDoor.transform.position + isleRoom.IncorrectDoor.transform.forward * 4f;
             transform.position = targetPos;
             audioSource.PlayOneShot(walkieTalkieAlertSound.AudioClip);
 
@@ -92,10 +92,10 @@ namespace AnarPerPortes
 
             PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0f, 0f));
-            StartCoroutine(nameof(CatchPlayerEnumerator));
+            StartCoroutine(nameof(CatchPlayerCoroutine));
         }
 
-        private IEnumerator CatchPlayerEnumerator()
+        private IEnumerator CatchPlayerCoroutine()
         {
             yield return new WaitForSeconds(1f);
 

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using static AnarPerPortes.ShortUtils;
 
-namespace AnarPerPortes
+namespace AnarPerPortes.Enemies
 {
     [AddComponentMenu("Anar per Portes/Enemies/Robloman Enemy")]
     [RequireComponent(typeof(AudioSource))]

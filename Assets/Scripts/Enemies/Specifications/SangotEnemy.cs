@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using static AnarPerPortes.ShortUtils;
 
-namespace AnarPerPortes
+namespace AnarPerPortes.Enemies
 {
     [AddComponentMenu("Anar per Portes/Enemies/Sangot Enemy")]
     public class SangotEnemy : Enemy
@@ -11,11 +11,11 @@ namespace AnarPerPortes
         public static UnityEvent<SangotEnemy> OnSpawned { get; } = new();
 
         [Header("Stats")]
-        [SerializeField] private float spawnDistance = 32f;
-        [SerializeField] private float spawnDistanceHard = 24f;
-        [SerializeField] private float runSpeed = 10f;
-        [SerializeField] private float catchRange = 2f;
-        [SerializeField] private float despawnTime = 2f;
+        [SerializeField][Min(0f)] private float spawnDistance = 32f;
+        [SerializeField][Min(0f)] private float spawnDistanceHard = 24f;
+        [SerializeField][Min(0f)] private float runSpeed = 10f;
+        [SerializeField][Min(0f)] private float catchRange = 2f;
+        [SerializeField][Min(0f)] private float despawnTime = 2f;
 
         [Header("Sound")]
         [SerializeField] private SoundResource spawnSound;

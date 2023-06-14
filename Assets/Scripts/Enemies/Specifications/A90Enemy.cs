@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace AnarPerPortes
+namespace AnarPerPortes.Enemies
 {
     [RequireComponent(typeof(AudioSource))]
     [AddComponentMenu("Anar per Portes/Enemies/A90 Enemy")]

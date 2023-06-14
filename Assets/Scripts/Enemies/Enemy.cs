@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace AnarPerPortes
+namespace AnarPerPortes.Enemies
 {
     public abstract class Enemy : MonoBehaviour
     {

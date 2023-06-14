@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace AnarPerPortes
+namespace AnarPerPortes.Enemies
 {
     [AddComponentMenu("Anar per Portes/Enemies/Specimen 7 Enemy")]
     public class Specimen7Enemy : Enemy
@@ -29,7 +29,7 @@ namespace AnarPerPortes
             audioSource = GetComponent<AudioSource>();
 
             var room = RoomManager.Singleton.LatestRoom.transform;
-            transform.SetPositionAndRotation(room.position - (room.forward * spawnDistance), room.rotation);
+            transform.SetPositionAndRotation(room.position - room.forward * spawnDistance, room.rotation);
             BlackoutManager.Singleton.PlayDoorOpen();
             BlurOverlayManager.Singleton.SetBlurSmooth(new(1f, 0f, 0f, 0.5f), 0.5f);
 
@@ -84,10 +84,10 @@ namespace AnarPerPortes
             if (!other.CompareTag("Player"))
                 return;
 
-            StartCoroutine(nameof(CatchCoroutine));
+            StartCoroutine(nameof(CatchPlayerCoroutine));
         }
 
-        private IEnumerator CatchCoroutine()
+        private IEnumerator CatchPlayerCoroutine()
         {
             if (isCatching)
                 yield break;

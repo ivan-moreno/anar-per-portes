@@ -1,3 +1,4 @@
+using AnarPerPortes.Enemies;
 using UnityEngine;
 using static AnarPerPortes.ShortUtils;
 
@@ -20,32 +21,32 @@ namespace AnarPerPortes
         [SerializeField] private float spawnBouserHardDistance = 38f;
         [SerializeField] private float closeEntranceDoorDistance = 32f;
 
-        private bool spawnedBouser = false;
+        private bool isBouserAwake = false;
 
-        public void SpawnBouser()
+        public void WakeUpBouser()
         {
-            if (spawnedBouser)
+            if (isBouserAwake)
                 return;
 
-            spawnedBouser = true;
-            PlayBouserDoorAnimation();
+            isBouserAwake = true;
+            OpenBouserDoorAsDecorative();
             GetEnemyInstance<BouserEnemy>().WakeUp();
         }
 
-        public void OpenBouserDoor()
+        public void OpenBouserDoorAsDefeated()
         {
             bouserRoomDoorsAnimator.Play("Open");
             bouserRoomDoorsAnimator.GetComponent<BoxCollider>().enabled = false;
         }
 
-        private void PlayBouserDoorAnimation()
+        private void OpenBouserDoorAsDecorative()
         {
             bouserRoomDoorsAnimator.Play("OpenBouser");
         }
 
         private void FixedUpdate()
         {
-            if (RoomManager.Singleton.LatestRoom != this)
+            if (LatestRoom() != this)
                 return;
 
             var distance = Vector3.Distance(bouserRoomDoorsAnimator.transform.position, PlayerPosition());
@@ -54,8 +55,7 @@ namespace AnarPerPortes
             {
                 PlayerIsInsideRoom = true;
                 RoomManager.Singleton.Rooms[^2].CloseDoor();
-                SpawnBouser();
-                spawnedBouser = true;
+                WakeUpBouser();
                 return;
             }
 
@@ -65,13 +65,11 @@ namespace AnarPerPortes
                 RoomManager.Singleton.Rooms[^2].CloseDoor();
             }
 
-            if (spawnedBouser)
+            if (isBouserAwake)
                 return;
 
-            var targetDistance = IsHardmodeEnabled() ? spawnBouserHardDistance : spawnBouserDistance;
-
-            if (distance <= targetDistance)
-                SpawnBouser();
+            if (distance <= spawnBouserDistance)
+                WakeUpBouser();
         }
     }
 }

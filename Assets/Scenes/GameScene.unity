@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.02607987, g: 0.038828004, b: 0.056944378, a: 1}
+  m_IndirectSpecularColor: {r: 0.026222294, g: 0.03876446, b: 0.05690898, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3745,7 +3745,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 73
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -4258,16 +4258,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dbfd7085c6e53c42b86bfbce341842c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skellChance: 10
-  skellMinDoorsOpened: 35
-  roblomanChance: 10
-  roblomanMinDoorsOpened: 40
   enemiesGroup: {fileID: 2034099627}
   sangotRealm: {fileID: 85422482}
   a90Enemy: {fileID: 543234776}
-  daviloteEnemyPrefab: {fileID: 81038424985809431, guid: 57bac9367fe373144b690b668438b275,
-    type: 3}
   bouserEnemyPrefab: {fileID: 81038424985809431, guid: d3f98aab40d823844b6857fcd4c4b2d5,
+    type: 3}
+  catalanBirdEnemyPrefab: {fileID: 0}
+  daviloteEnemyPrefab: {fileID: 81038424985809431, guid: 57bac9367fe373144b690b668438b275,
     type: 3}
   pedroEnemyPrefab: {fileID: 6310198025595531095, guid: 352f03fcbc0c70f42a63a76022d7243c,
     type: 3}
@@ -4279,12 +4276,9 @@ MonoBehaviour:
     type: 3}
   skellEnemyPrefab: {fileID: 5385844077808519164, guid: e7f39ae80bbd3614ebb63b5ecd309f5c,
     type: 3}
-  skellBetaEnemyPrefab: {fileID: 5385844077808519164, guid: a5168f79ddc74bc46ab30461b96e896a,
-    type: 3}
   yusufEnemyPrefab: {fileID: 8356602005302806919, guid: f5fdc44c86fdcb64fb4f58eb4a52af40,
     type: 3}
-  s7EnemyPrefab: {fileID: 5830401531844588778, guid: d8b8c4404a1c7bd4489bd49b93fe86e9,
-    type: 3}
+  specimen7EnemyPrefab: {fileID: 0}
 --- !u!1 &364487915
 GameObject:
   m_ObjectHideFlags: 0
@@ -6373,9 +6367,9 @@ MonoBehaviour:
   image: {fileID: 230485493}
   jumpscareAnimator: {fileID: 394747126}
   checkMotionTime: 1.2
-  checkMotionTimeHard: 0.8
   despawnTime: 1.5
   despawnTimeHard: 1.1
+  checkMotionTimeHard: 0.8
   hardmodeMinSpawnTime: 16
   hardmodeMaxSpawnTime: 64
   warningSound: {fileID: 11400000, guid: 788925cac6eafcf49915e10968204ccf, type: 2}

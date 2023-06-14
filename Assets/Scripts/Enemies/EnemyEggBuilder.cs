@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace AnarPerPortes
+namespace AnarPerPortes.Enemies
 {
     /// <summary>
     /// Builder class for <see cref="EnemyEgg"/>.

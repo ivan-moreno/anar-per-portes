@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using static AnarPerPortes.ShortUtils;
 
-namespace AnarPerPortes
+namespace AnarPerPortes.Enemies
 {
     [AddComponentMenu("Anar per Portes/Enemies/Bouser Enemy")]
     public class BouserEnemy : Enemy
@@ -12,15 +12,15 @@ namespace AnarPerPortes
         public bool IsDefeated { get; private set; } = false;
 
         [Header("Stats")]
-        [SerializeField] private float runSpeed = 8f;
-        [SerializeField] private float sprintSpeed = 14f;
-        [SerializeField] private float sprintAtDistance = 15f;
-        [SerializeField] private float catchRange = 2f;
-        [SerializeField] private float sightAngle = 45f;
+        [SerializeField][Min(0f)] private float runSpeed = 8f;
+        [SerializeField][Min(0f)] private float sprintSpeed = 14f;
+        [SerializeField][Min(0f)] private float sprintAtDistance = 15f;
+        [SerializeField][Min(0f)] private float catchRange = 2f;
+        [SerializeField][Min(0f)] private float sightAngle = 45f;
 
         [Header("Hardmode Stats")]
-        [SerializeField] private float runSpeedHardmode = 12f;
-        [SerializeField] private float sightAngleHardmode = 90f;
+        [SerializeField][Min(0f)] private float runSpeedHardmode = 12f;
+        [SerializeField][Min(0f)] private float sightAngleHardmode = 90f;
 
         [Header("Audio")]
         [SerializeField] private SoundResource jumpscareSound;
@@ -103,7 +103,7 @@ namespace AnarPerPortes
             audioSource.Stop();
             audioCooldown = 0f;
             Talk(tailSounds.RandomItem());
-            room.OpenBouserDoor();
+            room.OpenBouserDoorAsDefeated();
             GetComponent<BoxCollider>().enabled = false;
 
             //TODO: Launch animation
@@ -125,7 +125,7 @@ namespace AnarPerPortes
         //TODO: Rename all XEnumerator to XCoroutine
         private IEnumerator MeetSkellCoroutine()
         {
-            room.OpenBouserDoor();
+            room.OpenBouserDoorAsDefeated();
             isMeetSkell = true;
             transform.LookAt(skellEnemy.transform);
             animator.SetBool("IsWalking", false);
@@ -261,7 +261,7 @@ namespace AnarPerPortes
         {
             if (IsRoblomanDisguise)
             {
-                room.OpenBouserDoor();
+                room.OpenBouserDoorAsDefeated();
                 RevealRoblomanDisguise();
                 Despawn();
                 return;
@@ -286,10 +286,10 @@ namespace AnarPerPortes
             PlayerController.Singleton.BeginCatchSequence();
             PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform, new Vector3(0f, 0.5f, 0f));
-            StartCoroutine(nameof(CatchPlayerEnumerator));
+            StartCoroutine(nameof(CatchPlayerCoroutine));
         }
 
-        private IEnumerator CatchPlayerEnumerator()
+        private IEnumerator CatchPlayerCoroutine()
         {
             yield return new WaitForSeconds(0.7f);
             CatchManager.Singleton.CatchPlayer("BOUSER ENDING", "a veces el amor te hace salir del caparazon jeje");
