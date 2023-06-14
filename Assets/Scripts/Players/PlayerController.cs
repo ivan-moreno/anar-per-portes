@@ -186,7 +186,6 @@ namespace AnarPerPortes
             audioSource = GetComponent<AudioSource>();
             Cursor.lockState = CursorLockMode.Locked;
 
-            OnSettingsChanged();
             GameSettingsManager.Singleton.OnCurrentSettingsChanged.AddListener(OnSettingsChanged);
         }
 
@@ -218,7 +217,7 @@ namespace AnarPerPortes
                 Teleport(RoomManager.Singleton.LatestRoom.transform.position);
 
             if (Input.GetKeyUp(KeyCode.F1))
-                Teleport(RoomManager.Singleton.LatestRoom.NextRoomGenerationPoint.position);
+                Teleport(RoomManager.Singleton.LatestRoom.NextRoomSpawnPoint.position);
         }
 
         private void UpdateInteraction()

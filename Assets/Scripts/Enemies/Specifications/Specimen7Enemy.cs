@@ -2,6 +2,7 @@ using static AnarPerPortes.ShortUtils;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using AnarPerPortes.Rooms;
 
 namespace AnarPerPortes.Enemies
 {

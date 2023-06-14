@@ -1,4 +1,5 @@
 using AnarPerPortes.Enemies;
+using AnarPerPortes.Rooms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,30 @@ namespace AnarPerPortes
 
         private EnemyEgg[] eggs;
         private readonly Dictionary<Type, Enemy> operativeEnemies = new();
+
+        public Enemy SpawnEnemy(GameObject enemyPrefab, bool isDisguise = false)
+        {
+            if (isDisguise && EnemyIsOperative<RoblomanEnemy>())
+                return null;
+
+            var instance = Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity, enemiesGroup);
+
+            instance.TryGetComponent(out Enemy enemy);
+            enemy.Spawn();
+
+            TryDisplayTip(enemy);
+
+            if (isDisguise)
+                enemy.MarkAsRoblomanDisguise();
+
+            return enemy;
+        }
+
+        public RoblomanEnemy SpawnRoblomanAt(Vector3 location)
+        {
+            var instance = Instantiate(roblomanEnemyPrefab, location, Quaternion.identity, enemiesGroup);
+            return instance.GetComponent<RoblomanEnemy>();
+        }
 
         public Enemy GetEnemyInstance<T>() where T : Enemy
         {
@@ -76,28 +101,6 @@ namespace AnarPerPortes
             return operativeEnemies.ContainsKey(type);
         }
 
-        public void SpawnEnemy(GameObject enemyPrefab, bool isDisguise = false)
-        {
-            if (isDisguise && EnemyIsOperative<RoblomanEnemy>())
-                return;
-
-            var instance = Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity, enemiesGroup);
-
-            instance.TryGetComponent(out Enemy enemy);
-            enemy.Spawn();
-
-            TryDisplayTip(enemy);
-
-            if (isDisguise)
-                instance.GetComponent<Enemy>().MarkAsRoblomanDisguise();
-        }
-
-        public RoblomanEnemy SpawnRoblomanAt(Vector3 location)
-        {
-            var instance = Instantiate(roblomanEnemyPrefab, location, Quaternion.identity, enemiesGroup);
-            return instance.GetComponent<RoblomanEnemy>();
-        }
-
         private void Awake()
         {
             Singleton = this;
@@ -112,35 +115,35 @@ namespace AnarPerPortes
             eggs = new EnemyEgg[]
             {
                 new EnemyEggBuilder()
-                .WithId("specimen7")
+                .WithId("Specimen7")
                 .WithPrefab(specimen7EnemyPrefab)
                 .MarkAsForcedSpawnOnly()
                 .ForceSpawnOnRoom<Specimen7Room>()
                 .Build(),
 
                 new EnemyEggBuilder()
-                .WithId("catalan-bird")
+                .WithId("CatalanBird")
                 .WithPrefab(catalanBirdEnemyPrefab)
                 .MarkAsForcedSpawnOnly()
                 .ForceSpawnOnRoom<CatalunyaRoom>()
                 .Build(),
 
                 new EnemyEggBuilder()
-                .WithId("bouser")
+                .WithId("Bouser")
                 .WithPrefab(bouserEnemyPrefab)
                 .MarkAsForcedSpawnOnly()
                 .ForceSpawnOnRoom<BouserRoom>()
                 .Build(),
 
                 new EnemyEggBuilder()
-                .WithId("yusuf")
+                .WithId("Yusuf")
                 .WithPrefab(yusufEnemyPrefab)
                 .MarkAsForcedSpawnOnly()
                 .ForceSpawnOnRoom<IsleRoom>()
                 .Build(),
 
                 new EnemyEggBuilder()
-                .WithId("sangot")
+                .WithId("Sangot")
                 .WithPrefab(sangotEnemyPrefab)
                 .WithMinRoom(35)
                 .WithMinRoomsBetweenSpawns(10)
@@ -156,7 +159,7 @@ namespace AnarPerPortes
                 .Build(),
 
                 new EnemyEggBuilder()
-                .WithId("sheepy")
+                .WithId("Sheepy")
                 .WithPrefab(sheepyEnemyPrefab)
                 .WithMinRoom(5)
                 .WithMinRoomsBetweenSpawns(8)
@@ -174,7 +177,7 @@ namespace AnarPerPortes
                 .Build(),
 
                 new EnemyEggBuilder()
-                .WithId("davilote")
+                .WithId("Davilote")
                 .WithPrefab(daviloteEnemyPrefab)
                 .WithMinRoom(10)
                 .WithMinRoomsBetweenSpawns(8)
@@ -193,7 +196,7 @@ namespace AnarPerPortes
                 .Build(),
 
                 new EnemyEggBuilder()
-                .WithId("pedro")
+                .WithId("Pedro")
                 .WithPrefab(pedroEnemyPrefab)
                 .WithMinRoom(15)
                 .WithMinRoomsBetweenSpawns(8)
@@ -210,7 +213,7 @@ namespace AnarPerPortes
                 .Build(),
 
                 new EnemyEggBuilder()
-                .WithId("skell-hear")
+                .WithId("Skell-hear")
                 .WithMinRoom(50)
                 .WithMinRoomsBetweenSpawns(15)
                 .WithMaxRoomsBetweenSpawns(25)
@@ -225,7 +228,7 @@ namespace AnarPerPortes
                 .Build(),
 
                 new EnemyEggBuilder()
-                .WithId("skell")
+                .WithId("Skell")
                 .WithPrefab(skellEnemyPrefab)
                 .WithMinRoomsBetweenSpawns(0)
                 .WithMaxRoomsBetweenSpawns(3)
@@ -239,7 +242,7 @@ namespace AnarPerPortes
                 .Build(),
 
                 new EnemyEggBuilder()
-                .WithId("a-90")
+                .WithId("A-90")
                 .WithMinRoom(90)
                 .WithMinRoomsBetweenSpawns(4)
                 .WithMaxRoomsBetweenSpawns(10)
@@ -256,7 +259,7 @@ namespace AnarPerPortes
                 .Build(),
 
                 new EnemyEggBuilder()
-                .WithId("robloman")
+                .WithId("Robloman")
                 .WithMinRoom(40)
                 .WithMinRoomsBetweenSpawns(5)
                 .WithMaxRoomsBetweenSpawns(10)

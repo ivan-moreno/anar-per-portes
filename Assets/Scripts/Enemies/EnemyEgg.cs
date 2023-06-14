@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AnarPerPortes.Rooms;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -45,42 +46,6 @@ namespace AnarPerPortes.Enemies
         {
             Chance = BaseChance;
             return this;
-        }
-
-        public bool IsForcedToSpawnInLatestRoom()
-        {
-            return ForceSpawnRoomTypes.Contains(LatestRoom().GetType());
-        }
-
-        public bool HasReachedMaxSpawnCount()
-        {
-            return MaxSpawnCount != 0 && SpawnCount >= MaxSpawnCount;
-        }
-
-        public bool IsInRoomSpawnRange()
-        {
-            return LatestRoomNumber() >= MinRoom && LatestRoomNumber() <= MaxRoom;
-        }
-
-        public bool IsCompatibleWithLatestRoom()
-        {
-            return !IncompatibleRoomTypes.Contains(LatestRoom().GetType());
-        }
-
-        public bool IsCompatibleWithOperativeEnemies()
-        {
-            foreach (var enemyType in IncompatibleEnemyTypes)
-            {
-                if (EnemyIsOperative(enemyType))
-                    return false;
-            }
-
-            return true;
-        }
-
-        public bool AreAdditionalRequirementsFulfilled()
-        {
-            return AdditionalRequirements is null || AdditionalRequirements.Invoke();
         }
 
         public bool CanSpawn()
@@ -184,28 +149,16 @@ namespace AnarPerPortes.Enemies
             return true;
         }
 
-        public bool RollChance()
-        {
-            return UnityEngine.Random.Range(0, 100f) <= Chance;
-        }
-
-        public bool RollChanceDebug()
-        {
-            var rng = UnityEngine.Random.Range(0, 100f);
-            Debug.Log($"[{Id}] RNG: {rng:0.0} (must be <= {Chance})");
-            return rng <= Chance;
-        }
-
         public bool TrySpawn()
         {
             var canSpawn = CanSpawnDebug(out var result);
 
-            Debug.Log($"[{Id}] {result}");
+            ConsoleWriteLine($"[{Id}] {result}");
 
             if (!canSpawn)
                 return false;
 
-            if (IsForcedToSpawnInLatestRoom() || RoomsBetweenSpawns >= MaxRoomsBetweenSpawns || RollChanceDebug())
+            if (IsForcedToSpawnInLatestRoom() || HasReachedMaxRoomsBetweenSpawnsDebug() || RollChanceDebug())
             {
                 Spawn();
                 return true;
@@ -216,12 +169,12 @@ namespace AnarPerPortes.Enemies
 
         public void Spawn()
         {
+            ConsoleWriteLine($"[{Id}] Spawned!");
+
             SpawnCount++;
             Chance = BaseChance;
             RoomsBetweenSpawns = 0;
             HasSpawnedAtLeastOnce = true;
-
-            Debug.Log($"[{Id}] Spawned!");
 
             if (Prefab != null)
                 EnemyManager.Singleton.SpawnEnemy(Prefab);
@@ -231,7 +184,7 @@ namespace AnarPerPortes.Enemies
 
         public void SpawnAsDisguise()
         {
-            Debug.Log($"[{Id}] Spawned as a disguise!");
+            ConsoleWriteLine($"[{Id}] Spawned as a disguise!");
 
             EnemyManager.Singleton.SpawnEnemy(Prefab, isDisguise: true);
 
@@ -251,6 +204,69 @@ namespace AnarPerPortes.Enemies
         public override string ToString()
         {
             return Id + " Enemy Egg";
+        }
+
+        private bool RollChance()
+        {
+            return UnityEngine.Random.Range(0, 100f) <= Chance;
+        }
+
+        private bool RollChanceDebug()
+        {
+            var rng = UnityEngine.Random.Range(0, 100f);
+            ConsoleWriteLine($"[{Id}] RNG: {rng:0.0} (must be <= {Chance})");
+            return rng <= Chance;
+        }
+
+        private bool IsForcedToSpawnInLatestRoom()
+        {
+            return ForceSpawnRoomTypes.Contains(LatestRoom().GetType());
+        }
+
+        private bool HasReachedMaxRoomsBetweenSpawns()
+        {
+            return RoomsBetweenSpawns >= MaxRoomsBetweenSpawns;
+        }
+
+        private bool HasReachedMaxRoomsBetweenSpawnsDebug()
+        {
+            var result = RoomsBetweenSpawns >= MaxRoomsBetweenSpawns;
+
+            if (result)
+                ConsoleWriteLine($"[{Id}] Enemy has not spawned for {RoomsBetweenSpawns} rooms and will spawn whenever possible.");
+
+            return result;
+        }
+
+        private bool HasReachedMaxSpawnCount()
+        {
+            return MaxSpawnCount != 0 && SpawnCount >= MaxSpawnCount;
+        }
+
+        private bool IsInRoomSpawnRange()
+        {
+            return LatestRoomNumber() >= MinRoom && LatestRoomNumber() <= MaxRoom;
+        }
+
+        private bool IsCompatibleWithLatestRoom()
+        {
+            return !IncompatibleRoomTypes.Contains(LatestRoom().GetType());
+        }
+
+        private bool IsCompatibleWithOperativeEnemies()
+        {
+            foreach (var enemyType in IncompatibleEnemyTypes)
+            {
+                if (EnemyIsOperative(enemyType))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private bool AreAdditionalRequirementsFulfilled()
+        {
+            return AdditionalRequirements is null || AdditionalRequirements.Invoke();
         }
     }
 }

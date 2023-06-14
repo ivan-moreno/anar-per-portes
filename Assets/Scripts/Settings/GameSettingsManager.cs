@@ -105,6 +105,10 @@ namespace AnarPerPortes
                 .Initialize("Modo Speedrun", CurrentSettings.EnableSpeedrunMode)
                 .WithTarget(target => CurrentSettings.EnableSpeedrunMode = target);
 
+            GenerateToggle(gameplayGroup)
+                .Initialize("Mostrar consola", CurrentSettings.EnableConsole)
+                .WithTarget(target => CurrentSettings.EnableConsole = target);
+
             GenerateSlider(controlsGroup)
                 .Initialize("Sensibilidad del ratón", CurrentSettings.MouseSensitivity, 0f, 500f)
                 .WithWholeNumbers()

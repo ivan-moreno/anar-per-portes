@@ -27,7 +27,6 @@ namespace AnarPerPortes
             volume.profile.TryGet(out bloom);
             volume.profile.TryGet(out vignette);
             volume.profile.TryGet(out colorAdjustments);
-            OnSettingsChanged(); // TODO: Is this call necessary?
             GameSettingsManager.Singleton.OnCurrentSettingsChanged.AddListener(OnSettingsChanged);
         }
 

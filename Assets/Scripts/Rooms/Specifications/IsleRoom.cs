@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using static AnarPerPortes.ShortUtils;
 
-namespace AnarPerPortes
+namespace AnarPerPortes.Rooms
 {
     [AddComponentMenu("Anar per Portes/Rooms/Isle Room")]
     public class IsleRoom : Room

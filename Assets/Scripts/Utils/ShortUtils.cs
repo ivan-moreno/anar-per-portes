@@ -1,12 +1,28 @@
 ﻿using AnarPerPortes.Enemies;
+using AnarPerPortes.Rooms;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace AnarPerPortes
 {
     public static class ShortUtils
     {
+
+        public static void ConsoleWriteLine(string message)
+        {
+            GameConsoleManager.Singleton.WriteLine(message);
+        }
+
+        public static void ConsoleClear()
+        {
+            GameConsoleManager.Singleton.Clear();
+        }
+
+        public static GameSettings CurrentSettings()
+        {
+            return GameSettingsManager.Singleton.CurrentSettings;
+        }
+
         public static bool IsHardmodeEnabled()
         {
             return HardmodeManager.Singleton.IsHardmodeEnabled;

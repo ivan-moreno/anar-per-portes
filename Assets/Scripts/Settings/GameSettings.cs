@@ -20,5 +20,6 @@ namespace AnarPerPortes
         public bool EnableFlamboyantGraphics { get; set; } = false;
         public bool EnableSpeedrunMode { get; set; } = false;
         public bool EnableHallucinations { get; set; } = true;
+        public bool EnableConsole { get; set; } = false;
     }
 }

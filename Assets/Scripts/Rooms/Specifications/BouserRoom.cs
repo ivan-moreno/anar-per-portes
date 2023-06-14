@@ -2,7 +2,7 @@ using AnarPerPortes.Enemies;
 using UnityEngine;
 using static AnarPerPortes.ShortUtils;
 
-namespace AnarPerPortes
+namespace AnarPerPortes.Rooms
 {
     [AddComponentMenu("Anar per Portes/Rooms/Bouser Room")]
     public class BouserRoom : Room

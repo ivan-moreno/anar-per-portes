@@ -30,7 +30,6 @@ namespace AnarPerPortes
 
         private void Start()
         {
-            OnSettingsChanged();
             GameSettingsManager.Singleton.OnCurrentSettingsChanged.AddListener(OnSettingsChanged);
         }
 
@@ -64,6 +63,7 @@ namespace AnarPerPortes
             GenerateMissingManager<EnemyTipManager>();
             GenerateMissingManager<FadeScreenManager>();
             GenerateMissingManager<FlamboyantGraphicManager>();
+            GenerateMissingManager<GameConsoleManager>();
             GenerateMissingManager<GameSettingsManager>();
             GenerateMissingManager<HardmodeManager>();
             GenerateMissingManager<InteractionManager>();

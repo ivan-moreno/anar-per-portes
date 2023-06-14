@@ -3,28 +3,31 @@ using UnityEngine.Events;
 
 namespace AnarPerPortes
 {
+    [AddComponentMenu("Anar per Portes/Doors/Room Door")]
     [RequireComponent(typeof(BoxCollider))]
-    [AddComponentMenu("Anar per Portes/Room Door")]
     public class RoomDoor : MonoBehaviour
     {
         public UnityEvent OnDoorOpened { get; } = new();
-        [SerializeField] private BoxCollider closedCollider;
-        private bool isOpened = false;
-        private Animator animator;
-        private AudioSource audioSource;
 
-        public void Open()
+        [SerializeField] protected BoxCollider closedCollider;
+
+        protected Animator animator;
+        protected AudioSource audioSource;
+        protected bool isOpened = false;
+
+        public virtual void Open()
         {
             if (isOpened)
                 return;
 
             isOpened = true;
+            closedCollider.enabled = false;
             OnDoorOpened?.Invoke();
             animator.Play("Open");
             audioSource.Play();
         }
 
-        public void Close()
+        public virtual void Close()
         {
             if (!isOpened)
                 return;
@@ -35,7 +38,7 @@ namespace AnarPerPortes
             audioSource.Play();
         }
 
-        public void Deactivate()
+        public virtual void Deactivate()
         {
             isOpened = true;
             closedCollider.enabled = true;
@@ -43,10 +46,14 @@ namespace AnarPerPortes
 
         private void Start()
         {
-            audioSource = GetComponent<AudioSource>();
+            TryGetComponent(out animator);
+            TryGetComponent(out audioSource);
+
+            if (audioSource == null)
+                return;
+
             var rngPitch = Random.Range(-0.05f, 0.05f);
             audioSource.pitch += rngPitch;
-            animator = GetComponent<Animator>();
         }
 
         private void OnTriggerEnter(Collider other)

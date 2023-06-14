@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace AnarPerPortes
+namespace AnarPerPortes.Rooms
 {
     [AddComponentMenu("Anar per Portes/Rooms/Room")]
     public class Room : MonoBehaviour
     {
+        public RoomSetEgg RoomSet { get; set; }
         public Room NextRoom { get; set; }
-        public Transform NextRoomGenerationPoint { get; private set; }
+        public Transform NextRoomSpawnPoint { get; private set; }
         public Transform WaypointGroup { get; private set; }
         public Transform SkellLocationsGroup { get; private set; }
         public Transform PedroBreakPoint { get; private set; }
@@ -46,7 +47,7 @@ namespace AnarPerPortes
 
         public virtual void Initialize()
         {
-            NextRoomGenerationPoint = transform.Find("Logic").Find("NextRoomPoint");
+            NextRoomSpawnPoint = transform.Find("Logic").Find("NextRoomPoint");
             WaypointGroup = transform.Find("Logic").Find("Waypoints");
             SkellLocationsGroup = transform.Find("Logic").Find("SkellLocations");
             PedroBreakPoint = transform.Find("Logic").Find("PedroBreakPoint");
