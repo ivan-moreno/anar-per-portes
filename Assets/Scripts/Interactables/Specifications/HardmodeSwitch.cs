@@ -9,7 +9,7 @@ namespace AnarPerPortes
 
         private void Start()
         {
-            RoomManager.Singleton.OnRoomGenerated.AddListener((_) => Destroy(gameObject));
+            RoomManager.Singleton.OnRoomGenerated.AddListener(x => Destroy(gameObject));
         }
 
         public override void Interact()

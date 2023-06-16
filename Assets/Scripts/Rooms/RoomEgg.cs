@@ -11,9 +11,9 @@ namespace AnarPerPortes.Rooms
         public RoomSetEgg RoomSet { get; set; }
         public GameObject Prefab { get; set; }
         public string Id { get; set; }
-        public float BaseChance { get; set; }
+        public float BaseChance { get; set; } = 100f;
         public float ChanceChangePerRoom { get; set; }
-        public float MinChance { get; set; }
+        public float MinChance { get; set; } = 0f;
         public int MaxSpawnCount { get; set; }
         public int MinRoom { get; set; } = 1;
         public int MaxRoom { get; set; } = RoomManager.maxGeneratedRooms;
@@ -207,11 +207,14 @@ namespace AnarPerPortes.Rooms
 
         private bool HasReachedMaxRoomsBetweenSpawns()
         {
-            return RoomsBetweenSpawns >= MaxRoomsBetweenSpawns;
+            return MaxRoomsBetweenSpawns > 0 && RoomsBetweenSpawns >= MaxRoomsBetweenSpawns;
         }
 
         private bool HasReachedMaxRoomsBetweenSpawnsDebug()
         {
+            if (MaxRoomsBetweenSpawns <= 0)
+                return false;
+
             var result = RoomsBetweenSpawns >= MaxRoomsBetweenSpawns;
 
             if (result)

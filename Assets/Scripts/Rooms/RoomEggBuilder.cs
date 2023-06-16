@@ -104,6 +104,7 @@ namespace AnarPerPortes.Rooms
         /// <summary>
         /// Specifies the maximum amount of rooms that can be generated since the last spawn before the Room is forced to spawn.
         /// </summary>
+        /// <param name="maxRoomsBetweenSpawns">A value of 0 represents no maximum.</param>
         public RoomEggBuilder WithMaxRoomsBetweenSpawns(int maxRoomsBetweenSpawns)
         {
             egg.MaxRoomsBetweenSpawns = maxRoomsBetweenSpawns;

@@ -13,6 +13,7 @@ namespace AnarPerPortes
             isOpened = true;
             closedCollider.enabled = false;
             transform.parent.Rotate(0f, -90f, 0f);
+            OnDoorOpened?.Invoke();
         }
 
         public override void Close()

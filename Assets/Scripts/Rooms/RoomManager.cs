@@ -197,7 +197,10 @@ namespace AnarPerPortes
         private void TrySpawnEggs()
         {
             foreach (var egg in eggs)
-                egg.TrySpawn();
+            {
+                if (egg.TrySpawn())
+                    break;
+            }
         }
     }
 }

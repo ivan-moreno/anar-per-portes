@@ -62,9 +62,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2251722158609425874}
+  - component: {fileID: 2251722158609425875}
   - component: {fileID: 2251722158609425872}
   - component: {fileID: 980927188769296102}
-  - component: {fileID: 2251722158609425875}
   - component: {fileID: 5020415230775976774}
   m_Layer: 0
   m_Name: GenericDoor
@@ -88,8 +88,21 @@ Transform:
   - {fileID: 6431409215247302548}
   - {fileID: 980927189580496883}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2251722158609425875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2251722158609425877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72f1587bf1fe8594b806317d39a1ec6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  closedCollider: {fileID: 980927189580496882}
 --- !u!65 &2251722158609425872
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -131,22 +144,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &2251722158609425875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2251722158609425877}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72f1587bf1fe8594b806317d39a1ec6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnDoorOpened:
-    m_PersistentCalls:
-      m_Calls: []
-  closedCollider: {fileID: 980927189580496882}
 --- !u!82 &5020415230775976774
 AudioSource:
   m_ObjectHideFlags: 0

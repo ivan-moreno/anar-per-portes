@@ -86,6 +86,7 @@ namespace AnarPerPortes.Enemies
         /// <summary>
         /// Specifies the maximum amount of rooms that can be generated since the last spawn before the Enemy is forced to spawn.
         /// </summary>
+        /// <param name="maxRoomsBetweenSpawns">A value of 0 represents no maximum.</param>
         public EnemyEggBuilder WithMaxRoomsBetweenSpawns(int maxRoomsBetweenSpawns)
         {
             egg.MaxRoomsBetweenSpawns = maxRoomsBetweenSpawns;

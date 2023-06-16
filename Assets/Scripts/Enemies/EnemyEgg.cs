@@ -225,11 +225,14 @@ namespace AnarPerPortes.Enemies
 
         private bool HasReachedMaxRoomsBetweenSpawns()
         {
-            return RoomsBetweenSpawns >= MaxRoomsBetweenSpawns;
+            return MaxRoomsBetweenSpawns > 0 && RoomsBetweenSpawns >= MaxRoomsBetweenSpawns;
         }
 
         private bool HasReachedMaxRoomsBetweenSpawnsDebug()
         {
+            if (MaxRoomsBetweenSpawns <= 0)
+                return false;
+
             var result = RoomsBetweenSpawns >= MaxRoomsBetweenSpawns;
 
             if (result)

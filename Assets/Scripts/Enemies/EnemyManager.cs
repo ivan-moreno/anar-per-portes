@@ -110,7 +110,7 @@ namespace AnarPerPortes
         {
             CatalanBirdEnemy.IsCursed = false;
 
-            RoomManager.Singleton.OnRoomGenerated.AddListener((_) => TrySpawnEggs());
+            RoomManager.Singleton.OnRoomGenerated.AddListener(x => TrySpawnEggs());
 
             eggs = new EnemyEgg[]
             {

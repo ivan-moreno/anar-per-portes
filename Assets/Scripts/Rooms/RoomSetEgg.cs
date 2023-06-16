@@ -10,9 +10,9 @@ namespace AnarPerPortes.Rooms
     {
         public List<RoomEgg> Rooms { get; set; } = new();
         public string Id { get; set; }
-        public float BaseChance { get; set; }
+        public float BaseChance { get; set; } = 100f;
         public float ChanceChangePerRoom { get; set; }
-        public float MinChance { get; set; }
+        public float MinChance { get; set; } = 0f;
         public int MaxSpawnCount { get; set; }
         public int MinRoom { get; set; } = 1;
         public int MaxRoom { get; set; } = RoomManager.maxGeneratedRooms;
@@ -32,7 +32,7 @@ namespace AnarPerPortes.Rooms
         public int SpawnCount { get; private set; }
         public int RoomsBetweenSpawns { get; private set; }
         public bool HasSpawnedAtLeastOnce { get; private set; } = false;
-        private List<RoomEgg> roomsInPool = new();
+        private readonly List<RoomEgg> roomsInPool = new();
 
         /// <summary>
         /// Initializes runtime properties that depend on buildtime properties.
@@ -162,7 +162,7 @@ namespace AnarPerPortes.Rooms
             if (!canSpawn)
                 return false;
 
-            if (IsForcedToSpawnInRoomNumber() || HasReachedMaxRoomsBetweenSpawnsDebug())
+            if (IsForcedToSpawnInRoomNumber() || HasReachedMaxRoomsBetweenSpawnsDebug() || canSpawn)
             {
                 var randomRoom = ChooseRandomRoom();
 
@@ -229,15 +229,18 @@ namespace AnarPerPortes.Rooms
 
         private bool HasReachedMaxRoomsBetweenSpawns()
         {
-            return RoomsBetweenSpawns >= MaxRoomsBetweenSpawns;
+            return MaxRoomsBetweenSpawns > 0 && RoomsBetweenSpawns >= MaxRoomsBetweenSpawns;
         }
 
         private bool HasReachedMaxRoomsBetweenSpawnsDebug()
         {
+            if (MaxRoomsBetweenSpawns <= 0)
+                return false;
+
             var result = RoomsBetweenSpawns >= MaxRoomsBetweenSpawns;
 
             if (result)
-                ConsoleWriteLine($"[{Id}] Room has not spawned for {RoomsBetweenSpawns} rooms and will spawn whenever possible.");
+                ConsoleWriteLine($"[{Id}] Room Set has not spawned for {RoomsBetweenSpawns} rooms and will spawn whenever possible.");
 
             return result;
         }

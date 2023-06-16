@@ -14,10 +14,11 @@ namespace AnarPerPortes
         protected Animator animator;
         protected AudioSource audioSource;
         protected bool isOpened = false;
+        protected bool isDeactivated = false;
 
         public virtual void Open()
         {
-            if (isOpened)
+            if (isOpened || isDeactivated)
                 return;
 
             isOpened = true;
@@ -29,7 +30,7 @@ namespace AnarPerPortes
 
         public virtual void Close()
         {
-            if (!isOpened)
+            if (!isOpened || isDeactivated)
                 return;
 
             isOpened = false;
@@ -40,8 +41,8 @@ namespace AnarPerPortes
 
         public virtual void Deactivate()
         {
-            isOpened = true;
-            closedCollider.enabled = true;
+            Debug.Log("Deactivate");
+            isDeactivated = true;
         }
 
         private void Start()
@@ -58,7 +59,7 @@ namespace AnarPerPortes
 
         private void OnTriggerEnter(Collider other)
         {
-            if (isOpened || !other.CompareTag("Player"))
+            if (isOpened || isDeactivated || !other.CompareTag("Player"))
                 return;
 
             Open();
