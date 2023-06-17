@@ -1,25 +1,56 @@
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static AnarPerPortes.ShortUtils;
 
-namespace AnarPerPortes
+namespace AnarPerPortes.Enemies
 {
-    [AddComponentMenu("Anar per Portes/Managers/Game Maker Manager")]
+    [AddComponentMenu("Anar per Portes/Enemies/Game Maker Enemy")]
     [RequireComponent(typeof(AudioSource))]
-    public class GameMakerManager : MonoBehaviour
+    public class GameMakerEnemy : Enemy
     {
-        public static GameMakerManager Singleton { get; private set; }
+        public static GameMakerEnemy Singleton { get; private set; }
 
         [Header("Components")]
+        [SerializeField] private GameObject screen;
         [SerializeField] private Animator jumpscareAnimator;
         [SerializeField] private Text jumpscareLabel;
 
         [Header("Audio")]
         [SerializeField] private SoundResource jumpscareSound;
 
-        private AudioSource audioSource;
         private string jumpscareTargetMessage;
+
+        public override void Spawn()
+        {
+            if (EnemyIsOperative<GameMakerEnemy>())
+                return;
+
+            if (PlayerController.Singleton.IsInCatchSequence)
+                return;
+
+            EnemyManager.Singleton.MarkAsOperative(this);
+            screen.SetActive(true);
+
+            foreach (Transform t in transform)
+                t.gameObject.SetActive(true);
+        }
+
+        protected override void Despawn()
+        {
+            if (!EnemyIsOperative<GameMakerEnemy>())
+                return;
+
+            if (PlayerController.Singleton.IsInCatchSequence)
+                return;
+
+            screen.SetActive(false);
+
+            foreach (Transform t in transform)
+                t.gameObject.SetActive(false);
+
+            EnemyManager.Singleton.UnmarkAsOperative(this);
+        }
 
         public void CatchPlayer()
         {

@@ -21,7 +21,6 @@ namespace AnarPerPortes
         [Header("Components")]
         [SerializeField] private Transform enemiesGroup;
         [SerializeField] private Transform sangotRealm;
-        [SerializeField] private A90Enemy a90Enemy;
 
         [Header("Prefabs")]
         [SerializeField] private GameObject bouserEnemyPrefab;
@@ -119,6 +118,13 @@ namespace AnarPerPortes
                 .WithPrefab(specimen7EnemyPrefab)
                 .MarkAsForcedSpawnOnly()
                 .ForceSpawnOnRoom<Specimen7Room>()
+                .Build(),
+
+                new EnemyEggBuilder()
+                .WithId("GameMaker")
+                .MarkAsForcedSpawnOnly()
+                .ForceSpawnOnRoom<GameMakerRoom>()
+                .WithOnSpawnCallback(egg => GameMakerEnemy.Singleton.Spawn())
                 .Build(),
 
                 new EnemyEggBuilder()
@@ -255,7 +261,7 @@ namespace AnarPerPortes
                 .IncompatibleWithEnemy<SangotEnemy>()
                 .IncompatibleWithEnemy<Specimen7Enemy>()
                 .IncompatibleWithEnemy<YusufEnemy>()
-                .WithOnSpawnCallback(egg => a90Enemy.Spawn())
+                .WithOnSpawnCallback(egg => A90Enemy.Singleton.Spawn())
                 .Build(),
 
                 new EnemyEggBuilder()
@@ -284,7 +290,7 @@ namespace AnarPerPortes
             else if (Input.GetKeyUp(KeyCode.F6))
                 SpawnEnemy(sangotEnemyPrefab);
             else if (Input.GetKeyUp(KeyCode.F7))
-                a90Enemy.Spawn();
+                A90Enemy.Singleton.Spawn();
 #endif
         }
 

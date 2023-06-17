@@ -103,6 +103,7 @@ namespace AnarPerPortes
                 .MarkAsHardmodeExclusive()
                 .ForceSpawnOnRoomNumber(10)
                 .WithBaseChance(20f)
+                .WithMinRoom(10)
                 .WithMaxSpawnCount(5)
                 .WithMaxRoomsBetweenSpawns(1)
                 .WithRoom(new RoomEggBuilder().WithId("GameMakerRoom0").Build())

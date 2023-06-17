@@ -44,6 +44,12 @@ namespace AnarPerPortes.Rooms
 
         public bool CanSpawn()
         {
+            if (IsNormalmodeExclusive && IsHardmodeEnabled())
+                return false;
+
+            if (IsHardmodeExclusive && !IsHardmodeEnabled())
+                return false;
+
             if (IsForcedToSpawnInRoomNumber())
                 return true;
 
@@ -51,12 +57,6 @@ namespace AnarPerPortes.Rooms
                 return false;
 
             if (!AreAdditionalRequirementsFulfilled())
-                return false;
-
-            if (IsNormalmodeExclusive && IsHardmodeEnabled())
-                return false;
-
-            if (IsHardmodeExclusive && !IsHardmodeEnabled())
                 return false;
 
             if (HasReachedMaxSpawnCount())
@@ -79,6 +79,18 @@ namespace AnarPerPortes.Rooms
 
         public bool CanSpawnDebug(out string result)
         {
+            if (IsNormalmodeExclusive && IsHardmodeEnabled())
+            {
+                result = "Room is exclusive to Normal mode.";
+                return false;
+            }
+
+            if (IsHardmodeExclusive && !IsHardmodeEnabled())
+            {
+                result = "Room is exclusive to Hard mode.";
+                return false;
+            }
+
             if (IsForcedToSpawnInRoomNumber())
             {
                 result = "Room is forced to spawn in the latest room number.";
@@ -94,18 +106,6 @@ namespace AnarPerPortes.Rooms
             if (!AreAdditionalRequirementsFulfilled())
             {
                 result = "Room has additional requirements that are not fulfilled.";
-                return false;
-            }
-
-            if (IsNormalmodeExclusive && IsHardmodeEnabled())
-            {
-                result = "Room is exclusive to Normal mode.";
-                return false;
-            }
-
-            if (IsHardmodeExclusive && !IsHardmodeEnabled())
-            {
-                result = "Room is exclusive to Hard mode.";
                 return false;
             }
 

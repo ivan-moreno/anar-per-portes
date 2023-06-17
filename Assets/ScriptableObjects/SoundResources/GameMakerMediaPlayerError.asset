@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 697d33dca1980aa44a3b852d2e215b8d, type: 3}
-  m_Name: GameMakerMediaPlayerSpawn
+  m_Name: GameMakerMediaPlayerError
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: 1d334a8112e4e5547878f0422e71b0ab, type: 3}
-  subtitleText: (suena un pitido estruendoso)
-  subtitleTeam: 2
+  audioClip: {fileID: 8300000, guid: 3c3e8df6a4f795547af6dd3211c13ec4, type: 3}
+  subtitleText: (sonido de aviso)
+  subtitleTeam: 0

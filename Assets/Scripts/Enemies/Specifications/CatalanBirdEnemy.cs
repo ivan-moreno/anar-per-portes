@@ -17,7 +17,6 @@ namespace AnarPerPortes.Enemies
         [SerializeField][Min(0f)] private float acceleration = 2f;
         [SerializeField][Min(0f)] private float turnRate = 20f;
         [SerializeField][Min(0f)] private float driftTurnRate = 60f;
-        [SerializeField][Min(0f)] private float driftAngle = 70f;
 
         [Header("Audio")]
         [SerializeField] private SoundResource spawnSound;

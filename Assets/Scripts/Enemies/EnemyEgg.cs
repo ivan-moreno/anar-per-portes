@@ -50,6 +50,12 @@ namespace AnarPerPortes.Enemies
 
         public bool CanSpawn()
         {
+            if (IsNormalmodeExclusive && IsHardmodeEnabled())
+                return false;
+
+            if (IsHardmodeExclusive && !IsHardmodeEnabled())
+                return false;
+
             if (IsForcedToSpawnInLatestRoom())
                 return true;
 
@@ -57,12 +63,6 @@ namespace AnarPerPortes.Enemies
                 return false;
 
             if (!AreAdditionalRequirementsFulfilled())
-                return false;
-
-            if (IsNormalmodeExclusive && IsHardmodeEnabled())
-                return false;
-
-            if (IsHardmodeExclusive && !IsHardmodeEnabled())
                 return false;
 
             if (HasReachedMaxSpawnCount())
@@ -85,6 +85,18 @@ namespace AnarPerPortes.Enemies
 
         public bool CanSpawnDebug(out string result)
         {
+            if (IsNormalmodeExclusive && IsHardmodeEnabled())
+            {
+                result = "Enemy is exclusive to Normal mode.";
+                return false;
+            }
+
+            if (IsHardmodeExclusive && !IsHardmodeEnabled())
+            {
+                result = "Enemy is exclusive to Hard mode.";
+                return false;
+            }
+
             if (IsForcedToSpawnInLatestRoom())
             {
                 result = "Enemy is forced to spawn in the latest room.";
@@ -100,18 +112,6 @@ namespace AnarPerPortes.Enemies
             if (!AreAdditionalRequirementsFulfilled())
             {
                 result = "Enemy has additional requirements that are not fulfilled.";
-                return false;
-            }
-
-            if (IsNormalmodeExclusive && IsHardmodeEnabled())
-            {
-                result = "Enemy is exclusive to Normal mode.";
-                return false;
-            }
-
-            if (IsHardmodeExclusive && !IsHardmodeEnabled())
-            {
-                result = "Enemy is exclusive to Hard mode.";
                 return false;
             }
 

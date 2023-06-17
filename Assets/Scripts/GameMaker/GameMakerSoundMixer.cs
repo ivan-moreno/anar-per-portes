@@ -1,3 +1,4 @@
+using AnarPerPortes.Enemies;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,7 +19,7 @@ namespace AnarPerPortes
         [Header("Audio")]
         [SerializeField] private SoundResource spawnSound;
 
-        private GameMakerManager manager;
+        private GameMakerEnemy gameMaker;
         private AudioSource audioSource;
         private bool isFunctioning = false;
         private float spawnTime;
@@ -26,7 +27,7 @@ namespace AnarPerPortes
 
         private void Start()
         {
-            manager = GetComponentInParent<GameMakerManager>();
+            gameMaker = GetComponentInParent<GameMakerEnemy>();
             audioSource = GetComponent<AudioSource>();
             spawnTime = Random.Range(minSpawnTime, maxSpawnTime);
             soundMixerButton.onClick.AddListener(Despawn);
@@ -64,12 +65,15 @@ namespace AnarPerPortes
             if (warningTime >= warningDuration)
             {
                 audioSource.Stop();
-                manager.CatchPlayer();
+                gameMaker.CatchPlayer();
             }
         }
 
         private void Spawn()
         {
+            if (PlayerController.Singleton.IsInCatchSequence)
+                return;
+
             if (isFunctioning)
                 return;
 

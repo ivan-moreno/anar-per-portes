@@ -1,3 +1,4 @@
+using AnarPerPortes.Enemies;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,11 +8,14 @@ namespace AnarPerPortes
     public class GameMakerInternetExplorer : MonoBehaviour
     {
         [Header("Components")]
+        [SerializeField] private GameObject window;
+        [SerializeField] private GameObject ongoingDownloadBody;
+        [SerializeField] private GameObject cancelledDownloadBody;
+        [SerializeField] private Button internetExplorerButton;
+        [SerializeField] private Button closeButton;
         [SerializeField] private Button cancelDownloadButton;
         [SerializeField] private Slider downloadSlider;
         [SerializeField] private Image wifiImage;
-        [SerializeField] private GameObject ongoingDownloadBody;
-        [SerializeField] private GameObject cancelledDownloadBody;
 
         [Header("References")]
         [SerializeField] private Sprite[] wifiSprites;
@@ -21,16 +25,18 @@ namespace AnarPerPortes
         [SerializeField][Min(0f)] private float maxSpawnTime = 60f;
         [SerializeField][Min(0.01f)] private float downloadDuration = 10f;
 
-        private GameMakerManager manager;
+        private GameMakerEnemy gameMaker;
         private bool isFunctioning = false;
         private float spawnTime;
         private float downloadTime;
 
         private void Start()
         {
-            manager = GetComponentInParent<GameMakerManager>();
+            gameMaker = GetComponentInParent<GameMakerEnemy>();
             spawnTime = Random.Range(minSpawnTime, maxSpawnTime);
             cancelDownloadButton.onClick.AddListener(Despawn);
+            internetExplorerButton.onClick.AddListener(OpenWindow);
+            closeButton.onClick.AddListener(CloseWindow);
         }
 
         private void Update()
@@ -51,6 +57,9 @@ namespace AnarPerPortes
 
         private void UpdateFunctioning()
         {
+            if (PlayerController.Singleton.IsInCatchSequence)
+                return;
+
             downloadTime += Time.deltaTime;
 
             var downloadProgress = Mathf.Clamp01(downloadTime / downloadDuration);
@@ -60,11 +69,14 @@ namespace AnarPerPortes
             wifiImage.sprite = wifiSprites[targetSprite];
 
             if (downloadTime >= downloadDuration)
-                manager.CatchPlayer();
+                gameMaker.CatchPlayer();
         }
 
         private void Spawn()
         {
+            if (PlayerController.Singleton.IsInCatchSequence)
+                return;
+
             if (isFunctioning)
                 return;
 
@@ -84,6 +96,22 @@ namespace AnarPerPortes
             cancelledDownloadBody.SetActive(true);
             ongoingDownloadBody.SetActive(false);
             wifiImage.sprite = wifiSprites[0];
+        }
+
+        void OpenWindow()
+        {
+            if (window.activeSelf)
+                return;
+
+            window.SetActive(true);
+        }
+
+        void CloseWindow()
+        {
+            if (!window.activeSelf)
+                return;
+
+            window.SetActive(false);
         }
     }
 }

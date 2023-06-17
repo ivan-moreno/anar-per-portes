@@ -9,6 +9,8 @@ namespace AnarPerPortes.Enemies
     [AddComponentMenu("Anar per Portes/Enemies/A90 Enemy")]
     public sealed class A90Enemy : Enemy
     {
+        public static A90Enemy Singleton { get; private set; }
+
         [Header("Components")]
         [SerializeField] private Image image;
         [SerializeField] private Animator jumpscareAnimator;
@@ -44,6 +46,11 @@ namespace AnarPerPortes.Enemies
                 audioSource.time = 0.4f;
 
             audioSource.Play(warningSound);
+        }
+
+        private void Awake()
+        {
+            Singleton = this;
         }
 
         private void ChangeScreenLocation()
