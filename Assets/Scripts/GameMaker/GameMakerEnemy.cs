@@ -11,12 +11,17 @@ namespace AnarPerPortes.Enemies
     {
         public static GameMakerEnemy Singleton { get; private set; }
 
+        public bool DesktopEnabled { get; private set; } = false;
+
         [Header("Components")]
         [SerializeField] private GameObject screen;
+        [SerializeField] private Button startButton;
         [SerializeField] private Animator jumpscareAnimator;
         [SerializeField] private Text jumpscareLabel;
 
         [Header("Audio")]
+        [SerializeField] private SoundResource spawnSound;
+        [SerializeField] private SoundResource despawnSound;
         [SerializeField] private SoundResource jumpscareSound;
 
         private string jumpscareTargetMessage;
@@ -30,10 +35,15 @@ namespace AnarPerPortes.Enemies
                 return;
 
             EnemyManager.Singleton.MarkAsOperative(this);
-            screen.SetActive(true);
+
+            PlayerController.Singleton.PackItem("OperativeSystem");
+            PlayerController.Singleton.GetItem("OperativeSystem").OnEquipped.AddListener(ShowDesktop);
+            PlayerController.Singleton.GetItem("OperativeSystem").OnUnequipped.AddListener(HideDesktop);
 
             foreach (Transform t in transform)
                 t.gameObject.SetActive(true);
+
+            audioSource.PlayOneShot(spawnSound);
         }
 
         protected override void Despawn()
@@ -44,17 +54,37 @@ namespace AnarPerPortes.Enemies
             if (PlayerController.Singleton.IsInCatchSequence)
                 return;
 
-            screen.SetActive(false);
+            EnemyManager.Singleton.UnmarkAsOperative(this);
+
+            PlayerController.Singleton.ConsumeItem("OperativeSystem");
+            HideDesktop();
 
             foreach (Transform t in transform)
                 t.gameObject.SetActive(false);
 
-            EnemyManager.Singleton.UnmarkAsOperative(this);
+            audioSource.PlayOneShot(despawnSound);
+        }
+
+        public void ShowDesktop()
+        {
+            DesktopEnabled = true;
+            PlayerController.Singleton.BlockAll();
+            Cursor.lockState = CursorLockMode.None;
+            screen.SetActive(true);
+        }
+
+        public void HideDesktop()
+        {
+            DesktopEnabled = false;
+            PlayerController.Singleton.UnblockAll();
+            Cursor.lockState = CursorLockMode.Locked;
+            screen.SetActive(false);
         }
 
         public void CatchPlayer()
         {
             StartCoroutine(nameof(CatchPlayerCoroutine));
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         private IEnumerator CatchPlayerCoroutine()
@@ -91,6 +121,7 @@ namespace AnarPerPortes.Enemies
         {
             audioSource = GetComponent<AudioSource>();
             jumpscareTargetMessage = jumpscareLabel.text;
+            startButton.onClick.AddListener(HideDesktop);
         }
     }
 }

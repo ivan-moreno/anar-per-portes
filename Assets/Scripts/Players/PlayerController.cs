@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering.Universal;
+using static UnityEditor.Progress;
 
 namespace AnarPerPortes
 {
@@ -116,6 +117,16 @@ namespace AnarPerPortes
             characterController.enabled = true;
         }
 
+        public InventoryItem GetItem(string itemId)
+        {
+            var itemTransform = transform.Find("Items").Find(itemId);
+
+            if (itemTransform == null)
+                return null;
+
+            return itemTransform.GetComponent<InventoryItem>();
+        }
+
         public void PackItem(string itemId)
         {
             var itemTransform = transform.Find("Items").Find(itemId);
@@ -137,6 +148,32 @@ namespace AnarPerPortes
 
             items.Add(item);
             ItemManager.Singleton.GenerateSlotFor(item);
+        }
+
+        public void ConsumeItem(string itemId)
+        {
+            var itemTransform = transform.Find("Items").Find(itemId);
+
+            if (itemTransform == null)
+                return;
+
+            if (itemTransform.TryGetComponent(out InventoryItem item))
+                ConsumeItem(item);
+        }
+
+        public void ConsumeItem(InventoryItem item)
+        {
+            if (!items.Contains(item))
+                return;
+
+            if (item == equippedItem)
+            {
+                ConsumeEquippedItem();
+                return;
+            }
+
+            item.Consume();
+            items.Remove(item);
         }
 
         public void ConsumeEquippedItem()

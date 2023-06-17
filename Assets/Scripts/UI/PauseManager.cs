@@ -1,3 +1,4 @@
+using AnarPerPortes.Enemies;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -66,7 +67,12 @@ namespace AnarPerPortes
             StartCoroutine(nameof(ResumeEnumerator));
             PlayerController.Singleton.UnblockAll();
             Time.timeScale = GameSettingsManager.Singleton.CurrentSettings.EnableSpeedrunMode ? 2f : 1f;
-            Cursor.lockState = CursorLockMode.Locked;
+
+            if (GameMakerEnemy.Singleton.DesktopEnabled)
+                Cursor.lockState = CursorLockMode.None;
+            else
+                Cursor.lockState = CursorLockMode.Locked;
+
             OnPauseChanged?.Invoke(false);
         }
 
