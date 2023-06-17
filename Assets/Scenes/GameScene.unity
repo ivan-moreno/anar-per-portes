@@ -5134,8 +5134,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 482258739}
   - {fileID: 756965203}
+  - {fileID: 482258739}
   m_Father: {fileID: 1556619420}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7152,8 +7152,8 @@ MonoBehaviour:
   startButton: {fileID: 1305262508}
   jumpscareAnimator: {fileID: 951610784}
   jumpscareLabel: {fileID: 232314650}
-  spawnSound: {fileID: 0}
-  despawnSound: {fileID: 0}
+  spawnSound: {fileID: 11400000, guid: 9024ca3b91ce85a4885835a07c3f04da, type: 2}
+  despawnSound: {fileID: 11400000, guid: d5ec13317da03f14f9f0f220187cc21c, type: 2}
   jumpscareSound: {fileID: 11400000, guid: 2f778ce0976031f4caf802cd8d9ef435, type: 2}
 --- !u!82 &437007515
 AudioSource:
@@ -24579,8 +24579,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 0.039215688, b: 0, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.039215688, b: 0, a: 1}
     m_PressedColor: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0, g: 0, b: 0, a: 1}
@@ -24598,7 +24598,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 0
-  m_TargetGraphic: {fileID: 52227463}
+  m_TargetGraphic: {fileID: 415229125}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -25183,7 +25183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.047169805, g: 0.047169805, b: 0.047169805, a: 0.96862745}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -41151,9 +41151,10 @@ AudioSource:
   m_GameObject: {fileID: 1934305382}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 4e4aff11f3d110a4e8b5e38105932283,
+    type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -41161,11 +41162,11 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 16
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -41250,8 +41251,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ea1b444f8b928d4b8b062bad02f7554, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tip: {fileID: 0}
+  tip: {fileID: 11400000, guid: 9ccdb80ce347d6b4e8994962587f57c5, type: 2}
   roblomanDisguiseObject: {fileID: 0}
+  overlay: {fileID: 1394873359}
+  renderTexture: {fileID: 1186655436}
+  renderTextureCamera: {fileID: 482258738}
+  spawnDaviloteSound: {fileID: 11400000, guid: bc3056bcd3f2a3247a56d0283e643c64, type: 2}
+  spawnPedroSound: {fileID: 11400000, guid: c8b6813ff1ff16e43a6f472410755256, type: 2}
+  spawnSangotSound: {fileID: 11400000, guid: 54aced47f0c05f74eb9ac230281b2999, type: 2}
+  spawnSheepySound: {fileID: 11400000, guid: ce4c87193ebb5004f838d4d7c538e072, type: 2}
+  spawnSkellSound: {fileID: 11400000, guid: 3a9bd36744de3984b9a8d69415d0807c, type: 2}
+  meetBouserSound: {fileID: 11400000, guid: fbbcef28242645c47988cf6af77da38f, type: 2}
+  danylopezCamImage: {fileID: 45001450}
+  normalReaction: {fileID: 21300000, guid: fdb8c5cb845c4cf4ba559d016222c04d, type: 3}
+  anxiousReaction: {fileID: 21300000, guid: 400d12040528e6e40a4b48a4a8919739, type: 3}
+  angryReaction: {fileID: 21300000, guid: a36d0691594bc2d4f9f1fd1fd45b409a, type: 3}
+  sadReaction: {fileID: 21300000, guid: db172518a1996934bb71b801ce3e7907, type: 3}
+  suprisedReaction: {fileID: 21300000, guid: baf6159c39b86c24196c4f5f3d0ae4f0, type: 3}
+  scaredReaction: {fileID: 21300000, guid: b5fafa5852c3a404da63f321e0360e16, type: 3}
 --- !u!1 &1934550069
 GameObject:
   m_ObjectHideFlags: 0

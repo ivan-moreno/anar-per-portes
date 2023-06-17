@@ -13,6 +13,10 @@ namespace AnarPerPortes
     {
         public static EnemyManager Singleton { get; private set; }
 
+        public GameObject DaviloteEnemyPrefab => daviloteEnemyPrefab;
+        public GameObject PedroEnemyPrefab => pedroEnemyPrefab;
+        public GameObject SangotEnemyPrefab => sangotEnemyPrefab;
+        public GameObject SheepyEnemyPrefab => sheepyEnemyPrefab;
         public GameObject SkellEnemyPrefab => skellEnemyPrefab;
         public Transform SangotRealm => sangotRealm;
 
@@ -272,6 +276,26 @@ namespace AnarPerPortes
                 .WithBaseChance(40f)
                 .WithChanceChangePerRoom(+5)
                 .WithOnSpawnCallback(egg => SpawnRoblomanDisguise())
+                .Build(),
+
+                new EnemyEggBuilder()
+                .WithId("Danylopez")
+                .WithMinRoom(2) //55
+                .WithMinRoomsBetweenSpawns(30)
+                .WithMaxRoomsBetweenSpawns(50)
+                .WithBaseChance(90f) //5
+                //.WithAdditionalRequirements(() => LatestRoom().IsLargeSize)
+                .WithAdditionalRequirements(() => LatestRoom().IsMediumSize)
+                .IncompatibleWithRoom<BouserRoom>()
+                .IncompatibleWithRoom<IsleRoom>()
+                .IncompatibleWithRoom<Specimen7Room>()
+                .IncompatibleWithRoom<GameMakerRoom>()
+                .IncompatibleWithEnemy<BouserEnemy>()
+                .IncompatibleWithEnemy<CatalanBirdEnemy>()
+                .IncompatibleWithEnemy<GameMakerEnemy>()
+                .IncompatibleWithEnemy<Specimen7Enemy>()
+                .IncompatibleWithEnemy<YusufEnemy>()
+                .WithOnSpawnCallback(egg => DanylopezEnemy.Singleton.Spawn())
                 .Build(),
             };
         }

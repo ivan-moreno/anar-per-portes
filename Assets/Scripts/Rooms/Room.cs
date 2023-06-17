@@ -15,6 +15,9 @@ namespace AnarPerPortes.Rooms
         public UnityEvent OnDoorOpened { get; } = new();
         public UnityEvent OnUnloading { get; } = new();
         public bool HasPedestals => hasPedestals;
+        public bool IsSmallSize => isSmallSize;
+        public bool IsMediumSize => isMediumSize;
+        public bool IsLargeSize => isLargeSize;
 
         [Header("Components")]
         [SerializeField] protected RoomDoor door;

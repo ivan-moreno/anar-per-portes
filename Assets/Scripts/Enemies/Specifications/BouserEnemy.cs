@@ -25,6 +25,7 @@ namespace AnarPerPortes.Enemies
 
         [Header("Audio")]
         [SerializeField] private SoundResource jumpscareSound;
+        [SerializeField] private SoundResource meetDanylopezSound;
         [SerializeField] private SoundResource meetSkellSound;
         [SerializeField] private SoundResource[] meetSkellDialogs;
         [SerializeField] private SoundResource[] warningSounds;
@@ -75,6 +76,14 @@ namespace AnarPerPortes.Enemies
 
         public void WakeUp()
         {
+            if (DanylopezEnemy.HasAppearedInThisSession)
+            {
+                StartCoroutine(nameof(MeetDanylopezCoroutine));
+                nextMoveTime = Random.Range(nextMoveMinTime, nextMoveMaxTime);
+                ChangeTargetLocationRandom();
+                return;
+            }
+
             if (EnemyIsOperative<PedroEnemy>())
             {
                 var pedroPos = FindObjectOfType<PedroEnemy>().transform.position;
@@ -112,6 +121,13 @@ namespace AnarPerPortes.Enemies
 
             if (isMeetSkell)
                 StartCoroutine(nameof(GrabTailWithSkellCoroutine));
+        }
+
+        private IEnumerator MeetDanylopezCoroutine()
+        {
+            Talk(meetDanylopezSound);
+            yield return new WaitForSeconds(meetDanylopezSound.AudioClip.length + 0.5f);
+            DanylopezEnemy.Singleton.Spawn();
         }
 
         public void MeetSkell(SkellBetaEnemy skellEnemy)

@@ -41,7 +41,6 @@ namespace AnarPerPortes
 
         public virtual void Deactivate()
         {
-            Debug.Log("Deactivate");
             isDeactivated = true;
         }
 
