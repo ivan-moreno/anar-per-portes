@@ -189,7 +189,11 @@ namespace AnarPerPortes
 
         private void OnDoorOpened()
         {
-            LatestRoomNumber++;
+            if (Input.GetKey(KeyCode.LeftShift))
+                LatestRoomNumber = 49;
+            else
+                LatestRoomNumber++;
+
             PushSubtitle("Puerta " + LatestRoomNumber, 2f);
             ConsoleClear();
             TrySpawnEggs();

@@ -43,12 +43,16 @@ namespace AnarPerPortes
 
         public Enemy SpawnEnemy(GameObject enemyPrefab, bool isDisguise = false)
         {
+            if (EnemyIsOperative(enemyPrefab.GetComponent<Enemy>().GetType()))
+                return null;
+
             if (isDisguise && EnemyIsOperative<RoblomanEnemy>())
                 return null;
 
             var instance = Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity, enemiesGroup);
 
             instance.TryGetComponent(out Enemy enemy);
+
             enemy.Spawn();
 
             TryDisplayTip(enemy);
@@ -280,12 +284,11 @@ namespace AnarPerPortes
 
                 new EnemyEggBuilder()
                 .WithId("Danylopez")
-                .WithMinRoom(2) //55
+                .WithMinRoom(2) //40
                 .WithMinRoomsBetweenSpawns(30)
                 .WithMaxRoomsBetweenSpawns(50)
                 .WithBaseChance(90f) //5
-                //.WithAdditionalRequirements(() => LatestRoom().IsLargeSize)
-                .WithAdditionalRequirements(() => LatestRoom().IsMediumSize)
+                .WithAdditionalRequirements(() => LatestRoom().IsMediumSize || LatestRoom().IsLargeSize)
                 .IncompatibleWithRoom<BouserRoom>()
                 .IncompatibleWithRoom<IsleRoom>()
                 .IncompatibleWithRoom<Specimen7Room>()
@@ -314,6 +317,8 @@ namespace AnarPerPortes
             else if (Input.GetKeyUp(KeyCode.F6))
                 SpawnEnemy(sangotEnemyPrefab);
             else if (Input.GetKeyUp(KeyCode.F7))
+                DanylopezEnemy.Singleton.Spawn();
+            else if (Input.GetKeyUp(KeyCode.F8))
                 A90Enemy.Singleton.Spawn();
 #endif
         }

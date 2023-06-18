@@ -79,7 +79,7 @@ namespace AnarPerPortes.Enemies
                 else
                 {
                     animator.Play("Retreat");
-                    PushSubtitle(safeSound);
+                    audioSource.PlayOneShot(safeSound);
                 }
             }
         }

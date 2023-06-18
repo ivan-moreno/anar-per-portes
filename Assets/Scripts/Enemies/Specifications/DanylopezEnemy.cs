@@ -33,6 +33,8 @@ namespace AnarPerPortes.Enemies
         [SerializeField] private Sprite suprisedReaction;
         [SerializeField] private Sprite scaredReaction;
 
+        Animator overlayAnimator;
+
         public override void Spawn()
         {
             if (EnemyIsOperative<DanylopezEnemy>())
@@ -41,8 +43,10 @@ namespace AnarPerPortes.Enemies
             EnemyManager.Singleton.MarkAsOperative(this);
             HasAppearedInThisSession = true;
             overlay.SetActive(true);
-            renderTexture.SetActive(true);
-            renderTextureCamera.SetActive(true);
+            //renderTexture.SetActive(true);
+            //renderTextureCamera.SetActive(true);
+
+            overlayAnimator.Play("Draw");
 
             if (LatestRoomNumber() == 50)
                 StartCoroutine(nameof(MeetBouserCoroutine));
@@ -57,8 +61,8 @@ namespace AnarPerPortes.Enemies
 
             EnemyManager.Singleton.UnmarkAsOperative(this);
             overlay.SetActive(false);
-            renderTexture.SetActive(false);
-            renderTextureCamera.SetActive(false);
+            //renderTexture.SetActive(false);
+            //renderTextureCamera.SetActive(false);
             StopCoroutine(nameof(SpawnEnemyCoroutine));
         }
 
@@ -66,11 +70,16 @@ namespace AnarPerPortes.Enemies
         {
             audioSource.PlayOneShot(meetBouserSound);
             yield return new WaitForSeconds(meetBouserSound.AudioClip.length + 1f);
+
+            overlayAnimator.Play("Undraw");
+            yield return new WaitForSeconds(0.6f);
+
             Despawn();
         }
 
         private void Start()
         {
+            overlayAnimator = overlay.GetComponent<Animator>();
             audioSource = GetComponent<AudioSource>();
             HasAppearedInThisSession = false;
             PauseManager.Singleton.OnPauseChanged.AddListener(OnPauseChanged);
@@ -125,7 +134,11 @@ namespace AnarPerPortes.Enemies
 
             audioSource.PlayOneShot(spawnSound);
             yield return new WaitForSeconds(spawnSound.AudioClip.length + 1f);
+
             EnemyManager.Singleton.SpawnEnemy(prefab);
+            overlayAnimator.Play("Undraw");
+            yield return new WaitForSeconds(0.6f);
+
             Despawn();
         }
     }

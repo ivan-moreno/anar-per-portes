@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697d33dca1980aa44a3b852d2e215b8d, type: 3}
   m_Name: SheepySafe
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: aa6cd994b62548349a8c0704ed17d4c1, type: 3}
+  audioClip: {fileID: 8300000, guid: 076543129d36db0429e4749ddc66c2ac, type: 3}
   subtitleText: (Wait a minute!)
   subtitleTeam: 1

@@ -38,6 +38,7 @@ namespace AnarPerPortes.Enemies
         private BouserRoom room;
         private Vector3 targetLocation;
         private bool reachedTarget = false;
+        private bool isAwake = false;
         private bool isChasing = false;
         private bool isMeetSkell = false;
         private bool isGrabbingTail = false;
@@ -76,6 +77,8 @@ namespace AnarPerPortes.Enemies
 
         public void WakeUp()
         {
+            isAwake = true;
+
             if (DanylopezEnemy.HasAppearedInThisSession)
             {
                 StartCoroutine(nameof(MeetDanylopezCoroutine));
@@ -128,6 +131,7 @@ namespace AnarPerPortes.Enemies
             Talk(meetDanylopezSound);
             yield return new WaitForSeconds(meetDanylopezSound.AudioClip.length + 0.5f);
             DanylopezEnemy.Singleton.Spawn();
+            audioCooldown = 4.5f;
         }
 
         public void MeetSkell(SkellBetaEnemy skellEnemy)
@@ -195,6 +199,9 @@ namespace AnarPerPortes.Enemies
 
         private void Update()
         {
+            if (!isAwake)
+                return;
+
             if (audioCooldown > 0f)
                 audioCooldown -= Time.deltaTime;
 
