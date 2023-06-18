@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace AnarPerPortes
@@ -7,13 +8,7 @@ namespace AnarPerPortes
     {
         public override void Open()
         {
-            if (isOpened)
-                return;
-
-            isOpened = true;
-            closedCollider.enabled = false;
-            transform.parent.Rotate(0f, -90f, 0f);
-            OnDoorOpened?.Invoke();
+            StartCoroutine(nameof(OpenCoroutine));
         }
 
         public override void Close()
@@ -24,6 +19,27 @@ namespace AnarPerPortes
             isOpened = false;
             closedCollider.enabled = true;
             transform.parent.Rotate(0f, 90f, 0f);
+        }
+
+        private IEnumerator OpenCoroutine()
+        {
+            if (isOpened)
+                yield break;
+
+            isOpened = true;
+            closedCollider.enabled = false;
+            OnDoorOpened?.Invoke();
+
+            var timer = 0f;
+
+            while (timer < 1f)
+            {
+                timer += Time.deltaTime * 2f;
+                transform.parent.rotation = Quaternion.Lerp(Quaternion.Euler(0f, 0f, 0f), Quaternion.Euler(0f, -90f, 0f), timer);
+                yield return null;
+            }
+
+            transform.parent.rotation = Quaternion.Euler(0f, -90f, 0f);
         }
     }
 }

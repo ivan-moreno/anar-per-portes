@@ -66,7 +66,9 @@ namespace AnarPerPortes
         public RoblomanEnemy SpawnRoblomanAt(Vector3 location)
         {
             var instance = Instantiate(roblomanEnemyPrefab, location, Quaternion.identity, enemiesGroup);
-            return instance.GetComponent<RoblomanEnemy>();
+            var roblomanEnemy = instance.GetComponent<RoblomanEnemy>();
+            roblomanEnemy.Spawn();
+            return roblomanEnemy;
         }
 
         public Enemy GetEnemyInstance<T>() where T : Enemy

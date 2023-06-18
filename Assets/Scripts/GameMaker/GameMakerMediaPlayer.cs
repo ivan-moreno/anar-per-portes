@@ -1,5 +1,4 @@
 using AnarPerPortes.Enemies;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -48,6 +47,8 @@ namespace AnarPerPortes
 
         private void Update()
         {
+            closeButton.enabled = timeSinceOpen >= openDuration;
+
             if (isOpen)
                 UpdateOpen();
             else
@@ -57,8 +58,6 @@ namespace AnarPerPortes
         private void UpdateOpen()
         {
             timeSinceOpen += Time.deltaTime;
-
-            closeButton.enabled = timeSinceOpen >= openDuration;
         }
 
         private void UpdateNotOpen()

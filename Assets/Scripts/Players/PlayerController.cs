@@ -3,7 +3,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering.Universal;
-using static UnityEditor.Progress;
 
 namespace AnarPerPortes
 {

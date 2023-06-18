@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Specimen7Spawn
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: bc49833bebc1b27478cf8ce19279d8ca, type: 3}
-  subtitleText: "(sientes una extra\xF1a agitaci\xF3n)"
+  subtitleText: "(sientes una extra\xF1a agitaci\xF3n... \xA1corre!)"
   subtitleTeam: 2
