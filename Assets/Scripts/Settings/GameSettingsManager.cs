@@ -106,6 +106,10 @@ namespace AnarPerPortes
                 .WithTarget(target => CurrentSettings.EnableSpeedrunMode = target);
 
             GenerateToggle(gameplayGroup)
+                .Initialize("Modo Roblomaniático", CurrentSettings.EnableRoblomaniaticMode)
+                .WithTarget(target => CurrentSettings.EnableRoblomaniaticMode = target);
+
+            GenerateToggle(gameplayGroup)
                 .Initialize("Mostrar consola", CurrentSettings.EnableConsole)
                 .WithTarget(target => CurrentSettings.EnableConsole = target);
 

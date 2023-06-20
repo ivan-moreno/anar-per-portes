@@ -10,6 +10,7 @@ namespace AnarPerPortes.Enemies
     public class BouserEnemy : Enemy
     {
         public static UnityEvent<BouserEnemy> OnSpawn { get; } = new();
+        public bool IsFriendly { get; private set; } = false;
         public bool IsDefeated { get; private set; } = false;
 
         [Header("Stats")]
@@ -28,6 +29,7 @@ namespace AnarPerPortes.Enemies
         [SerializeField] private SoundResource meetDanylopezSound;
         [SerializeField] private SoundResource meetSkellSound;
         [SerializeField] private SoundResource[] meetSkellDialogs;
+        [SerializeField] private SoundResource[] meetAssPancakesDialogs;
         [SerializeField] private SoundResource[] warningSounds;
         [SerializeField] private SoundResource[] loseSounds;
         [SerializeField] private SoundResource[] searchSounds;
@@ -79,6 +81,12 @@ namespace AnarPerPortes.Enemies
         {
             isAwake = true;
 
+            if (EnemyIsOperative<AssPancakesEnemy>())
+            {
+                StartCoroutine(nameof(MeetAssPancakesCoroutine));
+                return;
+            }
+
             if (DanylopezEnemy.HasAppearedInThisSession)
             {
                 StartCoroutine(nameof(MeetDanylopezCoroutine));
@@ -124,6 +132,20 @@ namespace AnarPerPortes.Enemies
 
             if (isMeetSkell)
                 StartCoroutine(nameof(GrabTailWithSkellCoroutine));
+        }
+
+        IEnumerator MeetAssPancakesCoroutine()
+        {
+            room.OpenBouserDoorAsDefeated();
+            IsFriendly = true;
+            audioSource.PlayOneShot(meetAssPancakesDialogs[0]);
+            yield return new WaitForSeconds(meetAssPancakesDialogs[0].AudioClip.length + 2f);
+
+            audioSource.PlayOneShot(meetAssPancakesDialogs[1]);
+            yield return new WaitForSeconds(meetAssPancakesDialogs[1].AudioClip.length + 2f);
+
+            audioSource.PlayOneShot(meetAssPancakesDialogs[2]);
+            yield return new WaitForSeconds(meetAssPancakesDialogs[2].AudioClip.length + 0.4f);
         }
 
         private IEnumerator MeetDanylopezCoroutine()
@@ -199,7 +221,7 @@ namespace AnarPerPortes.Enemies
 
         private void Update()
         {
-            if (!isAwake)
+            if (!isAwake || IsFriendly)
                 return;
 
             if (audioCooldown > 0f)
@@ -291,7 +313,7 @@ namespace AnarPerPortes.Enemies
                 return;
             }
 
-            if (isCatching || isGrabbingTail || isMeetSkell)
+            if (isCatching || isGrabbingTail || isMeetSkell || IsFriendly)
                 return;
 
             if (PlayerController.Singleton.EquippedItemIs("Roblobolita"))

@@ -124,7 +124,7 @@ namespace AnarPerPortes.Enemies
 
             var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, targetRunSpeed * Time.deltaTime);
 
-            if (!EnemyIsOperative<SheepyEnemy>() && !EnemyIsOperative<A90Enemy>())
+            if (!EnemyIsOperative<SangotEnemy>() && !EnemyIsOperative<SheepyEnemy>() && !EnemyIsOperative<A90Enemy>())
                 transform.position = nextPosition;
 
             reachedTarget = !isChasing && Vector3.Distance(transform.position, targetLocation) <= runSpeed * Time.deltaTime;

@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 5486740946344708625}
   - component: {fileID: 8970647310306674384}
   - component: {fileID: -1076361609707130252}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Pedestal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,7 +150,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 24300002, guid: 4e4aff11f3d110a4e8b5e38105932283,
     type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -160,9 +160,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 16
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0

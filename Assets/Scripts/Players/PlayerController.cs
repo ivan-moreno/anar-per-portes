@@ -12,6 +12,7 @@ namespace AnarPerPortes
     public class PlayerController : MonoBehaviour
     {
         public static PlayerController Singleton { get; private set; }
+        public Pedestal CurrentPedestal { get; set; }
         public bool IsCamouflaged { get; set; } = false;
         public bool CanBeCaught { get; set; } = true;
         public bool IsInCatchSequence { get; set; } = false;
@@ -266,7 +267,7 @@ namespace AnarPerPortes
                 direction: Camera.transform.forward,
                 hitInfo: out var hitInfo,
                 maxDistance: interactRange,
-                layerMask: LayerMask.GetMask("Default"));
+                layerMask: LayerMask.GetMask("Default", "IgnoreEnemyRaycast"));
 
             if (!foundHit)
             {

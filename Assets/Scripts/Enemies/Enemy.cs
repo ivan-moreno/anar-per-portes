@@ -23,7 +23,9 @@ namespace AnarPerPortes.Enemies
         public void MarkAsRoblomanDisguise()
         {
             IsRoblomanDisguise = true;
-            roblomanDisguiseObject.SetActive(true);
+            
+            if (roblomanDisguiseObject != null)
+                roblomanDisguiseObject.SetActive(true);
         }
 
         protected void CacheComponents()

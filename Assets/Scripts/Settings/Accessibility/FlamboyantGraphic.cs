@@ -13,6 +13,7 @@ namespace AnarPerPortes
         {
             renderer = GetComponent<Renderer>();
             defaultMaterial = renderer.material;
+            OnSettingsChanged();
             GameSettingsManager.Singleton.OnCurrentSettingsChanged.AddListener(OnSettingsChanged);
         }
 

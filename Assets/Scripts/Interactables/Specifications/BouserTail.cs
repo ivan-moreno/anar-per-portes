@@ -1,6 +1,4 @@
 using AnarPerPortes.Enemies;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace AnarPerPortes
@@ -8,9 +6,13 @@ namespace AnarPerPortes
     public class BouserTail : MonoBehaviour, IInteractable
     {
         [SerializeField] private Transform tooltipPosition;
+        private BouserEnemy bouser;
 
         public void Focus()
         {
+            if (bouser.IsFriendly || bouser.IsDefeated)
+                return;
+
             InteractionManager.Singleton.ShowTooltip(tooltipPosition, KeybindManager.Singleton.CurrentKeybinds.Interact.ToString(), "Agarrar cola");
         }
 
@@ -21,9 +23,17 @@ namespace AnarPerPortes
 
         public void Interact()
         {
-            GetComponentInParent<BouserEnemy>().GrabTail();
+            if (bouser.IsFriendly || bouser.IsDefeated)
+                return;
+
+            bouser.GrabTail();
             InteractionManager.Singleton.HideTooltipIfValidOwner(tooltipPosition);
             gameObject.SetActive(false);
+        }
+
+        private void Start()
+        {
+            bouser = GetComponentInParent<BouserEnemy>();
         }
     }
 }

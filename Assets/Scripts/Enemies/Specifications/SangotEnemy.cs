@@ -23,6 +23,7 @@ namespace AnarPerPortes.Enemies
         [SerializeField] private SoundResource endingMusic;
 
         private Vector3 originalPlayerPosition;
+        private Pedestal originalPedestal;
 
         public override void Spawn()
         {
@@ -31,6 +32,12 @@ namespace AnarPerPortes.Enemies
 
             BlackoutManager.Singleton.PlayDoorOpen();
             BlurOverlayManager.Singleton.SetBlurSmooth(new(0.73f, 0.37f, 1f, 1f), 0.5f);
+
+            if (PlayerController.Singleton.IsCamouflaged)
+            {
+                originalPedestal = PlayerController.Singleton.CurrentPedestal;
+                originalPedestal.ReleasePlayer();
+            }
 
             originalPlayerPosition = PlayerPosition();
             PlayerController.Singleton.Teleport(EnemyManager.Singleton.SangotRealm.position);
@@ -144,6 +151,10 @@ namespace AnarPerPortes.Enemies
             BlackoutManager.Singleton.PlayDoorOpen();
             BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 0.5f);
             PlayerController.Singleton.Teleport(originalPlayerPosition);
+
+            if (originalPedestal != null)
+                originalPedestal.OccupyPlayer();
+
             Despawn();
         }
     }

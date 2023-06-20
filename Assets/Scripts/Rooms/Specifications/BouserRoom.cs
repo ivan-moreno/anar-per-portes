@@ -19,9 +19,11 @@ namespace AnarPerPortes.Rooms
         [Header("Stats")]
         [SerializeField] private float spawnBouserDistance = 9f;
         [SerializeField] private float spawnBouserHardDistance = 38f;
+        [SerializeField] private float spawnAssPancakesDistance = 18f;
         [SerializeField] private float closeEntranceDoorDistance = 32f;
 
         private bool isBouserAwake = false;
+        private bool spawnedAssPancakes = false;
 
         public void WakeUpBouser()
         {
@@ -46,10 +48,18 @@ namespace AnarPerPortes.Rooms
 
         private void FixedUpdate()
         {
-            if (LatestRoom() != this)
+            if (LatestRoom() != this || EnemyIsOperative<AssPancakesEnemy>())
                 return;
 
             var distance = Vector3.Distance(bouserRoomDoorsAnimator.transform.position, PlayerPosition());
+
+            //TODO: if ass pancakes will spawn logic
+            if (!spawnedAssPancakes && distance < spawnAssPancakesDistance)
+            {
+                spawnedAssPancakes = true;
+                EnemyManager.Singleton.SpawnEnemy(EnemyManager.Singleton.AssPancakesEnemyPrefab);
+                return;
+            }
 
             if (IsHardmodeEnabled() && !PlayerIsInsideRoom && distance <= spawnBouserHardDistance)
             {

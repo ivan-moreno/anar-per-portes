@@ -5627,6 +5627,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemiesGroup: {fileID: 2034099627}
   sangotRealm: {fileID: 85422482}
+  assPancakesEnemyPrefab: {fileID: 6753507839867637624, guid: 31ccfb1e0acd8b94abdc164c8de31dec,
+    type: 3}
   bouserEnemyPrefab: {fileID: 81038424985809431, guid: d3f98aab40d823844b6857fcd4c4b2d5,
     type: 3}
   catalanBirdEnemyPrefab: {fileID: 3005926016160971923, guid: e2bea7e3657d84a4fa2cac7d3b2f5256,
@@ -18182,7 +18184,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1198020652}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -24076,7 +24078,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 127.99994, y: 0}
+  m_AnchoredPosition: {x: 128, y: 0}
   m_SizeDelta: {x: 128, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1301211180
@@ -43659,7 +43661,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -63.999878, y: 0}
+  m_AnchoredPosition: {x: -64, y: 0}
   m_SizeDelta: {x: -128, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2141929422

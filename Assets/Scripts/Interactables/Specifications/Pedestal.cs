@@ -34,22 +34,46 @@ namespace AnarPerPortes
             OccupyPlayer();
         }
 
+        public void OccupyPlayer()
+        {
+            if (isOccupied)
+                return;
+
+            PlayerController.Singleton.IsCamouflaged = true;
+            PlayerController.Singleton.CurrentPedestal = this;
+            PlayerController.Singleton.Teleport(occupyPlayerPosition.position);
+            PlayerController.Singleton.BlockMove();
+            isOccupied = true;
+            audioSource.PlayOneShot(hideSound);
+
+            InteractionManager.Singleton.HideTooltipIfValidOwner(tooltipPosition);
+        }
+
+        public void ReleasePlayer()
+        {
+            if (!isOccupied)
+                return;
+
+            PlayerController.Singleton.IsCamouflaged = false;
+            PlayerController.Singleton.CurrentPedestal = null;
+            PlayerController.Singleton.Teleport(releasePlayerPosition.position);
+            PlayerController.Singleton.UnblockMove();
+            isOccupied = false;
+            audioSource.PlayOneShot(revealSound);
+        }
+
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
-            SangotEnemy.OnSpawned.AddListener(OnSangotSpawned);
-        }
-
-        void OnSangotSpawned(SangotEnemy sangotEnemy)
-        {
-            if (isOccupied)
-                ReleasePlayer();
         }
 
         private void Update()
         {
             if (isOccupied)
+            {
                 timeOccupied += Time.deltaTime;
+                PlayerController.Singleton.Teleport(occupyPlayerPosition.position);
+            }
             else
             {
                 timeOccupied = 0f;
@@ -58,32 +82,6 @@ namespace AnarPerPortes
 
             if (Input.GetKeyUp(KeybindManager.Singleton.CurrentKeybinds.Interact) && timeOccupied >= minOccupiedDuration)
                 ReleasePlayer();
-        }
-
-        private void OccupyPlayer()
-        {
-            if (isOccupied)
-                return;
-
-            PlayerController.Singleton.Teleport(occupyPlayerPosition.position);
-            PlayerController.Singleton.BlockMove();
-            PlayerController.Singleton.IsCamouflaged = true;
-            isOccupied = true;
-            audioSource.PlayOneShot(hideSound);
-
-            InteractionManager.Singleton.HideTooltipIfValidOwner(tooltipPosition);
-        }
-
-        private void ReleasePlayer()
-        {
-            if (!isOccupied)
-                return;
-
-            PlayerController.Singleton.Teleport(releasePlayerPosition.position);
-            PlayerController.Singleton.UnblockMove();
-            PlayerController.Singleton.IsCamouflaged = false;
-            isOccupied = false;
-            audioSource.PlayOneShot(revealSound);
         }
     }
 }

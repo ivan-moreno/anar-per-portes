@@ -13,6 +13,7 @@ namespace AnarPerPortes
     {
         public static EnemyManager Singleton { get; private set; }
 
+        public GameObject AssPancakesEnemyPrefab => assPancakesEnemyPrefab;
         public GameObject DaviloteEnemyPrefab => daviloteEnemyPrefab;
         public GameObject PedroEnemyPrefab => pedroEnemyPrefab;
         public GameObject SangotEnemyPrefab => sangotEnemyPrefab;
@@ -27,6 +28,7 @@ namespace AnarPerPortes
         [SerializeField] private Transform sangotRealm;
 
         [Header("Prefabs")]
+        [SerializeField] private GameObject assPancakesEnemyPrefab;
         [SerializeField] private GameObject bouserEnemyPrefab;
         [SerializeField] private GameObject catalanBirdEnemyPrefab;
         [SerializeField] private GameObject daviloteEnemyPrefab;
@@ -46,7 +48,9 @@ namespace AnarPerPortes
             if (EnemyIsOperative(enemyPrefab.GetComponent<Enemy>().GetType()))
                 return null;
 
-            if (isDisguise && EnemyIsOperative<RoblomanEnemy>())
+            if (CurrentSettings().EnableRoblomaniaticMode)
+                isDisguise = true;
+            else if (isDisguise && EnemyIsOperative<RoblomanEnemy>())
                 return null;
 
             var instance = Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity, enemiesGroup);

@@ -49,11 +49,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tip: {fileID: 11400000, guid: 82dad1ed1659637449b6912c40f822cf, type: 2}
   roblomanDisguiseObject: {fileID: 8925303987377821920}
-  minLookDistance: 28
+  minLookDistance: 36
   hViewLookRange: 0.25
   vViewLookRange: 0.25
   lookTimeToCatch: 0.7
+  wakeUpTime: 0.4
   glimpseSound: {fileID: 11400000, guid: 5fee4ee4479183c438f5ababb896e052, type: 2}
+  laytonSound: {fileID: 11400000, guid: 85c27584c64f7374ab089c924b2a3d9a, type: 2}
   jumpscareSound: {fileID: 11400000, guid: d5354e20cc69c73438ac43c13ecb871a, type: 2}
   endingMusic: {fileID: 11400000, guid: 404db0d390c9c8240b887086cea48218, type: 2}
 --- !u!82 &5385844077808519162

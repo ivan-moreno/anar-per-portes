@@ -12,9 +12,11 @@ namespace AnarPerPortes.Enemies
         [SerializeField][Range(0f, 0.5f)] private float hViewLookRange = 0.1f;
         [SerializeField][Range(0f, 0.5f)] private float vViewLookRange = 0.1f;
         [SerializeField][Min(0f)] private float lookTimeToCatch = 0.5f;
+        [SerializeField][Min(0f)] private float wakeUpTime = 0.4f;
 
         [Header("Audio")]
         [SerializeField] private SoundResource glimpseSound;
+        [SerializeField] private SoundResource laytonSound;
         [SerializeField] private SoundResource jumpscareSound;
         [SerializeField] private SoundResource endingMusic;
 
@@ -23,6 +25,7 @@ namespace AnarPerPortes.Enemies
         private bool isInLookRange = false;
         private bool hasLineOfSight = false;
         private float lookTime;
+        private float timeSinceSpawn;
 
         public void CatchPlayer()
         {
@@ -49,6 +52,8 @@ namespace AnarPerPortes.Enemies
 
         private void Update()
         {
+            timeSinceSpawn += Time.deltaTime;
+
             if (!isLooked || isCatching)
                 return;
 
@@ -77,6 +82,9 @@ namespace AnarPerPortes.Enemies
 
         private bool IsLooking()
         {
+            if (timeSinceSpawn < wakeUpTime)
+                return false;
+
             isInLookRange = DistanceToPlayer(transform) < minLookDistance;
 
             if (!isInLookRange)
@@ -154,6 +162,14 @@ namespace AnarPerPortes.Enemies
             PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform, new(0f, -0.25f, 0f));
             SkellHearManager.Singleton.PauseHuntMusic();
+
+            if (PlayerController.Singleton.IsCamouflaged)
+            {
+                animator.Play("Layton");
+                audioSource.PlayOneShot(laytonSound);
+                yield return new WaitForSeconds(1.5f);
+            }
+
             animator.Play("Jumpscare");
             audioSource.PlayOneShot(jumpscareSound);
 

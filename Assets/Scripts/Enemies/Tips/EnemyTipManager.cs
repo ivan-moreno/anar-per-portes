@@ -9,6 +9,7 @@ namespace AnarPerPortes
     public sealed class EnemyTipManager : MonoBehaviour
     {
         public static EnemyTipManager Singleton { get; private set; }
+        public bool IsDisplaying { get; private set; } = false;
 
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private TMP_Text titleText;
@@ -16,17 +17,16 @@ namespace AnarPerPortes
         [SerializeField] private Image renderImage;
 
         private Animator screenAnimator;
-        private bool isDisplaying = false;
         private Action onHideTipCallback;
         private float timeSinceDisplay = 0f;
         private const float minDisplayTime = 4f;
 
         public void DisplayTip(EnemyTip tip, Action onHideTipCallback = null)
         {
-            if (isDisplaying)
+            if (IsDisplaying)
                 return;
 
-            isDisplaying = true;
+            IsDisplaying = true;
             timeSinceDisplay = 0f;
             canvasGroup.alpha = 1f;
             canvasGroup.blocksRaycasts = true;
@@ -51,10 +51,10 @@ namespace AnarPerPortes
 
         private void HideTip()
         {
-            if (!isDisplaying)
+            if (!IsDisplaying)
                 return;
 
-            isDisplaying = false;
+            IsDisplaying = false;
             canvasGroup.blocksRaycasts = false;
             PlayerController.Singleton.UnblockAll();
             Time.timeScale = GameSettingsManager.Singleton.CurrentSettings.EnableSpeedrunMode ? 2f : 1f;
@@ -63,14 +63,14 @@ namespace AnarPerPortes
 
         private void Update()
         {
-            canvasGroup.alpha = Mathf.MoveTowards(canvasGroup.alpha, isDisplaying ? 1f : 0f, 4f * Time.unscaledDeltaTime);
+            canvasGroup.alpha = Mathf.MoveTowards(canvasGroup.alpha, IsDisplaying ? 1f : 0f, 4f * Time.unscaledDeltaTime);
 
-            if (isDisplaying)
+            if (IsDisplaying)
                 timeSinceDisplay += Time.unscaledDeltaTime;
 
             if (!PauseManager.Singleton.IsPaused
                 && Input.GetMouseButtonUp(0)
-                && isDisplaying
+                && IsDisplaying
                 && timeSinceDisplay >= minDisplayTime)
                 HideTip();
         }

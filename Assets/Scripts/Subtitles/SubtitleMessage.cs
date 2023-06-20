@@ -38,7 +38,7 @@ namespace AnarPerPortes
 
         private void Update()
         {
-            if (PauseManager.Singleton.IsPaused)
+            if (PauseManager.Singleton.IsPaused || EnemyTipManager.Singleton.IsDisplaying)
                 return;
             
             aliveTime -= Time.unscaledDeltaTime;

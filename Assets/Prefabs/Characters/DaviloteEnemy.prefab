@@ -56,6 +56,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 04ce8394224d1d749ba8c7650ddb6d35, type: 2}
   - {fileID: 11400000, guid: 2373cdcbef983c44fbbd3292a6f8ab38, type: 2}
   - {fileID: 11400000, guid: eb4d8c7a0addeae44baa7993cd61be33, type: 2}
+  - {fileID: 11400000, guid: 69b642acabf9aab4d88dcf12ac78892c, type: 2}
+  - {fileID: 11400000, guid: df6e6c0ce9821bf42a4fa08ef1ded1a5, type: 2}
   meetSheepySounds:
   - {fileID: 11400000, guid: c194de7c51f102a4ebfd26688081d89d, type: 2}
   - {fileID: 11400000, guid: 109e97d4d2c92f2468f2dddd729f2331, type: 2}
@@ -67,6 +69,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bcd34503c95f620488eca1b8d2b426a8, type: 2}
   - {fileID: 11400000, guid: 058a3310e1063e3448e33bf827494ccf, type: 2}
   - {fileID: 11400000, guid: befab2b3477ae8f4da1721671396be9b, type: 2}
+  - {fileID: 11400000, guid: 615c42a935cf1df49863edbe5d12c7d1, type: 2}
+  - {fileID: 11400000, guid: 75311e1afc16e1e44a65e38d64da7305, type: 2}
 --- !u!82 &81038424985809429
 AudioSource:
   m_ObjectHideFlags: 0

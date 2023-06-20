@@ -170,15 +170,15 @@ MonoBehaviour:
   tip: {fileID: 0}
   roblomanDisguiseObject: {fileID: 0}
   catchMessages:
-  - "\xBFEst\xE1s perdido, peque\xF1\xEDn?"
-  - "La m\xE1scara que llevas cumple su prop\xF3sito."
-  - Dos lados de una misma moneda.
-  - El equilibro es la clave para una mente libre y sana.
-  - "Conocer tu sombra te ayudar\xE1."
-  - "ARR\xC1NCALA"
-  - "P\xC1RTELA"
-  - "PI\xC9RDELO"
-  - "AP\xC1GALA"
+  - "<color=pink>\xBFEst\xE1s perdido, peque\xF1\xEDn?</color>"
+  - "<color=pink>La m\xE1scara que llevas cumple su prop\xF3sito.</color>"
+  - <color=pink>Dos lados de una misma moneda.</color>
+  - <color=pink>El equilibro es la clave para una mente libre y sana.</color>
+  - "<color=pink>Conocer tu sombra te ayudar\xE1.</color>"
+  - "<color=red>ARR\xC1NCALA</color>"
+  - "<color=red>P\xC1RTELA</color>"
+  - "<color=red>PI\xC9RDELO</color>"
+  - "<color=red>AP\xC1GALA</color>"
   spawnDistance: 12
   advanceSpeed: 5
   doorsUntilDespawn: 1
