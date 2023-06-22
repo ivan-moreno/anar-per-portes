@@ -12,6 +12,8 @@ namespace AnarPerPortes
         public KeyCode LookDown { get; set; } = KeyCode.DownArrow;
         public KeyCode LookLeft { get; set; } = KeyCode.LeftArrow;
         public KeyCode LookRight { get; set; } = KeyCode.RightArrow;
+        public KeyCode PrimaryAction { get; set; } = KeyCode.Mouse0;
+        public KeyCode SecondaryAction { get; set; } = KeyCode.Mouse1;
         public KeyCode Interact { get; set; } = KeyCode.E;
         public KeyCode Pause { get; set; } = KeyCode.Escape;
     }

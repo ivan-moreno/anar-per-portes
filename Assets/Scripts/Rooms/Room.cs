@@ -8,6 +8,7 @@ namespace AnarPerPortes.Rooms
     {
         public RoomSetEgg RoomSet { get; set; }
         public Room NextRoom { get; set; }
+        public RoomDoor Door => door;
         public Transform NextRoomSpawnPoint { get; private set; }
         public Transform WaypointGroup { get; private set; }
         public Transform SkellLocationsGroup { get; private set; }
@@ -42,6 +43,11 @@ namespace AnarPerPortes.Rooms
             door.Close();
         }
 
+        public void DeactivateDoor()
+        {
+            door.Deactivate();
+        }
+
         public void Unload()
         {
             OnUnloading?.Invoke();
@@ -57,7 +63,7 @@ namespace AnarPerPortes.Rooms
             door.OnDoorOpened.AddListener(DoorOpened);
         }
 
-        private void DoorOpened()
+        protected virtual void DoorOpened()
         {
             OnDoorOpened?.Invoke();
             SkellHearManager.Singleton.AddNoise(8f);

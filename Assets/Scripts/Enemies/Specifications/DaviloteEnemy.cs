@@ -14,6 +14,7 @@ namespace AnarPerPortes.Enemies
         [SerializeField] private SoundResource jumpscareSound;
         [SerializeField] private SoundResource[] warningSounds;
         [SerializeField] private SoundResource[] meetSheepySounds;
+        [SerializeField] private SoundResource[] endingChatSounds;
 
         public float MeetSheepy()
         {
@@ -106,6 +107,7 @@ namespace AnarPerPortes.Enemies
             yield return new WaitForSeconds(0.84f);
 
             CatchManager.Singleton.CatchPlayer("DAVILOTE ENDING", "No eres un payaso, eres el circo entero.");
+            audioSource.PlayOneShot(endingChatSounds.RandomItem());
             audioSource.Play();
         }
     }

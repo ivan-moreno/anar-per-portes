@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697d33dca1980aa44a3b852d2e215b8d, type: 3}
   m_Name: YusufTargetObservatory1
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: ae6bcce0310b764468e580475e36f0f5, type: 3}
-  subtitleText: "[YUSUF] Pr\xF3ximo objetivo, Observatorio. Corto."
+  audioClip: {fileID: 8300000, guid: 04a35189db0f3ec4dafeb695d07544d2, type: 3}
+  subtitleText: "[YUSUF] En direcci\xF3n al Observatorio."
   subtitleTeam: 2

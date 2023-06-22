@@ -36,7 +36,10 @@ namespace AnarPerPortes.Enemies
         public override void Spawn()
         {
             if (!PlayerController.Singleton.CanBeCaught)
+            {
+                Despawn();
                 return;
+            }
 
             base.Spawn();
             ChangeScreenLocation();
@@ -72,7 +75,7 @@ namespace AnarPerPortes.Enemies
             timeSinceSpawn = 0f;
             jumpscareAnimator.gameObject.SetActive(false);
             AudioManager.Singleton.UnmuteAllAudioMixers();
-            base.Despawn();
+            EnemyManager.Singleton.UnmarkAsOperative(this);
         }
 
         private void Start()

@@ -57,21 +57,31 @@ MonoBehaviour:
     type: 2}
   walkieTalkieAlertSound: {fileID: 11400000, guid: 6829956b8ce42ce4385541dcb3c4f398,
     type: 2}
-  walkieTalkieStaticSound: {fileID: 11400000, guid: 7dc9856105e174b4693be2df81e4c4f2,
-    type: 2}
   jumpscareSound: {fileID: 11400000, guid: 1e8c8b38a3443ab47b7c5bbee4417486, type: 2}
   bunkerTargetSounds:
   - {fileID: 11400000, guid: c4b93f5a818ed37428c27a095db739c8, type: 2}
+  - {fileID: 11400000, guid: 714a09e1f06056a41b5cc346e77397f4, type: 2}
   - {fileID: 11400000, guid: fe3a301f37de86340ac234435ffb8cda, type: 2}
+  - {fileID: 11400000, guid: 82d5245d3c1cdf44ab01d70beed95289, type: 2}
+  - {fileID: 11400000, guid: 6c8ec8d95b6026148866343c6392b89a, type: 2}
   lighthouseTargetSounds:
   - {fileID: 11400000, guid: edfb2014316bf924aa3aad27eec4ad28, type: 2}
   - {fileID: 11400000, guid: e5398880e0b0dea49a8618670e0caea8, type: 2}
+  - {fileID: 11400000, guid: 4e0f3b327ffb58547a03600006eda101, type: 2}
+  - {fileID: 11400000, guid: 853fc9810aa443a4a945a5d127d2c14d, type: 2}
+  - {fileID: 11400000, guid: f950c33756b9b4e47b5efd4f64082a12, type: 2}
   observatoryTargetSounds:
   - {fileID: 11400000, guid: bde2ab0c85044dc4181845fcf3643c3b, type: 2}
   - {fileID: 11400000, guid: 89726205c94b2af47b634ec447dd7a56, type: 2}
+  - {fileID: 11400000, guid: 410d121772009564bb60064b7f2ab8cd, type: 2}
+  - {fileID: 11400000, guid: 94e8713bc139a3843a790fb62552c505, type: 2}
+  - {fileID: 11400000, guid: c652a6f954c50a54daaeda5003b09492, type: 2}
   warehouseTargetSounds:
   - {fileID: 11400000, guid: e84017e0ceb99db45ab0675ecbd08a68, type: 2}
   - {fileID: 11400000, guid: 0dfa820b92a7cda44a84b6b11e89e180, type: 2}
+  - {fileID: 11400000, guid: 5b7d12a241fdcd5458bdacd68a77c2e8, type: 2}
+  - {fileID: 11400000, guid: a825187112c80c14aab8a9fe5539272a, type: 2}
+  - {fileID: 11400000, guid: 55e545d359836564f83d364a318a0e54, type: 2}
 --- !u!82 &8356602005302806917
 AudioSource:
   m_ObjectHideFlags: 0

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: YusufTargetObservatory0
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: ae6bcce0310b764468e580475e36f0f5, type: 3}
-  subtitleText: "[YUSUF] Mi direcci\xF3n es el Observatorio. Corto."
+  subtitleText: "[YUSUF] En direcci\xF3n al Observatorio. Corto."
   subtitleTeam: 2

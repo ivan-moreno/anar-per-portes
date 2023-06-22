@@ -250,7 +250,7 @@ namespace AnarPerPortes
 
             velocity = Time.timeScale <= 0f ? Vector3.zero : (transform.position - preMovePosition) / Time.deltaTime;
 
-            if (transform.position.y < -32f)
+            if (transform.position.y < -256f)
                 Teleport(RoomManager.Singleton.LatestRoom.transform.position);
 
             if (Input.GetKeyUp(KeyCode.F1))

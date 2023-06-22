@@ -184,10 +184,7 @@ namespace AnarPerPortes.Rooms
             Chance = BaseChance;
             RoomsBetweenSpawns = 0;
             HasSpawnedAtLeastOnce = true;
-
-            if (room.Prefab != null)
-                RoomManager.Singleton.SpawnRoom(room.Prefab);
-
+            room.Spawn();
             OnSpawnCallback?.Invoke(this);
         }
 

@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BouserDriverAnimator
+  m_Controller: {fileID: 9100000, guid: efed3a3224644224fae0bce69c23a048, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: -2707472185709866683, guid: 58b4e930807975d468ccc0932612a966,
+      type: 3}
+    m_OverrideClip: {fileID: 2769644419361622917, guid: 2759221362a004749bbe1a5f4453b019,
+      type: 3}
+  - m_OriginalClip: {fileID: 61667092207835036, guid: 58b4e930807975d468ccc0932612a966,
+      type: 3}
+    m_OverrideClip: {fileID: 3978399290543421389, guid: 2759221362a004749bbe1a5f4453b019,
+      type: 3}
+  - m_OriginalClip: {fileID: -7486620070320642912, guid: 58b4e930807975d468ccc0932612a966,
+      type: 3}
+    m_OverrideClip: {fileID: -8805255965887832422, guid: 2759221362a004749bbe1a5f4453b019,
+      type: 3}
+  - m_OriginalClip: {fileID: 3212222119802362367, guid: 58b4e930807975d468ccc0932612a966,
+      type: 3}
+    m_OverrideClip: {fileID: -4930764188060501113, guid: 2759221362a004749bbe1a5f4453b019,
+      type: 3}
+  - m_OriginalClip: {fileID: -9007984705131936799, guid: 58b4e930807975d468ccc0932612a966,
+      type: 3}
+    m_OverrideClip: {fileID: -27713647350479910, guid: 2759221362a004749bbe1a5f4453b019,
+      type: 3}
+  - m_OriginalClip: {fileID: -6070992066669739649, guid: 58b4e930807975d468ccc0932612a966,
+      type: 3}
+    m_OverrideClip: {fileID: -4998691011237546274, guid: 2759221362a004749bbe1a5f4453b019,
+      type: 3}

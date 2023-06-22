@@ -9,6 +9,7 @@ namespace AnarPerPortes.Enemies
         public static bool IsCursed { get; set; } = false;
 
         [Header("Stats")]
+        [SerializeField] private bool isSupportingCast = false;
         [SerializeField][Min(0f)] private float maxSpeed = 14f;
         [SerializeField][Min(0f)] private float maxTurboSpeed = 22f;
         [SerializeField][Min(0f)] private float maxDriftSpeed = 6f;
@@ -25,25 +26,50 @@ namespace AnarPerPortes.Enemies
         private float currentSpeed = 0f;
         private bool isTurbo = false;
         private bool isDrift = false;
+        private bool isFrozen = false;
         private float turboCooldown;
 
         public override void Spawn()
         {
-            base.Spawn();
+            if (!isSupportingCast)
+                base.Spawn();
+
             CacheComponents();
 
             var targetPosition = LatestRoom().transform.position + LatestRoom().transform.forward * 56;
             var targetRotation = Quaternion.LookRotation(-LatestRoom().transform.forward);
             transform.SetPositionAndRotation(targetPosition, targetRotation);
-            audioSource.PlayOneShot(spawnSound);
 
-            PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
+            if (spawnSound != null)
+                audioSource.PlayOneShot(spawnSound);
+
+            PlayerController.Singleton.OnBeginCatchSequence.AddListener(() =>
+            {
+                isFrozen = true;
+                audioSource.Stop();
+            });
+
+            PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
             RoomManager.Singleton.OnRoomGenerated.AddListener(x => Despawn());
+        }
+
+        void Start()
+        {
+            if (isSupportingCast)
+                Spawn();
+        }
+
+        private void PauseChanged(bool isPaused)
+        {
+            if (isPaused)
+                audioSource.Pause();
+            else
+                audioSource.UnPause();
         }
 
         private void Update()
         {
-            if (EnemyIsOperative<A90Enemy>())
+            if (EnemyIsOperative<A90Enemy>() || isFrozen)
                 return;
 
             var distance = DistanceToPlayer(transform);
@@ -125,7 +151,7 @@ namespace AnarPerPortes.Enemies
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!other.CompareTag("Player"))
+            if (!other.CompareTag("Player") || isFrozen)
                 return;
 
             if (IsRoblomanDisguise)
@@ -145,7 +171,11 @@ namespace AnarPerPortes.Enemies
             PlayerController.Singleton.BeginCatchSequence();
             PlayerController.Singleton.BlockAll();
             audioSource.Stop();
-            CatchManager.Singleton.CatchPlayer("OCELL CATALÀ ENDING", "CASSO EN L'OLLA, NEN!");
+
+            if (IsHardmodeEnabled())
+                CatchManager.Singleton.CatchPlayer("COCHES CHOCONES ENDING", "Era un domingo en la tarde");
+            else
+                CatchManager.Singleton.CatchPlayer("OCELL CATALÀ ENDING", "CASSO EN L'OLLA, NEN!");
         }
     }
 }

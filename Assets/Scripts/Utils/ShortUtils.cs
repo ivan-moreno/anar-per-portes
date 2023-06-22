@@ -23,6 +23,11 @@ namespace AnarPerPortes
             return GameSettingsManager.Singleton.CurrentSettings;
         }
 
+        public static Keybinds CurrentKeybinds()
+        {
+            return KeybindManager.Singleton.CurrentKeybinds;
+        }
+
         public static bool IsHardmodeEnabled()
         {
             return HardmodeManager.Singleton.IsHardmodeEnabled;

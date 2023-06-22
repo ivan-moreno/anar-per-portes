@@ -1,6 +1,7 @@
 using AnarPerPortes.Rooms;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes.Enemies
@@ -9,17 +10,20 @@ namespace AnarPerPortes.Enemies
     [RequireComponent(typeof(AudioSource))]
     public class AssPancakesEnemy : Enemy
     {
+        public static UnityEvent<AssPancakesEnemy> OnSpawn { get; } = new();
+
         [Header("Components")]
         [SerializeField] private Transform attackOrigin;
 
         [Header("Stats")]
-        [SerializeField] private float moveSpeed = 14f;
-        [SerializeField] private float jumpDuration = 1f;
-        [SerializeField] private float attackDistance = 2.5f;
-        [SerializeField] private float attackHitRange = 1f;
-        [SerializeField] private float bouserRescueTime = 30f;
+        [SerializeField][Min(0f)] private float moveSpeed = 14f;
+        [SerializeField][Min(0f)] private float attackDistance = 2.5f;
+        [SerializeField][Min(0f)] private float attackHitRange = 1f;
+        [SerializeField][Min(0f)] private float bouserRescueTime = 30f;
+        [SerializeField][Min(0)] private int attacksToJump = 6;
 
         [Header("Audio")]
+        [SerializeField] private SoundResource battleMusic;
         [SerializeField] private SoundResource introSound;
         [SerializeField] private SoundResource rageSound;
         [SerializeField] private SoundResource attackSound;
@@ -29,7 +33,9 @@ namespace AnarPerPortes.Enemies
         private bool isWaiting = true;
         private bool isJumping = false;
         private bool isAttacking = false;
+        private bool isRage = false;
         private float timeSinceSpawn = 0f;
+        private int attacksSinceJump = 0;
 
         public override void Spawn()
         {
@@ -38,6 +44,8 @@ namespace AnarPerPortes.Enemies
 
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
+
+            OnSpawn?.Invoke(this);
 
             StartCoroutine(nameof(IntroCoroutine));
         }
@@ -55,6 +63,7 @@ namespace AnarPerPortes.Enemies
 
             animator.Play("Rage");
             audioSource.PlayOneShot(rageSound);
+            AudioManager.Singleton.PlayMusic(battleMusic.AudioClip);
             yield return new WaitForSeconds(rageSound.AudioClip.length * 0.7f);
 
             PlayerController.Singleton.ClearVisionTarget();
@@ -66,7 +75,7 @@ namespace AnarPerPortes.Enemies
 
         private void Update()
         {
-            if (isWaiting)
+            if (isWaiting || isJumping)
                 return;
 
             if (!isAttacking)
@@ -78,8 +87,16 @@ namespace AnarPerPortes.Enemies
                 transform.position = nextPosition;
                 transform.LookAt(PlayerPosition());
             }
+            else if (Vector3.Distance(attackOrigin.position, PlayerPosition()) < attackHitRange)
+                transform.LookAt(PlayerPosition());
 
             timeSinceSpawn += Time.deltaTime;
+
+            if (!isJumping && attacksSinceJump >= attacksToJump)
+                StartCoroutine(nameof(JumpCoroutine));
+
+            if (!isRage && timeSinceSpawn >= bouserRescueTime * 0.7f)
+                StartCoroutine(nameof(RageCoroutine));
 
             if (timeSinceSpawn >= bouserRescueTime)
                 StartCoroutine(nameof(BouserRescueCoroutine));
@@ -92,7 +109,7 @@ namespace AnarPerPortes.Enemies
 
         private IEnumerator AttackCoroutine()
         {
-            if (isAttacking || isWaiting)
+            if (isAttacking || isJumping || isWaiting)
                 yield break;
 
             isAttacking = true;
@@ -119,16 +136,63 @@ namespace AnarPerPortes.Enemies
                 yield break;
             }
 
-            yield return new WaitForSeconds(1.0f);
+            if (isRage)
+                yield return new WaitForSeconds(0.2f);
+            else
+                yield return new WaitForSeconds(1.0f);
 
+            attacksSinceJump++;
             isAttacking = false;
             animator.Play("Idle");
+        }
+
+        IEnumerator RageCoroutine()
+        {
+            isWaiting = true;
+            isRage = true;
+            animator.Play("Rage");
+            audioSource.PlayOneShot(rageSound);
+            yield return new WaitForSeconds(0.8f);
+            isWaiting = false;
+        }
+
+        IEnumerator JumpCoroutine()
+        {
+            isJumping = true;
+            attacksSinceJump -= (attacksToJump - 1);
+
+            animator.Play("Roll");
+            audioSource.PlayOneShot(jumpSound);
+
+            var dir = Vector3.Normalize(PlayerPosition() - transform.position);
+            var timer = 0f;
+            var startPosition = transform.position;
+            var targetPosition = PlayerPosition() + dir * 4f;
+
+            while (timer < 1f)
+            {
+                timer += Time.deltaTime * 1.25f;
+                var nextPosition = Vector3.Lerp(startPosition, targetPosition, timer);
+                var yPos = Mathf.PingPong(timer * 16f, startPosition.y + 8f);
+                nextPosition.y = yPos;
+                transform.position = nextPosition;
+                yield return new WaitForEndOfFrame();
+            }
+
+            transform.position = new(transform.position.x, startPosition.y, transform.position.z);
+
+            if (isRage && attacksSinceJump > 0)
+                StartCoroutine(nameof(JumpCoroutine));
+                
+
+            isJumping = false;
         }
 
         private IEnumerator BouserRescueCoroutine()
         {
             isWaiting = true;
             animator.Play("Idle");
+            AudioManager.Singleton.StopMusic();
             (LatestRoom() as BouserRoom).WakeUpBouser();
             yield return new WaitForSeconds(4.5f);
 
@@ -142,12 +206,13 @@ namespace AnarPerPortes.Enemies
 
             while (timer < 1f)
             {
-                timer += Time.deltaTime;
+                timer += Time.deltaTime * 0.5f;
                 var nextPosition = Vector3.Lerp(startPosition, LatestRoom().transform.position, timer);
                 transform.position = nextPosition;
                 yield return new WaitForEndOfFrame();
             }
 
+            RoomManager.Singleton.Rooms[^2].Door.BreakThrough("AssPancakes");
             Despawn();
         }
 

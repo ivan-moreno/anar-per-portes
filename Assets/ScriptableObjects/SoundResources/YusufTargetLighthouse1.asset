@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697d33dca1980aa44a3b852d2e215b8d, type: 3}
   m_Name: YusufTargetLighthouse1
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: 9d3d67d6dd9e359418c80aeb7424a058, type: 3}
-  subtitleText: '[YUSUF] Equipo, estoy en marcha hacia el Faro. Corto.'
+  audioClip: {fileID: 8300000, guid: 66a2efc766d87804eaa2bf749eade6c8, type: 3}
+  subtitleText: '[YUSUF] Aviso, que voy al Faro.'
   subtitleTeam: 2

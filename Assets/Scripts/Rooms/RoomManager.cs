@@ -109,6 +109,36 @@ namespace AnarPerPortes
                 .WithRoom(new RoomEggBuilder().WithId("GameMakerRoom0").Build())
                 .Build(),
 
+                //TODO: check for a cleaner way to force the first toom to be the trap 
+                /*new RoomSetEggBuilder()
+                .WithId("Toymaker")
+                .WithBaseChance(100f) // 5
+                .WithMinRoom(2) // 60
+                .WithMaxSpawnCount(3)
+                .WithMaxRoomsBetweenSpawns(1)
+                .WithRoom(
+                    new RoomEggBuilder()
+                    .WithId("ToymakerTrapRoom")
+                    .WithBaseChance(float.MaxValue * 0.5f)
+                    .WithMaxSpawnCount(1)
+                    .WithOnSpawnCallback((roomEgg) =>
+                    {
+                        AudioManager.Singleton.StopAmbiance();
+                        roomEgg.AdditionalRequirements = () => false;
+                    })
+                    .Build())
+                .WithRoom(
+                    new RoomEggBuilder()
+                    .WithId("ToymakerRoom0")
+                    .WithMaxSpawnCount(1)
+                    .Build())
+                .WithRoom(
+                    new RoomEggBuilder()
+                    .WithId("ToymakerRoom1")
+                    .WithMaxSpawnCount(1)
+                    .Build())
+                .Build(),*/
+
                 new RoomSetEggBuilder()
                 .WithId("Snowdin")
                 .ForceSpawnOnRoomNumber(51)
@@ -148,11 +178,12 @@ namespace AnarPerPortes
 
                 new RoomSetEggBuilder()
                 .WithId("Cameo")
-                .WithBaseChance(3f)
+                .WithBaseChance(20f)
                 .WithMinRoom(20)
                 .WithMinRoomsBetweenSpawns(20)
                 .WithRoom(new RoomEggBuilder().WithId("CameoRoom0").Build())
                 .WithRoom(new RoomEggBuilder().WithId("CameoRoom1").Build())
+                .WithRoom(new RoomEggBuilder().WithId("CameoRoom2").Build())
                 .Build(),
 
                 new RoomSetEggBuilder()
@@ -162,7 +193,6 @@ namespace AnarPerPortes
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom1").Build())
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom2").Build())
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom3").Build())
-                .WithRoom(new RoomEggBuilder().WithId("GeneralRoom4").Build())
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom6").Build())
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom7").Build())
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom8").Build())
@@ -179,6 +209,7 @@ namespace AnarPerPortes
         private IEnumerator UnloadOldestRoomCoroutine()
         {
             Rooms[1].CloseDoor();
+            Rooms[1].DeactivateDoor();
             var oldestRoom = Rooms[0];
             Rooms.RemoveAt(0);
             OnRoomUnloading?.Invoke(oldestRoom);

@@ -103,10 +103,11 @@ MonoBehaviour:
   roblomanDisguiseObject: {fileID: 0}
   attackOrigin: {fileID: 6753507839108513431}
   moveSpeed: 14
-  jumpDuration: 1
-  attackDistance: 2
+  attackDistance: 1
   attackHitRange: 2
   bouserRescueTime: 30
+  attacksToJump: 5
+  battleMusic: {fileID: 11400000, guid: d0004c4fed7d870418bea7a4f9ef11f4, type: 2}
   introSound: {fileID: 11400000, guid: 0617c4a112b3f67409ae65d34b7c58a7, type: 2}
   rageSound: {fileID: 11400000, guid: e1f6388d970a4424ab1be5d8d50d9498, type: 2}
   attackSound: {fileID: 11400000, guid: 1edf20ebde8b3804584b1829158bcabc, type: 2}
@@ -154,12 +155,12 @@ AudioSource:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0.6251373
-      inSlope: -1.464847
-      outSlope: -1.464847
+      value: 0.77734375
+      inSlope: -0.8989634
+      outSlope: -0.8989634
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.08573158
+      inWeight: 0.13707389
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

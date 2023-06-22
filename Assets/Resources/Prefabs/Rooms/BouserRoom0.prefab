@@ -10033,6 +10033,7 @@ MonoBehaviour:
   bouserRoomDoorsAnimator: {fileID: 7542326246780960057}
   spawnBouserDistance: 9
   spawnBouserHardDistance: 38
+  spawnAssPancakesDistance: 25
   closeEntranceDoorDistance: 32
 --- !u!1 &1622808463265911872
 GameObject:

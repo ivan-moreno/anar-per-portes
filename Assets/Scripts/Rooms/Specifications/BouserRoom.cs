@@ -65,6 +65,7 @@ namespace AnarPerPortes.Rooms
             {
                 PlayerIsInsideRoom = true;
                 RoomManager.Singleton.Rooms[^2].CloseDoor();
+                RoomManager.Singleton.Rooms[^2].DeactivateDoor();
                 WakeUpBouser();
                 return;
             }
@@ -73,6 +74,7 @@ namespace AnarPerPortes.Rooms
             {
                 PlayerIsInsideRoom = true;
                 RoomManager.Singleton.Rooms[^2].CloseDoor();
+                RoomManager.Singleton.Rooms[^2].DeactivateDoor();
             }
 
             if (isBouserAwake)

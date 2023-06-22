@@ -50,6 +50,7 @@ namespace AnarPerPortes.Enemies
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
             RoomManager.Singleton.OnRoomGenerated.AddListener(RoomGenerated);
             Specimen7Enemy.OnSpawn.AddListener((_) => Despawn());
+            AssPancakesEnemy.OnSpawn.AddListener((_) => Despawn());
 
             if (EnemyIsOperative<BouserEnemy>())
                 bouserEnemy = GetEnemyInstance<BouserEnemy>();
@@ -144,6 +145,8 @@ namespace AnarPerPortes.Enemies
 
                 if (waypointsTraversed >= RoomManager.Singleton.Rooms[roomsTraversed].WaypointGroup.childCount - 1)
                 {
+                    RoomManager.Singleton.Rooms[roomsTraversed].Door.BreakThrough("Pedro");
+
                     roomsTraversed++;
                     waypointsTraversed = 0;
                 }

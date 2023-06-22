@@ -112,6 +112,7 @@ namespace AnarPerPortes.Enemies
             if (PlayerController.Singleton.EquippedItemIs("Roblobolita"))
             {
                 isleRoom.CloseIncorrectDoor();
+                isleRoom.DeactivateIncorrectDoor();
                 PlayerController.Singleton.ConsumeEquippedItem();
                 BlurOverlayManager.Singleton.SetBlur(Color.white);
                 BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 2f);

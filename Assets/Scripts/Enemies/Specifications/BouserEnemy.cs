@@ -139,7 +139,7 @@ namespace AnarPerPortes.Enemies
             room.OpenBouserDoorAsDefeated();
             IsFriendly = true;
             audioSource.PlayOneShot(meetAssPancakesDialogs[0]);
-            yield return new WaitForSeconds(meetAssPancakesDialogs[0].AudioClip.length + 2f);
+            yield return new WaitForSeconds(meetAssPancakesDialogs[0].AudioClip.length + 4f);
 
             audioSource.PlayOneShot(meetAssPancakesDialogs[1]);
             yield return new WaitForSeconds(meetAssPancakesDialogs[1].AudioClip.length + 2f);

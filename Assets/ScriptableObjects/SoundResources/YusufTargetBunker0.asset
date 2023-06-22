@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: YusufTargetBunker0
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: 65c6bd5d50e0ab9438e3a7824e59b1f0, type: 3}
-  subtitleText: "[YUSUF] Marchando hacia el B\xFAnker. Corto."
+  subtitleText: "[YUSUF] Capit\xE1n en el B\xFAnker. Corto."
   subtitleTeam: 2

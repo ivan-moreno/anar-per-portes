@@ -1,5 +1,7 @@
 using AnarPerPortes.Rooms;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
+using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes
 {
@@ -8,49 +10,31 @@ namespace AnarPerPortes
     {
         [Header("Stats")]
         [SerializeField][Min(0f)] private float walkSpeed = 1f;
-        [SerializeField][Min(0f)] private float waitAtDoorDistance = 5f;
+        [SerializeField][Min(0f)] private float runSpeed = 8f;
+        [SerializeField][Min(0f)] private float acceleration = 8f;
+        [SerializeField][Min(0f)] private float runDistance = 7f;
+        [SerializeField][Min(0f)] private float waitDistance = 5f;
+        [SerializeField][Min(0f)] private float smileDistance = 2f;
 
+        [Header("Components")]
+        [SerializeField] private Animator faceAnimator;
+
+        CharacterController characterController;
         private Animator animator;
         private Transform model;
-        private Room currentRoom;
-        private bool isWaiting = false;
+        private Vector3 moveVector;
+        private Vector3 pushVector;
+        private float currentSpeed;
+        private float smileCooldown;
         private bool reachedTarget = false;
-        private int targetWaypointIndex = 0;
 
         private void Start()
         {
             transform.SetParent(null);
+            characterController = GetComponent<CharacterController>();
             animator = GetComponentInChildren<Animator>();
             model = animator.transform;
-
-            currentRoom = RoomManager.Singleton.Rooms[0];
-            transform.position = currentRoom.transform.position;
-            animator.SetBool("IsWalking", true);
-            RoomManager.Singleton.OnRoomGenerated.AddListener(OnRoomGenerated);
-            RoomManager.Singleton.OnRoomUnloading.AddListener(OnRoomUnloading);
-        }
-
-        private void OnRoomGenerated(Room room)
-        {
-            if (isWaiting)
-            {
-                isWaiting = false;
-                currentRoom = room;
-                targetWaypointIndex = 0;
-                animator.SetBool("IsWalking", true);
-            }
-        }
-
-        private void OnRoomUnloading(Room room)
-        {
-            if (room == currentRoom)
-                TargetNextRoom();
-        }
-
-        private void TargetNextRoom()
-        {
-            currentRoom = currentRoom.NextRoom;
-            targetWaypointIndex = 0;
+            smileCooldown = Random.Range(9f, 15f);
         }
 
         private void LookAtDirection(Vector3 direction)
@@ -58,44 +42,65 @@ namespace AnarPerPortes
             if (direction.magnitude < Mathf.Epsilon)
                 return;
 
-            model.rotation = Quaternion.Slerp(model.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 8f);
+            direction.y = 0f;
+
+            var targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.RotateTowards(model.rotation, targetRotation, 90f * Time.deltaTime);
         }
 
         private void Update()
         {
-            if (isWaiting)
-                return;
+            var distanceToPlayer = DistanceToPlayer(transform);
 
-            var targetWaypoint = currentRoom.WaypointGroup.GetChild(targetWaypointIndex);
-            transform.position = Vector3.MoveTowards(transform.position, targetWaypoint.position, walkSpeed * Time.deltaTime);
+            reachedTarget = distanceToPlayer < waitDistance;
 
-            var isLastRoom = currentRoom == RoomManager.Singleton.LatestRoom;
-            var isLastWaypoint = targetWaypointIndex == currentRoom.WaypointGroup.childCount - 1;
-            var distanceToWaypoint = Vector3.Distance(transform.position, targetWaypoint.position);
+            smileCooldown -= Time.deltaTime;
 
-            reachedTarget = isLastRoom && isLastWaypoint
-                ? distanceToWaypoint <= waitAtDoorDistance
-                : distanceToWaypoint <= walkSpeed * Time.deltaTime;
+            if (smileCooldown <= 0f)
+                Smile();
+
+            /*if (distanceToPlayer < smileDistance)
+            {
+                smileCooldown -= Time.deltaTime;
+
+                if (smileCooldown <= 0f)
+                    Smile();
+            }*/
+
+            var targetSpeed = distanceToPlayer > runDistance ? runSpeed : walkSpeed;
 
             if (!reachedTarget)
             {
-                var direction = Vector3.Normalize(targetWaypoint.position - transform.position);
+                moveVector = transform.forward;
+                var direction = Vector3.Normalize(PlayerPosition() - transform.position);
                 LookAtDirection(direction);
-                return;
-            }
-
-            if (isLastWaypoint)
-            {
-                if (isLastRoom)
-                {
-                    isWaiting = true;
-                    animator.SetBool("IsWalking", false);
-                }
-                else
-                    TargetNextRoom();
             }
             else
-                targetWaypointIndex++;
+                moveVector = Vector3.zero;
+
+            currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, acceleration * Time.deltaTime);
+            moveVector *= currentSpeed;
+            moveVector.y = -24f;
+            characterController.Move((moveVector + pushVector) * Time.deltaTime);
+            animator.SetBool("IsWalking", !reachedTarget);
+            animator.SetBool("IsRunning", distanceToPlayer > runDistance);
+            faceAnimator.SetBool("IsRunning", distanceToPlayer > runDistance);
+
+            if (transform.position.y < -256f)
+                Teleport(PlayerPosition() - PlayerController.Singleton.transform.forward * 5f);
+        }
+
+        private void Smile()
+        {
+            smileCooldown = Random.Range(9f, 15f);
+            faceAnimator.SetTrigger("Smile");
+        }
+
+        private void Teleport(Vector3 location)
+        {
+            characterController.enabled = false;
+            transform.position = location;
+            characterController.enabled = true;
         }
     }
 }

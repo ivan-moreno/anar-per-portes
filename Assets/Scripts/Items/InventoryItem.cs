@@ -12,12 +12,12 @@ namespace AnarPerPortes
         public bool IsEquipped { get; private set; } = false;
         public Sprite Icon => icon;
 
-        [SerializeField] private AudioClip equipAudio;
-        [SerializeField] private AudioClip unequipAudio;
-        [SerializeField] private GameObject graphic;
+        [SerializeField] protected AudioClip equipAudio;
+        [SerializeField] protected AudioClip unequipAudio;
+        [SerializeField] protected GameObject graphic;
         [SerializeField] private Sprite icon;
 
-        private AudioSource audioSource;
+        protected AudioSource audioSource;
 
         public void ToggleEquipped()
         {

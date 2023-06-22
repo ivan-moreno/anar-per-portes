@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697d33dca1980aa44a3b852d2e215b8d, type: 3}
   m_Name: YusufTargetWarehouse1
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: 24252290e018edd4a993c6734569d1e8, type: 3}
-  subtitleText: '[YUSUF] Estoy de camino al Hangar. Corto.'
+  audioClip: {fileID: 8300000, guid: f9cc0246d01484940a82c0a8e813b7aa, type: 3}
+  subtitleText: '[YUSUF] Me dirijo al Hangar.'
   subtitleTeam: 2

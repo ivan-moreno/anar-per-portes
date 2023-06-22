@@ -50,6 +50,11 @@ namespace AnarPerPortes.Rooms
             incorrectDoor.Close();
         }
 
+        public void DeactivateIncorrectDoor()
+        {
+            incorrectDoor.Deactivate();
+        }
+
         private void DeactivateHardmodeTimer()
         {
             hardmodeTimerActive = false;
