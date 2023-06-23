@@ -9,6 +9,9 @@ namespace AnarPerPortes
 
         private void Update()
         {
+            if (PauseManager.Singleton.IsPaused || EnemyTipManager.Singleton.IsDisplaying)
+                return;
+
             if (!IsEquipped)
             {
                 graphic.transform.localScale = Vector3.one;

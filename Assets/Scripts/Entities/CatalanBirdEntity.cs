@@ -11,6 +11,7 @@ namespace AnarPerPortes
         [SerializeField] private Interactable diceInteractable;
         [SerializeField] private Transform diceABone;
         [SerializeField] private Transform diceBBone;
+        [SerializeField] private Transform availableItemsGroup;
 
         [Header("Stats")]
         [SerializeField][Min(0f)] private float saluteDistance = 5f;
@@ -64,6 +65,7 @@ namespace AnarPerPortes
 
             if (rng == 2)
             {
+                audioSource.Stop();
                 CatalanBirdEnemy.IsCursed = true;
                 animator.Play("GiveCurse");
                 yield return new WaitForSeconds(2f);
@@ -73,6 +75,9 @@ namespace AnarPerPortes
             else
             {
                 animator.Play("GiveReward");
+                yield return new WaitForSeconds(2.9f);
+                var rngItem = Random.Range(0, availableItemsGroup.childCount);
+                availableItemsGroup.GetChild(rngItem).gameObject.SetActive(true);
             }
         }
 

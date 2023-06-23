@@ -25,6 +25,7 @@ namespace AnarPerPortes
         private bool CanLook => blockLookCharges <= 0f;
         private bool CanInteract => blockInteractCharges <= 0f;
         public UnityEvent OnBeginCatchSequence { get; } = new();
+        public int TixAmount { get; private set; }
 
         [SerializeField] private Animator modelAnimator;
 
@@ -147,7 +148,7 @@ namespace AnarPerPortes
                 return;
 
             items.Add(item);
-            ItemManager.Singleton.GenerateSlotFor(item);
+            ItemManager.Singleton.OccupyAvailableSlotWith(item);
         }
 
         public void ConsumeItem(string itemId)
@@ -360,31 +361,28 @@ namespace AnarPerPortes
             if (IsCaught)
                 return;
 
-            // TODO: Rework this
-            if (Input.GetKeyDown(KeyCode.Alpha1) && items.Count > 0)
+            void UpdateEquipmentForKey(int number, KeyCode keyCode)
             {
-                items.FindAll(x => x != items[0]).ForEach(x => x.Unequip());
-                items[0].ToggleEquipped();
-
-                hasItemEquipped = items.Any(x => x.IsEquipped);
-
-                if (hasItemEquipped)
-                    equippedItem = items[0];
-                else
-                    equippedItem = null;
+                if (Input.GetKeyDown(keyCode))
+                {
+                    if (ItemManager.Singleton.TryEquip(number, out equippedItem))
+                    {
+                        equippedItem.ToggleEquipped();
+                        items.FindAll(x => x != equippedItem).ForEach(x => x.Unequip());
+                        hasItemEquipped = equippedItem.IsEquipped;
+                    }
+                }
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2) && items.Count > 0)
-            {
-                items.FindAll(x => x != items[1]).ForEach(x => x.Unequip());
-                items[1].ToggleEquipped();
 
-                hasItemEquipped = items.Any(x => x.IsEquipped);
-
-                if (hasItemEquipped)
-                    equippedItem = items[1];
-                else
-                    equippedItem = null;
-            }
+            UpdateEquipmentForKey(1, KeyCode.Alpha1);
+            UpdateEquipmentForKey(2, KeyCode.Alpha2);
+            UpdateEquipmentForKey(3, KeyCode.Alpha3);
+            UpdateEquipmentForKey(4, KeyCode.Alpha4);
+            UpdateEquipmentForKey(5, KeyCode.Alpha5);
+            UpdateEquipmentForKey(6, KeyCode.Alpha6);
+            UpdateEquipmentForKey(7, KeyCode.Alpha7);
+            UpdateEquipmentForKey(8, KeyCode.Alpha8);
+            UpdateEquipmentForKey(9, KeyCode.Alpha9);
 
             var itemLayerWeight = modelAnimator.GetLayerWeight(1);
             var targetItemLayerWeight = hasItemEquipped ? 1f : 0f;
@@ -427,9 +425,14 @@ namespace AnarPerPortes
             modelAnimator.SetFloat("HVelocity", smoothHVelocity);
         }
 
-        internal void PlaySound(SoundResource sound)
+        public void PlaySound(SoundResource sound)
         {
             audioSource.PlayOneShot(sound);
+        }
+
+        public void CollectTix(int amount)
+        {
+            TixAmount += amount;
         }
     }
 }

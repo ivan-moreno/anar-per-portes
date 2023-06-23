@@ -14,7 +14,6 @@ namespace AnarPerPortes
         [SerializeField][Min(0f)] private float acceleration = 8f;
         [SerializeField][Min(0f)] private float runDistance = 7f;
         [SerializeField][Min(0f)] private float waitDistance = 5f;
-        [SerializeField][Min(0f)] private float smileDistance = 2f;
 
         [Header("Components")]
         [SerializeField] private Animator faceAnimator;
@@ -58,14 +57,6 @@ namespace AnarPerPortes
 
             if (smileCooldown <= 0f)
                 Smile();
-
-            /*if (distanceToPlayer < smileDistance)
-            {
-                smileCooldown -= Time.deltaTime;
-
-                if (smileCooldown <= 0f)
-                    Smile();
-            }*/
 
             var targetSpeed = distanceToPlayer > runDistance ? runSpeed : walkSpeed;
 

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace AnarPerPortes
@@ -11,24 +12,20 @@ namespace AnarPerPortes
         private CanvasGroup slotsCanvasGroup;
         private float timeSinceItemChange;
         private const float timeToUnfocus = 8f;
+        private readonly InventoryItemSlot[] slots = new InventoryItemSlot[9];
 
-        public void GenerateSlotFor(InventoryItem item)
+        public void OccupyAvailableSlotWith(InventoryItem item)
         {
-            var instance = Instantiate(slotPrefab, slotsGroup);
-
-            var hasValidSlot = instance.TryGetComponent(out InventoryItemSlot slot);
-
-            if (!hasValidSlot)
+            foreach (var slot in slots)
             {
-                Debug.LogError("Slot Prefab has no InventoryItemSlot script attached to it.");
-                return;
+                if (slot.AssignedItem != null)
+                    continue;
+
+                item.OnEquipped.AddListener(ResetTimeSinceItemChange);
+                item.OnUnequipped.AddListener(ResetTimeSinceItemChange);
+                slot.Initialize(item);
+                break;
             }
-
-            item.OnEquipped.AddListener(ResetTimeSinceItemChange);
-            item.OnUnequipped.AddListener(ResetTimeSinceItemChange);
-            item.OnConsumed.AddListener(() => Destroy(instance));
-
-            slot.Initialize(item);
         }
 
         private void Awake()
@@ -39,6 +36,15 @@ namespace AnarPerPortes
         private void Start()
         {
             slotsCanvasGroup = slotsGroup.GetComponent<CanvasGroup>();
+
+            for (int i = 0; i < slots.Length; i++)
+            {
+                var instance = Instantiate(slotPrefab, slotsGroup);
+                var slot = instance.GetComponent<InventoryItemSlot>();
+                slots[i] = slot;
+                slot.AssignNumber(i + 1);
+                slot.gameObject.SetActive(false);
+            }
         }
 
         private void ResetTimeSinceItemChange()
@@ -55,6 +61,20 @@ namespace AnarPerPortes
                 current: slotsCanvasGroup.alpha,
                 target: shouldFocus ? 1f : 0.3f,
                 maxDelta: shouldFocus ? Time.unscaledDeltaTime * 4f : Time.unscaledDeltaTime * 0.5f);
+        }
+
+        public bool TryEquip(int number, out InventoryItem equippedItem)
+        {
+            if (slots[number - 1].AssignedItem)
+            {
+                equippedItem = slots[number - 1].AssignedItem;
+                return true;
+            }
+            else
+            {
+                equippedItem = null;
+                return false;
+            }
         }
     }
 }

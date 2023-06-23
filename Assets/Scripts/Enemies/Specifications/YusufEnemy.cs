@@ -84,6 +84,7 @@ namespace AnarPerPortes.Enemies
 
         private void CatchPlayer()
         {
+            isCatching = true;
             transform.LookAt(PlayerPosition());
             audioSource.PlayOneShot(jumpscareSound);
 
