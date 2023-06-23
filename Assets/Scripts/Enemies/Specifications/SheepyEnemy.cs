@@ -39,6 +39,12 @@ namespace AnarPerPortes.Enemies
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
 
+        protected override void Despawn()
+        {
+            PlayerCollectTix(10, "Has evadido a Sheepy");
+            base.Despawn();
+        }
+
         private void PauseChanged(bool isPaused)
         {
             if (isPaused)

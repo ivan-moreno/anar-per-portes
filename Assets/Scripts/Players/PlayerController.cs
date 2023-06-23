@@ -210,6 +210,24 @@ namespace AnarPerPortes
             visionTargetOffset = Vector3.zero;
         }
 
+        public void PlaySound(SoundResource sound)
+        {
+            audioSource.PlayOneShot(sound);
+        }
+
+        public void CollectTix(int amount)
+        {
+            TixAmount += amount;
+            TixManager.Singleton.SetNewTixAmount(TixAmount);
+        }
+
+        public void CollectTix(int amount, string reason)
+        {
+            TixAmount += amount;
+            TixManager.Singleton.SetNewTixAmount(TixAmount);
+            TixManager.Singleton.GenerateTixTransaction(amount, reason);
+        }
+
         private void Awake()
         {
             Singleton = this;
@@ -424,17 +442,6 @@ namespace AnarPerPortes
                 visionAnimator.SetFloat("HVelocity", smoothHVelocity);
 
             modelAnimator.SetFloat("HVelocity", smoothHVelocity);
-        }
-
-        public void PlaySound(SoundResource sound)
-        {
-            audioSource.PlayOneShot(sound);
-        }
-
-        public void CollectTix(int amount)
-        {
-            TixAmount += amount;
-            TixManager.Singleton.SetNewTixAmount(TixAmount);
         }
     }
 }

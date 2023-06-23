@@ -136,7 +136,10 @@ namespace AnarPerPortes.Enemies
             if (IsLooking())
                 CatchPlayer();
             else
+            {
+                PlayerCollectTix(10, "Has evadido a Skell");
                 Despawn();
+            }
         }
 
         private IEnumerator CatchPlayerCoroutine()

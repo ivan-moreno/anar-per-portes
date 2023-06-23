@@ -132,6 +132,8 @@ namespace AnarPerPortes.Enemies
 
             if (isMeetSkell)
                 StartCoroutine(nameof(GrabTailWithSkellCoroutine));
+            else
+                PlayerCollectTix(50, "Has derrotado a Bouser");
         }
 
         IEnumerator MeetAssPancakesCoroutine()

@@ -175,7 +175,7 @@ namespace AnarPerPortes.Enemies
                 timer += Time.deltaTime * 1.25f;
                 var nextPosition = Vector3.Lerp(startPosition, targetPosition, timer);
                 var yPos = Mathf.PingPong(timer * 16f, startPosition.y + 8f);
-                nextPosition.y = yPos;
+                nextPosition.y += yPos;
                 transform.position = nextPosition;
                 yield return new WaitForEndOfFrame();
             }
@@ -195,6 +195,7 @@ namespace AnarPerPortes.Enemies
             animator.Play("Idle");
             AudioManager.Singleton.SetTargetVolume(0f);
             (LatestRoom() as BouserRoom).WakeUpBouser();
+            PlayerCollectTix(50, "Has evadido a Ass Pancakes");
             yield return new WaitForSeconds(4.5f);
 
             GetComponent<BoxCollider>().enabled = false;

@@ -67,7 +67,7 @@ namespace AnarPerPortes.Enemies
 
         protected override void Despawn()
         {
-            if (isCatching)
+            if (isCatching || !EnemyIsOperative<A90Enemy>())
                 return;
 
             image.enabled = false;
@@ -76,6 +76,7 @@ namespace AnarPerPortes.Enemies
             jumpscareAnimator.gameObject.SetActive(false);
             AudioManager.Singleton.UnmuteAllAudioMixers();
             EnemyManager.Singleton.UnmarkAsOperative(this);
+            PlayerCollectTix(10, "Has evadido a A-90");
         }
 
         private void Start()

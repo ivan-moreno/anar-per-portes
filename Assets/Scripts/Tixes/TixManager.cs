@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace AnarPerPortes
 {
@@ -13,6 +12,8 @@ namespace AnarPerPortes
         [SerializeField] private RectTransform tixPanel;
         [SerializeField] private TMP_Text tixAmountLabel;
         [SerializeField] private AudioClip collectTixSound;
+        [SerializeField] private GameObject tixTransactionPrefab;
+        [SerializeField] private RectTransform tixTransactionOrigin;
 
         private AudioSource audioSource;
         private float targetTixAmount;
@@ -37,6 +38,12 @@ namespace AnarPerPortes
 
             timeSinceTixChanged = 0f;
             audioSource.PlayOneShot(collectTixSound);
+        }
+
+        public void GenerateTixTransaction(int amount, string reason)
+        {
+            var instance = Instantiate(tixTransactionPrefab, tixTransactionOrigin);
+            instance.GetComponent<TixTransaction>().Initialize(amount, reason);
         }
 
         private void Awake()

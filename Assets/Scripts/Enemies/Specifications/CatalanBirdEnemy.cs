@@ -53,6 +53,16 @@ namespace AnarPerPortes.Enemies
             RoomManager.Singleton.OnRoomGenerated.AddListener(x => Despawn());
         }
 
+        protected override void Despawn()
+        {
+            if (IsHardmodeEnabled())
+                PlayerCollectTix(50, "Has evadido a los coches de choque");
+            else
+                PlayerCollectTix(20, "Has evadido a Ocell Català");
+
+            base.Despawn();
+        }
+
         void Start()
         {
             if (isSupportingCast)

@@ -28,6 +28,7 @@ namespace AnarPerPortes.Enemies
 
             rewardPickable.OnPacked.AddListener(OnRewardPacked);
             LatestRoom().OnUnloading.AddListener(Despawn);
+            PlayerCollectTix(25, "¡Te has encontrado con Robloman!");
         }
 
         private void OnRewardPacked()

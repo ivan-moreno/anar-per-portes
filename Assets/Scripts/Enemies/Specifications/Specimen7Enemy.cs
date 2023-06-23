@@ -59,6 +59,7 @@ namespace AnarPerPortes.Enemies
             hasAlreadyAppeared = true;
             BlackoutManager.Singleton.PlayDoorOpen();
             BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 0.5f);
+            PlayerCollectTix(25, "Has evadido a Specimen 7");
             base.Despawn();
         }
 

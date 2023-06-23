@@ -478,6 +478,7 @@ RectTransform:
   - {fileID: 441362726}
   - {fileID: 746736442}
   - {fileID: 1116972341}
+  - {fileID: 392888724}
   - {fileID: 959534731}
   - {fileID: 951610783}
   - {fileID: 230485492}
@@ -6480,6 +6481,69 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 392576596}
   m_CullTransparentMesh: 1
+--- !u!1 &392888723
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 392888724}
+  - component: {fileID: 392888725}
+  m_Layer: 5
+  m_Name: TixTransactionGroup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &392888724
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392888723}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 14123594}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 64, y: -150}
+  m_SizeDelta: {x: 256, y: 512}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &392888725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392888723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 8
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 1
+  m_ChildScaleHeight: 1
+  m_ReverseArrangement: 0
 --- !u!1 &394446409
 GameObject:
   m_ObjectHideFlags: 0
@@ -16234,8 +16298,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281983991
-  m_fontColor: {r: 0.9686275, g: 0.89019614, b: 0.22352943, a: 1}
+    rgba: 4278244351
+  m_fontColor: {r: 1, g: 0.827451, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -37722,6 +37786,9 @@ MonoBehaviour:
   tixPanel: {fileID: 1116972341}
   tixAmountLabel: {fileID: 1025604610}
   collectTixSound: {fileID: 8300000, guid: a13a628f174f01c409549f1d8b1464b8, type: 3}
+  tixTransactionPrefab: {fileID: 4188929530104427294, guid: 0f81c2c78f0eb214c87deffd8301be28,
+    type: 3}
+  tixTransactionOrigin: {fileID: 392888724}
 --- !u!1 &1644458581
 GameObject:
   m_ObjectHideFlags: 0

@@ -38,6 +38,11 @@ namespace AnarPerPortes
             PlayerController.Singleton.PlaySound(sound);
         }
 
+        public static void PlayerCollectTix(int amount, string reason)
+        {
+            PlayerController.Singleton.CollectTix(amount, reason);
+        }
+
         public static Vector3 PlayerPosition()
         {
             return PlayerController.Singleton.transform.position;

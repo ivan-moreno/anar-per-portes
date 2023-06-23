@@ -140,6 +140,7 @@ namespace AnarPerPortes.Enemies
                     audioSource.Stop();
                     audioSource.PlayOneShot(finishRunSound);
                     enabled = false;
+                    PlayerCollectTix(20, "Has evadido a Pedro");
                     return;
                 }
 
@@ -157,6 +158,7 @@ namespace AnarPerPortes.Enemies
                 {
                     if (RoomManager.Singleton.LatestRoom is BouserRoom)
                     {
+                        PlayerCollectTix(20, "Has evadido a Pedro");
                         Despawn();
                         return;
                     }

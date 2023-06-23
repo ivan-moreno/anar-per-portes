@@ -76,6 +76,12 @@ namespace AnarPerPortes.Enemies
             OnSpawned?.Invoke(this);
         }
 
+        protected override void Despawn()
+        {
+            PlayerCollectTix(10, "Has evadido a Sangot");
+            base.Despawn();
+        }
+
         private void PauseChanged(bool isPaused)
         {
             if (isPaused)
