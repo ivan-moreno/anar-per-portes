@@ -323,6 +323,7 @@ namespace AnarPerPortes
                 var lookAt = Quaternion.LookRotation(dir);
                 Camera.transform.rotation = Quaternion.Slerp(Camera.transform.rotation, lookAt, Time.deltaTime * 4f);
                 Camera.transform.localEulerAngles = new Vector3(Camera.transform.localEulerAngles.x, Camera.transform.localEulerAngles.y, 0f);
+                vLook = Camera.transform.localEulerAngles.x;
                 return;
             }
 

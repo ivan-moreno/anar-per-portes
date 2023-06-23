@@ -1,9 +1,7 @@
 using AnarPerPortes.Enemies;
 using AnarPerPortes.Rooms;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using static AnarPerPortes.ShortUtils;
@@ -101,9 +99,9 @@ namespace AnarPerPortes
                 new RoomSetEggBuilder()
                 .WithId("GameMaker")
                 .MarkAsHardmodeExclusive()
-                .ForceSpawnOnRoomNumber(10)
-                .WithBaseChance(20f)
-                .WithMinRoom(10)
+                .ForceSpawnOnRoomNumber(90)
+                .WithMinRoom(90)
+                .WithMaxRoom(99)
                 .WithMaxSpawnCount(5)
                 .WithMaxRoomsBetweenSpawns(1)
                 .WithRoom(new RoomEggBuilder().WithId("GameMakerRoom0").Build())

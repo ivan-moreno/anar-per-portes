@@ -30,7 +30,7 @@ namespace AnarPerPortes
             if (timeSinceTixChanged <= increaseSoundPitchDuration)
             {
                 audioSource.pitch += 0.1f;
-                audioSource.pitch = Mathf.Clamp(audioSource.pitch, 1f, 1.2f);
+                audioSource.pitch = Mathf.Clamp(audioSource.pitch, 1f, 1.6f);
             }
             else
                 audioSource.pitch = 1f;

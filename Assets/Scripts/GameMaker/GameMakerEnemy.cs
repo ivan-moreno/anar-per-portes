@@ -1,3 +1,4 @@
+using AnarPerPortes.Rooms;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -122,6 +123,13 @@ namespace AnarPerPortes.Enemies
             audioSource = GetComponent<AudioSource>();
             jumpscareTargetMessage = jumpscareLabel.text;
             startButton.onClick.AddListener(HideDesktop);
+            RoomManager.Singleton.OnRoomGenerated.AddListener(OnRoomGenerated);
+        }
+
+        private void OnRoomGenerated(Room room)
+        {
+            if (room is not GameMakerRoom)
+                Despawn();
         }
     }
 }
