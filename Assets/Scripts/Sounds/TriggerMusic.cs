@@ -23,6 +23,9 @@ namespace AnarPerPortes
                 return;
             }
 
+            if (AudioManager.Singleton.GetCurrentMusicClip() == musicClip)
+                return;
+
             if (smooth)
             {
                 AudioManager.Singleton.SetVolume(0f);

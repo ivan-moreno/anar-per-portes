@@ -47,6 +47,8 @@ namespace AnarPerPortes
             musicSource.Play();
         }
 
+        public AudioClip GetCurrentMusicClip() => musicSource.clip;
+
         public void StopMusic()
         {
             if (!musicSource.isPlaying)

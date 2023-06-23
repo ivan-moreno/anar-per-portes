@@ -178,12 +178,13 @@ namespace AnarPerPortes
 
                 new RoomSetEggBuilder()
                 .WithId("Cameo")
-                .WithBaseChance(20f)
-                .WithMinRoom(20)
+                .WithBaseChance(20f) //20
+                .WithMinRoom(20) // 20
                 .WithMinRoomsBetweenSpawns(20)
                 .WithRoom(new RoomEggBuilder().WithId("CameoRoom0").Build())
                 .WithRoom(new RoomEggBuilder().WithId("CameoRoom1").Build())
                 .WithRoom(new RoomEggBuilder().WithId("CameoRoom2").Build())
+                .WithRoom(new RoomEggBuilder().WithId("CameoRoom3").Build())
                 .Build(),
 
                 new RoomSetEggBuilder()

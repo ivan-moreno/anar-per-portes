@@ -63,6 +63,7 @@ namespace AnarPerPortes.Enemies
 
             animator.Play("Rage");
             audioSource.PlayOneShot(rageSound);
+            AudioManager.Singleton.SetVolume(1f);
             AudioManager.Singleton.PlayMusic(battleMusic.AudioClip);
             yield return new WaitForSeconds(rageSound.AudioClip.length * 0.7f);
 
@@ -192,7 +193,7 @@ namespace AnarPerPortes.Enemies
         {
             isWaiting = true;
             animator.Play("Idle");
-            AudioManager.Singleton.StopMusic();
+            AudioManager.Singleton.SetTargetVolume(0f);
             (LatestRoom() as BouserRoom).WakeUpBouser();
             yield return new WaitForSeconds(4.5f);
 

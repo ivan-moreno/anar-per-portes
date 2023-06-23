@@ -358,7 +358,7 @@ namespace AnarPerPortes
 
         private void UpdateItems()
         {
-            if (IsCaught)
+            if (IsCaught || PauseManager.Singleton.IsPaused || EnemyTipManager.Singleton.IsDisplaying)
                 return;
 
             void UpdateEquipmentForKey(int number, KeyCode keyCode)
@@ -433,6 +433,7 @@ namespace AnarPerPortes
         public void CollectTix(int amount)
         {
             TixAmount += amount;
+            TixManager.Singleton.SetNewTixAmount(TixAmount);
         }
     }
 }

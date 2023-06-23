@@ -26,6 +26,7 @@ namespace AnarPerPortes
         private bool isOpen = false;
         private float curTimeToOpen;
         private float timeSinceOpen;
+        private const float maxTimeOpen = 7f;
 
         private void Start()
         {
@@ -47,8 +48,6 @@ namespace AnarPerPortes
 
         private void Update()
         {
-            closeButton.enabled = timeSinceOpen >= openDuration;
-
             if (isOpen)
                 UpdateOpen();
             else
@@ -58,6 +57,12 @@ namespace AnarPerPortes
         private void UpdateOpen()
         {
             timeSinceOpen += Time.deltaTime;
+
+            if (timeSinceOpen > openDuration)
+                closeButton.interactable = true;
+
+            if (timeSinceOpen > maxTimeOpen)
+                Close();
         }
 
         private void UpdateNotOpen()
@@ -75,12 +80,16 @@ namespace AnarPerPortes
 
             isOpen = true;
             window.SetActive(true);
+            closeButton.enabled = false;
             audioSource.Play(appearSound);
         }
 
         private void Close()
         {
-            if (!isOpen || timeSinceOpen < openDuration)
+            if (!isOpen)
+                return;
+
+            if (timeSinceOpen < openDuration)
                 return;
 
             isOpen = false;
