@@ -108,10 +108,14 @@ namespace AnarPerPortes.Enemies
             PlayerController.Singleton.BeginCatchSequence();
             PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform);
+            var uiJumpscare = FindObjectOfType<Canvas>().transform.Find("DaviloteEnemyJumpscare");
+            uiJumpscare.gameObject.SetActive(true);
+            uiJumpscare.GetChild(0).GetComponent<Animator>().Play("Jumpscare");
             animator.Play("Jumpscare");
             audioSource.PlayOneShot(jumpscareSound);
             yield return new WaitForSeconds(0.84f);
 
+            uiJumpscare.gameObject.SetActive(false);
             CatchManager.Singleton.CatchPlayer("DAVILOTE ENDING", "No eres un payaso, eres el circo entero.");
             audioSource.PlayOneShot(endingChatSounds.RandomItem());
             audioSource.Play();

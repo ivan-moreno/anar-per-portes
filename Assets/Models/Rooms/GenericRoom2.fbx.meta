@@ -22,8 +22,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Concrete2
+    second: {fileID: 2100000, guid: 9f89a1ec3ca6ca04381503fde1b63c5c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Metal
     second: {fileID: 2100000, guid: 71ee4b3f199aeb14b8f9beb04cfe633c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pavement0
+    second: {fileID: 2100000, guid: 170e7f39f9f307747a076841a1e5ec1b, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
