@@ -78,6 +78,9 @@ namespace AnarPerPortes.Enemies
 
         protected override void Despawn()
         {
+            if (isCatching)
+                return;
+
             PlayerCollectTix(10, "Has evadido a Sangot");
             base.Despawn();
         }

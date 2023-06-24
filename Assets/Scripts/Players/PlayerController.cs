@@ -261,7 +261,7 @@ namespace AnarPerPortes
             UpdateMotion();
             UpdateItems();
 
-            if (IsCaught)
+            if (IsCaught || IsInCatchSequence)
                 return;
 
             var preMovePosition = transform.position;

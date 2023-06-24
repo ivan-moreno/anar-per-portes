@@ -75,6 +75,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 85defbec15c5b154ba2bcd9f51e43f23, type: 2}
   - {fileID: 11400000, guid: f407625ae58370f48bcba764f4dd75a4, type: 2}
   - {fileID: 11400000, guid: fb64df906eb89864a985ada89cd5a8f3, type: 2}
+  endingMessages:
+  - '"GG"'
+  - No eres un payaso, eres el circo entero
+  - L + Skill Issue + Team Diff + Ratio
 --- !u!82 &81038424985809429
 AudioSource:
   m_ObjectHideFlags: 0

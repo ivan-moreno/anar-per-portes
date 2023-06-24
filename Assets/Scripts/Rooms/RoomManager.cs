@@ -29,6 +29,11 @@ namespace AnarPerPortes
         private Room lastGeneratedRoom;
         private const int maxLoadedRooms = 4;
 
+        public void SetRoomsActive(bool active)
+        {
+            roomsGroup.gameObject.SetActive(active);
+        }
+
         public Room SpawnRoom(GameObject roomPrefab)
         {
             if (LatestRoomNumber >= maxGeneratedRooms)

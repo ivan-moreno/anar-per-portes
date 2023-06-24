@@ -49,6 +49,9 @@ namespace AnarPerPortes
 
         private void Update()
         {
+            if (PlayerController.Singleton.IsInCatchSequence)
+                return;
+
             var distanceToPlayer = DistanceToPlayer(transform);
 
             reachedTarget = distanceToPlayer < waitDistance;

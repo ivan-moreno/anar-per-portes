@@ -15,6 +15,7 @@ namespace AnarPerPortes.Enemies
         [SerializeField] private SoundResource[] warningSounds;
         [SerializeField] private SoundResource[] meetSheepySounds;
         [SerializeField] private SoundResource[] endingChatSounds;
+        [SerializeField] private string[] endingMessages;
 
         public float MeetSheepy()
         {
@@ -39,6 +40,9 @@ namespace AnarPerPortes.Enemies
 
         protected override void Despawn()
         {
+            if (isCatching)
+                return;
+
             PlayerCollectTix(10, "Has evadido a Davilote");
             base.Despawn();
         }
@@ -108,16 +112,15 @@ namespace AnarPerPortes.Enemies
             PlayerController.Singleton.BeginCatchSequence();
             PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform);
-            var uiJumpscare = FindObjectOfType<Canvas>().transform.Find("DaviloteEnemyJumpscare");
-            uiJumpscare.gameObject.SetActive(true);
-            uiJumpscare.GetChild(0).GetComponent<Animator>().Play("Jumpscare");
             animator.Play("Jumpscare");
             audioSource.PlayOneShot(jumpscareSound);
+            RoomManager.Singleton.SetRoomsActive(false);
             yield return new WaitForSeconds(0.84f);
 
-            uiJumpscare.gameObject.SetActive(false);
-            CatchManager.Singleton.CatchPlayer("DAVILOTE ENDING", "No eres un payaso, eres el circo entero.");
-            audioSource.PlayOneShot(endingChatSounds.RandomItem());
+            audioSource.Stop();
+            var rngChat = Random.Range(0, endingChatSounds.Length);
+            CatchManager.Singleton.CatchPlayer("DAVILOTE ENDING", endingMessages[rngChat]);
+            audioSource.PlayOneShot(endingChatSounds[rngChat]);
             audioSource.Play();
         }
     }
