@@ -76,7 +76,7 @@ namespace AnarPerPortes.Enemies
 
         private void Update()
         {
-            if (isWaiting || isJumping)
+            if (isWaiting || isJumping || EnemyIsOperative<A90Enemy>())
                 return;
 
             if (!isAttacking)
@@ -110,7 +110,7 @@ namespace AnarPerPortes.Enemies
 
         private IEnumerator AttackCoroutine()
         {
-            if (isAttacking || isJumping || isWaiting)
+            if (isAttacking || isJumping || isWaiting || EnemyIsOperative<A90Enemy>())
                 yield break;
 
             isAttacking = true;

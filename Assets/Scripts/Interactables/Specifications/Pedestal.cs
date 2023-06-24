@@ -1,5 +1,7 @@
 using AnarPerPortes.Enemies;
+using System.Collections;
 using UnityEngine;
+using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes
 {
@@ -12,9 +14,11 @@ namespace AnarPerPortes
         [SerializeField] private AudioClip hideSound;
         [SerializeField] private AudioClip revealSound;
         private AudioSource audioSource;
+        private new Collider collider;
         private bool isOccupied = false;
         private float timeOccupied = 0f;
         private const float minOccupiedDuration = 0.5f;
+        private bool isTransitioning = false;
 
         public void Focus()
         {
@@ -36,35 +40,76 @@ namespace AnarPerPortes
 
         public void OccupyPlayer()
         {
-            if (isOccupied)
-                return;
-
-            PlayerController.Singleton.IsCamouflaged = true;
-            PlayerController.Singleton.CurrentPedestal = this;
-            PlayerController.Singleton.Teleport(occupyPlayerPosition.position);
-            PlayerController.Singleton.BlockMove();
-            isOccupied = true;
-            audioSource.PlayOneShot(hideSound);
-
-            InteractionManager.Singleton.HideTooltipIfValidOwner(tooltipPosition);
+            StartCoroutine(nameof(OccupyPlayerCoroutine));
         }
 
         public void ReleasePlayer()
         {
-            if (!isOccupied)
-                return;
+            StartCoroutine(nameof(ReleasePlayerCoroutine));
+        }
+
+        IEnumerator OccupyPlayerCoroutine()
+        {
+            if (isOccupied || isTransitioning)
+                yield break;
+
+            isTransitioning = true;
+            collider.enabled = false;
+            PlayerController.Singleton.IsCamouflaged = true;
+            PlayerController.Singleton.CurrentPedestal = this;
+            PlayerController.Singleton.BlockMove();
+            isOccupied = true;
+            audioSource.PlayOneShot(hideSound);
+            InteractionManager.Singleton.HideTooltipIfValidOwner(tooltipPosition);
+
+            float timer = 0f;
+            Vector3 originalPlayerPos = PlayerPosition();
+
+            while (timer < 1f)
+            {
+                timer += Time.deltaTime * 4f;
+                var targetPos = Vector3.Lerp(originalPlayerPos, occupyPlayerPosition.position, timer);
+                PlayerController.Singleton.Teleport(targetPos);
+                yield return null;
+            }
+
+            isTransitioning = false;
+        }
+
+        IEnumerator ReleasePlayerCoroutine()
+        {
+            if (!isOccupied || isTransitioning)
+                yield break;
+
+            isTransitioning = true;
+            audioSource.PlayOneShot(revealSound);
+
+            float timer = 0f;
+            Vector3 targetPlayerPos =
+                occupyPlayerPosition.position
+                - new Vector3(0f, occupyPlayerPosition.localPosition.y, 0f)
+                + PlayerController.Singleton.transform.forward * 2f;
+
+            while (timer < 1f)
+            {
+                timer += Time.deltaTime * 4f;
+                var targetPos = Vector3.Lerp(occupyPlayerPosition.position, targetPlayerPos, timer);
+                PlayerController.Singleton.Teleport(targetPos);
+                yield return null;
+            }
 
             PlayerController.Singleton.IsCamouflaged = false;
             PlayerController.Singleton.CurrentPedestal = null;
-            PlayerController.Singleton.Teleport(releasePlayerPosition.position);
             PlayerController.Singleton.UnblockMove();
             isOccupied = false;
-            audioSource.PlayOneShot(revealSound);
+            collider.enabled = true;
+            isTransitioning = false;
         }
 
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
+            collider = GetComponent<Collider>();
         }
 
         private void Update()
@@ -72,7 +117,9 @@ namespace AnarPerPortes
             if (isOccupied)
             {
                 timeOccupied += Time.deltaTime;
-                PlayerController.Singleton.Teleport(occupyPlayerPosition.position);
+
+                if (!isTransitioning)
+                    PlayerController.Singleton.Teleport(occupyPlayerPosition.position);
             }
             else
             {

@@ -564,7 +564,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -765,7 +765,7 @@ GameObject:
   - component: {fileID: 4977878452875958169}
   - component: {fileID: 6182759447437308045}
   m_Layer: 0
-  m_Name: Quad (1)
+  m_Name: NookyManFlying
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

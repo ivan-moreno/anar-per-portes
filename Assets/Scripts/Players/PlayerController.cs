@@ -261,7 +261,7 @@ namespace AnarPerPortes
             UpdateMotion();
             UpdateItems();
 
-            if (IsCaught || IsInCatchSequence)
+            if (IsCaught || IsInCatchSequence || IsCamouflaged)
             {
                 velocity = Vector3.zero;
                 return;
