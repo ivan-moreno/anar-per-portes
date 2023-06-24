@@ -262,7 +262,10 @@ namespace AnarPerPortes
             UpdateItems();
 
             if (IsCaught || IsInCatchSequence)
+            {
+                velocity = Vector3.zero;
                 return;
+            }
 
             var preMovePosition = transform.position;
             characterController.Move(motion + (4f * Time.deltaTime * Physics.gravity));
@@ -338,9 +341,12 @@ namespace AnarPerPortes
             if (visionTarget != null)
             {
                 var dir = -Vector3.Normalize(transform.position - (visionTarget.position + visionTargetOffset));
-                var lookAt = Quaternion.LookRotation(dir);
-                Camera.transform.rotation = Quaternion.Slerp(Camera.transform.rotation, lookAt, Time.deltaTime * 4f);
-                Camera.transform.localEulerAngles = new Vector3(Camera.transform.localEulerAngles.x, Camera.transform.localEulerAngles.y, 0f);
+                var lookAtX = Quaternion.LookRotation(new Vector3(dir.x, 0f, dir.z));
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookAtX, Time.deltaTime * 4f);
+                var lookAtY = Quaternion.LookRotation(new Vector3(dir.x, dir.y, dir.z));
+                Camera.transform.rotation = Quaternion.Slerp(Camera.transform.rotation, lookAtY, Time.deltaTime * 4f);
+                //transform.transform.localEulerAngles = new Vector3(transform.transform.localEulerAngles.x, transform.transform.localEulerAngles.z, 0f);
+                //Camera.transform.localEulerAngles = new Vector3(Camera.transform.localEulerAngles.x, Camera.transform.localEulerAngles.y, 0f);
                 vLook = Camera.transform.localEulerAngles.x;
                 return;
             }

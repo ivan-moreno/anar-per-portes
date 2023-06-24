@@ -21,6 +21,7 @@ namespace AnarPerPortes.Enemies
         [SerializeField] private SoundResource finishRunSound;
         [SerializeField] private SoundResource meetBouserSound;
         [SerializeField] private SoundResource laughAtBouserSound;
+        [SerializeField] private SoundResource meetDaviloteSound;
         [SerializeField] private SoundResource jumpscareSound;
         [SerializeField] private SoundResource[] loseSounds;
 
@@ -252,10 +253,21 @@ namespace AnarPerPortes.Enemies
             }
 
             isCatching = true;
-            PlayerController.Singleton.BeginCatchSequence();
+            
             PlayerController.Singleton.BlockAll();
-            PlayerController.Singleton.SetVisionTarget(transform);
             audioSource.Stop();
+
+            if (EnemyIsOperative<DaviloteEnemy>())
+            {
+                audioSource.PlayOneShot(meetDaviloteSound);
+                yield return new WaitForSeconds(meetDaviloteSound.AudioClip.length + 0.5f);
+                PlayerController.Singleton.SetVisionTarget(GetEnemyInstance<DaviloteEnemy>().transform);
+                yield break;
+            }
+
+            PlayerController.Singleton.BeginCatchSequence();
+            PlayerController.Singleton.SetVisionTarget(transform);
+            
             audioSource.PlayOneShot(jumpscareSound);
             yield return new WaitForSeconds(0.7f);
 

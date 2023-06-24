@@ -12,6 +12,7 @@ namespace AnarPerPortes.Enemies
 
         [Header("Audio")]
         [SerializeField] private SoundResource jumpscareSound;
+        [SerializeField] private SoundResource meetPedroSound;
         [SerializeField] private SoundResource[] warningSounds;
         [SerializeField] private SoundResource[] meetSheepySounds;
         [SerializeField] private SoundResource[] endingChatSounds;
@@ -31,7 +32,11 @@ namespace AnarPerPortes.Enemies
             CacheComponents();
 
             transform.rotation = PlayerController.Singleton.transform.rotation;
-            audioSource.PlayOneShot(warningSounds.RandomItem());
+
+            if (EnemyIsOperative<PedroEnemy>())
+                audioSource.PlayOneShot(meetPedroSound);
+            else
+                audioSource.PlayOneShot(warningSounds.RandomItem());
 
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             RoomManager.Singleton.OnRoomGenerated.AddListener(x => Despawn());
