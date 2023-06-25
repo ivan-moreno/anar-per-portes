@@ -10,11 +10,28 @@ namespace AnarPerPortes
     public sealed class PauseManager : MonoBehaviour
     {
         public static PauseManager Singleton { get; private set; }
+        public bool CanPause { get; set; } = true;
         public UnityEvent<bool> OnPauseChanged { get; } = new();
         public bool IsPaused { get; private set; } = false;
         [SerializeField] private GameObject pauseMenu;
         [SerializeField] private Button resumeButton;
         private Animator pauseAnimator;
+
+        public void PauseGameLogic()
+        {
+            IsPaused = true;
+            PlayerController.Singleton.BlockAll();
+            Time.timeScale = 0f;
+            OnPauseChanged?.Invoke(true);
+        }
+
+        public void UnpauseGameLogic()
+        {
+            IsPaused = false;
+            PlayerController.Singleton.UnblockAll();
+            Time.timeScale = GameSettingsManager.Singleton.CurrentSettings.EnableSpeedrunMode ? 2f : 1f;
+            OnPauseChanged?.Invoke(false);
+        }
 
         private void Awake()
         {
@@ -36,6 +53,9 @@ namespace AnarPerPortes
 
         private void TogglePause()
         {
+            if (!CanPause)
+                return;
+
             if (!IsPaused)
                 Pause();
             else
@@ -44,6 +64,9 @@ namespace AnarPerPortes
 
         private void Pause()
         {
+            if (!CanPause)
+                return;
+
             if (IsPaused || PlayerController.Singleton.IsCaught)
                 return;
 
@@ -59,6 +82,9 @@ namespace AnarPerPortes
 
         private void Resume()
         {
+            if (!CanPause)
+                return;
+
             if (!IsPaused)
                 return;
 

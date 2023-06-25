@@ -49,10 +49,16 @@ namespace AnarPerPortes.Enemies
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             BouserBossEnemy.OnSpawn.AddListener((_) => Despawn());
             LatestRoom().OnUnloading.AddListener(Despawn);
+
+            //TODO: Show when most enemies have one
+            //StartCoroutine(nameof(IntroCinematicCoroutine));
         }
 
         private void Update()
         {
+            if (isInIntro)
+                return;
+
             timeSinceSpawn += Time.deltaTime;
 
             if (!isLooked || isCatching)

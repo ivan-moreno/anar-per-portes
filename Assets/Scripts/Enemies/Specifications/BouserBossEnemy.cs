@@ -54,7 +54,7 @@ namespace AnarPerPortes.Enemies
 
         private void Update()
         {
-            if (isWaiting)
+            if (isInIntro || isWaiting)
                 return;
 
             if (!isDoingActivity)

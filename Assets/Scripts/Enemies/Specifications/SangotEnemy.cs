@@ -96,6 +96,9 @@ namespace AnarPerPortes.Enemies
 
         private void Update()
         {
+            if (isInIntro)
+                return;
+
             despawnTime -= Time.deltaTime;
 
             if (despawnTime <= 0f && !isCatching)

@@ -1,5 +1,8 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Playables;
 using static AnarPerPortes.ShortUtils;
+using static UnityEngine.Rendering.BoolParameter;
 
 namespace AnarPerPortes.Enemies
 {
@@ -51,6 +54,9 @@ namespace AnarPerPortes.Enemies
 
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
             RoomManager.Singleton.OnRoomGenerated.AddListener(x => Despawn());
+
+            if (!IsHardmodeEnabled())
+                StartCoroutine(nameof(IntroCinematicCoroutine));
         }
 
         protected override void Despawn()
@@ -79,7 +85,7 @@ namespace AnarPerPortes.Enemies
 
         private void Update()
         {
-            if (EnemyIsOperative<A90Enemy>() || isFrozen)
+            if (isInIntro || isFrozen || EnemyIsOperative<A90Enemy>())
                 return;
 
             var distance = DistanceToPlayer(transform);

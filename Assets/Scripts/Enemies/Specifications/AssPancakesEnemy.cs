@@ -76,7 +76,7 @@ namespace AnarPerPortes.Enemies
 
         private void Update()
         {
-            if (isWaiting || isJumping || EnemyIsOperative<A90Enemy>())
+            if (isInIntro || isWaiting || isJumping || EnemyIsOperative<A90Enemy>())
                 return;
 
             if (!isAttacking)

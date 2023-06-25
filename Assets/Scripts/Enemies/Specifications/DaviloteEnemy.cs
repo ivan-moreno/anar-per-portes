@@ -63,12 +63,12 @@ namespace AnarPerPortes.Enemies
 
         private void Update()
         {
-            if (isCatching)
+            /*if (isCatching)
             {
                 var targetPos = PlayerPosition() - transform.forward;
                 transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 4f);
                 return;
-            }
+            }*/
         }
 
         private void LateUpdate()
@@ -78,6 +78,9 @@ namespace AnarPerPortes.Enemies
 
         private void FixedUpdate()
         {
+            if (isInIntro)
+                return;
+
             var playerAngle = PlayerController.Singleton.transform.eulerAngles.y;
             var enemyAngle = transform.eulerAngles.y;
             var angleDiff = Mathf.DeltaAngle(playerAngle, enemyAngle);

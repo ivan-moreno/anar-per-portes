@@ -93,7 +93,7 @@ namespace AnarPerPortes.Enemies
 
         private void Update()
         {
-            if (metBouser)
+            if (isInIntro || metBouser)
                 return;
 
             var distanceToPlayer = Vector3.Distance(transform.position, PlayerPosition());

@@ -59,6 +59,9 @@ namespace AnarPerPortes.Enemies
 
         private void Update()
         {
+            if (isInIntro)
+                return;
+
             timeSinceSpawn += Time.deltaTime;
 
             var targetCheckMotionTime = IsHardmodeEnabled() ? checkMotionTimeHard : checkMotionTime;

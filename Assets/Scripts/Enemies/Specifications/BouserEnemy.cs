@@ -223,7 +223,7 @@ namespace AnarPerPortes.Enemies
 
         private void Update()
         {
-            if (!isAwake || IsFriendly)
+            if (isInIntro || !isAwake || IsFriendly)
                 return;
 
             if (audioCooldown > 0f)

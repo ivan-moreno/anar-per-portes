@@ -63,6 +63,7 @@ namespace AnarPerPortes
 
             yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.97f);
 
+            rng = 2;
             if (rng == 2)
             {
                 audioSource.Stop();

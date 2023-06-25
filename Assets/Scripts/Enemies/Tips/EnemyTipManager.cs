@@ -36,7 +36,7 @@ namespace AnarPerPortes
             PlayerController.Singleton.BlockAll();
             this.onHideTipCallback = onHideTipCallback;
             screenAnimator.Play("Draw", 0, 0f);
-            Time.timeScale = 0f;
+            PauseManager.Singleton.PauseGameLogic();
         }
 
         private void Awake()
@@ -57,7 +57,7 @@ namespace AnarPerPortes
             IsDisplaying = false;
             canvasGroup.blocksRaycasts = false;
             PlayerController.Singleton.UnblockAll();
-            Time.timeScale = GameSettingsManager.Singleton.CurrentSettings.EnableSpeedrunMode ? 2f : 1f;
+            PauseManager.Singleton.UnpauseGameLogic();
             onHideTipCallback?.Invoke();
         }
 
@@ -68,8 +68,7 @@ namespace AnarPerPortes
             if (IsDisplaying)
                 timeSinceDisplay += Time.unscaledDeltaTime;
 
-            if (!PauseManager.Singleton.IsPaused
-                && Input.GetMouseButtonUp(0)
+            if (Input.GetMouseButtonUp(0)
                 && IsDisplaying
                 && timeSinceDisplay >= minDisplayTime)
                 HideTip();

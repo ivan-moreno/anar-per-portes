@@ -54,7 +54,7 @@ namespace AnarPerPortes.Rooms
             var distance = Vector3.Distance(bouserRoomDoorsAnimator.transform.position, PlayerPosition());
 
             //TODO: if ass pancakes will spawn logic
-            if (!spawnedAssPancakes && distance < spawnAssPancakesDistance)
+            if (!IsHardmodeEnabled() && !spawnedAssPancakes && distance < spawnAssPancakesDistance)
             {
                 spawnedAssPancakes = true;
                 EnemyManager.Singleton.SpawnEnemy(EnemyManager.Singleton.AssPancakesEnemyPrefab);

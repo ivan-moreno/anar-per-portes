@@ -65,6 +65,9 @@ namespace AnarPerPortes.Enemies
 
         private void Update()
         {
+            if (isInIntro)
+                return;
+
             timeSinceSpawn += Time.deltaTime;
 
             if (EnemyIsOperative<SheepyEnemy>() || EnemyIsOperative<SangotEnemy>() || EnemyIsOperative<A90Enemy>())

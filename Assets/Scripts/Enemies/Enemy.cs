@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.Playables;
 
 namespace AnarPerPortes.Enemies
 {
@@ -8,11 +10,13 @@ namespace AnarPerPortes.Enemies
         public EnemyTip Tip => tip;
 
         [SerializeField] private EnemyTip tip;
+        [SerializeField] private PlayableDirector introDirector;
         [SerializeField] private GameObject roblomanDisguiseObject;
 
         protected AudioSource audioSource;
         protected Animator animator;
         protected Transform model;
+        protected static bool isInIntro = false;
         protected bool isCatching = false;
 
         public virtual void Spawn()
@@ -51,6 +55,30 @@ namespace AnarPerPortes.Enemies
         protected virtual RoblomanEnemy RevealRoblomanDisguise()
         {
             return EnemyManager.Singleton.SpawnRoblomanAt(transform.position);
+        }
+
+        //TODO: Optimize this!
+        protected IEnumerator IntroCinematicCoroutine()
+        {
+            isInIntro = true;
+            PauseManager.Singleton.CanPause = false;
+            PlayerController.Singleton.BlockAll();
+            PlayerController.Singleton.Camera.gameObject.SetActive(false);
+            var directorUiCam = introDirector.transform.GetChild(0).GetChild(0).GetComponent<Camera>();
+            FindObjectOfType<Canvas>().worldCamera = directorUiCam;
+            PlayerController.Singleton.UiCamera.transform.localPosition = Vector3.zero;
+            introDirector.gameObject.SetActive(true);
+            yield return new WaitForSeconds((float)introDirector.playableAsset.duration);
+
+            EnemyTipManager.Singleton.DisplayTip(Tip);
+            yield return new WaitUntil(() => !EnemyTipManager.Singleton.IsDisplaying);
+
+            introDirector.gameObject.SetActive(false);
+            PlayerController.Singleton.Camera.gameObject.SetActive(true);
+            FindObjectOfType<Canvas>().worldCamera = PlayerController.Singleton.UiCamera;
+            PlayerController.Singleton.UnblockAll();
+            PauseManager.Singleton.CanPause = true;
+            isInIntro = false;
         }
     }
 }

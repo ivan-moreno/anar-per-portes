@@ -89,6 +89,9 @@ namespace AnarPerPortes.Enemies
         //TODO: Update Waypoint AI to latest (Pom-Pom's)
         private void Update()
         {
+            if (isInIntro)
+                return;
+
             var distanceToPlayer = Vector3.Distance(transform.position, PlayerPosition());
 
             // Player camouflaged while chasing
