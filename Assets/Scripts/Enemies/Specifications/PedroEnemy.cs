@@ -65,6 +65,9 @@ namespace AnarPerPortes.Enemies
             if (isOnBreak)
                 return;
 
+            if (room.RoomSet != null && room.RoomSet.Id == "Toymaker")
+                Despawn();
+
             if (RoomManager.Singleton.Rooms[0] == RoomManager.Singleton.Rooms[roomsTraversed])
                 waypointsTraversed = 0;
 

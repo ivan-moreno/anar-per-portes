@@ -129,6 +129,14 @@ namespace AnarPerPortes
 
         private void OnRoomGenerated(Room room)
         {
+            if (room.RoomSet != null && room.RoomSet.Id == "Toymaker")
+            {
+                if (IsHearing)
+                    WrapUp();
+                else if (IsHunting)
+                    FinishHunting();
+            }
+
             openedDoors++;
 
             if (IsHunting)

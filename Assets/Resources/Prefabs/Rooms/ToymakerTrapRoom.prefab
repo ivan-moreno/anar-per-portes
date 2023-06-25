@@ -316,7 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d813650be977e6b43a72a9f2cc124f73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disappearTime: 0.8
+  disappearTime: 0.5
   appearChance: 100
 --- !u!114 &2410922281460094642
 MonoBehaviour:
@@ -331,7 +331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materialIndex: 0
-  xSpeed: 0.5
+  xSpeed: 8
   ySpeed: 0
 --- !u!1 &3828834326229641080
 GameObject:
@@ -430,7 +430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d813650be977e6b43a72a9f2cc124f73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disappearTime: 0.2
+  disappearTime: 0.5
   appearChance: 100
 --- !u!114 &5341592544592640039
 MonoBehaviour:
@@ -445,7 +445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materialIndex: 0
-  xSpeed: 0.5
+  xSpeed: 8
   ySpeed: 0
 --- !u!1 &3963315343480864872
 GameObject:
@@ -544,7 +544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d813650be977e6b43a72a9f2cc124f73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disappearTime: 0.6
+  disappearTime: 0.5
   appearChance: 100
 --- !u!114 &2239319340727795463
 MonoBehaviour:
@@ -559,7 +559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materialIndex: 0
-  xSpeed: 0.5
+  xSpeed: 8
   ySpeed: 0
 --- !u!1 &4498264381457070816
 GameObject:
@@ -658,7 +658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d813650be977e6b43a72a9f2cc124f73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disappearTime: 0.2
+  disappearTime: 0.5
   appearChance: 100
 --- !u!114 &4218021582450162609
 MonoBehaviour:
@@ -673,7 +673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materialIndex: 0
-  xSpeed: 0.5
+  xSpeed: 8
   ySpeed: 0
 --- !u!1 &5904323317217782871
 GameObject:
@@ -722,6 +722,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicClip: {fileID: 8300000, guid: 062bd82c4ffbad549857bebc6cfb22b2, type: 3}
   triggerOnlyOnce: 1
+  smooth: 0
 --- !u!65 &7433905670332357889
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -810,6 +811,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   closedCollider: {fileID: 0}
+  breakThroughSound: {fileID: 0}
   ambiance: {fileID: 8300000, guid: 80bb62f8ae9aea542bf64793abae0d93, type: 3}
 --- !u!1 &6171686766335044570
 GameObject:
@@ -1026,7 +1028,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d813650be977e6b43a72a9f2cc124f73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disappearTime: 0.4
+  disappearTime: 0.5
   appearChance: 100
 --- !u!114 &249882778145104010
 MonoBehaviour:
@@ -1041,7 +1043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materialIndex: 0
-  xSpeed: 0.5
+  xSpeed: 8
   ySpeed: 0
 --- !u!1 &6614022869336707500
 GameObject:
@@ -1140,7 +1142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d813650be977e6b43a72a9f2cc124f73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disappearTime: 0.4
+  disappearTime: 0.5
   appearChance: 100
 --- !u!114 &8503813277763744932
 MonoBehaviour:
@@ -1155,7 +1157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materialIndex: 0
-  xSpeed: 0.5
+  xSpeed: 8
   ySpeed: 0
 --- !u!1 &6863916113912881090
 GameObject:
@@ -1254,7 +1256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d813650be977e6b43a72a9f2cc124f73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disappearTime: 0.6
+  disappearTime: 0.5
   appearChance: 100
 --- !u!114 &1538452477353995787
 MonoBehaviour:
@@ -1269,7 +1271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materialIndex: 0
-  xSpeed: 0.5
+  xSpeed: 8
   ySpeed: 0
 --- !u!1 &7214415892640748357
 GameObject:
@@ -1318,6 +1320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicClip: {fileID: 0}
   triggerOnlyOnce: 1
+  smooth: 0
 --- !u!65 &69988542441781998
 BoxCollider:
   m_ObjectHideFlags: 0

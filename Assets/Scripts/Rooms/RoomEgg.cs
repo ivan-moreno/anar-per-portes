@@ -172,12 +172,10 @@ namespace AnarPerPortes.Rooms
 
             if (Prefab != null)
             {
-                var instance = RoomManager.Singleton.SpawnRoom(Prefab);
+                var instance = RoomManager.Singleton.SpawnRoom(Prefab, RoomSet);
 
                 if (instance == null)
                     return;
-
-                instance.RoomSet = RoomSet;
             }
 
             OnSpawnCallback?.Invoke(this);

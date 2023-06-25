@@ -26,6 +26,7 @@ namespace AnarPerPortes.Enemies
         public Func<bool> AdditionalRequirements { get; set; }
         public HashSet<Type> ForceSpawnRoomTypes { get; } = new();
         public HashSet<Type> IncompatibleRoomTypes { get; } = new();
+        public HashSet<string> IncompatibleRoomSetIDs { get; } = new();
         public HashSet<Type> IncompatibleEnemyTypes { get; } = new();
         public UnityEvent<EnemyEgg> OnSpawnCallback { get; } = new();
 
@@ -253,7 +254,9 @@ namespace AnarPerPortes.Enemies
 
         private bool IsCompatibleWithLatestRoom()
         {
-            return !IncompatibleRoomTypes.Contains(LatestRoom().GetType());
+            return (LatestRoom().RoomSet == null ||
+                !IncompatibleRoomSetIDs.Contains(LatestRoom().RoomSet.Id))
+                && !IncompatibleRoomTypes.Contains(LatestRoom().GetType());
         }
 
         private bool IsCompatibleWithOperativeEnemies()

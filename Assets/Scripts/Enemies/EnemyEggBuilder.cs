@@ -112,6 +112,15 @@ namespace AnarPerPortes.Enemies
         }
 
         /// <summary>
+        /// Specifies the Room Set IDs in which the Enemy may not spawn.
+        /// </summary>
+        public EnemyEggBuilder IncompatibleWithRoomSetId(string roomSetId)
+        {
+            egg.IncompatibleRoomSetIDs.Add(roomSetId);
+            return this;
+        }
+
+        /// <summary>
         /// Specifies the <see cref="Enemy"/> Types that the Enemy is incompatible with. The Enemy may not spawn when any of these are operative.
         /// </summary>
         public EnemyEggBuilder IncompatibleWithEnemy<T>() where T : Enemy

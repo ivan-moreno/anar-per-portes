@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e2be269c258e1be42b49eb24dc89900c
+guid: 091212461b9d7dc4b81ed50611d040cd
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -27,8 +27,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: ToymakerSurface6
-    second: {fileID: 2100000, guid: ba9e1e89cd7f5ab46947401c4562f685, type: 2}
+      name: ToymakerSurface5
+    second: {fileID: 2100000, guid: 1b7c22d183d7116469237ccb2ab643cd, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

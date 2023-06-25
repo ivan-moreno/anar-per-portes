@@ -34,7 +34,7 @@ namespace AnarPerPortes
             roomsGroup.gameObject.SetActive(active);
         }
 
-        public Room SpawnRoom(GameObject roomPrefab)
+        public Room SpawnRoom(GameObject roomPrefab, RoomSetEgg roomset = null)
         {
             if (LatestRoomNumber >= maxGeneratedRooms)
             {
@@ -56,6 +56,7 @@ namespace AnarPerPortes
 
             instance.TryGetComponent(out Room room);
 
+            room.RoomSet = roomset;
             LatestRoom = room;
             Rooms.Add(room);
 
@@ -123,9 +124,9 @@ namespace AnarPerPortes
                 //TODO: check for a cleaner way to force the first toom to be the trap 
                 new RoomSetEggBuilder()
                 .WithId("Toymaker")
-                .WithBaseChance(5f) // 5
+                .WithBaseChance(3f) // 5
                 .WithMinRoom(60) // 60
-                .WithMaxSpawnCount(3)
+                .WithMaxSpawnCount(4)
                 .WithMaxRoomsBetweenSpawns(1)
                 .WithRoom(
                     new RoomEggBuilder()
@@ -146,6 +147,11 @@ namespace AnarPerPortes
                 .WithRoom(
                     new RoomEggBuilder()
                     .WithId("ToymakerRoom1")
+                    .WithMaxSpawnCount(1)
+                    .Build())
+                .WithRoom(
+                    new RoomEggBuilder()
+                    .WithId("ToymakerRoom2")
                     .WithMaxSpawnCount(1)
                     .Build())
                 .Build(),

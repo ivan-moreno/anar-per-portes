@@ -33,6 +33,7 @@ namespace AnarPerPortes.Rooms
         public RoomSetEggBuilder WithRoom(RoomEgg room)
         {
             egg.Rooms.Add(room);
+            room.RoomSet = egg;
             return this;
         }
 
