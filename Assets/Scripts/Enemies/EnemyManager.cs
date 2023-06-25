@@ -297,11 +297,11 @@ namespace AnarPerPortes
 
                 new EnemyEggBuilder()
                 .WithId("Danylopez")
-                .WithMinRoom(2) //40
+                .WithMinRoom(5)
                 .WithMinRoomsBetweenSpawns(30)
                 .WithMaxRoomsBetweenSpawns(50)
-                .WithBaseChance(90f) //5
-                .WithAdditionalRequirements(() => LatestRoom().IsMediumSize || LatestRoom().IsLargeSize)
+                .WithBaseChance(5f)
+                .WithAdditionalRequirements(() => LatestRoom().HasPedestals && (LatestRoom().IsMediumSize || LatestRoom().IsLargeSize))
                 .IncompatibleWithRoom<BouserBossRoom>()
                 .IncompatibleWithRoom<BouserRoom>()
                 .IncompatibleWithRoom<IsleRoom>()

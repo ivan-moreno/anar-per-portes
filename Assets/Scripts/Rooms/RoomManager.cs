@@ -94,12 +94,13 @@ namespace AnarPerPortes
         {
             eggs = new RoomSetEgg[]
             {
-                new RoomSetEggBuilder()
+                //TODO: Don't spawn until development is done!
+                /*new RoomSetEggBuilder()
                 .WithId("BouserBoss")
                 .MarkAsForcedSpawnOnly()
                 .ForceSpawnOnRoomNumber(100)
                 .WithRoom(new RoomEggBuilder().WithId("BouserBossRoom").Build())
-                .Build(),
+                .Build(),*/
 
                 new RoomSetEggBuilder()
                 .WithId("Bouser")
@@ -188,13 +189,14 @@ namespace AnarPerPortes
 
                 new RoomSetEggBuilder()
                 .WithId("Cameo")
-                .WithBaseChance(20f) //20
-                .WithMinRoom(20) // 20
+                .WithBaseChance(20f)
+                .WithMinRoom(15)
                 .WithMinRoomsBetweenSpawns(20)
                 .WithRoom(new RoomEggBuilder().WithId("CameoRoom0").Build())
                 .WithRoom(new RoomEggBuilder().WithId("CameoRoom1").Build())
                 .WithRoom(new RoomEggBuilder().WithId("CameoRoom2").Build())
                 .WithRoom(new RoomEggBuilder().WithId("CameoRoom3").Build())
+                .WithRoom(new RoomEggBuilder().WithId("CameoRoom4").Build())
                 .Build(),
 
                 new RoomSetEggBuilder()
