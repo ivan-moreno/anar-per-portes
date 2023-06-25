@@ -123,8 +123,8 @@ namespace AnarPerPortes
                 //TODO: check for a cleaner way to force the first toom to be the trap 
                 new RoomSetEggBuilder()
                 .WithId("Toymaker")
-                .WithBaseChance(100f) // 5
-                .WithMinRoom(2) // 60
+                .WithBaseChance(5f) // 5
+                .WithMinRoom(60) // 60
                 .WithMaxSpawnCount(3)
                 .WithMaxRoomsBetweenSpawns(1)
                 .WithRoom(
@@ -189,7 +189,7 @@ namespace AnarPerPortes
 
                 new RoomSetEggBuilder()
                 .WithId("Cameo")
-                .WithBaseChance(20f)
+                .WithBaseChance(5f)
                 .WithMinRoom(15)
                 .WithMinRoomsBetweenSpawns(20)
                 .WithRoom(new RoomEggBuilder().WithId("CameoRoom0").Build())
@@ -210,6 +210,7 @@ namespace AnarPerPortes
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom7").Build())
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom8").Build())
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom9").Build())
+                .WithRoom(new RoomEggBuilder().WithId("GeneralRoom12").Build())
                 .Build()
             };
         }

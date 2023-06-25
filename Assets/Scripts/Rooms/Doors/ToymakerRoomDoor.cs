@@ -1,6 +1,8 @@
+using AnarPerPortes.Rooms;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes
 {
@@ -34,14 +36,26 @@ namespace AnarPerPortes
             yield return new WaitForSeconds(0.8f);
 
             OnDoorOpened?.Invoke();
-            BlackoutManager.Singleton.EnableSquareBars();
-            PlayerController.Singleton.Teleport(transform.position + transform.forward * 2f);
-            PlayerController.Singleton.UnblockAll();
-            AudioManager.Singleton.PlayAmbiance(ambiance);
-            RenderSettings.fog = true;
-            RenderSettings.fogColor = Color.black;
-            RenderSettings.fogStartDistance = 0f;
-            RenderSettings.fogEndDistance = 16f;
+
+            if (LatestRoom().Door is ToymakerRoomDoor)
+            {
+                BlackoutManager.Singleton.EnableSquareBars();
+                PlayerController.Singleton.Teleport(transform.position + transform.forward * 2f);
+                PlayerController.Singleton.UnblockAll();
+                AudioManager.Singleton.PlayAmbiance(ambiance);
+                RenderSettings.fog = true;
+                RenderSettings.fogColor = Color.black;
+                RenderSettings.fogStartDistance = 0f;
+                RenderSettings.fogEndDistance = 16f;
+            }
+            else
+            {
+                BlackoutManager.Singleton.DisableSquareBars();
+                PlayerController.Singleton.Teleport(transform.position + transform.forward * 2f);
+                PlayerController.Singleton.UnblockAll();
+                AudioManager.Singleton.StopAmbiance();
+                RenderSettings.fog = false;
+            }
 
             yield return new WaitForEndOfFrame();
             BlackoutManager.Singleton.Hide();
