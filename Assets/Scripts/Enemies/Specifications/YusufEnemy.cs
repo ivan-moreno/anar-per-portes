@@ -9,6 +9,10 @@ namespace AnarPerPortes.Enemies
     [AddComponentMenu("Anar per Portes/Enemies/Yusuf Enemy")]
     public class YusufEnemy : Enemy
     {
+        [Header("Stats")]
+        [SerializeField][Range(0f, 100f)] private float correctChance = 80f;
+        [SerializeField][Min(0f)] private float waitToCorrectDuration = 4f;
+
         [Header("Signs")]
         [SerializeField] private Material bunkerSignMaterial;
         [SerializeField] private Material lighthouseSignMaterial;
@@ -22,8 +26,14 @@ namespace AnarPerPortes.Enemies
         [SerializeField] private SoundResource[] lighthouseTargetSounds;
         [SerializeField] private SoundResource[] observatoryTargetSounds;
         [SerializeField] private SoundResource[] warehouseTargetSounds;
+        [SerializeField] private SoundResource correctBunkerSound;
+        [SerializeField] private SoundResource correctLighthouseSound;
+        [SerializeField] private SoundResource correctObservatorySound;
+        [SerializeField] private SoundResource correctWarehouseSound;
 
         private IsleRoom isleRoom;
+        private bool sayIncorrect = false;
+        private int locationRng;
 
         private void Start()
         {
@@ -31,11 +41,25 @@ namespace AnarPerPortes.Enemies
             CacheComponents();
 
             isleRoom = RoomManager.Singleton.LatestRoom as IsleRoom;
-            var targetPos = isleRoom.IncorrectDoor.transform.position + isleRoom.IncorrectDoor.transform.forward * 4f;
+            var targetPos = isleRoom.IncorrectDoor.transform.position + (isleRoom.IncorrectDoor.transform.forward * 4f);
             transform.position = targetPos;
             audioSource.PlayOneShot(walkieTalkieAlertSound.AudioClip);
 
-            var rng = Random.Range(0, 4);
+            PrepareRoom();
+
+            PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
+            isleRoom.OnDoorOpened.AddListener(Despawn);
+            isleRoom.OnIncorrectDoorOpened.AddListener(CatchPlayer);
+            BouserBossEnemy.OnSpawn.AddListener((_) => Despawn());
+            PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
+        }
+
+        private void PrepareRoom()
+        {
+            locationRng = Random.Range(0, 4);
+            var correctRng = Random.Range(0f, 100f);
+
+            sayIncorrect = correctRng > correctChance;
 
             var signMaterials = new List<Material>
             {
@@ -45,33 +69,44 @@ namespace AnarPerPortes.Enemies
                 warehouseSignMaterial
             };
 
-            signMaterials.RemoveAt(rng);
+            signMaterials.RemoveAt(locationRng);
 
-            if (rng == 0)
+            if (locationRng == 0)
             {
-                audioSource.PlayOneShot(bunkerTargetSounds.RandomItem());
+                if (sayIncorrect)
+                    StartCoroutine(nameof(CorrectCoroutine));
+                else
+                    audioSource.PlayOneShot(bunkerTargetSounds.RandomItem());
+
                 isleRoom.SetSignMaterials(signMaterials.RandomItem(), bunkerSignMaterial);
             }
-            else if (rng == 1)
+            else if (locationRng == 1)
             {
-                audioSource.PlayOneShot(lighthouseTargetSounds.RandomItem());
+                if (sayIncorrect)
+                    StartCoroutine(nameof(CorrectCoroutine));
+                else
+                    audioSource.PlayOneShot(lighthouseTargetSounds.RandomItem());
+
                 isleRoom.SetSignMaterials(signMaterials.RandomItem(), lighthouseSignMaterial);
             }
-            else if (rng == 2)
+            else if (locationRng == 2)
             {
-                audioSource.PlayOneShot(observatoryTargetSounds.RandomItem());
+                if (sayIncorrect)
+                    StartCoroutine(nameof(CorrectCoroutine));
+                else
+                    audioSource.PlayOneShot(observatoryTargetSounds.RandomItem());
+
                 isleRoom.SetSignMaterials(signMaterials.RandomItem(), observatorySignMaterial);
             }
             else
             {
-                audioSource.PlayOneShot(warehouseTargetSounds.RandomItem());
+                if (sayIncorrect)
+                    StartCoroutine(nameof(CorrectCoroutine));
+                else
+                    audioSource.PlayOneShot(warehouseTargetSounds.RandomItem());
+
                 isleRoom.SetSignMaterials(signMaterials.RandomItem(), warehouseSignMaterial);
             }
-
-            PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
-            isleRoom.OnDoorOpened.AddListener(Despawn);
-            isleRoom.OnIncorrectDoorOpened.AddListener(CatchPlayer);
-            PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
 
         protected override void Despawn()
@@ -89,6 +124,48 @@ namespace AnarPerPortes.Enemies
                 audioSource.Pause();
             else
                 audioSource.UnPause();
+        }
+
+        private IEnumerator CorrectCoroutine()
+        {
+            var soundsPool = new List<SoundResource>();
+
+            if (locationRng == 0)
+            {
+                soundsPool.AddRange(lighthouseTargetSounds);
+                soundsPool.AddRange(observatoryTargetSounds);
+                soundsPool.AddRange(warehouseTargetSounds);
+            }
+            else if (locationRng == 1)
+            {
+                soundsPool.AddRange(bunkerTargetSounds);
+                soundsPool.AddRange(observatoryTargetSounds);
+                soundsPool.AddRange(warehouseTargetSounds);
+            }
+            else if (locationRng == 2)
+            {
+                soundsPool.AddRange(bunkerTargetSounds);
+                soundsPool.AddRange(lighthouseTargetSounds);
+                soundsPool.AddRange(warehouseTargetSounds);
+            }
+            else
+            {
+                soundsPool.AddRange(bunkerTargetSounds);
+                soundsPool.AddRange(lighthouseTargetSounds);
+                soundsPool.AddRange(observatoryTargetSounds);
+            }
+
+            audioSource.PlayOneShot(soundsPool.RandomItem());
+            yield return new WaitForSeconds(waitToCorrectDuration);
+
+            if (locationRng == 0)
+                audioSource.PlayOneShot(correctBunkerSound);
+            else if (locationRng == 1)
+                audioSource.PlayOneShot(correctLighthouseSound);
+            else if (locationRng == 2)
+                audioSource.PlayOneShot(correctObservatorySound);
+            else
+                audioSource.PlayOneShot(correctWarehouseSound);
         }
 
         private void CatchPlayer()

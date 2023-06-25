@@ -69,6 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipLocation: {fileID: 6553130944470589588}
   tooltipMessage: Apostar
+  graphic: {fileID: 5482886716349486395}
 --- !u!1 &839119264242851506
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,6 +271,7 @@ MonoBehaviour:
   itemId: Roblobolita
   tooltipItemName: Roblobolita
   tooltipPosition: {fileID: 7731234384770867065}
+  graphic: {fileID: 2090322383615450185}
 --- !u!65 &6740460839019053535
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -936,6 +938,7 @@ MonoBehaviour:
   itemId: MaxwellCat
   tooltipItemName: Maxwell el gato
   tooltipPosition: {fileID: 935351497792308034}
+  graphic: {fileID: 0}
 --- !u!65 &458876772033712262
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1665,11 +1668,39 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3268598404107580062}
+    - targetCorrespondingSourceObject: {fileID: -8863207027161997985, guid: 6ad8b0dda04e2e545b065e7c5c29a81f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3189663292194491873}
     - targetCorrespondingSourceObject: {fileID: -3098080531533197185, guid: 6ad8b0dda04e2e545b065e7c5c29a81f,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1164214799410645981}
   m_SourcePrefab: {fileID: 100100000, guid: 6ad8b0dda04e2e545b065e7c5c29a81f, type: 3}
+--- !u!1 &1245810450849240964 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -8863207027161997985, guid: 6ad8b0dda04e2e545b065e7c5c29a81f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1564317155256027867}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3189663292194491873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245810450849240964}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!4 &1314817270448958768 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6ad8b0dda04e2e545b065e7c5c29a81f,
@@ -1840,6 +1871,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flamboyantMaterial: {fileID: 2100000, guid: 069c5e3b0af702946b47976489cfb41a, type: 2}
+--- !u!4 &5482886716349486395 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2764451228528287776, guid: 6ad8b0dda04e2e545b065e7c5c29a81f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1564317155256027867}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6229245937997105366 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4883916331902632461, guid: 6ad8b0dda04e2e545b065e7c5c29a81f,
@@ -1923,8 +1960,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ce498644f16bb6441832b2ce0aafddf4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1238693198654119276}
   m_SourcePrefab: {fileID: 100100000, guid: ce498644f16bb6441832b2ce0aafddf4, type: 3}
+--- !u!1 &1605957191699924723 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ce498644f16bb6441832b2ce0aafddf4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1912033538615491490}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1238693198654119276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605957191699924723}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!4 &2090322383615450185 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ce498644f16bb6441832b2ce0aafddf4,
@@ -2332,6 +2397,7 @@ MonoBehaviour:
   itemId: DemonSlayerManga
   tooltipItemName: Manga de Demon Slayer
   tooltipPosition: {fileID: 4423554704493920602}
+  graphic: {fileID: 7078866576412347788}
 --- !u!65 &1631567688979930396
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2475,7 +2541,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ce498644f16bb6441832b2ce0aafddf4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6681481458209875987}
   m_SourcePrefab: {fileID: 100100000, guid: ce498644f16bb6441832b2ce0aafddf4, type: 3}
 --- !u!4 &7078866576412347788 stripped
 Transform:
@@ -2483,6 +2553,30 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7329492773794277991}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7599541838739003190 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ce498644f16bb6441832b2ce0aafddf4,
+    type: 3}
+  m_PrefabInstance: {fileID: 7329492773794277991}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6681481458209875987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7599541838739003190}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1001 &7640322311358253395
 PrefabInstance:
   m_ObjectHideFlags: 0

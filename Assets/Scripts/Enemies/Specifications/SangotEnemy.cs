@@ -71,6 +71,7 @@ namespace AnarPerPortes.Enemies
             audioSource.Play(spawnSound);
 
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
+            BouserBossEnemy.OnSpawn.AddListener((_) => WrapUp());
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
 
             OnSpawned?.Invoke(this);

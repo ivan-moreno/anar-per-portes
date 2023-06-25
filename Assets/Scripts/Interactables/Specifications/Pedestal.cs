@@ -13,6 +13,9 @@ namespace AnarPerPortes
         [SerializeField] private Transform tooltipPosition;
         [SerializeField] private AudioClip hideSound;
         [SerializeField] private AudioClip revealSound;
+        [SerializeField] private Transform graphic;
+
+        private Outline graphicOutline;
         private AudioSource audioSource;
         private new Collider collider;
         private bool isOccupied = false;
@@ -26,11 +29,17 @@ namespace AnarPerPortes
                 return;
 
             InteractionManager.Singleton.ShowTooltip(tooltipPosition, KeybindManager.Singleton.CurrentKeybinds.Interact.ToString(), "Camuflarse");
+
+            if (graphicOutline != null)
+                graphicOutline.enabled = true;
         }
 
         public void Unfocus()
         {
             InteractionManager.Singleton.HideTooltipIfValidOwner(tooltipPosition);
+
+            if (graphicOutline != null)
+                graphicOutline.enabled = false;
         }
 
         public void Interact()
@@ -61,6 +70,9 @@ namespace AnarPerPortes
             isOccupied = true;
             audioSource.PlayOneShot(hideSound);
             InteractionManager.Singleton.HideTooltipIfValidOwner(tooltipPosition);
+
+            if (graphicOutline != null)
+                graphicOutline.enabled = false;
 
             float timer = 0f;
             Vector3 originalPlayerPos = PlayerPosition();
@@ -110,6 +122,9 @@ namespace AnarPerPortes
         {
             audioSource = GetComponent<AudioSource>();
             collider = GetComponent<Collider>();
+
+            if (graphic != null)
+                graphic.TryGetComponent(out graphicOutline);
         }
 
         private void Update()
@@ -129,6 +144,12 @@ namespace AnarPerPortes
 
             if (Input.GetKeyUp(KeybindManager.Singleton.CurrentKeybinds.Interact) && timeOccupied >= minOccupiedDuration)
                 ReleasePlayer();
+        }
+
+        private void OnDisable()
+        {
+            if (graphicOutline != null)
+                graphicOutline.enabled = false;
         }
     }
 }

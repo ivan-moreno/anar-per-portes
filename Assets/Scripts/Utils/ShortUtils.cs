@@ -38,6 +38,11 @@ namespace AnarPerPortes
             PlayerController.Singleton.PlaySound(sound);
         }
 
+        public static void PlayerSound(AudioClip sound)
+        {
+            PlayerController.Singleton.PlaySound(sound);
+        }
+
         public static void PlayerCollectTix(int amount, string reason)
         {
             PlayerController.Singleton.CollectTix(amount, reason);

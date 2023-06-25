@@ -47,6 +47,7 @@ namespace AnarPerPortes.Enemies
             RepositionInRoom();
 
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
+            BouserBossEnemy.OnSpawn.AddListener((_) => Despawn());
             LatestRoom().OnUnloading.AddListener(Despawn);
         }
 

@@ -14,6 +14,36 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Concrete1
     second: {fileID: 2100000, guid: 848aaef06446a5b41ad2b6104804e1c2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Gold0
+    second: {fileID: 2100000, guid: 6339cdf2c11e54346ac807c0c660f726, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Gravel
+    second: {fileID: 2100000, guid: 826544aeed9e2e245a503a561fae3160, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lava
+    second: {fileID: 2100000, guid: 3c298d57f769fe74da0d7d2c57510d8e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Marble0
+    second: {fileID: 2100000, guid: 6d1096ebac2071a4e8df24a2d8c2cd20, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Marble1
+    second: {fileID: 2100000, guid: 8e35e5c38e87b7148b6f7dc8814323d0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pavement0
+    second: {fileID: 2100000, guid: 170e7f39f9f307747a076841a1e5ec1b, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -4927,8 +4927,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4677678529242031597}
-  - component: {fileID: 4677678529242031595}
-  - component: {fileID: 4677678529242031594}
   m_Layer: 0
   m_Name: RoblobolitaItem
   m_TagString: Untagged
@@ -4953,28 +4951,46 @@ Transform:
   m_Father: {fileID: 2055550456563978161}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 25.136, y: 20.355, z: -85.473}
---- !u!114 &4677678529242031595
-MonoBehaviour:
+--- !u!1 &5017927810786079887
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4677678529242031596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 454b680d5acbed94488b7fdae42dec54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: Roblobolita
-  tooltipItemName: Roblobolita
-  tooltipPosition: {fileID: 4677678528601022215}
---- !u!65 &4677678529242031594
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8493225433666412359}
+  - component: {fileID: 2477208330267715488}
+  - component: {fileID: 5959935656808313218}
+  m_Layer: 7
+  m_Name: RoblobolitaCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8493225433666412359
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017927810786079887}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0.709}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8955348677679868630}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2477208330267715488
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4677678529242031596}
+  m_GameObject: {fileID: 5017927810786079887}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -4988,7 +5004,23 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0.25, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5959935656808313218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017927810786079887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 454b680d5acbed94488b7fdae42dec54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: Roblobolita
+  tooltipItemName: Roblobolita
+  tooltipPosition: {fileID: 4677678528601022215}
+  graphic: {fileID: 5143333613833097626}
 --- !u!1 &6170291266672204649
 GameObject:
   m_ObjectHideFlags: 0
@@ -14720,6 +14752,7 @@ Transform:
   m_Children:
   - {fileID: 5143333612686774779}
   - {fileID: 1462465003992020490}
+  - {fileID: 8493225433666412359}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14737,7 +14770,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tip: {fileID: 11400000, guid: 955bfa36dd5e3804caa744ea5209b926, type: 2}
   roblomanDisguiseObject: {fileID: 0}
-  rewardPickable: {fileID: 4677678529242031595}
+  rewardPickable: {fileID: 5959935656808313218}
   rewardStartSounds:
   - {fileID: 11400000, guid: 83161f345c4ff6747b2fbf9795a7acf6, type: 2}
   - {fileID: 11400000, guid: 600b2f03076d4734ca6bdb5bf47b62e8, type: 2}
@@ -14933,7 +14966,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ce498644f16bb6441832b2ce0aafddf4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7156777482709049660}
   m_SourcePrefab: {fileID: 100100000, guid: ce498644f16bb6441832b2ce0aafddf4, type: 3}
 --- !u!4 &5143333613833097626 stripped
 Transform:
@@ -14941,6 +14978,30 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4677678528813364849}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5488509189580475168 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ce498644f16bb6441832b2ce0aafddf4,
+    type: 3}
+  m_PrefabInstance: {fileID: 4677678528813364849}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7156777482709049660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5488509189580475168}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1001 &4677678529951364624
 PrefabInstance:
   m_ObjectHideFlags: 0

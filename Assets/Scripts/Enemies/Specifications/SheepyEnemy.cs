@@ -36,6 +36,7 @@ namespace AnarPerPortes.Enemies
             SkellHearManager.Singleton.AddNoise(8f);
 
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
+            BouserBossEnemy.OnSpawn.AddListener((_) => Despawn());
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }
 

@@ -117,6 +117,7 @@ MonoBehaviour:
   tooltipPosition: {fileID: 897358117417358299}
   hideSound: {fileID: 8300000, guid: 759299f70d3ea424c912efaa0fe09e6b, type: 3}
   revealSound: {fileID: 8300000, guid: 643e6293f403ae14793d1ba0afc2c59a, type: 3}
+  graphic: {fileID: 7615607702605776973}
 --- !u!65 &8970647310306674384
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -342,6 +343,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7388232651189860808}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 74f96ccc7b554e54da85944ba647e005,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9027396328776592999}
   m_SourcePrefab: {fileID: 100100000, guid: 74f96ccc7b554e54da85944ba647e005, type: 3}
 --- !u!1 &7132508254117794551 stripped
 GameObject:
@@ -362,6 +367,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flamboyantMaterial: {fileID: 2100000, guid: 3fd7c2579185a7a4bbd7d618ace71b8c, type: 2}
+--- !u!114 &9027396328776592999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7132508254117794551}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!4 &7615607702605776973 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 74f96ccc7b554e54da85944ba647e005,

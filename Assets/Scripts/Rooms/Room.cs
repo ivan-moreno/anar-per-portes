@@ -60,7 +60,9 @@ namespace AnarPerPortes.Rooms
             WaypointGroup = transform.Find("Logic").Find("Waypoints");
             SkellLocationsGroup = transform.Find("Logic").Find("SkellLocations");
             PedroBreakPoint = transform.Find("Logic").Find("PedroBreakPoint");
-            door.OnDoorOpened.AddListener(DoorOpened);
+
+            if (door != null)
+                door.OnDoorOpened.AddListener(DoorOpened);
         }
 
         protected virtual void DoorOpened()

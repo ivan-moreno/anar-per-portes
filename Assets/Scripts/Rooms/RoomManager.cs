@@ -95,6 +95,13 @@ namespace AnarPerPortes
             eggs = new RoomSetEgg[]
             {
                 new RoomSetEggBuilder()
+                .WithId("BouserBoss")
+                .MarkAsForcedSpawnOnly()
+                .ForceSpawnOnRoomNumber(100)
+                .WithRoom(new RoomEggBuilder().WithId("BouserBossRoom").Build())
+                .Build(),
+
+                new RoomSetEggBuilder()
                 .WithId("Bouser")
                 .MarkAsForcedSpawnOnly()
                 .ForceSpawnOnRoomNumber(50)

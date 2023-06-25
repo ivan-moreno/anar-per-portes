@@ -215,6 +215,11 @@ namespace AnarPerPortes
             audioSource.PlayOneShot(sound);
         }
 
+        public void PlaySound(AudioClip sound)
+        {
+            audioSource.PlayOneShot(sound);
+        }
+
         public void CollectTix(int amount)
         {
             TixAmount += amount;

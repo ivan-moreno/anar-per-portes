@@ -7,9 +7,10 @@ namespace AnarPerPortes
     {
         [SerializeField] private SoundResource thunderSound;
 
-        private void Start()
+        protected override void Start()
         {
             RoomManager.Singleton.OnRoomGenerated.AddListener(x => Destroy(gameObject));
+            base.Start();
         }
 
         public override void Interact()

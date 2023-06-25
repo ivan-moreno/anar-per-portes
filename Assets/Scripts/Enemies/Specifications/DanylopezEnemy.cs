@@ -60,10 +60,8 @@ namespace AnarPerPortes.Enemies
                 return;
 
             EnemyManager.Singleton.UnmarkAsOperative(this);
-            overlay.SetActive(false);
-            //renderTexture.SetActive(false);
-            //renderTextureCamera.SetActive(false);
             StopCoroutine(nameof(SpawnEnemyCoroutine));
+            overlay.SetActive(false);
         }
 
         IEnumerator MeetBouserCoroutine()
@@ -83,6 +81,7 @@ namespace AnarPerPortes.Enemies
             audioSource = GetComponent<AudioSource>();
             HasAppearedInThisSession = false;
             PauseManager.Singleton.OnPauseChanged.AddListener(OnPauseChanged);
+            BouserBossEnemy.OnSpawn.AddListener((_) => Despawn());
         }
 
         private void Awake()

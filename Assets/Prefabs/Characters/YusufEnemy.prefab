@@ -48,6 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tip: {fileID: 11400000, guid: 4aa66e2e9df963443b1ead28734697ae, type: 2}
   roblomanDisguiseObject: {fileID: 896499139528364271}
+  correctChance: 80
+  waitToCorrectDuration: 4
   bunkerSignMaterial: {fileID: 2100000, guid: 28de9f229f2ba2946a79b42ee5bd15b3, type: 2}
   lighthouseSignMaterial: {fileID: 2100000, guid: 8acf0a3031532fb4682a82e724329fa6,
     type: 2}
@@ -82,6 +84,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5b7d12a241fdcd5458bdacd68a77c2e8, type: 2}
   - {fileID: 11400000, guid: a825187112c80c14aab8a9fe5539272a, type: 2}
   - {fileID: 11400000, guid: 55e545d359836564f83d364a318a0e54, type: 2}
+  correctBunkerSound: {fileID: 11400000, guid: 1d6b2aa271ee07b40bab502a7f97a273, type: 2}
+  correctLighthouseSound: {fileID: 11400000, guid: e472ff01f21bbc548ba76ef799e8d3bf,
+    type: 2}
+  correctObservatorySound: {fileID: 11400000, guid: 9441e911886a73648a93fd0f09f656fc,
+    type: 2}
+  correctWarehouseSound: {fileID: 11400000, guid: 4f4dc9406e403a642b2afa59641e909f,
+    type: 2}
 --- !u!82 &8356602005302806917
 AudioSource:
   m_ObjectHideFlags: 0

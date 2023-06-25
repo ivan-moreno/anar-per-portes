@@ -39,6 +39,7 @@ namespace AnarPerPortes.Enemies
                 audioSource.PlayOneShot(warningSounds.RandomItem());
 
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
+            BouserBossEnemy.OnSpawn.AddListener((_) => Despawn());
             RoomManager.Singleton.OnRoomGenerated.AddListener(x => Despawn());
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
         }

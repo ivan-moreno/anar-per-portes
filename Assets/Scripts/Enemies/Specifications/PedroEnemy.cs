@@ -50,6 +50,7 @@ namespace AnarPerPortes.Enemies
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
             RoomManager.Singleton.OnRoomGenerated.AddListener(RoomGenerated);
+            BouserBossEnemy.OnSpawn.AddListener((_) => Despawn());
             Specimen7Enemy.OnSpawn.AddListener((_) => Despawn());
             AssPancakesEnemy.OnSpawn.AddListener((_) => Despawn());
 
