@@ -121,7 +121,7 @@ namespace AnarPerPortes
                 .Build(),
 
                 //TODO: check for a cleaner way to force the first toom to be the trap 
-                /*new RoomSetEggBuilder()
+                new RoomSetEggBuilder()
                 .WithId("Toymaker")
                 .WithBaseChance(100f) // 5
                 .WithMinRoom(2) // 60
@@ -148,7 +148,7 @@ namespace AnarPerPortes
                     .WithId("ToymakerRoom1")
                     .WithMaxSpawnCount(1)
                     .Build())
-                .Build(),*/
+                .Build(),
 
                 new RoomSetEggBuilder()
                 .WithId("Snowdin")

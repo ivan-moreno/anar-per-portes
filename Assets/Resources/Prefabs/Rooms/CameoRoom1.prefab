@@ -650,6 +650,7 @@ GameObject:
   - component: {fileID: 4014101841928967966}
   - component: {fileID: 9115138668287294714}
   - component: {fileID: 3546235866814751140}
+  - component: {fileID: 5296908265684388390}
   m_Layer: 0
   m_Name: Jamiroquai
   m_TagString: Untagged
@@ -664,14 +665,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7807399422194759954}
-  m_LocalRotation: {x: -0, y: 0.86602545, z: -0, w: 0.49999994}
-  m_LocalPosition: {x: 4, y: 1.52, z: 2.4360008}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.52, z: 14.864204}
   m_LocalScale: {x: 1.7514, y: 2.904, z: 1.4519999}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2602014615898788938}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 120, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &756326677467886063
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -840,6 +841,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5296908265684388390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7807399422194759954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a670358ab2877cb43a5ef3da672cb7b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8135899568017256154
 GameObject:
   m_ObjectHideFlags: 0
