@@ -26,6 +26,7 @@ namespace AnarPerPortes.Enemies
         private bool hasLineOfSight = false;
         private float lookTime;
         private float timeSinceSpawn;
+        private static bool showedIntro = false;
 
         public void CatchPlayer()
         {
@@ -50,8 +51,11 @@ namespace AnarPerPortes.Enemies
             BouserBossEnemy.OnSpawn.AddListener((_) => Despawn());
             LatestRoom().OnUnloading.AddListener(Despawn);
 
-            //TODO: Show when most enemies have one
-            //StartCoroutine(nameof(IntroCinematicCoroutine));
+            if (!showedIntro && !isInIntro)
+            {
+                showedIntro = true;
+                StartCoroutine(nameof(IntroCinematicCoroutine));
+            }
         }
 
         private void Update()

@@ -45,6 +45,9 @@ namespace AnarPerPortes
         private Transform visionTarget;
         private Vector3 visionTargetOffset;
 
+        private float effectSpeed = 1f;
+        private float effectTimer;
+
         private const float vLookMaxAngle = 70f;
         private const float interactRange = 2.5f;
 
@@ -137,6 +140,12 @@ namespace AnarPerPortes
 
             if (itemTransform.TryGetComponent(out InventoryItem item))
                 PackItem(item);
+        }
+
+        private void PackAllItems()
+        {
+            foreach (Transform t in transform.Find("Items"))
+                PackItem(t.name);
         }
 
         public void PackItem(InventoryItem item)
@@ -261,6 +270,7 @@ namespace AnarPerPortes
 
         private void Update()
         {
+            UpdateEffects();
             UpdateInteraction();
             UpdateRotation();
             UpdateMotion();
@@ -282,6 +292,27 @@ namespace AnarPerPortes
 
             if (Input.GetKeyUp(KeyCode.F1))
                 Teleport(RoomManager.Singleton.LatestRoom.NextRoomSpawnPoint.position);
+            else if (Input.GetKeyUp(KeyCode.P))
+                PackAllItems();
+        }
+
+        public void ApplySpeedEffect(float speed, float duration)
+        {
+            effectSpeed = speed;
+            effectTimer = duration;
+        }
+
+        void UpdateEffects()
+        {
+            if (effectTimer <= 0f)
+            {
+                effectSpeed = 1f;
+                return;
+            }
+            else if (effectTimer <= 1f)
+                effectSpeed = Mathf.Lerp(effectSpeed, 1f, 1f - effectTimer);
+
+            effectTimer -= Time.deltaTime;
         }
 
         private void UpdateInteraction()
@@ -372,17 +403,10 @@ namespace AnarPerPortes
                 moveXInput = moveZInput = 0f;
 
             motion = new(moveXInput, 0f, moveZInput);
-
-            // Avoids faster speed when moving in diagonal.
             motion.Normalize();
-
-            // Localizes motion to wherever the Player is looking.
             motion = transform.rotation * motion;
-
-            // Applies the Walk Speed stat.
             motion *= WalkSpeed;
-
-            // Streamlines movement speed to be the same on any framerate.
+            motion *= effectSpeed;
             motion *= Time.deltaTime;
         }
 
@@ -450,9 +474,13 @@ namespace AnarPerPortes
                 smoothHVelocity = 0f;
 
             if (visionAnimator.enabled)
+            {
+                visionAnimator.speed = effectSpeed;
                 visionAnimator.SetFloat("HVelocity", smoothHVelocity);
+            }
 
             modelAnimator.SetFloat("HVelocity", smoothHVelocity);
+            modelAnimator.speed = effectSpeed;
         }
     }
 }

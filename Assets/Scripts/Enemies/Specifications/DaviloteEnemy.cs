@@ -13,6 +13,7 @@ namespace AnarPerPortes.Enemies
         [Header("Audio")]
         [SerializeField] private SoundResource jumpscareSound;
         [SerializeField] private SoundResource meetPedroSound;
+        [SerializeField] private SoundResource sangotMeetDaviloteSound;
         [SerializeField] private SoundResource[] warningSounds;
         [SerializeField] private SoundResource[] meetSheepySounds;
         [SerializeField] private SoundResource[] endingChatSounds;
@@ -33,7 +34,7 @@ namespace AnarPerPortes.Enemies
 
             transform.rotation = PlayerController.Singleton.transform.rotation;
 
-            if (EnemyIsOperative<PedroEnemy>())
+            if (EnemyIsOperative<PedroEnemy>() && !GetEnemyInstance<PedroEnemy>().IsOnBreak)
                 audioSource.PlayOneShot(meetPedroSound);
             else
                 audioSource.PlayOneShot(warningSounds.RandomItem());
@@ -118,6 +119,14 @@ namespace AnarPerPortes.Enemies
                 yield break;
 
             isCatching = true;
+
+            var doMeetSangot = false;
+
+            if (EnemyIsOperative<SangotEnemy>())
+            {
+                doMeetSangot = true;
+            }
+
             PlayerController.Singleton.BeginCatchSequence();
             PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform);
@@ -129,8 +138,15 @@ namespace AnarPerPortes.Enemies
             audioSource.Stop();
             var rngChat = Random.Range(0, endingChatSounds.Length);
             CatchManager.Singleton.CatchPlayer("DAVILOTE ENDING", endingMessages[rngChat]);
-            audioSource.PlayOneShot(endingChatSounds[rngChat]);
             audioSource.Play();
+
+            if (doMeetSangot)
+            {
+                audioSource.PlayOneShot(sangotMeetDaviloteSound);
+                yield return new WaitForSecondsRealtime(sangotMeetDaviloteSound.AudioClip.length);
+            }
+
+            audioSource.PlayOneShot(endingChatSounds[rngChat]);
         }
     }
 }

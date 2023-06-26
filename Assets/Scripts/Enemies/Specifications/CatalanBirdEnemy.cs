@@ -31,6 +31,7 @@ namespace AnarPerPortes.Enemies
         private bool isDrift = false;
         private bool isFrozen = false;
         private float turboCooldown;
+        private static bool showedIntro = false;
 
         public override void Spawn()
         {
@@ -56,15 +57,27 @@ namespace AnarPerPortes.Enemies
             RoomManager.Singleton.OnRoomGenerated.AddListener(x => Despawn());
 
             if (!IsHardmodeEnabled())
-                StartCoroutine(nameof(IntroCinematicCoroutine));
+            {
+                if (!showedIntro && !isInIntro)
+                {
+                    showedIntro = true;
+                    StartCoroutine(nameof(IntroCinematicCoroutine));
+                }
+            }
         }
 
         protected override void Despawn()
         {
+            if (isSupportingCast)
+            {
+                base.Despawn();
+                return;
+            }
+
             if (IsHardmodeEnabled())
                 PlayerCollectTix(50, "Has evadido a los coches de choque");
             else
-                PlayerCollectTix(20, "Has evadido a Ocell Català");
+                PlayerCollectTix(25, "Has evadido a Ocell Català");
 
             base.Despawn();
         }

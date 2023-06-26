@@ -34,6 +34,7 @@ namespace AnarPerPortes.Enemies
         private IsleRoom isleRoom;
         private bool sayIncorrect = false;
         private int locationRng;
+        private static bool showedIntro = false;
 
         private void Start()
         {
@@ -52,6 +53,12 @@ namespace AnarPerPortes.Enemies
             isleRoom.OnIncorrectDoorOpened.AddListener(CatchPlayer);
             BouserBossEnemy.OnSpawn.AddListener((_) => Despawn());
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
+
+            if (!showedIntro && !isInIntro)
+            {
+                showedIntro = true;
+                StartCoroutine(nameof(IntroCinematicCoroutine));
+            }
         }
 
         private void PrepareRoom()

@@ -10,11 +10,13 @@ namespace AnarPerPortes.Rooms
         public Transform BouserWaypointGroup => bouserWaypointGroup;
         public Transform BouserSpawnPoint => bouserSpawnPoint;
         public bool PlayerIsInsideRoom { get; private set; } = false;
+        public bool BouserJrIsAwake { get; private set; } = false;
 
         [Header("Components")]
         [SerializeField] private Transform bouserWaypointGroup;
         [SerializeField] private Transform bouserSpawnPoint;
         [SerializeField] private Animator bouserRoomDoorsAnimator;
+        [SerializeField] private GameObject bouserJrObject;
 
         [Header("Stats")]
         [SerializeField] private float spawnBouserDistance = 9f;
@@ -23,7 +25,16 @@ namespace AnarPerPortes.Rooms
         [SerializeField] private float closeEntranceDoorDistance = 32f;
 
         private bool isBouserAwake = false;
+        private bool shouldWakeBouserJr = false;
+        private bool shouldSpawnAssPancakes = false;
         private bool spawnedAssPancakes = false;
+
+        public override void Initialize()
+        {
+            base.Initialize();
+            shouldWakeBouserJr = Random.Range(0f, 100f) < 100f; //20f
+            shouldSpawnAssPancakes = !shouldWakeBouserJr && Random.Range(0f, 100f) < 2f;
+        }
 
         public void WakeUpBouser()
         {
@@ -54,10 +65,25 @@ namespace AnarPerPortes.Rooms
             var distance = Vector3.Distance(bouserRoomDoorsAnimator.transform.position, PlayerPosition());
 
             //TODO: if ass pancakes will spawn logic
-            if (!IsHardmodeEnabled() && !spawnedAssPancakes && distance < spawnAssPancakesDistance)
+            if (shouldSpawnAssPancakes
+                && !spawnedAssPancakes
+                && !isBouserAwake
+                && !IsHardmodeEnabled()
+                && distance < spawnAssPancakesDistance)
             {
                 spawnedAssPancakes = true;
                 EnemyManager.Singleton.SpawnEnemy(EnemyManager.Singleton.AssPancakesEnemyPrefab);
+                return;
+            }
+            else if (shouldWakeBouserJr
+                && !BouserJrIsAwake
+                && !isBouserAwake
+                && !IsHardmodeEnabled()
+                && distance < spawnAssPancakesDistance
+                && (!EnemyIsOperative<PedroEnemy>() ||
+                GetEnemyInstance<PedroEnemy>().IsOnBreak))
+            {
+                WakeUpBouserJr();
                 return;
             }
 
@@ -77,11 +103,20 @@ namespace AnarPerPortes.Rooms
                 RoomManager.Singleton.Rooms[^2].DeactivateDoor();
             }
 
-            if (isBouserAwake)
+            if (isBouserAwake
+                || BouserJrIsAwake
+                || spawnedAssPancakes)
                 return;
 
             if (distance <= spawnBouserDistance)
                 WakeUpBouser();
+        }
+
+        private void WakeUpBouserJr()
+        {
+            bouserJrObject.SetActive(true);
+            BouserJrIsAwake = true;
+            OpenBouserDoorAsDecorative();
         }
     }
 }

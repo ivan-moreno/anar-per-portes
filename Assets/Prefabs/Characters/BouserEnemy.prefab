@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tip: {fileID: 11400000, guid: f423e36fb58b6a54fa3a58e7c2c0b9d6, type: 2}
+  introDirector: {fileID: 0}
   roblomanDisguiseObject: {fileID: 1771313836479999433}
   runSpeed: 6
   sprintSpeed: 12
@@ -60,11 +61,16 @@ MonoBehaviour:
   jumpscareSound: {fileID: 11400000, guid: 9f8e6dc3dc8f3cf4a9d5246ed0d41652, type: 2}
   meetDanylopezSound: {fileID: 11400000, guid: 08340c870fe496f47b87bf8ad0c7e111, type: 2}
   meetSkellSound: {fileID: 11400000, guid: 9dfb018f7efeba747ac7a4749718c737, type: 2}
+  defeatRoblobolitaSound: {fileID: 11400000, guid: 39e30b951d0e1494f92a207c1b707dae,
+    type: 2}
   meetSkellDialogs:
   - {fileID: 11400000, guid: 5348afa833602464abb9b149f062f21f, type: 2}
   - {fileID: 11400000, guid: bf3ee95a902a98b4cbf684ac81677ea5, type: 2}
   - {fileID: 11400000, guid: 335b012079f9dd443ba8241d2e76cf69, type: 2}
   - {fileID: 11400000, guid: 88eb7f1a2521cea408dd43639d6b44d3, type: 2}
+  meetBouserJrDialogs:
+  - {fileID: 11400000, guid: e5df39a06d44c2d4fafcfef1a3c75177, type: 2}
+  - {fileID: 11400000, guid: b827c19ff32673a4daf3e84dd9b64672, type: 2}
   meetAssPancakesDialogs:
   - {fileID: 11400000, guid: 6b50b915e41c27c42aa49b111612d97a, type: 2}
   - {fileID: 11400000, guid: 90e829a677783344d8d69f05155f3aea, type: 2}

@@ -28,7 +28,9 @@ namespace AnarPerPortes.Enemies
         [SerializeField] private SoundResource jumpscareSound;
         [SerializeField] private SoundResource meetDanylopezSound;
         [SerializeField] private SoundResource meetSkellSound;
+        [SerializeField] private SoundResource defeatRoblobolitaSound;
         [SerializeField] private SoundResource[] meetSkellDialogs;
+        [SerializeField] private SoundResource[] meetBouserJrDialogs;
         [SerializeField] private SoundResource[] meetAssPancakesDialogs;
         [SerializeField] private SoundResource[] warningSounds;
         [SerializeField] private SoundResource[] loseSounds;
@@ -80,6 +82,12 @@ namespace AnarPerPortes.Enemies
         public void WakeUp()
         {
             isAwake = true;
+
+            if (room.BouserJrIsAwake)
+            {
+                StartCoroutine(nameof(MeetBouserJrCoroutine));
+                return;
+            }
 
             if (EnemyIsOperative<AssPancakesEnemy>())
             {
@@ -136,6 +144,36 @@ namespace AnarPerPortes.Enemies
                 PlayerCollectTix(50, "Has derrotado a Bouser");
         }
 
+        private void DefeatByRoblobolita()
+        {
+            if (isGrabbingTail)
+                return;
+
+            isGrabbingTail = true;
+            animator.SetBool("IsWalking", false);
+            animator.Play("Idle");
+            audioSource.Stop();
+            audioCooldown = 0f;
+            Talk(defeatRoblobolitaSound);
+            room.OpenBouserDoorAsDefeated();
+            GetComponent<BoxCollider>().enabled = false;
+
+            IsDefeated = true;
+            PlayerCollectTix(50, "La Roblobolita ha derrotado a Bouser");
+        }
+
+        IEnumerator MeetBouserJrCoroutine()
+        {
+            room.OpenBouserDoorAsDefeated();
+            IsFriendly = true;
+            audioSource.PlayOneShot(meetBouserJrDialogs[0]);
+            yield return new WaitForSeconds(meetBouserJrDialogs[0].AudioClip.length + 4f);
+
+            audioSource.PlayOneShot(meetBouserJrDialogs[1]);
+            yield return new WaitForSeconds(meetBouserJrDialogs[1].AudioClip.length + 0.4f);
+            Despawn();
+        }
+
         IEnumerator MeetAssPancakesCoroutine()
         {
             room.OpenBouserDoorAsDefeated();
@@ -148,6 +186,7 @@ namespace AnarPerPortes.Enemies
 
             audioSource.PlayOneShot(meetAssPancakesDialogs[2]);
             yield return new WaitForSeconds(meetAssPancakesDialogs[2].AudioClip.length + 0.4f);
+            Despawn();
         }
 
         private IEnumerator MeetDanylopezCoroutine()
@@ -167,7 +206,6 @@ namespace AnarPerPortes.Enemies
             StartCoroutine(nameof(MeetSkellCoroutine));
         }
 
-        //TODO: Rename all XEnumerator to XCoroutine
         private IEnumerator MeetSkellCoroutine()
         {
             room.OpenBouserDoorAsDefeated();
@@ -223,6 +261,9 @@ namespace AnarPerPortes.Enemies
 
         private void Update()
         {
+            if (IsFriendly)
+                transform.LookAt(PlayerPosition());
+
             if (isInIntro || !isAwake || IsFriendly)
                 return;
 
@@ -323,10 +364,11 @@ namespace AnarPerPortes.Enemies
                 PlayerController.Singleton.ConsumeEquippedItem();
                 BlurOverlayManager.Singleton.SetBlur(Color.white);
                 BlurOverlayManager.Singleton.SetBlurSmooth(Color.clear, 2f);
-                GrabTail();
+                DefeatByRoblobolita();
                 return;
             }
 
+            transform.LookAt(PlayerPosition());
             isCatching = true;
             animator.Play("Jumpscare");
             audioSource.Stop();

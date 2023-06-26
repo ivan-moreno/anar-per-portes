@@ -119,5 +119,10 @@ namespace AnarPerPortes
         {
             SubtitleManager.Singleton.PushSubtitle(message, duration, team);
         }
+
+        public static bool GameIsPaused()
+        {
+            return PauseManager.Singleton.IsPaused;
+        }
     }
 }

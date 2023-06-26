@@ -8,6 +8,8 @@ namespace AnarPerPortes.Enemies
     [AddComponentMenu("Anar per Portes/Enemies/Pedro Enemy")]
     public class PedroEnemy : Enemy
     {
+        public bool IsOnBreak { get; private set; } = false;
+
         [Header("Stats")]
         [SerializeField][Min(0f)] private float runSpeed = 16f;
         [SerializeField][Min(0f)] private float chaseRange = 8f;
@@ -28,7 +30,6 @@ namespace AnarPerPortes.Enemies
         private Vector3 targetLocation;
         private bool reachedTarget = false;
         private bool isChasing = false;
-        private bool isOnBreak = false;
         private bool isGrace = false;
         private bool lostPlayer = false;
         private bool lineOfSightCheck = false;
@@ -62,7 +63,7 @@ namespace AnarPerPortes.Enemies
 
         private void RoomGenerated(Room room)
         {
-            if (isOnBreak)
+            if (IsOnBreak)
                 return;
 
             if (room.RoomSet != null && room.RoomSet.Id == "Toymaker")
@@ -104,13 +105,13 @@ namespace AnarPerPortes.Enemies
                 return;
             }
 
-            isChasing = !isOnBreak
+            isChasing = !IsOnBreak
                 && distanceToPlayer <= chaseRange
                 && lineOfSightCheck
                 && !PlayerController.Singleton.IsCamouflaged
                 && !PlayerController.Singleton.IsCaught;
 
-            if (!isOnBreak && isChasing && distanceToPlayer <= catchRange)
+            if (!IsOnBreak && isChasing && distanceToPlayer <= catchRange)
                 CatchPlayer();
 
             if (isCatching)
@@ -140,7 +141,7 @@ namespace AnarPerPortes.Enemies
 
             if (reachedTarget)
             {
-                if (isOnBreak)
+                if (IsOnBreak)
                 {
                     runSpeed = 0f;
                     animator.Play("Idle");
@@ -171,7 +172,7 @@ namespace AnarPerPortes.Enemies
                         return;
                     }
 
-                    isOnBreak = true;
+                    IsOnBreak = true;
                     targetLocation = RoomManager.Singleton.LatestRoom.PedroBreakPoint.position;
                     LatestRoom().OnUnloading.AddListener(Despawn);
                     return;
@@ -243,7 +244,7 @@ namespace AnarPerPortes.Enemies
 
         private IEnumerator CatchPlayerCoroutine()
         {
-            if (isCatching || isOnBreak || runSpeed <= 0f)
+            if (isCatching || IsOnBreak || runSpeed <= 0f)
                 yield break;
 
             if (IsRoblomanDisguise)
