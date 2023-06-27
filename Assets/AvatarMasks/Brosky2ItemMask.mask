@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Brosky2ItemMask
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Brosky2Armature
+    m_Weight: 0
+  - m_Path: Brosky2Armature/b_Root
+    m_Weight: 0
+  - m_Path: Brosky2Armature/b_Root/b_Pelvis
+    m_Weight: 0
+  - m_Path: Brosky2Armature/b_Root/b_Pelvis/b_Leg_L
+    m_Weight: 0
+  - m_Path: Brosky2Armature/b_Root/b_Pelvis/b_Leg_R
+    m_Weight: 0
+  - m_Path: Brosky2Armature/b_Root/b_Torso
+    m_Weight: 0
+  - m_Path: Brosky2Armature/b_Root/b_Torso/b_Arm_L
+    m_Weight: 0
+  - m_Path: Brosky2Armature/b_Root/b_Torso/b_Arm_R
+    m_Weight: 1
+  - m_Path: Brosky2Armature/b_Root/b_Torso/b_Arm_R/b_Pauldron_R
+    m_Weight: 0
+  - m_Path: Brosky2Armature/b_Root/b_Torso/b_Cape_0
+    m_Weight: 0
+  - m_Path: Brosky2Armature/b_Root/b_Torso/b_Cape_0/b_Cape_1
+    m_Weight: 0
+  - m_Path: Brosky2Armature/b_Root/b_Torso/b_Cape_0/b_Cape_1/b_Cape_2
+    m_Weight: 0
+  - m_Path: Brosky2Armature/b_Root/b_Torso/b_Cape_0/b_Cape_1/b_Cape_2/b_Cape_3
+    m_Weight: 0
+  - m_Path: Brosky2Armature/b_Root/b_Torso/b_Head
+    m_Weight: 0
+  - m_Path: Brosky2Armature/b_Root/b_Torso/b_Pendant_0
+    m_Weight: 0
+  - m_Path: Brosky2Armature/b_Root/b_Torso/b_Pendant_0/b_Pendant_1
+    m_Weight: 0
+  - m_Path: Brosky2Object0
+    m_Weight: 0

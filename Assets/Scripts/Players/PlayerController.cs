@@ -31,6 +31,7 @@ namespace AnarPerPortes
 
         private Animator visionAnimator;
         private AudioSource audioSource;
+        private Transform model;
         private CharacterController characterController;
         private InventoryItem equippedItem;
         private Vector3 velocity;
@@ -158,6 +159,8 @@ namespace AnarPerPortes
 
             items.Add(item);
             ItemManager.Singleton.OccupyAvailableSlotWith(item);
+            modelAnimator.Play("Grab", 0, 0f);
+            modelAnimator.SetLayerWeight(1, 1f);
         }
 
         public void ConsumeItem(string itemId)
@@ -250,6 +253,7 @@ namespace AnarPerPortes
         private void Start()
         {
             characterController = GetComponent<CharacterController>();
+            model = modelAnimator.transform;
             visionAnimator = transform.Find("Vision").GetComponent<Animator>();
             Camera = visionAnimator.GetComponentInChildren<Camera>();
             UiCamera = Camera.transform.GetChild(0).GetComponent<Camera>();
@@ -441,7 +445,9 @@ namespace AnarPerPortes
             var itemLayerWeight = modelAnimator.GetLayerWeight(1);
             var targetItemLayerWeight = hasItemEquipped ? 1f : 0f;
             var smoothItemLayerWeight = Mathf.Lerp(itemLayerWeight, targetItemLayerWeight, Time.deltaTime * 8f);
-            modelAnimator.SetLayerWeight(1, smoothItemLayerWeight);
+
+            if (!modelAnimator.GetCurrentAnimatorStateInfo(1).IsName("Grab"))
+                modelAnimator.SetLayerWeight(1, smoothItemLayerWeight);
         }
 
         private void LateUpdate()
@@ -481,6 +487,19 @@ namespace AnarPerPortes
 
             modelAnimator.SetFloat("HVelocity", smoothHVelocity);
             modelAnimator.speed = effectSpeed;
+
+            var localVelocity = transform.rotation * new Vector3(velocity.x, 0f, velocity.z);
+            var targetModelRotation = new Vector3(0f, 0f, 0f);
+
+            if (localVelocity.x < -Mathf.Epsilon)
+                targetModelRotation.y = -8f;
+            else if (localVelocity.x > Mathf.Epsilon)
+                targetModelRotation.y = 8f;
+
+            if (localVelocity.z > Mathf.Epsilon || localVelocity.z < -Mathf.Epsilon)
+                targetModelRotation.y *= 0.5f;
+
+            model.localRotation = Quaternion.Slerp(model.localRotation, Quaternion.Euler(targetModelRotation), Time.deltaTime * 6f);
         }
     }
 }

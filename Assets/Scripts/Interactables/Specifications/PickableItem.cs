@@ -25,9 +25,14 @@ namespace AnarPerPortes
             var targetTooltipPoint = tooltipPosition == null ? transform : tooltipPosition;
             var targetTooltipMessage = string.IsNullOrWhiteSpace(tooltipMessage) ? defaultTooltipMessage : tooltipMessage;
 
+            var hasItem = PlayerController.Singleton.HasItem(itemId);
+
+            if (hasItem)
+                targetTooltipMessage = "<color=yellow>Ya tienes este objeto</color>";
+
             InteractionManager.Singleton.ShowTooltip(
                 target: targetTooltipPoint,
-                key: CurrentKeybinds().Interact,
+                key: hasItem ? KeyCode.None : CurrentKeybinds().Interact,
                 message: string.Format(targetTooltipMessage, tooltipItemName));
 
             if (graphicOutline != null)
@@ -46,6 +51,9 @@ namespace AnarPerPortes
 
         public void Interact()
         {
+            if (PlayerController.Singleton.HasItem(itemId))
+                return;
+
             PlayerController.Singleton.PackItem(itemId);
             OnPacked?.Invoke();
             Unfocus();

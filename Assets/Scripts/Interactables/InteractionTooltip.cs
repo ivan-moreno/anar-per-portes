@@ -16,6 +16,19 @@ namespace AnarPerPortes
         {
             followTarget = target;
             keyText.text = key;
+
+            if (string.IsNullOrEmpty(key) || key == "None")
+            {
+                keyText.text = string.Empty;
+                keyText.transform.GetChild(0).gameObject.SetActive(true);
+                keyText.transform.GetChild(1).gameObject.SetActive(true);
+            }
+            else
+            {
+                keyText.transform.GetChild(0).gameObject.SetActive(false);
+                keyText.transform.GetChild(1).gameObject.SetActive(false);
+            }
+
             messageText.text = message;
 
             if (!gameObject.activeSelf)
