@@ -56,7 +56,7 @@ namespace AnarPerPortes.Enemies
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
             RoomManager.Singleton.OnRoomGenerated.AddListener(x => Despawn());
 
-            if (!IsHardmodeEnabled())
+            if (!IsHardmodeEnabled() && CurrentSettings().EnableEnemyTips)
             {
                 if (!showedIntro && !isInIntro)
                 {

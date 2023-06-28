@@ -54,7 +54,7 @@ namespace AnarPerPortes.Enemies
             BouserBossEnemy.OnSpawn.AddListener((_) => Despawn());
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
 
-            if (!showedIntro && !isInIntro)
+            if (!showedIntro && !isInIntro && CurrentSettings().EnableEnemyTips)
             {
                 showedIntro = true;
                 StartCoroutine(nameof(IntroCinematicCoroutine));

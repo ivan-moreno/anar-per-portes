@@ -7,10 +7,15 @@ namespace AnarPerPortes.Enemies
     [AddComponentMenu("Anar per Portes/Enemies/Sheepy Enemy")]
     public class SheepyEnemy : Enemy
     {
+        [Header("Components")]
+        [SerializeField] Animator orisaAnimator;
+        [SerializeField] GameObject orisaRoblomanEars;
+
         [Header("Stats")]
         [SerializeField][Min(0f)] private float checkMotionTime = 1.2f;
         [SerializeField][Min(0f)] private float checkMotionTimeHard = 0.6f;
         [SerializeField][Min(0f)] private float despawnTime = 2.2f;
+        [SerializeField][Range(0f, 100f)] private float orisaChance = 1f;
 
         [Header("Audio")]
         [SerializeField] private SoundResource warningSound;
@@ -38,6 +43,15 @@ namespace AnarPerPortes.Enemies
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
             BouserBossEnemy.OnSpawn.AddListener((_) => Despawn());
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
+
+            if (Random.Range(0f, 100f) <= orisaChance)
+            {
+                model.gameObject.SetActive(false);
+                orisaAnimator.gameObject.SetActive(true);
+
+                if (IsRoblomanDisguise)
+                    orisaRoblomanEars.SetActive(true);
+            }
         }
 
         protected override void Despawn()
@@ -45,7 +59,11 @@ namespace AnarPerPortes.Enemies
             if (isCatching)
                 return;
 
-            PlayerCollectTix(10, "Has evadido a Sheepy");
+            if (orisaAnimator.gameObject.activeSelf)
+                PlayerCollectTix(10, "Has evadido a Orisa");
+            else
+                PlayerCollectTix(10, "Has evadido a Sheepy");
+
             base.Despawn();
         }
 
@@ -87,11 +105,15 @@ namespace AnarPerPortes.Enemies
                 CatchPlayer();
             else
             {
-                if (EnemyIsOperative<DaviloteEnemy>())
+                if (EnemyIsOperative<DaviloteEnemy>() && !orisaAnimator.gameObject.activeSelf)
                     StartCoroutine(nameof(MeetDaviloteCoroutine));
                 else
                 {
-                    animator.Play("Retreat");
+                    if (orisaAnimator.gameObject.activeSelf)
+                        orisaAnimator.Play("Retreat");
+                    else
+                        animator.Play("Retreat");
+
                     audioSource.PlayOneShot(safeSound);
                 }
             }
@@ -158,7 +180,10 @@ namespace AnarPerPortes.Enemies
                 yield return null;
             }
 
-            CatchManager.Singleton.CatchPlayer("SHEEPY ENDING", "¡¡Deja paso a las ovejaaas!!");
+            if (orisaAnimator.gameObject.activeSelf)
+                CatchManager.Singleton.CatchPlayer("ORISA ENDING", "Esto no va a gustarle a Efi...");
+            else
+                CatchManager.Singleton.CatchPlayer("SHEEPY ENDING", "¡¡Deja paso a las ovejaaas!!");
         }
     }
 }

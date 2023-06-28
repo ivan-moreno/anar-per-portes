@@ -267,9 +267,24 @@ namespace AnarPerPortes.Enemies
 
             if (EnemyIsOperative<DaviloteEnemy>())
             {
+                runSpeed = 0f;
+                model.LookAt(PlayerPosition());
+                animator.Play("Idle");
                 audioSource.PlayOneShot(meetDaviloteSound);
                 yield return new WaitForSeconds(meetDaviloteSound.AudioClip.length + 0.5f);
+
                 PlayerController.Singleton.SetVisionTarget(GetEnemyInstance<DaviloteEnemy>().transform);
+                yield return new WaitUntil(() => !EnemyIsOperative<DaviloteEnemy>());
+                PlayerController.Singleton.UnblockAll();
+                PlayerController.Singleton.ClearVisionTarget();
+
+                yield return new WaitForSeconds(2f);
+
+                audioSource.PlayOneShot(loseSounds.RandomItem());
+                yield return new WaitForSeconds(1.5f);
+
+                enabled = false;
+                isCatching = false;
                 yield break;
             }
 
