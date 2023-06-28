@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace AnarPerPortes
@@ -26,6 +27,16 @@ namespace AnarPerPortes
                 slot.Initialize(item);
                 break;
             }
+        }
+
+        public void CauseAlertOnItem(InventoryItem item)
+        {
+            var slot = slots.Where(slot => slot.AssignedItem == item).FirstOrDefault();
+
+            if (slot == null)
+                return;
+
+            slot.VisualAlert();
         }
 
         private void Awake()

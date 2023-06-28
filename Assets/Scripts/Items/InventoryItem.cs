@@ -1,3 +1,4 @@
+using AnarPerPortes.Enemies;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -59,7 +60,7 @@ namespace AnarPerPortes
             OnConsumed?.Invoke();
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             audioSource = GetComponent<AudioSource>();
         }

@@ -24,7 +24,7 @@ namespace AnarPerPortes.Enemies
             EnemyManager.Singleton.MarkAsOperative(this);
         }
 
-        public void MarkAsRoblomanDisguise()
+        public virtual void MarkAsRoblomanDisguise()
         {
             IsRoblomanDisguise = true;
             

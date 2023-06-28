@@ -1,6 +1,7 @@
 using AnarPerPortes.Rooms;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes.Enemies
@@ -8,6 +9,7 @@ namespace AnarPerPortes.Enemies
     [AddComponentMenu("Anar per Portes/Enemies/Pedro Enemy")]
     public class PedroEnemy : Enemy
     {
+        public static UnityEvent<PedroEnemy> OnSpawn { get; } = new();
         public bool IsOnBreak { get; private set; } = false;
 
         [Header("Stats")]
@@ -59,6 +61,8 @@ namespace AnarPerPortes.Enemies
                 bouserEnemy = GetEnemyInstance<BouserEnemy>();
             else
                 BouserEnemy.OnSpawn.AddListener((spawnedBouser) => bouserEnemy = spawnedBouser);
+
+            OnSpawn?.Invoke(this);
         }
 
         private void RoomGenerated(Room room)
@@ -275,9 +279,9 @@ namespace AnarPerPortes.Enemies
 
                 PlayerController.Singleton.SetVisionTarget(GetEnemyInstance<DaviloteEnemy>().transform);
                 yield return new WaitUntil(() => !EnemyIsOperative<DaviloteEnemy>());
+
                 PlayerController.Singleton.UnblockAll();
                 PlayerController.Singleton.ClearVisionTarget();
-
                 yield return new WaitForSeconds(2f);
 
                 audioSource.PlayOneShot(loseSounds.RandomItem());

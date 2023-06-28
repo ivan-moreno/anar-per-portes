@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes.Enemies
@@ -7,6 +8,8 @@ namespace AnarPerPortes.Enemies
     [AddComponentMenu("Anar per Portes/Enemies/Davilote Enemy")]
     public class DaviloteEnemy : Enemy
     {
+        public static UnityEvent<DaviloteEnemy> OnSpawn { get; } = new();
+
         [Header("Stats")]
         [SerializeField][Min(0f)] private float catchAngle = 120f;
 
@@ -43,6 +46,8 @@ namespace AnarPerPortes.Enemies
             BouserBossEnemy.OnSpawn.AddListener((_) => Despawn());
             RoomManager.Singleton.OnRoomGenerated.AddListener(x => Despawn());
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
+
+            OnSpawn?.Invoke(this);
         }
 
         protected override void Despawn()

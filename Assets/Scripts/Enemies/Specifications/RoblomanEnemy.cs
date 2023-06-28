@@ -24,16 +24,34 @@ namespace AnarPerPortes.Enemies
             base.Spawn();
             CacheComponents();
 
-            audioSource.PlayOneShot(rewardStartSounds.RandomItem());
-
             rewardPickable.OnPacked.AddListener(OnRewardPacked);
             LatestRoom().OnUnloading.AddListener(Despawn);
             PlayerCollectTix(25, "¡Te has encontrado con Robloman!");
+
+            if (PlayerController.Singleton.HasItem("Roblobolita"))
+                StartCoroutine(nameof(OnHasRewardCoroutine));
+            else
+                audioSource.PlayOneShot(rewardStartSounds.RandomItem());
         }
 
         private void OnRewardPacked()
         {
             StartCoroutine(nameof(OnRewardPackedCoroutine));
+        }
+
+        private IEnumerator OnHasRewardCoroutine()
+        {
+            rewardPickable.gameObject.SetActive(false);
+            transform.LookAt(PlayerController.Singleton.transform);
+            animator.Play("RewardEnd", 0, 0f);
+            audioSource.PlayOneShot(rewardEndSound);
+            yield return new WaitForSeconds(0.6f);
+
+            audioSource.PlayOneShot(despawnSound.AudioClip);
+            yield return new WaitForSeconds(0.25f);
+            OnPlayerPackedReward?.Invoke();
+
+            Despawn();
         }
 
         private IEnumerator OnRewardPackedCoroutine()

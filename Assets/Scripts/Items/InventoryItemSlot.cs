@@ -30,6 +30,14 @@ namespace AnarPerPortes
             slotNumberText.text = number.ToString();
         }
 
+        public void VisualAlert()
+        {
+            if (AssignedItem.IsEquipped)
+                return;
+
+            animator.Play("Alert", 0, 0f);
+        }
+
         private void Equipped()
         {
             animator.Play("Equip", 0, 0f);

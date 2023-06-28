@@ -9420,7 +9420,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 540911292}
-  - component: {fileID: 540911293}
+  - component: {fileID: 540911295}
   - component: {fileID: 540911294}
   m_Layer: 6
   m_Name: WalkieTalkie
@@ -9444,22 +9444,6 @@ Transform:
   m_Father: {fileID: 873571297}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &540911293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 540911291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f17d7b1debc9c549a784b77eab6233a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  equipAudio: {fileID: 8300000, guid: 09239a67b823b1d49b29fbc1376c1689, type: 3}
-  unequipAudio: {fileID: 0}
-  graphic: {fileID: 1708293461}
-  icon: {fileID: 21300000, guid: fe771ca44df55f54c9e0347c1b297d39, type: 3}
 --- !u!82 &540911294
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9557,6 +9541,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &540911295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540911291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b771510f1fce1745abbcb3b0ccbb04d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipAudio: {fileID: 8300000, guid: 09239a67b823b1d49b29fbc1376c1689, type: 3}
+  unequipAudio: {fileID: 0}
+  graphic: {fileID: 1708293461}
+  icon: {fileID: 21300000, guid: fe771ca44df55f54c9e0347c1b297d39, type: 3}
+  talkChance: 20
+  warnCooldown: 90
+  chatCooldown: 360
+  chatAudios:
+  - {fileID: 11400000, guid: a5cfc1b8a3dbb694590705a6422c6cb6, type: 2}
+  - {fileID: 11400000, guid: dfe6aa541b3a06944b1725a61ef15d5a, type: 2}
+  - {fileID: 11400000, guid: 9430bc824004d444fac7cd57dcbe9e6b, type: 2}
+  daviloteWarning: {fileID: 11400000, guid: 904bae44a987c32479df5bc52f3b3881, type: 2}
+  pedroWarning: {fileID: 11400000, guid: 94e3c90df212aec448880347cee3fc93, type: 2}
 --- !u!1 &543234774
 GameObject:
   m_ObjectHideFlags: 0
@@ -46354,7 +46363,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -63.999756, y: 0}
+  m_AnchoredPosition: {x: -63.999634, y: 0}
   m_SizeDelta: {x: -128, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2141929422

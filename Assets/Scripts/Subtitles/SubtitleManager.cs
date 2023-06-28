@@ -56,10 +56,10 @@ namespace AnarPerPortes
             }
 
             //TODO: Fix breaking words, allow for more lines
-            if (message.Length > 128)
+            if (message.Length > 132)
             {
-                var lineA = message[..128];
-                var lineB = message[128..];
+                var lineA = message[..132];
+                var lineB = message[132..];
                 message = string.Concat(lineA, "\n", lineB);
             }
 

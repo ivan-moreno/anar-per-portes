@@ -48,10 +48,15 @@ namespace AnarPerPortes.Enemies
             {
                 model.gameObject.SetActive(false);
                 orisaAnimator.gameObject.SetActive(true);
-
-                if (IsRoblomanDisguise)
-                    orisaRoblomanEars.SetActive(true);
             }
+        }
+
+        public override void MarkAsRoblomanDisguise()
+        {
+            base.MarkAsRoblomanDisguise();
+
+            if (orisaAnimator.gameObject.activeSelf)
+                orisaRoblomanEars.SetActive(true);
         }
 
         protected override void Despawn()
