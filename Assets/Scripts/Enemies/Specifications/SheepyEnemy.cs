@@ -15,6 +15,7 @@ namespace AnarPerPortes.Enemies
         [SerializeField][Min(0f)] private float checkMotionTime = 1.2f;
         [SerializeField][Min(0f)] private float checkMotionTimeHard = 0.6f;
         [SerializeField][Min(0f)] private float despawnTime = 2.2f;
+        [SerializeField][Min(0f)] private float orisaDespawnTime = 2.6f;
         [SerializeField][Range(0f, 100f)] private float orisaChance = 1f;
 
         [Header("Audio")]
@@ -23,6 +24,9 @@ namespace AnarPerPortes.Enemies
         [SerializeField] private SoundResource jumpscareSound;
         [SerializeField] private SoundResource[] meetDaviloteSounds;
         [SerializeField] private SoundResource[] meetDaviloteEndSounds;
+        [SerializeField] private SoundResource orisaWarningSound;
+        [SerializeField] private SoundResource orisaSafeSound;
+        [SerializeField] private SoundResource[] orisaEndingChatSounds;
 
         private float timeSinceSpawn = 0f;
         private bool checkedMotion = false;
@@ -37,7 +41,7 @@ namespace AnarPerPortes.Enemies
             var targetPos = lastRoom.position + lastRoom.forward * 4f;
             transform.position = targetPos;
             transform.LookAt(PlayerPosition());
-            audioSource.Play(warningSound);
+            
             SkellHearManager.Singleton.AddNoise(8f);
 
             PlayerController.Singleton.OnBeginCatchSequence.AddListener(Despawn);
@@ -48,6 +52,11 @@ namespace AnarPerPortes.Enemies
             {
                 model.gameObject.SetActive(false);
                 orisaAnimator.gameObject.SetActive(true);
+                audioSource.PlayOneShot(orisaWarningSound);
+            }
+            else
+            {
+                audioSource.PlayOneShot(warningSound);
             }
         }
 
@@ -92,7 +101,9 @@ namespace AnarPerPortes.Enemies
             if (!checkedMotion && timeSinceSpawn >= targetCheckMotionTime)
                 CheckForMotion();
 
-            if (!isCatching && !isMeetingDavilote && timeSinceSpawn >= despawnTime)
+            var targetDespawnTime = orisaAnimator.gameObject.activeSelf ? orisaDespawnTime : despawnTime;
+
+            if (!isCatching && !isMeetingDavilote && timeSinceSpawn >= targetDespawnTime)
                 Despawn();
         }
 
@@ -115,11 +126,15 @@ namespace AnarPerPortes.Enemies
                 else
                 {
                     if (orisaAnimator.gameObject.activeSelf)
+                    {
                         orisaAnimator.Play("Retreat");
+                        audioSource.PlayOneShot(orisaSafeSound);
+                    }
                     else
+                    {
                         animator.Play("Retreat");
-
-                    audioSource.PlayOneShot(safeSound);
+                        audioSource.PlayOneShot(safeSound);
+                    }
                 }
             }
         }
@@ -186,7 +201,11 @@ namespace AnarPerPortes.Enemies
             }
 
             if (orisaAnimator.gameObject.activeSelf)
-                CatchManager.Singleton.CatchPlayer("ORISA ENDING", "Esto no va a gustarle a Efi...");
+            {
+                var rngEndingChat = orisaEndingChatSounds.RandomItem();
+                audioSource.PlayOneShot(rngEndingChat);
+                CatchManager.Singleton.CatchPlayer("ORISA ENDING", rngEndingChat.SubtitleText);
+            }
             else
                 CatchManager.Singleton.CatchPlayer("SHEEPY ENDING", "¡¡Deja paso a las ovejaaas!!");
         }

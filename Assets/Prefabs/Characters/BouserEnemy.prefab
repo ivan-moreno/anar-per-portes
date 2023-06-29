@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tip: {fileID: 11400000, guid: f423e36fb58b6a54fa3a58e7c2c0b9d6, type: 2}
+  broskyTip: {fileID: 11400000, guid: aded8612232ef0f4b9f6925e72bf1ac6, type: 2}
   introDirector: {fileID: 0}
   roblomanDisguiseObject: {fileID: 1771313836479999433}
   runSpeed: 6

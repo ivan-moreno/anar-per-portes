@@ -37,6 +37,7 @@ namespace AnarPerPortes
             audioSource.PlayOneShot(introVoice);
             animator.Play("Funkin");
             AudioManager.Singleton.SetVolume(1f);
+            AudioManager.Singleton.SetTargetVolume(1f);
             AudioManager.Singleton.PlayMusic(music);
         }
 

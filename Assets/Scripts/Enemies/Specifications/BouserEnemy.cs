@@ -19,6 +19,7 @@ namespace AnarPerPortes.Enemies
         [SerializeField][Min(0f)] private float sprintAtDistance = 15f;
         [SerializeField][Min(0f)] private float catchRange = 2f;
         [SerializeField][Min(0f)] private float sightAngle = 45f;
+        [SerializeField][Range(0f, 100f)] private float roblomanChance = 2f;
 
         [Header("Hardmode Stats")]
         [SerializeField][Min(0f)] private float runSpeedHardmode = 12f;
@@ -95,6 +96,9 @@ namespace AnarPerPortes.Enemies
                 return;
             }
 
+            if (Random.Range(0f, 100f) <= roblomanChance)
+                MarkAsRoblomanDisguise();
+
             if (DanylopezEnemy.HasAppearedInThisSession)
             {
                 StartCoroutine(nameof(MeetDanylopezCoroutine));
@@ -110,7 +114,6 @@ namespace AnarPerPortes.Enemies
 
                 if (dist <= 32f)
                     Talk(meetPedroSounds.RandomItem());
-
                 else
                     Talk(warningSounds.RandomItem());
             }
@@ -151,7 +154,7 @@ namespace AnarPerPortes.Enemies
 
             isGrabbingTail = true;
             animator.SetBool("IsWalking", false);
-            animator.Play("Idle");
+            animator.Play("TailGrab");
             audioSource.Stop();
             audioCooldown = 0f;
             Talk(defeatRoblobolitaSound);
@@ -382,7 +385,7 @@ namespace AnarPerPortes.Enemies
         private IEnumerator CatchPlayerCoroutine()
         {
             yield return new WaitForSeconds(0.7f);
-            CatchManager.Singleton.CatchPlayer("BOUSER ENDING", "a veces el amor te hace salir del caparazon jeje");
+            CatchManager.Singleton.CatchPlayer("BOUSER ENDING", "a veces el amor te hace salir del caparazon jeje", broskyTip);
             audioSource.Play();
         }
 

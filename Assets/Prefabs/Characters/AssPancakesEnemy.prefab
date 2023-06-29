@@ -100,6 +100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tip: {fileID: 0}
+  broskyTip: {fileID: 11400000, guid: 64740bc6673e73f42abb6074b1a98391, type: 2}
+  introDirector: {fileID: 0}
   roblomanDisguiseObject: {fileID: 0}
   attackOrigin: {fileID: 6753507839108513431}
   moveSpeed: 14

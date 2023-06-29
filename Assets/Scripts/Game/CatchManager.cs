@@ -6,6 +6,7 @@ using UnityEngine.UI;
 namespace AnarPerPortes
 {
     [AddComponentMenu("Anar per Portes/Managers/Catch Manager")]
+    [RequireComponent(typeof(AudioSource))]
     public sealed class CatchManager : MonoBehaviour
     {
         public static CatchManager Singleton { get; private set; }
@@ -15,13 +16,17 @@ namespace AnarPerPortes
         [SerializeField] private TMP_Text messageText;
         [SerializeField] private Image subscribeImage;
         private bool canClickToRetry = false;
+        private bool showingBroskyTip = false;
+        private SoundResource broskyTip;
+        private AudioSource audioSource;
 
-        public void CatchPlayer(string title, string message)
+        public void CatchPlayer(string title, string message, SoundResource broskyTip = null)
         {
             PlayerController.Singleton.IsCaught = true;
             PlayerController.Singleton.BlockAll();
             titleText.text = title;
             messageText.text = message;
+            this.broskyTip = broskyTip;
 
             if (title.ToUpper().Equals("SANGOT ENDING"))
                 subscribeImage.gameObject.SetActive(true);
@@ -33,6 +38,11 @@ namespace AnarPerPortes
         private void Awake()
         {
             Singleton = this;
+        }
+
+        private void Start()
+        {
+            audioSource = GetComponent<AudioSource>();
         }
 
         private Sprite GetScreenshot()
@@ -57,8 +67,25 @@ namespace AnarPerPortes
 
         private void Update()
         {
-            if (!PauseManager.Singleton.IsPaused && Input.GetMouseButtonDown(0) && canClickToRetry)
-                GameManager.Singleton.RestartLevel();
+            if (showingBroskyTip)
+                return;
+
+            if (Input.GetMouseButtonDown(0) && canClickToRetry)
+            {
+                if (broskyTip == null)
+                    GameManager.Singleton.RestartLevel();
+                else
+                    StartCoroutine(nameof(BroskyTipCoroutine));
+            }
+
+        }
+
+        IEnumerator BroskyTipCoroutine()
+        {
+            showingBroskyTip = true;
+            audioSource.PlayOneShot(broskyTip.AudioClip);
+            yield return new WaitForSecondsRealtime(0.2f);
+            FadeScreenManager.Singleton.Display(broskyTip.SubtitleText, GameManager.Singleton.RestartLevel);
         }
     }
 }

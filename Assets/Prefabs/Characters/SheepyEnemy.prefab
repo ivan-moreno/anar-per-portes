@@ -84,6 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 473dd330093361443a262454d64e2416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  broskyTip: {fileID: 0}
   tip: {fileID: 11400000, guid: 41355d12b98e36247ad0a245fbd11df6, type: 2}
   introDirector: {fileID: 0}
   roblomanDisguiseObject: {fileID: 3367487317973755532}
@@ -92,6 +93,7 @@ MonoBehaviour:
   checkMotionTime: 1.2
   checkMotionTimeHard: 0.7
   despawnTime: 2.2
+  orisaDespawnTime: 2.6
   orisaChance: 1
   warningSound: {fileID: 11400000, guid: 9f32496526778bb489501e41825c0f2a, type: 2}
   safeSound: {fileID: 11400000, guid: 4be8db89e03c95048bd65344ac5fd63b, type: 2}
@@ -106,6 +108,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: af05aba440814fd479c4df14cf839602, type: 2}
   - {fileID: 11400000, guid: bf33867abab2f38499bbe4a8f508c8d7, type: 2}
   - {fileID: 11400000, guid: 30a72320ff480c944a58a1a04f70431d, type: 2}
+  orisaWarningSound: {fileID: 11400000, guid: 7bc73db6500d111439707256daa8751d, type: 2}
+  orisaSafeSound: {fileID: 11400000, guid: 8ec34e2a339aff141b2f22e5a1dc932f, type: 2}
+  orisaEndingChatSounds:
+  - {fileID: 11400000, guid: 1ee6ee96d17d9484097e04de2ec0f5fd, type: 2}
+  - {fileID: 11400000, guid: ddd45e56e521a9141a6c53e2d241230b, type: 2}
 --- !u!82 &81038424985809429
 AudioSource:
   m_ObjectHideFlags: 0

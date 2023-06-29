@@ -9,6 +9,7 @@ namespace AnarPerPortes.Enemies
         public bool IsRoblomanDisguise { get; private set; } = false;
         public EnemyTip Tip => tip;
 
+        [SerializeField] protected SoundResource broskyTip;
         [SerializeField] private EnemyTip tip;
         [SerializeField] private PlayableDirector introDirector;
         [SerializeField] private GameObject roblomanDisguiseObject;

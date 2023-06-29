@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 697d33dca1980aa44a3b852d2e215b8d, type: 3}
+  m_Name: BroskyCatchBouser
+  m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: 1d754e5ba90682448887b14f367d7660, type: 3}
+  subtitleText: "Quillo, el Bouser me ha pegao tal hostia que no s\xE9 ni d\xF3nde
+    est\xE1 el norte... pues bueno, <b>como me ense\xF1\xF3 Mario Bros., hay que
+    cogerle de la cola al lagarto.</b>"
+  subtitleTeam: 0

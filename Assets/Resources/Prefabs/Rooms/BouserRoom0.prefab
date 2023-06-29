@@ -10037,6 +10037,8 @@ MonoBehaviour:
   spawnBouserHardDistance: 38
   spawnAssPancakesDistance: 25
   closeEntranceDoorDistance: 32
+  bouserJrChance: 8
+  assPancakesChance: 2
 --- !u!1 &1622808463265911872
 GameObject:
   m_ObjectHideFlags: 0

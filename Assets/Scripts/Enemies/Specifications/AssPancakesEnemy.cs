@@ -133,7 +133,7 @@ namespace AnarPerPortes.Enemies
                 PlayerController.Singleton.BlockAll();
                 PlayerController.Singleton.SetVisionTarget(transform);
                 yield return new WaitForSeconds(0.35f);
-                CatchManager.Singleton.CatchPlayer("ASS PANCAKES ENDING", "HOW");
+                CatchManager.Singleton.CatchPlayer("ASS PANCAKES ENDING", "HE-HEY! YOU SHAPE-SHIFTED INTO A DEAD GUY!", broskyTip);
                 yield break;
             }
 

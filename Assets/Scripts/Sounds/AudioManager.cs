@@ -98,6 +98,7 @@ namespace AnarPerPortes
 
         private void Start()
         {
+            UnmuteAllAudioMixers();
             GameSettingsManager.Singleton.OnCurrentSettingsChanged.AddListener(OnSettingsChanged);
         }
 

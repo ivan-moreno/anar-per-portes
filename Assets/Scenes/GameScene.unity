@@ -7804,6 +7804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8deaf596e36c9a34ba5a5fd617056893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  broskyTip: {fileID: 0}
   tip: {fileID: 0}
   introDirector: {fileID: 0}
   roblomanDisguiseObject: {fileID: 0}
@@ -9611,6 +9612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cf77119315133d4f91dc624a501f839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  broskyTip: {fileID: 0}
   tip: {fileID: 0}
   introDirector: {fileID: 0}
   roblomanDisguiseObject: {fileID: 0}
@@ -11819,6 +11821,7 @@ GameObject:
   m_Component:
   - component: {fileID: 677572597}
   - component: {fileID: 677572598}
+  - component: {fileID: 677572599}
   m_Layer: 0
   m_Name: CatchManager
   m_TagString: Untagged
@@ -11858,6 +11861,102 @@ MonoBehaviour:
   titleText: {fileID: 1124089111}
   messageText: {fileID: 836139857}
   subscribeImage: {fileID: 1386156713}
+--- !u!82 &677572599
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 677572596}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 16
+  Pan2D: 0
+  rolloffMode: 1
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &684778351
 GameObject:
   m_ObjectHideFlags: 0
@@ -43993,6 +44092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ea1b444f8b928d4b8b062bad02f7554, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  broskyTip: {fileID: 0}
   tip: {fileID: 11400000, guid: 9ccdb80ce347d6b4e8994962587f57c5, type: 2}
   introDirector: {fileID: 0}
   roblomanDisguiseObject: {fileID: 0}
@@ -46363,7 +46463,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -63.999634, y: 0}
+  m_AnchoredPosition: {x: -63.99951, y: 0}
   m_SizeDelta: {x: -128, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2141929422

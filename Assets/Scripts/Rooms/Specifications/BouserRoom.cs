@@ -23,6 +23,8 @@ namespace AnarPerPortes.Rooms
         [SerializeField] private float spawnBouserHardDistance = 38f;
         [SerializeField] private float spawnAssPancakesDistance = 18f;
         [SerializeField] private float closeEntranceDoorDistance = 32f;
+        [SerializeField][Range(0f, 100f)] private float bouserJrChance = 8f;
+        [SerializeField][Range(0f, 100f)] private float assPancakesChance = 2f;
 
         private bool isBouserAwake = false;
         private bool shouldWakeBouserJr = false;
@@ -32,8 +34,8 @@ namespace AnarPerPortes.Rooms
         public override void Initialize()
         {
             base.Initialize();
-            shouldWakeBouserJr = Random.Range(0f, 100f) < 100f; //20f
-            shouldSpawnAssPancakes = !shouldWakeBouserJr && Random.Range(0f, 100f) < 2f;
+            shouldSpawnAssPancakes = Random.Range(0f, 100f) < assPancakesChance;
+            shouldWakeBouserJr = !shouldSpawnAssPancakes && Random.Range(0f, 100f) < bouserJrChance;
         }
 
         public void WakeUpBouser()
