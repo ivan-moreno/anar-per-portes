@@ -203,6 +203,7 @@ namespace AnarPerPortes
                 .WithRoom(new RoomEggBuilder().WithId("CameoRoom2").Build())
                 .WithRoom(new RoomEggBuilder().WithId("CameoRoom3").Build())
                 .WithRoom(new RoomEggBuilder().WithId("CameoRoom4").Build())
+                .WithRoom(new RoomEggBuilder().WithId("CameoRoom5").Build())
                 .Build(),
 
                 new RoomSetEggBuilder()
