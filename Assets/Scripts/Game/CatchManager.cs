@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes
 {
@@ -30,6 +31,11 @@ namespace AnarPerPortes
 
             if (title.ToUpper().Equals("SANGOT ENDING"))
                 subscribeImage.gameObject.SetActive(true);
+
+            var recordOfRooms = PlayerPrefs.HasKey("RecordOfRooms") ? PlayerPrefs.GetInt("RecordOfRooms") : 0;
+
+            if (LatestRoomNumber() > recordOfRooms)
+                PlayerPrefs.SetInt("RecordOfRooms", LatestRoomNumber());
 
             Time.timeScale = 0f;
             StartCoroutine(nameof(TakeSnapshot));

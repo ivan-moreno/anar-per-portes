@@ -1,8 +1,10 @@
 using AnarPerPortes.Enemies;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using static AnarPerPortes.ShortUtils;
 
 namespace AnarPerPortes
 {
@@ -15,6 +17,8 @@ namespace AnarPerPortes
         public bool IsPaused { get; private set; } = false;
         [SerializeField] private GameObject pauseMenu;
         [SerializeField] private Button resumeButton;
+        [SerializeField] private TMP_Text roomRecordLabel;
+        [SerializeField] private TMP_Text playTimeLabel;
         private Animator pauseAnimator;
 
         public void PauseGameLogic()
@@ -78,6 +82,21 @@ namespace AnarPerPortes
             Time.timeScale = 0f;
             Cursor.lockState = CursorLockMode.None;
             OnPauseChanged?.Invoke(true);
+
+            var minutes = Mathf.Floor(Time.realtimeSinceStartup / 60f);
+            var seconds = Mathf.Floor(Time.realtimeSinceStartup % 60f);
+
+            playTimeLabel.text = minutes.ToString("0") + ":" + (seconds < 10 ? "0" : "") + seconds.ToString("0");
+
+            var recordOfRooms = PlayerPrefs.HasKey("RecordOfRooms") ? PlayerPrefs.GetInt("RecordOfRooms") : 0;
+
+            if (LatestRoomNumber() > recordOfRooms)
+            {
+                PlayerPrefs.SetInt("RecordOfRooms", LatestRoomNumber());
+                recordOfRooms = LatestRoomNumber();
+            }
+
+            roomRecordLabel.text = recordOfRooms.ToString();
         }
 
         private void Resume()
@@ -94,10 +113,7 @@ namespace AnarPerPortes
             PlayerController.Singleton.UnblockAll();
             Time.timeScale = GameSettingsManager.Singleton.CurrentSettings.EnableSpeedrunMode ? 2f : 1f;
 
-            if (GameMakerEnemy.Singleton.DesktopEnabled)
-                Cursor.lockState = CursorLockMode.None;
-            else
-                Cursor.lockState = CursorLockMode.Locked;
+            Cursor.lockState = GameMakerEnemy.Singleton.DesktopEnabled ? CursorLockMode.None : CursorLockMode.Locked;
 
             OnPauseChanged?.Invoke(false);
         }
