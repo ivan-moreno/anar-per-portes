@@ -66,7 +66,8 @@ namespace AnarPerPortes.Enemies
                     transform.LookAt(targetPounceLocation);
                 }
 
-                if (!EnemyIsOperative<A90Enemy>())
+                // TODO: Consider waiting for Sangot on hardmode
+                if (!EnemyIsOperative<A90Enemy>() && !EnemyIsOperative<SheepyEnemy>())
                     timer += Time.deltaTime;
 
                 yield return null;

@@ -81,6 +81,20 @@ namespace AnarPerPortes.Rooms
             return true;
         }
 
+        public bool MustSpawn()
+        {
+            if (IsNormalmodeExclusive && IsHardmodeEnabled())
+                return false;
+
+            if (IsHardmodeExclusive && !IsHardmodeEnabled())
+                return false;
+
+            if (IsForcedToSpawnInRoomNumber())
+                return true;
+
+            return false;
+        }
+
         public bool CanSpawnDebug(out string result)
         {
             if (IsNormalmodeExclusive && IsHardmodeEnabled())

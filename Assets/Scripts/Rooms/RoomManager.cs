@@ -2,6 +2,7 @@ using AnarPerPortes.Enemies;
 using AnarPerPortes.Rooms;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using static AnarPerPortes.ShortUtils;
@@ -25,6 +26,7 @@ namespace AnarPerPortes
         [SerializeField] private Transform roomsGroup;
         [SerializeField] private GameObject startRoomPrefab;
 
+        private static bool toymakerEventActive = false;
         private RoomSetEgg[] eggs;
         private Room lastGeneratedRoom;
         private const int maxLoadedRooms = 4;
@@ -87,6 +89,7 @@ namespace AnarPerPortes
 
         private void Start()
         {
+            toymakerEventActive = false;
             SpawnRoom(startRoomPrefab);
             BuildRoomsAndRoomSets();
         }
@@ -121,24 +124,29 @@ namespace AnarPerPortes
                 .WithRoom(new RoomEggBuilder().WithId("GameMakerRoom0").Build())
                 .Build(),
 
-                //TODO: check for a cleaner way to force the first toom to be the trap 
                 new RoomSetEggBuilder()
-                .WithId("Toymaker")
-                .WithBaseChance(3f) // 5
-                .WithMinRoom(60) // 60
-                .WithMaxSpawnCount(4)
-                .WithMaxRoomsBetweenSpawns(1)
+                .WithId("ToymakerTrap")
+                .WithBaseChance(3f)
+                .WithMinRoom(60)
+                .WithMaxSpawnCount(1)
+                .WithAdditionalRequirements(() => !toymakerEventActive)
                 .WithRoom(
                     new RoomEggBuilder()
                     .WithId("ToymakerTrapRoom")
-                    .WithBaseChance(float.MaxValue * 0.5f)
                     .WithMaxSpawnCount(1)
                     .WithOnSpawnCallback((roomEgg) =>
                     {
                         AudioManager.Singleton.StopAmbiance();
-                        roomEgg.AdditionalRequirements = () => false;
+                        toymakerEventActive = true;
                     })
                     .Build())
+                .Build(),
+
+                new RoomSetEggBuilder()
+                .WithId("Toymaker")
+                .WithBaseChance(float.MaxValue / 2f)
+                .WithMaxSpawnCount(3)
+                .WithAdditionalRequirements(() => toymakerEventActive)
                 .WithRoom(
                     new RoomEggBuilder()
                     .WithId("ToymakerRoom0")
@@ -160,6 +168,7 @@ namespace AnarPerPortes
                 .WithId("Snowdin")
                 .ForceSpawnOnRoomNumber(51)
                 .WithBaseChance(20f)
+                .WithMinRoom(28)
                 .WithMinRoomsBetweenSpawns(8)
                 .WithMaxRoomsBetweenSpawns(40)
                 .WithRoom(new RoomEggBuilder().WithId("SnowdinRoom0").Build())
@@ -186,7 +195,7 @@ namespace AnarPerPortes
 
                 new RoomSetEggBuilder()
                 .WithId("Isle")
-                .WithBaseChance(30f)
+                .WithBaseChance(20f)
                 .WithMinRoom(20)
                 .WithMinRoomsBetweenSpawns(10)
                 .WithMaxRoomsBetweenSpawns(30)
@@ -253,11 +262,35 @@ namespace AnarPerPortes
         
         private void TrySpawnEggs()
         {
-            foreach (var egg in eggs)
+            var spawned = ChooseRandomEgg().TrySpawn();
+
+            if (!spawned)
+                eggs.Where(egg => egg.Id == "General").First().TrySpawn();
+        }
+
+        private RoomSetEgg ChooseRandomEgg()
+        {
+            var mustSpawnEgg = eggs.Where(egg => egg.MustSpawn()).FirstOrDefault();
+
+            if (mustSpawnEgg != null)
+                return mustSpawnEgg;
+
+            var roomSetsInPool = new List<RoomSetEgg>(eggs.Where(egg => egg.CanSpawn()));
+
+            var maxRng = 0f;
+            roomSetsInPool.ForEach(room => maxRng += room.Chance);
+
+            var rng = Random.Range(0f, maxRng);
+
+            foreach (var roomSet in roomSetsInPool)
             {
-                if (egg.TrySpawn())
-                    break;
+                if (rng <= roomSet.Chance)
+                    return roomSet;
+
+                rng -= roomSet.Chance;
             }
+
+            return null;
         }
     }
 }
