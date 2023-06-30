@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BouserJrIntro
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: 77e9bc7fce936de42acaf05322683af4, type: 3}
-  subtitleText: "[BOUSER] Hola, jiji. Soy el hijo de Bouser ...aunque no s\xE9 cual
+  subtitleText: "[BOUSY] Hola, jiji. Soy el hijo de Bouser ...aunque no s\xE9 cual
     porque hay por lo menos 7 m\xE1s como yo pero bueno, \xA1te voy a derrotar de
     un pu\xF1o como dice mi padre!"
   subtitleTeam: 0
