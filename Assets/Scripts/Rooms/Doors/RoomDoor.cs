@@ -22,7 +22,11 @@ namespace AnarPerPortes
             if (isOpened || !IsDeactivated)
                 return;
 
-            transform.Find(holeOwner + "Hole").gameObject.SetActive(true);
+            var hole = transform.Find(holeOwner + "Hole");
+
+            if (hole != null)
+                hole.gameObject.SetActive(true);
+
             audioSource.PlayOneShot(breakThroughSound);
         }
 

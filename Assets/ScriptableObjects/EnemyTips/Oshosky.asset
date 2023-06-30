@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Oshosky
   m_EditorClassIdentifier: 
   title: Oshosky
-  message: "Oshosky va a aparecer tras esta puerta.\r\n\r\n\xA1Hazte a un lado, r\xE1pido!"
+  message: "Oshosky va a aparecer tras esta puerta.\r\n\r\n\xA1Hazte a un lado, y
+    luego al otro, r\xE1pido!"
   render: {fileID: 21300000, guid: 17f2374ac3a282248aae5f3424163cda, type: 3}

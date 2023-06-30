@@ -189,7 +189,6 @@ namespace AnarPerPortes
                 .WithMaxRoomsBetweenSpawns(20)
                 .WithBaseChance(30f)
                 .WithChanceChangePerRoom(+1)
-                //TODO Require room to have pedestals via Room Builder or something!
                 .WithAdditionalRequirements(() => LatestRoom().HasPedestals)
                 .IncompatibleWithRoomSetId("Toymaker")
                 .IncompatibleWithRoom<BouserBossRoom>()
@@ -376,6 +375,7 @@ namespace AnarPerPortes
 
             var shouldDisplayTip =
                 GameSettingsManager.Singleton.CurrentSettings.EnableEnemyTips
+                && !enemy.HasIntro
                 && targetTip != null
                 && !displayedEnemyTipNames.Contains(targetName);
 

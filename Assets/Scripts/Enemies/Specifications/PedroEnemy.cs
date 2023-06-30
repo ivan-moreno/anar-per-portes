@@ -271,6 +271,7 @@ namespace AnarPerPortes.Enemies
 
             if (EnemyIsOperative<DaviloteEnemy>())
             {
+                LatestRoom().OnUnloading.AddListener(Despawn);
                 runSpeed = 0f;
                 model.LookAt(PlayerPosition());
                 animator.Play("Idle");
