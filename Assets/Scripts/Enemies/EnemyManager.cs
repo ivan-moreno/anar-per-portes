@@ -32,6 +32,7 @@ namespace AnarPerPortes
         [SerializeField] private GameObject bouserEnemyPrefab;
         [SerializeField] private GameObject catalanBirdEnemyPrefab;
         [SerializeField] private GameObject daviloteEnemyPrefab;
+        [SerializeField] private GameObject oshoskyEnemyPrefab;
         [SerializeField] private GameObject pedroEnemyPrefab;
         [SerializeField] private GameObject roblomanEnemyPrefab;
         [SerializeField] private GameObject sangotEnemyPrefab;
@@ -200,6 +201,26 @@ namespace AnarPerPortes
                 .Build(),
 
                 new EnemyEggBuilder()
+                .WithId("Oshosky")
+                .WithPrefab(oshoskyEnemyPrefab)
+                .WithMinRoom(20)
+                .WithMinRoomsBetweenSpawns(8)
+                .WithMaxRoomsBetweenSpawns(20)
+                .WithBaseChance(30f)
+                .WithChanceChangePerRoom(+5)
+                .IncompatibleWithRoomSetId("Toymaker")
+                .IncompatibleWithRoom<BouserBossRoom>()
+                .IncompatibleWithRoom<IsleRoom>()
+                .IncompatibleWithRoom<Specimen7Room>()
+                .IncompatibleWithEnemy<A90Enemy>()
+                .IncompatibleWithEnemy<CatalanBirdEnemy>()
+                .IncompatibleWithEnemy<SangotEnemy>()
+                .IncompatibleWithEnemy<Specimen7Enemy>()
+                .IncompatibleWithEnemy<YusufEnemy>()
+                .MarkAsDisguisable()
+                .Build(),
+
+                new EnemyEggBuilder()
                 .WithId("Sheepy")
                 .WithPrefab(sheepyEnemyPrefab)
                 .WithMinRoom(5)
@@ -340,8 +361,10 @@ namespace AnarPerPortes
             else if (Input.GetKeyUp(KeyCode.F6))
                 SpawnEnemy(sangotEnemyPrefab);
             else if (Input.GetKeyUp(KeyCode.F7))
-                DanylopezEnemy.Singleton.Spawn();
+                SpawnEnemy(oshoskyEnemyPrefab);
             else if (Input.GetKeyUp(KeyCode.F8))
+                DanylopezEnemy.Singleton.Spawn();
+            else if (Input.GetKeyUp(KeyCode.F9))
                 A90Enemy.Singleton.Spawn();
 #endif
         }

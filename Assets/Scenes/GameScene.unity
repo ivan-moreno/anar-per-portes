@@ -25,7 +25,7 @@ RenderSettings:
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 3
-  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
+  m_SubtractiveShadowColor: {r: 0.23398007, g: 0.25586894, b: 0.31132078, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: c66e178609a86224eba6af4b62900228, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
@@ -6006,6 +6006,8 @@ MonoBehaviour:
   catalanBirdEnemyPrefab: {fileID: 3005926016160971923, guid: e2bea7e3657d84a4fa2cac7d3b2f5256,
     type: 3}
   daviloteEnemyPrefab: {fileID: 81038424985809431, guid: 57bac9367fe373144b690b668438b275,
+    type: 3}
+  oshoskyEnemyPrefab: {fileID: 3198791345885735545, guid: 9793ca90c8c199442b31fa922de87ade,
     type: 3}
   pedroEnemyPrefab: {fileID: 6310198025595531095, guid: 352f03fcbc0c70f42a63a76022d7243c,
     type: 3}
