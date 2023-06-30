@@ -8,6 +8,7 @@ namespace AnarPerPortes.Enemies
     public class SheepyEnemy : Enemy
     {
         [Header("Components")]
+        [SerializeField] Animator propsAnimator;
         [SerializeField] Animator orisaAnimator;
         [SerializeField] GameObject orisaRoblomanEars;
 
@@ -17,11 +18,14 @@ namespace AnarPerPortes.Enemies
         [SerializeField][Min(0f)] private float despawnTime = 2.2f;
         [SerializeField][Min(0f)] private float orisaDespawnTime = 2.6f;
         [SerializeField][Range(0f, 100f)] private float orisaChance = 1f;
+        [SerializeField][Range(0f, 100f)] private float rareCatchMusicChance = 4f;
 
         [Header("Audio")]
         [SerializeField] private SoundResource warningSound;
         [SerializeField] private SoundResource safeSound;
         [SerializeField] private SoundResource jumpscareSound;
+        [SerializeField] private AudioClip catchMusic;
+        [SerializeField] private AudioClip catchMusicRare;
         [SerializeField] private SoundResource[] meetDaviloteSounds;
         [SerializeField] private SoundResource[] meetDaviloteEndSounds;
         [SerializeField] private SoundResource orisaWarningSound;
@@ -121,6 +125,8 @@ namespace AnarPerPortes.Enemies
                 CatchPlayer();
             else
             {
+                propsAnimator.Play("Safe");
+
                 if (EnemyIsOperative<DaviloteEnemy>() && !orisaAnimator.gameObject.activeSelf)
                     StartCoroutine(nameof(MeetDaviloteCoroutine));
                 else
@@ -189,16 +195,22 @@ namespace AnarPerPortes.Enemies
             audioSource.PlayOneShot(jumpscareSound);
 
             var timer = 0f;
-            var originalPos = transform.position;
-            var targetPos = PlayerPosition() + PlayerController.Singleton.transform.forward * 2f;
+            var originalPos = model.position;
+            Vector3 targetPos;
 
             while (timer < 1f)
             {
                 timer += Time.deltaTime * 1.5f;
-                transform.LookAt(PlayerPosition());
-                transform.position = Vector3.Lerp(originalPos, targetPos, timer);
+                model.LookAt(PlayerPosition());
+                targetPos = PlayerPosition() + PlayerController.Singleton.transform.forward * 2f;
+                model.position = Vector3.Lerp(originalPos, targetPos, timer);
                 yield return null;
             }
+
+            if (Random.Range(0f, 100f) <= rareCatchMusicChance)
+                audioSource.PlayOneShot(catchMusicRare);
+            else
+                audioSource.PlayOneShot(catchMusic);
 
             if (orisaAnimator.gameObject.activeSelf)
             {
