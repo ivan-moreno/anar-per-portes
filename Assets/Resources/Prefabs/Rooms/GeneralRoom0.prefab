@@ -748,7 +748,7 @@ GameObject:
   - component: {fileID: 4288790238897775264}
   - component: {fileID: 627420694765793910}
   m_Layer: 0
-  m_Name: GotenHallucination
+  m_Name: CateHallucination
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -831,7 +831,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d813650be977e6b43a72a9f2cc124f73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disappearTime: 0.5
+  disappearTime: 0.6
   appearChance: 2
 --- !u!82 &627420694765793910
 AudioSource:

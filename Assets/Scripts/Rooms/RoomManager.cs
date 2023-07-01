@@ -226,10 +226,10 @@ namespace AnarPerPortes
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom7").Build())
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom8").Build())
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom9").Build())
-                .WithRoom(new RoomEggBuilder().WithId("GeneralRoom12").Build())
-                .WithRoom(new RoomEggBuilder().WithId("GeneralRoom13").Build())
-                .WithRoom(new RoomEggBuilder().WithId("GeneralRoom14").Build())
-                .WithRoom(new RoomEggBuilder().WithId("GeneralRoom15").Build())
+                .WithRoom(new RoomEggBuilder().WithId("GeneralRoom12").WithBaseChance(50f).Build())
+                .WithRoom(new RoomEggBuilder().WithId("GeneralRoom13").WithBaseChance(50f).Build())
+                .WithRoom(new RoomEggBuilder().WithId("GeneralRoom14").WithBaseChance(50f).Build())
+                .WithRoom(new RoomEggBuilder().WithId("GeneralRoom15").WithBaseChance(50f).Build())
                 .Build()
             };
         }
