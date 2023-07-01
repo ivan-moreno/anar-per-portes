@@ -204,7 +204,7 @@ namespace AnarPerPortes.Enemies
             if (IsHardmodeEnabled())
                 CatchManager.Singleton.CatchPlayer("COCHES CHOCONES ENDING", "Era un domingo en la tarde");
             else
-                CatchManager.Singleton.CatchPlayer("OCELL CATALÀ ENDING", "CASSO EN L'OLLA, NEN!");
+                CatchManager.Singleton.CatchPlayer("OCELL CATALÀ ENDING", "CASSO EN L'OLLA, NEN!", broskyTip);
         }
     }
 }

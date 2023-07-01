@@ -47,7 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 891e3b46cf4acb04ca1625993446cb13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  broskyTip: {fileID: 11400000, guid: 658c456f6de355b429af9c87f99dfca7, type: 2}
   tip: {fileID: 11400000, guid: 606729c1551efbe40becf50dac4a9530, type: 2}
+  introDirector: {fileID: 0}
   roblomanDisguiseObject: {fileID: 7175938724875177602}
   runSpeed: 18
   chaseRange: 16

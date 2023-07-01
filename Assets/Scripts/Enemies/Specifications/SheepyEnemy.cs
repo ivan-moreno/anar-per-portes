@@ -26,6 +26,7 @@ namespace AnarPerPortes.Enemies
         [SerializeField] private SoundResource jumpscareSound;
         [SerializeField] private AudioClip catchMusic;
         [SerializeField] private AudioClip catchMusicRare;
+        [SerializeField] private SoundResource[] roblobolitaSounds;
         [SerializeField] private SoundResource[] meetDaviloteSounds;
         [SerializeField] private SoundResource[] meetDaviloteEndSounds;
         [SerializeField] private SoundResource orisaWarningSound;
@@ -180,6 +181,9 @@ namespace AnarPerPortes.Enemies
 
             if (TryConsumePlayerImmunityItem())
             {
+                if (!orisaAnimator.gameObject.activeSelf)
+                    PlayerSound(roblobolitaSounds.RandomItem());
+
                 Despawn();
                 yield break;
             }
@@ -191,10 +195,14 @@ namespace AnarPerPortes.Enemies
             PlayerController.Singleton.BeginCatchSequence();
             PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform);
-            animator.Play("Jumpscare");
-            audioSource.PlayOneShot(jumpscareSound);
 
-            var timer = 0f;
+            if (!orisaAnimator.gameObject.activeSelf)
+            {
+                animator.Play("Jumpscare");
+                audioSource.PlayOneShot(jumpscareSound);
+            }
+
+            var timer = orisaAnimator.gameObject.activeSelf ? 0.5f : 0f;
             var originalPos = model.position;
             Vector3 targetPos;
 
@@ -219,7 +227,7 @@ namespace AnarPerPortes.Enemies
                 CatchManager.Singleton.CatchPlayer("ORISA ENDING", rngEndingChat.SubtitleText);
             }
             else
-                CatchManager.Singleton.CatchPlayer("SHEEPY ENDING", "¡¡Deja paso a las ovejaaas!!");
+                CatchManager.Singleton.CatchPlayer("SHEEPY ENDING", "¡¡Deja paso a las ovejaaas!!", broskyTip);
         }
     }
 }

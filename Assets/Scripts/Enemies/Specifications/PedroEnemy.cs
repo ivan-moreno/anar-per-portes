@@ -299,7 +299,7 @@ namespace AnarPerPortes.Enemies
             audioSource.PlayOneShot(jumpscareSound);
             yield return new WaitForSeconds(0.7f);
 
-            CatchManager.Singleton.CatchPlayer("PEDRO ENDING", "Parece que quiso pasar un mal rato, chico. Hehehehehe.");
+            CatchManager.Singleton.CatchPlayer("PEDRO ENDING", "Parece que quiso pasar un mal rato, chico. Hehehehehe.", broskyTip);
         }
 
         private IEnumerator MeetBouserCoroutine()

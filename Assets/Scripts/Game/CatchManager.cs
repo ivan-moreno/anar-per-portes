@@ -91,7 +91,11 @@ namespace AnarPerPortes
             showingBroskyTip = true;
             audioSource.PlayOneShot(broskyTip.AudioClip);
             yield return new WaitForSecondsRealtime(0.2f);
-            FadeScreenManager.Singleton.Display(broskyTip.SubtitleText, GameManager.Singleton.RestartLevel);
+            FadeScreenManager.Singleton.Display(broskyTip.SubtitleText, () =>
+            {
+                audioSource.Stop();
+                GameManager.Singleton.RestartLevel();
+            });
         }
     }
 }

@@ -46,11 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069ec59058811224f96600a270fe53d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  broskyTip: {fileID: 11400000, guid: b3fdcda9e9ea7a8478597abed94172aa, type: 2}
   tip: {fileID: 11400000, guid: b82728e7d3f3c33409737ba4906edcef, type: 2}
   introDirector: {fileID: 0}
   roblomanDisguiseObject: {fileID: 9024756251410164309}
   catchAngle: 120
   jumpscareSound: {fileID: 11400000, guid: c266ae1dd9f08fc42a0566530294a90b, type: 2}
+  roblobolitaSound: {fileID: 11400000, guid: 9ba73dde628f10e46b2e609809257d5c, type: 2}
   meetPedroSound: {fileID: 11400000, guid: 44cfc7da9f1f8fc408302f34f92dbd9b, type: 2}
   sangotMeetDaviloteSound: {fileID: 11400000, guid: ef293aa7aebe7e64ba7abaf7877010af,
     type: 2}

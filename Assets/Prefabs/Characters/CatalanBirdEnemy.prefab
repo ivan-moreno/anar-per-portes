@@ -5234,9 +5234,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60b84e6bdf476e34791f1061ffe0140f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  broskyTip: {fileID: 11400000, guid: f1d2bed4283a8534f87b46cc8c839d49, type: 2}
   tip: {fileID: 11400000, guid: 05adbf3dc4df8a14fb59c78649ffdda3, type: 2}
-  roblomanDisguiseObject: {fileID: 6171528231012104519}
   introDirector: {fileID: 260687608}
+  roblomanDisguiseObject: {fileID: 6171528231012104519}
   isSupportingCast: 0
   maxSpeed: 18
   maxTurboSpeed: 28

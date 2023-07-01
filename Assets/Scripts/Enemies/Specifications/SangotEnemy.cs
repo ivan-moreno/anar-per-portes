@@ -156,7 +156,7 @@ namespace AnarPerPortes.Enemies
 
             audioSource.spatialBlend = 0f;
             audioSource.PlayOneShot(endingMusic);
-            CatchManager.Singleton.CatchPlayer("SANGOT ENDING", "youtube.com/@sangot");
+            CatchManager.Singleton.CatchPlayer("SANGOT ENDING", "youtube.com/@sangot", broskyTip);
         }
 
         private void WrapUp()

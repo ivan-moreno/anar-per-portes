@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 697d33dca1980aa44a3b852d2e215b8d, type: 3}
+  m_Name: BroskyCatchOshosky
+  m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: 11037bb37a67b5f48a62fe4c2eec93c3, type: 3}
+  subtitleText: "Nada colega, Oshosky campe\xE1ndome detr\xE1s de la puerta. As\xED
+    que nada, <b>tendr\xE9 que echarme hacia un lado.</b> Al menos, as\xED no se
+    me tirar\xE1 encima. Supongo."
+  subtitleTeam: 0

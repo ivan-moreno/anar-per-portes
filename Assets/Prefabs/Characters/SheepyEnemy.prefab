@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 473dd330093361443a262454d64e2416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  broskyTip: {fileID: 0}
+  broskyTip: {fileID: 11400000, guid: feaa5f974e82f6149b407aa93cf8dd46, type: 2}
   tip: {fileID: 11400000, guid: 41355d12b98e36247ad0a245fbd11df6, type: 2}
   introDirector: {fileID: 0}
   roblomanDisguiseObject: {fileID: 3367487317973755532}
@@ -155,6 +155,9 @@ MonoBehaviour:
   jumpscareSound: {fileID: 11400000, guid: 8cd338970ea37c14294992f701dbe571, type: 2}
   catchMusic: {fileID: 8300000, guid: 80d5012621321b54eb4505ad3596d616, type: 3}
   catchMusicRare: {fileID: 8300000, guid: 709797779d068d64f920f39655d63388, type: 3}
+  roblobolitaSounds:
+  - {fileID: 11400000, guid: 9a4aea7d68d97a74bbe84ab1ae69ad91, type: 2}
+  - {fileID: 11400000, guid: d1a5e5bd2f25e4e44815ac83bed6adb2, type: 2}
   meetDaviloteSounds:
   - {fileID: 11400000, guid: f62a68714ccd7e147a39633078220af6, type: 2}
   - {fileID: 11400000, guid: 5bf6836924844fa4995c03d9c01e9c99, type: 2}

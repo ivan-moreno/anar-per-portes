@@ -11,6 +11,9 @@ namespace AnarPerPortes.Enemies
         [SerializeField][Min(0f)] private float pounceSpeed = 16f;
         [SerializeField][Min(0f)] private float catchDistance = 2f;
 
+        [Header("Components")]
+        [SerializeField] private ParticleSystem pounceParticles;
+
         [Header("Audio")]
         [SerializeField] private SoundResource warningSound;
         [SerializeField] private SoundResource pounceSound;
@@ -75,6 +78,7 @@ namespace AnarPerPortes.Enemies
 
             animator.SetTrigger("Pounce");
             audioSource.PlayOneShot(pounceSound);
+            pounceParticles.Play(true);
 
             while (Vector3.Distance(transform.position, targetPounceLocation) > pounceSpeed * Time.deltaTime)
             {
@@ -90,6 +94,7 @@ namespace AnarPerPortes.Enemies
             }
 
             timer = 1f;
+            pounceParticles.Stop(true);
 
             while (timer > 0.25f)
             {
@@ -143,6 +148,7 @@ namespace AnarPerPortes.Enemies
             transform.LookAt(PlayerPosition());
             audioSource.Stop();
             audioSource.PlayOneShot(catchSound);
+            pounceParticles.Stop(true);
             yield return new WaitForSeconds(1f);
 
             audioSource.Stop();

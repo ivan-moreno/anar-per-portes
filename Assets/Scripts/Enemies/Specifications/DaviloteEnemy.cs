@@ -15,6 +15,7 @@ namespace AnarPerPortes.Enemies
 
         [Header("Audio")]
         [SerializeField] private SoundResource jumpscareSound;
+        [SerializeField] private SoundResource roblobolitaSound;
         [SerializeField] private SoundResource meetPedroSound;
         [SerializeField] private SoundResource sangotMeetDaviloteSound;
         [SerializeField] private SoundResource[] warningSounds;
@@ -67,16 +68,6 @@ namespace AnarPerPortes.Enemies
                 audioSource.UnPause();
         }
 
-        private void Update()
-        {
-            /*if (isCatching)
-            {
-                var targetPos = PlayerPosition() - transform.forward;
-                transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 4f);
-                return;
-            }*/
-        }
-
         private void LateUpdate()
         {
             transform.position = PlayerPosition() - transform.forward * 4f;
@@ -116,6 +107,7 @@ namespace AnarPerPortes.Enemies
 
             if (TryConsumePlayerImmunityItem())
             {
+                PlayerSound(roblobolitaSound);
                 Despawn();
                 yield break;
             }
@@ -142,7 +134,7 @@ namespace AnarPerPortes.Enemies
 
             audioSource.Stop();
             var rngChat = Random.Range(0, endingChatSounds.Length);
-            CatchManager.Singleton.CatchPlayer("DAVILOTE ENDING", endingMessages[rngChat]);
+            CatchManager.Singleton.CatchPlayer("DAVILOTE ENDING", endingMessages[rngChat], broskyTip);
             audioSource.Play();
 
             if (doMeetSangot)
