@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 697d33dca1980aa44a3b852d2e215b8d, type: 3}
-  m_Name: BroskyCatchDavilote
+  m_Name: AmbianceSound22
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: 078553244c9dc6a44bc411b6ae8e53d6, type: 3}
-  subtitleText: "Bueno, realmente esto era f\xE1cil. Entonces ten\xEDa curiosidad
-    por ver que hab\xEDa detr\xE1s m\xEDo, y... bueno. Ya lo s\xE9."
+  audioClip: {fileID: 8300000, guid: aeacd4a2c8cc1ad47aecf962c848843c, type: 3}
+  subtitleText: "(suenan problemas a la lejan\xEDa)"
   subtitleTeam: 0

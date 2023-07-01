@@ -10,14 +10,20 @@ namespace AnarPerPortes.Enemies
     {
         public static UnityEvent<DaviloteEnemy> OnSpawn { get; } = new();
 
+        [Header("Components")]
+        [SerializeField] GameObject jinxModel;
+
         [Header("Stats")]
         [SerializeField][Min(0f)] private float catchAngle = 120f;
+        [SerializeField][Range(0f, 100f)] private float jinxChance = 1f;
 
         [Header("Audio")]
         [SerializeField] private SoundResource jumpscareSound;
         [SerializeField] private SoundResource roblobolitaSound;
         [SerializeField] private SoundResource meetPedroSound;
         [SerializeField] private SoundResource sangotMeetDaviloteSound;
+        [SerializeField] private SoundResource jinxCatchSound;
+        [SerializeField] private AudioClip jinxCatchMusic;
         [SerializeField] private SoundResource[] warningSounds;
         [SerializeField] private SoundResource[] meetSheepySounds;
         [SerializeField] private SoundResource[] endingChatSounds;
@@ -47,6 +53,12 @@ namespace AnarPerPortes.Enemies
             BouserBossEnemy.OnSpawn.AddListener((_) => Despawn());
             RoomManager.Singleton.OnRoomGenerated.AddListener(x => Despawn());
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
+
+            if (Random.Range(0f, 100f) <= jinxChance)
+            {
+                model.gameObject.SetActive(false);
+                jinxModel.SetActive(true);
+            }
 
             OnSpawn?.Invoke(this);
         }
@@ -120,22 +132,37 @@ namespace AnarPerPortes.Enemies
             var doMeetSangot = false;
 
             if (EnemyIsOperative<SangotEnemy>())
-            {
                 doMeetSangot = true;
-            }
 
             PlayerController.Singleton.BeginCatchSequence();
             PlayerController.Singleton.BlockAll();
             PlayerController.Singleton.SetVisionTarget(transform);
-            animator.Play("Jumpscare");
-            audioSource.PlayOneShot(jumpscareSound);
+
+            if (jinxModel.activeSelf)
+                audioSource.PlayOneShot(jinxCatchSound);
+            else
+            {
+                animator.Play("Jumpscare");
+                audioSource.PlayOneShot(jumpscareSound);
+            }
+
             RoomManager.Singleton.SetRoomsActive(false);
             yield return new WaitForSeconds(0.84f);
 
             audioSource.Stop();
+
             var rngChat = Random.Range(0, endingChatSounds.Length);
-            CatchManager.Singleton.CatchPlayer("DAVILOTE ENDING", endingMessages[rngChat], broskyTip);
-            audioSource.Play();
+
+            if (jinxModel.activeSelf)
+            {
+                audioSource.PlayOneShot(jinxCatchMusic);
+                CatchManager.Singleton.CatchPlayer("JINX ENDING", "@bigfootjinx meow reveal!!1!");
+            }
+            else
+            {
+                audioSource.Play();
+                CatchManager.Singleton.CatchPlayer("DAVILOTE ENDING", endingMessages[rngChat], broskyTip);
+            }
 
             if (doMeetSangot)
             {
@@ -143,7 +170,8 @@ namespace AnarPerPortes.Enemies
                 yield return new WaitForSecondsRealtime(sangotMeetDaviloteSound.AudioClip.length);
             }
 
-            audioSource.PlayOneShot(endingChatSounds[rngChat]);
+            if (!jinxModel.activeSelf)
+                audioSource.PlayOneShot(endingChatSounds[rngChat]);
         }
     }
 }
