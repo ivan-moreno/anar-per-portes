@@ -15,5 +15,5 @@ MonoBehaviour:
   audioClip: {fileID: 8300000, guid: 83d632c2ff8fccf4ca5752d0b6d856c6, type: 3}
   subtitleText: "No veas quillo... esto me pasa por hacer apuestas con un p\xE1jaro
     catal\xE1n... luego te vienen con un puto tractor y te atropellan si no lo esquivas...
-    en fin. Tendr\xE9 que esquivarlo pa la pr\xF3xima."
+    en fin. <b>Tendr\xE9 que esquivarlo pa la pr\xF3xima.</b>"
   subtitleTeam: 0

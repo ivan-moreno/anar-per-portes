@@ -23,6 +23,7 @@ namespace AnarPerPortes.Enemies
         [SerializeField] private SoundResource spawnSound;
         [SerializeField] private SoundResource spawnAheadSound;
         [SerializeField] private SoundResource finishRunSound;
+        [SerializeField] private AudioClip catchMusic;
         [SerializeField] private SoundResource meetBouserSound;
         [SerializeField] private SoundResource laughAtBouserSound;
         [SerializeField] private SoundResource meetDaviloteSound;
@@ -299,6 +300,8 @@ namespace AnarPerPortes.Enemies
             audioSource.PlayOneShot(jumpscareSound);
             yield return new WaitForSeconds(0.7f);
 
+            audioSource.Stop();
+            audioSource.PlayOneShot(catchMusic);
             CatchManager.Singleton.CatchPlayer("PEDRO ENDING", "Parece que quiso pasar un mal rato, chico. Hehehehehe.", broskyTip);
         }
 
