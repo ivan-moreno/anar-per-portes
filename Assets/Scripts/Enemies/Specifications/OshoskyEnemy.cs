@@ -61,9 +61,15 @@ namespace AnarPerPortes.Enemies
             var timer = 0f;
             audioSource.PlayOneShot(warningSound);
 
+            if (!IsHardmodeEnabled() && PlayerIsInLineOfSight(transform.position + Vector3.up))
+            {
+                targetPounceLocation = PlayerPosition();
+                transform.LookAt(targetPounceLocation);
+            }
+
             while (timer < timeToPounce)
             {
-                if (playerInLineOfSight)
+                if (IsHardmodeEnabled() && playerInLineOfSight)
                 {
                     targetPounceLocation = PlayerPosition();
                     transform.LookAt(targetPounceLocation);

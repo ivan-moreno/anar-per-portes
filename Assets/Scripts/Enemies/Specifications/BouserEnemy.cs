@@ -19,6 +19,7 @@ namespace AnarPerPortes.Enemies
         [SerializeField][Min(0f)] private float sprintAtDistance = 15f;
         [SerializeField][Min(0f)] private float catchRange = 2f;
         [SerializeField][Min(0f)] private float sightAngle = 45f;
+        [SerializeField][Min(0f)] private float turnSpeed = 90f;
         [SerializeField][Range(0f, 100f)] private float roblomanChance = 2f;
 
         [Header("Hardmode Stats")]
@@ -51,6 +52,7 @@ namespace AnarPerPortes.Enemies
         private float audioCooldown = 0f;
         private int targetReachesToTalk = 1;
         private float timeSinceReachedTarget = 0f;
+        private float timeSinceStartedMoving = 0f;
         private SkellBetaEnemy skellEnemy;
 
         private const float nextMoveMinTime = 0.2f;
@@ -71,6 +73,7 @@ namespace AnarPerPortes.Enemies
             }
 
             transform.SetPositionAndRotation(room.BouserSpawnPoint.position, room.BouserSpawnPoint.rotation);
+            transform.LookAt(PlayerPosition());
 
             LatestRoom().OnUnloading.AddListener(Despawn);
 
@@ -318,15 +321,19 @@ namespace AnarPerPortes.Enemies
             if (EnemyIsOperative<A90Enemy>())
                 targetRunSpeed = 0f;
 
-            var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, targetRunSpeed * Time.deltaTime);
-            transform.position = nextPosition;
+            //var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, targetRunSpeed * Time.deltaTime);
+            var vectorSpeed = Vector3.forward * targetRunSpeed * Time.deltaTime;
 
-            reachedTarget = !isChasing && Vector3.Distance(transform.position, targetLocation) <= runSpeed * Time.deltaTime;
+            if (!reachedTarget)
+                transform.Translate(vectorSpeed, Space.Self);
+
+            reachedTarget = !isChasing && Vector3.Distance(transform.position, targetLocation) <= runSpeed * 2f * Time.deltaTime;
             animator.SetBool("IsWalking", !reachedTarget);
 
             if (reachedTarget)
             {
                 timeSinceReachedTarget += Time.deltaTime;
+                timeSinceStartedMoving = 0f;
 
                 if (timeSinceReachedTarget >= nextMoveTime)
                 {
@@ -338,8 +345,11 @@ namespace AnarPerPortes.Enemies
                 return;
             }
 
+            timeSinceStartedMoving += Time.deltaTime;
+
             var direction = Vector3.Normalize(determinedTargetLocation - transform.position);
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 16f);
+            var targetTurnSpeed = turnSpeed * (1f + timeSinceStartedMoving);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(direction), targetTurnSpeed * Time.deltaTime);
         }
 
         private bool IsWithinAngle(Transform source, Transform target)

@@ -1,14 +1,13 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Playables;
+using UnityEngine.Events;
 using static AnarPerPortes.ShortUtils;
-using static UnityEngine.Rendering.BoolParameter;
 
 namespace AnarPerPortes.Enemies
 {
     [AddComponentMenu("Anar per Portes/Enemies/Catalan Bird Driver Enemy")]
     public class CatalanBirdEnemy : Enemy
     {
+        public static UnityEvent<CatalanBirdEnemy> OnSpawn { get; } = new();
         public static bool IsCursed { get; set; } = false;
 
         [Header("Stats")]
@@ -55,6 +54,9 @@ namespace AnarPerPortes.Enemies
 
             PauseManager.Singleton.OnPauseChanged.AddListener(PauseChanged);
             RoomManager.Singleton.OnRoomGenerated.AddListener(x => Despawn());
+
+            if (!isSupportingCast)
+                OnSpawn?.Invoke(this);
 
             if (!IsHardmodeEnabled() && CurrentSettings().EnableEnemyTips)
             {

@@ -26,7 +26,7 @@ namespace AnarPerPortes.Enemies
         [SerializeField] private AudioClip catchMusic;
         [SerializeField] private SoundResource meetBouserSound;
         [SerializeField] private SoundResource laughAtBouserSound;
-        [SerializeField] private SoundResource meetDaviloteSound;
+        [SerializeField] private SoundResource[] meetDaviloteSounds;
         [SerializeField] private SoundResource jumpscareSound;
         [SerializeField] private SoundResource[] loseSounds;
 
@@ -139,7 +139,10 @@ namespace AnarPerPortes.Enemies
 
             var nextPosition = Vector3.MoveTowards(transform.position, determinedTargetLocation, targetRunSpeed * Time.deltaTime);
 
-            if (!EnemyIsOperative<SangotEnemy>() && !EnemyIsOperative<SheepyEnemy>() && !EnemyIsOperative<A90Enemy>())
+            if (!EnemyIsOperative<OshoskyEnemy>()
+                && !EnemyIsOperative<SangotEnemy>()
+                && !EnemyIsOperative<SheepyEnemy>()
+                && !EnemyIsOperative<A90Enemy>())
                 transform.position = nextPosition;
 
             reachedTarget = !isChasing && Vector3.Distance(transform.position, targetLocation) <= runSpeed * Time.deltaTime;
@@ -276,8 +279,9 @@ namespace AnarPerPortes.Enemies
                 runSpeed = 0f;
                 model.LookAt(PlayerPosition());
                 animator.Play("Idle");
-                audioSource.PlayOneShot(meetDaviloteSound);
-                yield return new WaitForSeconds(meetDaviloteSound.AudioClip.length + 0.5f);
+                var rngDaviloteSound = meetDaviloteSounds.RandomItem();
+                audioSource.PlayOneShot(rngDaviloteSound);
+                yield return new WaitForSeconds(rngDaviloteSound.AudioClip.length + 0.5f);
 
                 PlayerController.Singleton.SetVisionTarget(GetEnemyInstance<DaviloteEnemy>().transform);
                 yield return new WaitUntil(() => !EnemyIsOperative<DaviloteEnemy>());

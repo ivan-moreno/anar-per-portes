@@ -62,7 +62,15 @@ MonoBehaviour:
   catchMusic: {fileID: 8300000, guid: 6a58b6aa591ac2a4f98f3825c26b2afe, type: 3}
   meetBouserSound: {fileID: 11400000, guid: b95f0705e9188a246ba679ecdcf62bc5, type: 2}
   laughAtBouserSound: {fileID: 11400000, guid: 61b0b33e2915e584ea9f95f8b4c2df7d, type: 2}
-  meetDaviloteSound: {fileID: 11400000, guid: 14c93bc7f79789f40bf7324bb616b95b, type: 2}
+  meetDaviloteSounds:
+  - {fileID: 11400000, guid: 14c93bc7f79789f40bf7324bb616b95b, type: 2}
+  - {fileID: 11400000, guid: 623d9b2e663b5b04aa66400d858a1672, type: 2}
+  - {fileID: 11400000, guid: a56c408dc82729246a20d5006c7619d4, type: 2}
+  - {fileID: 11400000, guid: 890ea79611bbf0a4284bb4866c418ab7, type: 2}
+  - {fileID: 11400000, guid: 350f431bad091f344b8bed59831a9f46, type: 2}
+  - {fileID: 11400000, guid: 2d98dd24ce72f1146a5316964c20c594, type: 2}
+  - {fileID: 11400000, guid: 24c4c470fba55f64c8885d52ffde3afa, type: 2}
+  - {fileID: 11400000, guid: 6ec49785385be104aba08313d51d8558, type: 2}
   jumpscareSound: {fileID: 11400000, guid: 36ffbf5c25e2e314b9fc7232bb7b9e24, type: 2}
   loseSounds:
   - {fileID: 11400000, guid: 8535ba282f7b10b40ab24f677bf67906, type: 2}

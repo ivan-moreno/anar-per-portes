@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 697d33dca1980aa44a3b852d2e215b8d, type: 3}
+  m_Name: PedroMeetDavilote5
+  m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: 6234ef48dae677b41a50385df3af9a78, type: 3}
+  subtitleText: "[PEDRO] \xA1Mira detr\xE1s tuyo!"
+  subtitleTeam: 2
