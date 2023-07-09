@@ -5063,6 +5063,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   broskyTip: {fileID: 11400000, guid: 6b41995ec6f7e2443a439d5b43f15971, type: 2}
+  characterRenderSprite: {fileID: 21300000, guid: 17f2374ac3a282248aae5f3424163cda,
+    type: 3}
   tip: {fileID: 11400000, guid: e569c5b96890e98489302993aed6fbe8, type: 2}
   introDirector: {fileID: 0}
   roblomanDisguiseObject: {fileID: 8851618160511034680}

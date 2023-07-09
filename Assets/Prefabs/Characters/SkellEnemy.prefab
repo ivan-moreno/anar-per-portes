@@ -398,6 +398,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfe8808b9b94f8c48abef6441e967c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  broskyTip: {fileID: 0}
+  characterRenderSprite: {fileID: 21300000, guid: fe222423aa0dfea49b11fb377aaa2996,
+    type: 3}
   tip: {fileID: 11400000, guid: 82dad1ed1659637449b6912c40f822cf, type: 2}
   introDirector: {fileID: 1066113872}
   roblomanDisguiseObject: {fileID: 8925303987377821920}

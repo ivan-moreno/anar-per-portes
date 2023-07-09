@@ -16,6 +16,7 @@ namespace AnarPerPortes
             label = GetComponent<TMP_Text>();
             defaultFont = label.font;
             defaultFontSize = label.fontSize;
+            OnSettingsChanged();
             GameSettingsManager.Singleton.OnCurrentSettingsChanged.AddListener(OnSettingsChanged);
         }
 

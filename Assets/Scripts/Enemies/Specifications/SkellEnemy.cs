@@ -200,7 +200,7 @@ namespace AnarPerPortes.Enemies
                 yield return null;
             }
 
-            CatchManager.Singleton.CatchPlayer("SKELENDING", "ni modo");
+            CatchManager.Singleton.CatchPlayer("SKELENDING", "ni modo", characterRenderSprite, broskyTip);
             audioSource.PlayOneShot(endingMusic);
         }
 

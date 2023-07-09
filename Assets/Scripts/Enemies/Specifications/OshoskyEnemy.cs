@@ -159,7 +159,7 @@ namespace AnarPerPortes.Enemies
 
             audioSource.Stop();
             audioSource.PlayOneShot(catchMusic);
-            CatchManager.Singleton.CatchPlayer("OSHOSENDING", "ONE-TRICK OSHOSKY ROAD TO APOYO GRANDMASTER B)", broskyTip);
+            CatchManager.Singleton.CatchPlayer("OSHOSENDING", "ONE-TRICK OSHOSKY ROAD TO APOYO GRANDMASTER B)", characterRenderSprite, broskyTip);
         }
     }
 }

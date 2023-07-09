@@ -5,7 +5,9 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Player Model")]
     public class PlayerModel : MonoBehaviour
     {
-        [SerializeField] private AudioClip[] stepSounds;
+        [SerializeField] private StepSoundGroup defaultStepSoundGroup;
+        private StepSoundGroup currentStepSoundGroup;
+
         private AudioSource audioSource;
 
         public void Step()
@@ -15,8 +17,18 @@ namespace AnarPerPortes
             if (hVelocityMagnitude <= 0.1f)
                 return;
 
-            audioSource.PlayOneShot(stepSounds.RandomItem());
-            SkellHearManager.Singleton.AddNoise(1f);
+            audioSource.PlayOneShot(currentStepSoundGroup.StepSounds.RandomItem(), 0.3f);
+            SkellHearManager.Singleton.AddNoise(currentStepSoundGroup.AuditivePower);
+        }
+
+        public void SetStepSoundGroup(StepSoundGroup stepSoundGroup)
+        {
+            currentStepSoundGroup = stepSoundGroup;
+        }
+
+        public void ClearStepSoundGroup()
+        {
+            currentStepSoundGroup = defaultStepSoundGroup;
         }
 
         private void Start()

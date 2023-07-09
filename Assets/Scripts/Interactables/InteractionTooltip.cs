@@ -6,9 +6,12 @@ namespace AnarPerPortes
     [AddComponentMenu("Anar per Portes/Interaction Tooltip")]
     public class InteractionTooltip : MonoBehaviour
     {
+        [Header("Components")]
         [SerializeField] private TMP_Text keyText;
         [SerializeField] private TMP_Text messageText;
+
         private RectTransform rectTransform;
+        private Animator animator;
         private Transform followTarget;
         private Canvas canvas;
 
@@ -33,6 +36,8 @@ namespace AnarPerPortes
 
             if (!gameObject.activeSelf)
                 gameObject.SetActive(true);
+
+            animator.Play("Draw");
         }
 
         public void Hide()
@@ -56,6 +61,7 @@ namespace AnarPerPortes
         private void Start()
         {
             rectTransform = GetComponent<RectTransform>();
+            animator = GetComponent<Animator>();
             canvas = transform.root.GetComponent<Canvas>();
         }
 

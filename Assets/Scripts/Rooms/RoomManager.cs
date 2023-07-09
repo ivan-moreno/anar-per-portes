@@ -221,7 +221,8 @@ namespace AnarPerPortes
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom0").Build())
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom1").Build())
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom2").Build())
-                .WithRoom(new RoomEggBuilder().WithId("GeneralRoom3").Build())
+                .WithRoom(new RoomEggBuilder().WithId("SafeRoom0").Build())
+                /*.WithRoom(new RoomEggBuilder().WithId("GeneralRoom3").Build())
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom6").Build())
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom7").Build())
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom8").Build())
@@ -229,7 +230,7 @@ namespace AnarPerPortes
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom12").WithBaseChance(50f).Build())
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom13").WithBaseChance(50f).Build())
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom14").WithBaseChance(50f).Build())
-                .WithRoom(new RoomEggBuilder().WithId("GeneralRoom15").WithBaseChance(50f).Build())
+                .WithRoom(new RoomEggBuilder().WithId("GeneralRoom15").WithBaseChance(50f).Build())*/
                 .Build()
             };
         }

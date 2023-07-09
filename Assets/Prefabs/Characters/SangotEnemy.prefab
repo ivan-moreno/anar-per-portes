@@ -47,6 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   broskyTip: {fileID: 11400000, guid: 272aae0e2008e114080b8a0832b57ce9, type: 2}
+  characterRenderSprite: {fileID: 21300000, guid: bfdaa11a7a2c677449431a562df8b84f,
+    type: 3}
   tip: {fileID: 11400000, guid: 6e3e24ebd70019d4f9c5f16979a27355, type: 2}
   introDirector: {fileID: 0}
   roblomanDisguiseObject: {fileID: 3235602104841603172}

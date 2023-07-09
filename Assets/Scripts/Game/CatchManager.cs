@@ -19,14 +19,36 @@ namespace AnarPerPortes
         private bool canClickToRetry = false;
         private bool showingBroskyTip = false;
         private SoundResource broskyTip;
+        private Sprite characterRenderSprite;
         private AudioSource audioSource;
 
-        public void CatchPlayer(string title, string message, SoundResource broskyTip = null)
+        public void CatchPlayer(
+            string title,
+            string message,
+            Sprite characterRenderSprite)
+        {
+            CatchPlayer(title, message, characterRenderSprite, null);
+        }
+
+        public void CatchPlayer(
+            string title,
+            string message,
+            SoundResource broskyTip)
+        {
+            CatchPlayer(title, message, null, broskyTip);
+        }
+
+        public void CatchPlayer(
+            string title,
+            string message,
+            Sprite characterRenderSprite = null,
+            SoundResource broskyTip = null)
         {
             PlayerController.Singleton.IsCaught = true;
             PlayerController.Singleton.BlockAll();
             titleText.text = title;
             messageText.text = message;
+            this.characterRenderSprite = characterRenderSprite;
             this.broskyTip = broskyTip;
 
             if (title.ToUpper().Equals("SANGOT ENDING"))
@@ -91,7 +113,10 @@ namespace AnarPerPortes
             showingBroskyTip = true;
             audioSource.PlayOneShot(broskyTip.AudioClip);
             yield return new WaitForSecondsRealtime(0.2f);
-            FadeScreenManager.Singleton.Display(broskyTip.SubtitleText, () =>
+            FadeScreenManager.Singleton.Display(
+                message: broskyTip.SubtitleText,
+                characterRenderSprite: characterRenderSprite,
+                onClickCallback: () =>
             {
                 audioSource.Stop();
                 GameManager.Singleton.RestartLevel();

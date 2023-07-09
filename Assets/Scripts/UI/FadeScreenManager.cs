@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace AnarPerPortes
 {
@@ -8,14 +9,33 @@ namespace AnarPerPortes
     public sealed class FadeScreenManager : MonoBehaviour
     {
         public static FadeScreenManager Singleton { get; private set; }
+
+        [Header("Components")]
         [SerializeField] private CanvasGroup screenGroup;
         [SerializeField] private TMP_Text messageText;
+        [SerializeField] private Image characterRenderImage;
+
         private Action onClickCallback;
         private bool isDisplaying = false;
         private float timeSinceDisplay = 0f;
         private const float minDuration = 1f;
 
-        public void Display(string message = "", Action onClickCallback = null)
+        public void Display()
+        {
+            Display(null, null, null);
+        }
+
+        public void Display(
+            string message,
+            Action onClickCallback = null)
+        {
+            Display(message, null, onClickCallback);
+        }
+
+            public void Display(
+            string message = "",
+            Sprite characterRenderSprite = null,
+            Action onClickCallback = null)
         {
             if (isDisplaying)
                 return;
@@ -23,6 +43,13 @@ namespace AnarPerPortes
             isDisplaying = true;
             timeSinceDisplay = 0f;
             messageText.text = message;
+
+            if (characterRenderSprite != null)
+            {
+                characterRenderImage.gameObject.SetActive(true);
+                characterRenderImage.sprite = characterRenderSprite;
+            }
+
             this.onClickCallback = onClickCallback;
             PlayerController.Singleton.BlockAll();
             AudioManager.Singleton.SetTargetVolume(0f);

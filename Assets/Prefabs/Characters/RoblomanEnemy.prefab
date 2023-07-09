@@ -5019,6 +5019,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: Roblobolita
   tooltipItemName: Roblobolita
+  tooltipMessage: 
   tooltipPosition: {fileID: 4677678528601022215}
   graphic: {fileID: 5143333613833097626}
 --- !u!1 &6170291266672204649
@@ -14768,7 +14769,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc6e8307dd2de424294e3b5d445bcdda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  broskyTip: {fileID: 0}
+  characterRenderSprite: {fileID: 21300000, guid: bb8b0e57ee401264bb147673357fdf29,
+    type: 3}
   tip: {fileID: 11400000, guid: 955bfa36dd5e3804caa744ea5209b926, type: 2}
+  introDirector: {fileID: 0}
   roblomanDisguiseObject: {fileID: 0}
   rewardPickable: {fileID: 5959935656808313218}
   rewardStartSounds:

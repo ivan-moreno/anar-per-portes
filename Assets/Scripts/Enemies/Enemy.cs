@@ -11,6 +11,7 @@ namespace AnarPerPortes.Enemies
         public bool HasIntro => introDirector != null;
 
         [SerializeField] protected SoundResource broskyTip;
+        [SerializeField] protected Sprite characterRenderSprite;
         [SerializeField] private EnemyTip tip;
         [SerializeField] private PlayableDirector introDirector;
         [SerializeField] private GameObject roblomanDisguiseObject;

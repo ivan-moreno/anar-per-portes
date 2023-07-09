@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.03
   m_LinearFogStart: 6
   m_LinearFogEnd: 32
-  m_AmbientSkyColor: {r: 1, g: 1, b: 1, a: 1}
+  m_AmbientSkyColor: {r: 0.05882353, g: 0.05882353, b: 0.07058824, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -35,10 +35,10 @@ RenderSettings:
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 1
+  m_ReflectionIntensity: 0
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.027438888, g: 0.038786605, b: 0.056642074, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 0}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 8a3a10f2c2aff804bbc135416a121a44,
+    type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 2da85877bfe442d4a90fece7bcb13036,
     type: 2}
 --- !u!196 &4
@@ -3281,7 +3282,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -3301,6 +3302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipMessage: "\xA1Ha sido <b>el de rosa</b>!"
   knownTooltipMessage: "\xA1Ha sido <b>Skell</b>!"
+  interactSound: {fileID: 11400000, guid: 780ff201ce8480042a0cbcd585707498, type: 2}
 --- !u!1 &208005027
 GameObject:
   m_ObjectHideFlags: 0
@@ -4016,7 +4018,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: -5.85
+  m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: -24
   m_charWidthMaxAdj: 0
@@ -5377,7 +5379,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -5397,6 +5399,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipMessage: "\xA1Ha sido <b>el perro ese</b>!"
   knownTooltipMessage: "\xA1Ha sido <b>Oshosky</b>!"
+  interactSound: {fileID: 11400000, guid: a1fa3f6e16cf16445856a47f603c25ea, type: 2}
 --- !u!1001 &293162490
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6238,7 +6241,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -6258,6 +6261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipMessage: "\xA1Ha sido <b>el pollo ese</b>!"
   knownTooltipMessage: "\xA1Ha sido <b>Ocell Catal\xE0</b>!"
+  interactSound: {fileID: 11400000, guid: 51f15c384a77c254ba48ef39a08c3ac3, type: 2}
 --- !u!1 &333878370
 GameObject:
   m_ObjectHideFlags: 0
@@ -6941,7 +6945,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -6961,6 +6965,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipMessage: "\xA1Ha sido <b>el t\xEDo guay</b>!"
   knownTooltipMessage: "\xA1Ha sido <b>Pedro</b>!"
+  interactSound: {fileID: 11400000, guid: 8535ba282f7b10b40ab24f677bf67906, type: 2}
 --- !u!1 &376601096
 GameObject:
   m_ObjectHideFlags: 0
@@ -7086,7 +7091,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -7106,6 +7111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipMessage: "\xA1Ha sido <b>el gamer</b>!"
   knownTooltipMessage: "\xA1Ha sido <b>Sangot</b>!"
+  interactSound: {fileID: 11400000, guid: ef293aa7aebe7e64ba7abaf7877010af, type: 2}
 --- !u!1 &388071905
 GameObject:
   m_ObjectHideFlags: 0
@@ -7219,12 +7225,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 392576596}
-  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 441362726}
+  m_Father: {fileID: 763178340}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
   m_AnchorMin: {x: 0, y: 0}
@@ -8387,6 +8393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   broskyTip: {fileID: 0}
+  characterRenderSprite: {fileID: 0}
   tip: {fileID: 0}
   introDirector: {fileID: 0}
   roblomanDisguiseObject: {fileID: 0}
@@ -8504,6 +8511,7 @@ GameObject:
   - component: {fileID: 441362726}
   - component: {fileID: 441362728}
   - component: {fileID: 441362729}
+  - component: {fileID: 441362730}
   m_Layer: 5
   m_Name: InteractionTooltip
   m_TagString: Untagged
@@ -8524,7 +8532,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 763178340}
-  - {fileID: 392576597}
   - {fileID: 1408081471}
   - {fileID: 1365483335}
   m_Father: {fileID: 14123594}
@@ -8557,6 +8564,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyText: {fileID: 1408081473}
   messageText: {fileID: 1365483337}
+--- !u!95 &441362730
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441362725}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7b34cec71f698b744964aeb02bbafa93, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &442555851
 GameObject:
   m_ObjectHideFlags: 0
@@ -9169,6 +9196,7 @@ Transform:
   - {fileID: 215176065}
   - {fileID: 1818711194}
   - {fileID: 85422482}
+  - {fileID: 938961648}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10278,6 +10306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   broskyTip: {fileID: 0}
+  characterRenderSprite: {fileID: 0}
   tip: {fileID: 0}
   introDirector: {fileID: 0}
   roblomanDisguiseObject: {fileID: 0}
@@ -11364,7 +11393,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -11384,6 +11413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipMessage: "\xA1Ha sido <b>la tortuga esa</b>!"
   knownTooltipMessage: "\xA1Ha sido <b>Bouser</b>!"
+  interactSound: {fileID: 11400000, guid: 344335975eec0be47b3eeddea9580144, type: 2}
 --- !u!1 &596727187
 GameObject:
   m_ObjectHideFlags: 0
@@ -11969,7 +11999,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -11989,6 +12019,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipMessage: "\xA1Ha sido <b>el tio de negro</b>!"
   knownTooltipMessage: "\xA1Ha sido <b>Davilote</b>!"
+  interactSound: {fileID: 11400000, guid: 9ba73dde628f10e46b2e609809257d5c, type: 2}
 --- !u!1 &640019438
 GameObject:
   m_ObjectHideFlags: 0
@@ -14670,7 +14701,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 392576597}
   m_Father: {fileID: 441362726}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
@@ -15166,7 +15198,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -15186,6 +15218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipMessage: "\xA1Ha sido <b>el emo ese</b>!"
   knownTooltipMessage: "\xA1Ha sido <b>Ass Pancakes</b>!"
+  interactSound: {fileID: 11400000, guid: 74dd011d505f37342ba47527b6047aba, type: 2}
 --- !u!1 &804776699
 GameObject:
   m_ObjectHideFlags: 0
@@ -16963,13 +16996,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505aa0a8357f02648b7cda42e9b90b90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stepSounds:
-  - {fileID: 8300000, guid: 1241ab499680e6a449941794447e6dc2, type: 3}
-  - {fileID: 8300000, guid: b08e6c05ba9b24e45b8d282b6192e64b, type: 3}
-  - {fileID: 8300000, guid: ef44934a00b25d54bb15ebf617a9ed02, type: 3}
-  - {fileID: 8300000, guid: 6eef844e40e17d44896a32f32a8ffaf7, type: 3}
-  - {fileID: 8300000, guid: 74c92450167f7a6429a2fbb1cb73bb82, type: 3}
-  - {fileID: 8300000, guid: 6c55025ac73789a4d9d9da6893a23a95, type: 3}
+  defaultStepSoundGroup: {fileID: 11400000, guid: fbffda34630481f41a46fb7c2b3a46cb,
+    type: 2}
 --- !u!4 &889621462 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1107415509016354121, guid: 926c526a3c02c674c9fce761a57a4e06,
@@ -17464,7 +17492,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &938961648
 Transform:
   m_ObjectHideFlags: 0
@@ -17472,15 +17500,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 938961647}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 786674206}
   - {fileID: 973304154}
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 459899981}
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &944480407
 GameObject:
@@ -21572,6 +21600,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 228370957}
+  - {fileID: 1699281673}
   m_Father: {fileID: 14123594}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -21626,7 +21655,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1198020652}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -26766,7 +26795,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -26786,6 +26815,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipMessage: "\xA1Ha sido <b>el conejo ese</b>!"
   knownTooltipMessage: "\xA1Ha sido <b>Pom-Pom</b>!"
+  interactSound: {fileID: 11400000, guid: bf4f46c54a3dc474aab185b270e44364, type: 2}
 --- !u!1 &1234909456
 GameObject:
   m_ObjectHideFlags: 0
@@ -27844,7 +27874,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 128, y: 0}
+  m_AnchoredPosition: {x: 127.99994, y: 0}
   m_SizeDelta: {x: 128, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1301211180
@@ -34449,6 +34479,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   screenGroup: {fileID: 1198020656}
   messageText: {fileID: 228370959}
+  characterRenderImage: {fileID: 1699281674}
 --- !u!1 &1380101921
 GameObject:
   m_ObjectHideFlags: 0
@@ -38053,6 +38084,82 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1524028543}
   m_CullTransparentMesh: 1
+--- !u!1 &1532168799
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1532168800}
+  - component: {fileID: 1532168802}
+  - component: {fileID: 1532168801}
+  m_Layer: 5
+  m_Name: Fill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1532168800
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1532168799}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1699281673}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1532168801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1532168799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.03529412}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1532168802
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1532168799}
+  m_CullTransparentMesh: 1
 --- !u!1 &1542214006
 GameObject:
   m_ObjectHideFlags: 0
@@ -38292,7 +38399,7 @@ MonoBehaviour:
   unequipAudio: {fileID: 0}
   graphic: {fileID: 29747090}
   icon: {fileID: 21300000, guid: 27987a4c34cbe974799e697cfb2b931c, type: 3}
-  speedMultiplier: 1.3
+  speedMultiplier: 1.5
   effectDuration: 16
   clickAudio: {fileID: 8300000, guid: 23573a9a1130af84185b289979c5fa95, type: 3}
 --- !u!1 &1555797249
@@ -41585,7 +41692,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -41605,6 +41712,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipMessage: "\xA1Ha sido <b>el gato ese</b>!"
   knownTooltipMessage: "\xA1Ha sido <b>Robloman</b>!"
+  interactSound: {fileID: 11400000, guid: 59264bb441becf142ad40fe0fcd4f306, type: 2}
 --- !u!1 &1676997458
 GameObject:
   m_ObjectHideFlags: 0
@@ -42181,6 +42289,97 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!1 &1699281672
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1699281673}
+  - component: {fileID: 1699281675}
+  - component: {fileID: 1699281674}
+  - component: {fileID: 1699281676}
+  m_Layer: 5
+  m_Name: CharacterRenderMask
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1699281673
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699281672}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1532168800}
+  m_Father: {fileID: 1198020653}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1280, y: 720}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1699281674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699281672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.007843138}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1699281675
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699281672}
+  m_CullTransparentMesh: 1
+--- !u!114 &1699281676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699281672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowMaskGraphic: 0
 --- !u!1001 &1708293459
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43739,7 +43938,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -43759,6 +43958,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipMessage: "\xA1\xBFHe sido <b>yo</b>?!"
   knownTooltipMessage: "\xA1\xBFHe sido <b>yo</b>?!"
+  interactSound: {fileID: 11400000, guid: 77d877b8c1746f246a818436e32f7e97, type: 2}
 --- !u!1 &1791795446
 GameObject:
   m_ObjectHideFlags: 0
@@ -44417,6 +44617,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3e002cc9a0eaa514bbc0b075b2185bc8, type: 2}
   - {fileID: 11400000, guid: 09babfc049ab84b43a0d561b3f682e2e, type: 2}
   - {fileID: 11400000, guid: 88d93ba39ec29bc4b8761e9298a02435, type: 2}
+  - {fileID: 11400000, guid: c2b132ee57063684c945737c677a6a4d, type: 2}
+  - {fileID: 11400000, guid: a2b6b311e8ae9f74ea5561032ed2f5a1, type: 2}
 --- !u!82 &1818711196
 AudioSource:
   m_ObjectHideFlags: 0
@@ -44685,7 +44887,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -44705,6 +44907,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipMessage: "\xA1Ha sido <b>el furry ese</b>!"
   knownTooltipMessage: "\xA1Ha sido <b>Sheepy</b>!"
+  interactSound: {fileID: 11400000, guid: 8cd338970ea37c14294992f701dbe571, type: 2}
 --- !u!1 &1833059914
 GameObject:
   m_ObjectHideFlags: 0
@@ -46499,7 +46702,7 @@ AudioSource:
   MinDistance: 0.5
   MaxDistance: 32
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -46715,6 +46918,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   broskyTip: {fileID: 0}
+  characterRenderSprite: {fileID: 0}
   tip: {fileID: 11400000, guid: 9ccdb80ce347d6b4e8994962587f57c5, type: 2}
   introDirector: {fileID: 0}
   roblomanDisguiseObject: {fileID: 0}
@@ -46950,7 +47154,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -46970,6 +47174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipMessage: "\xA1Ha sido <b>el sargento ese</b>!"
   knownTooltipMessage: "\xA1Ha sido <b>Yusuf</b>!"
+  interactSound: {fileID: 11400000, guid: 1e8c8b38a3443ab47b7c5bbee4417486, type: 2}
 --- !u!1 &1944482103
 GameObject:
   m_ObjectHideFlags: 0

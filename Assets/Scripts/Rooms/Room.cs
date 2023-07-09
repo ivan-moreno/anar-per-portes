@@ -62,7 +62,9 @@ namespace AnarPerPortes.Rooms
             PedroBreakPoint = transform.Find("Logic").Find("PedroBreakPoint");
 
             if (door != null)
+            {
                 door.OnDoorOpened.AddListener(DoorOpened);
+            }
         }
 
         protected virtual void DoorOpened()

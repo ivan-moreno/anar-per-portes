@@ -12,20 +12,19 @@ namespace AnarPerPortes
     public class PlayerController : MonoBehaviour
     {
         public static PlayerController Singleton { get; private set; }
+
         public Pedestal CurrentPedestal { get; set; }
         public bool IsCamouflaged { get; set; } = false;
         public bool CanBeCaught { get; set; } = true;
         public bool IsInCatchSequence { get; set; } = false;
         public bool IsCaught { get; set; } = false;
-        public float WalkSpeed { get; private set; } = 8f;
+        public float WalkSpeed { get; private set; } = 6f;
         public Camera Camera { get; private set; }
         public Camera UiCamera { get; private set; }
-        public Vector3 Velocity => velocity;
-        private bool CanMove => blockMoveCharges <= 0;
-        private bool CanLook => blockLookCharges <= 0f;
-        private bool CanInteract => blockInteractCharges <= 0f;
-        public UnityEvent OnBeginCatchSequence { get; } = new();
         public int TixAmount { get; private set; }
+        public PlayerModel PlayerModel { get; private set; }
+        public UnityEvent OnBeginCatchSequence { get; } = new();
+        public Vector3 Velocity => velocity;
 
         [SerializeField] private Animator modelAnimator;
 
@@ -45,9 +44,11 @@ namespace AnarPerPortes
         private bool hasItemEquipped = false;
         private Transform visionTarget;
         private Vector3 visionTargetOffset;
-
         private float effectSpeed = 1f;
         private float effectTimer;
+        private bool CanMove => blockMoveCharges <= 0;
+        private bool CanLook => blockLookCharges <= 0f;
+        private bool CanInteract => blockInteractCharges <= 0f;
 
         private const float vLookMaxAngle = 70f;
         private const float interactRange = 2.5f;
@@ -254,6 +255,7 @@ namespace AnarPerPortes
         {
             characterController = GetComponent<CharacterController>();
             model = modelAnimator.transform;
+            PlayerModel = model.GetComponent<PlayerModel>();
             visionAnimator = transform.Find("Vision").GetComponent<Animator>();
             Camera = visionAnimator.GetComponentInChildren<Camera>();
             UiCamera = Camera.transform.GetChild(0).GetComponent<Camera>();
@@ -357,11 +359,14 @@ namespace AnarPerPortes
 
             if (lastFocusedInteractable != interactable)
             {
+                if (lastFocusedInteractable != null)
+                    lastFocusedInteractable.Unfocus();
+
                 lastFocusedInteractable = interactable;
                 lastFocusedInteractable.Focus();
             }
 
-            if (Input.GetKeyUp(KeybindManager.Singleton.CurrentKeybinds.Interact))
+            if (Input.GetKeyDown(KeybindManager.Singleton.CurrentKeybinds.Interact))
                 interactable.Interact();
         }
 
@@ -469,7 +474,7 @@ namespace AnarPerPortes
             if (WalkSpeed <= 0f)
                 hVelocity = 0f;
             else
-                hVelocity /= WalkSpeed * 8f;
+                hVelocity /= WalkSpeed * 6f;
 
             var animatorHVelocity = visionAnimator.GetFloat("HVelocity");
 

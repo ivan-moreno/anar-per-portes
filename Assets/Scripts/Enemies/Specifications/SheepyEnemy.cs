@@ -227,7 +227,7 @@ namespace AnarPerPortes.Enemies
                 CatchManager.Singleton.CatchPlayer("ORISA ENDING", rngEndingChat.SubtitleText);
             }
             else
-                CatchManager.Singleton.CatchPlayer("SHEEPY ENDING", "¡¡Deja paso a las ovejaaas!!", broskyTip);
+                CatchManager.Singleton.CatchPlayer("SHEEPY ENDING", "¡¡Deja paso a las ovejaaas!!", characterRenderSprite, broskyTip);
         }
     }
 }

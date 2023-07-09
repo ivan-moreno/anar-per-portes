@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acf2c46637f9bf643a2e0b83cb87d904, type: 3}
+  m_Name: LaminateSteps
+  m_EditorClassIdentifier: 
+  auditivePower: 1.5
+  stepSounds:
+  - {fileID: 8300000, guid: 6e7ea1c8a98dd48438ec27e469d7cd56, type: 3}
+  - {fileID: 8300000, guid: 0c94cc193be06174b87177ff0e51ba0c, type: 3}
+  - {fileID: 8300000, guid: 5ef44c1745feac240af7f8199717b8df, type: 3}
+  - {fileID: 8300000, guid: d30f0e05f146fa6438d99932d1f64134, type: 3}
+  - {fileID: 8300000, guid: 24d74f36232c53a43afa8753447b74a1, type: 3}
+  - {fileID: 8300000, guid: f0b817a8a596667438ee0998ba79651d, type: 3}

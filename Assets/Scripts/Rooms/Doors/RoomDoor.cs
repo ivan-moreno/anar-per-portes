@@ -3,18 +3,24 @@ using UnityEngine.Events;
 
 namespace AnarPerPortes
 {
-    [AddComponentMenu("Anar per Portes/Doors/Room Door")]
     [RequireComponent(typeof(BoxCollider))]
+    [RequireComponent(typeof(AudioSource))]
+    [AddComponentMenu("Anar per Portes/Doors/Room Door")]
     public class RoomDoor : MonoBehaviour
     {
         public bool IsDeactivated { get; protected set; } = false;
         public UnityEvent OnDoorOpened { get; } = new();
 
+        [Header("Components")]
         [SerializeField] protected BoxCollider closedCollider;
+        [SerializeField] protected Animator animator;
+        [SerializeField] protected AudioSource audioSource;
+
+        [Header("Audio")]
+        [SerializeField] protected AudioClip openSound;
+        [SerializeField] protected AudioClip closeSound;
         [SerializeField] protected AudioClip breakThroughSound;
 
-        protected Animator animator;
-        protected AudioSource audioSource;
         protected bool isOpened = false;
 
         public void BreakThrough(string holeOwner)
@@ -38,8 +44,8 @@ namespace AnarPerPortes
             isOpened = true;
             closedCollider.enabled = false;
             OnDoorOpened?.Invoke();
-            animator.Play("Open");
-            audioSource.Play();
+            animator.Play("Open", 0, 0f);
+            audioSource.PlayOneShot(openSound);
         }
 
         public virtual void Close()
@@ -49,8 +55,8 @@ namespace AnarPerPortes
 
             isOpened = false;
             closedCollider.enabled = true;
-            animator.Play("Close");
-            audioSource.Play();
+            animator.Play("Close", 0, 0f);
+            audioSource.PlayOneShot(closeSound);
         }
 
         public virtual void Deactivate()
@@ -60,14 +66,21 @@ namespace AnarPerPortes
 
         private void Start()
         {
-            TryGetComponent(out animator);
-            TryGetComponent(out audioSource);
-
             if (audioSource == null)
                 return;
 
             var rngPitch = Random.Range(-0.05f, 0.05f);
             audioSource.pitch += rngPitch;
+
+            PauseManager.Singleton.OnPauseChanged.AddListener(OnPauseChanged);
+        }
+
+        private void OnPauseChanged(bool isPaused)
+        {
+            if (isPaused)
+                audioSource.Pause();
+            else
+                audioSource.UnPause();
         }
 
         private void OnTriggerEnter(Collider other)

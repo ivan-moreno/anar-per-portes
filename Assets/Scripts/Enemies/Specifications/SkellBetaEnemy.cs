@@ -244,7 +244,7 @@ namespace AnarPerPortes.Enemies
 
             audioSource.spatialBlend = 0f;
             audioSource.PlayOneShot(endingMusic);
-            CatchManager.Singleton.CatchPlayer("SKELL ENDING", "ni modo");
+            CatchManager.Singleton.CatchPlayer("SKELL ENDING", "ni modo", characterRenderSprite, broskyTip);
         }
 
         private IEnumerator MeetBouserCoroutine()

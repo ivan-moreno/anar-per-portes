@@ -161,7 +161,7 @@ namespace AnarPerPortes.Enemies
             else
             {
                 audioSource.Play();
-                CatchManager.Singleton.CatchPlayer("DAVILOTE ENDING", endingMessages[rngChat], broskyTip);
+                CatchManager.Singleton.CatchPlayer("DAVILOTE ENDING", endingMessages[rngChat], characterRenderSprite, broskyTip);
             }
 
             if (doMeetSangot)

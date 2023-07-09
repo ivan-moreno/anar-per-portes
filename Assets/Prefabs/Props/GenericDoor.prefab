@@ -161,6 +161,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   closedCollider: {fileID: 980927189580496882}
+  animator: {fileID: 980927188769296102}
+  audioSource: {fileID: 5020415230775976774}
+  openSound: {fileID: 8300000, guid: bcec870e3a5dd2e49afa871fdc786eb0, type: 3}
+  closeSound: {fileID: 8300000, guid: bcec870e3a5dd2e49afa871fdc786eb0, type: 3}
   breakThroughSound: {fileID: 8300000, guid: 66d02adb81a7480449985e8e8884c2f7, type: 3}
 --- !u!65 &2251722158609425872
 BoxCollider:

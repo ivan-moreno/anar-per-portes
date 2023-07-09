@@ -395,7 +395,7 @@ namespace AnarPerPortes.Enemies
         private IEnumerator CatchPlayerCoroutine()
         {
             yield return new WaitForSeconds(0.7f);
-            CatchManager.Singleton.CatchPlayer("BOUSER ENDING", "a veces el amor te hace salir del caparazon jeje", broskyTip);
+            CatchManager.Singleton.CatchPlayer("BOUSER ENDING", "a veces el amor te hace salir del caparazon jeje", characterRenderSprite, broskyTip);
             audioSource.Play();
         }
 

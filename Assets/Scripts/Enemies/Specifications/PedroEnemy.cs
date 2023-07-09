@@ -306,7 +306,7 @@ namespace AnarPerPortes.Enemies
 
             audioSource.Stop();
             audioSource.PlayOneShot(catchMusic);
-            CatchManager.Singleton.CatchPlayer("PEDRO ENDING", "Parece que quiso pasar un mal rato, chico. Hehehehehe.", broskyTip);
+            CatchManager.Singleton.CatchPlayer("PEDRO ENDING", "Parece que quiso pasar un mal rato, chico. Hehehehehe.", characterRenderSprite, broskyTip);
         }
 
         private IEnumerator MeetBouserCoroutine()

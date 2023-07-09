@@ -217,7 +217,7 @@ namespace AnarPerPortes.Enemies
                 yield break;
             }
 
-            CatchManager.Singleton.CatchPlayer("YUSUF ENDING", "Fuerzas Yusuf, Fuerzas Yusuf");
+            CatchManager.Singleton.CatchPlayer("YUSUF ENDING", "Fuerzas Yusuf, Fuerzas Yusuf", characterRenderSprite, broskyTip);
             audioSource.Play();
         }
     }
