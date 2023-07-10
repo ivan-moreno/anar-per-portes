@@ -373,7 +373,7 @@ MonoBehaviour:
   isSafe: 1
   isNormalmodeExclusive: 0
   isHardmodeExclusive: 0
-  hasPedestals: 1
+  hasPedestals: 0
   hasHallucinations: 0
 --- !u!1 &1414140455860135971
 GameObject:

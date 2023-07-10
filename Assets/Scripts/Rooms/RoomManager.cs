@@ -221,6 +221,7 @@ namespace AnarPerPortes
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom0").Build())
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom1").Build())
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom2").Build())
+                .WithRoom(new RoomEggBuilder().WithId("GeneralRoom3").Build())
                 .WithRoom(new RoomEggBuilder().WithId("SafeRoom0").Build())
                 /*.WithRoom(new RoomEggBuilder().WithId("GeneralRoom3").Build())
                 .WithRoom(new RoomEggBuilder().WithId("GeneralRoom6").Build())

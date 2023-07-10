@@ -99,8 +99,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd24449110ef8f44d86f975f44631f3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tip: {fileID: 0}
   broskyTip: {fileID: 11400000, guid: 64740bc6673e73f42abb6074b1a98391, type: 2}
+  characterRenderSprite: {fileID: 0}
+  tip: {fileID: 0}
   introDirector: {fileID: 0}
   roblomanDisguiseObject: {fileID: 0}
   attackOrigin: {fileID: 6753507839108513431}
@@ -115,6 +116,7 @@ MonoBehaviour:
   attackSound: {fileID: 11400000, guid: 1edf20ebde8b3804584b1829158bcabc, type: 2}
   jumpSound: {fileID: 11400000, guid: 6ab67d7580162b346adaff25f407591e, type: 2}
   defeatSound: {fileID: 11400000, guid: 74dd011d505f37342ba47527b6047aba, type: 2}
+  endingChatSound: {fileID: 11400000, guid: 0c4d56a1bc5886d43ac62bb335862a19, type: 2}
 --- !u!82 &6753507839867637631
 AudioSource:
   m_ObjectHideFlags: 0

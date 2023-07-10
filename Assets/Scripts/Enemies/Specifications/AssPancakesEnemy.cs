@@ -29,6 +29,7 @@ namespace AnarPerPortes.Enemies
         [SerializeField] private SoundResource attackSound;
         [SerializeField] private SoundResource jumpSound;
         [SerializeField] private SoundResource defeatSound;
+        [SerializeField] private SoundResource endingChatSound;
 
         private bool isWaiting = true;
         private bool isJumping = false;
@@ -133,6 +134,7 @@ namespace AnarPerPortes.Enemies
                 PlayerController.Singleton.BlockAll();
                 PlayerController.Singleton.SetVisionTarget(transform);
                 yield return new WaitForSeconds(0.35f);
+                audioSource.PlayOneShot(endingChatSound);
                 CatchManager.Singleton.CatchPlayer("ASS PANCAKES ENDING", "HE-HEY! YOU SHAPE-SHIFTED INTO A DEAD GUY!", broskyTip);
                 yield break;
             }
